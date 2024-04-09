@@ -1,0 +1,89 @@
+<section class="formsec1" ng-controller="bankBookCntrl">
+    <div class="titles">{{subbreadcrumb}}</div>
+    <form name="myform" novalidate>
+        <div class="notop forms white-box">
+            <ul>
+                <li class="width20">
+                    <label for="universityCode">University Code</label>
+                    <input type="text" class="textfield" ng-model="form.universityCode" id="universityCode"
+                        placeholder="University Code" disabled>
+                    <div class="error"
+                        ng-show="myform.universityCode.$error.required && myform.universityCode.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li class="width20">
+                    <label for="collegeCode">College Code</label>
+                    <select ng-model="form.collegeCode" class="dropdd" required name="collegeCode"
+                        ng-change="selectUniversity(collgData,form.collegeCode,UniData)">
+                        <option value="" disabled selected> Select </option>
+                        <option ng-repeat="x in ClgData" value="{{x.collegeCode}}">{{x.collegeCode}} - {{x.dscr}}
+                        </option>
+                    </select>
+                    <div class="error"
+                        ng-show="myform.collegeCode.$error.required && myform.collegeCode.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li class="width30">
+                    <div>
+                        <label for="bankDate">Date</label>
+                        <input type="text" class="textfield" datepicker autocomplete="off" ng-model="form.bankDate"
+                            id="Date" placeholder="Date" maxlength="50" required name="bankDate">
+                        <div class="error"
+                            ng-show="myform.bankDate.$error.required && myform.bankDate.$touched && !formSubmitted">
+                            This field is required.
+                        </div>
+                    </div>
+
+                </li>
+                <li>
+                    <div>
+                        <button type="submit" class="bluebtn " style="margin-top: 15px;" ng-mouseover="flag1=false"
+                            ng-click="post(form.bankDate,form.collegeCode)">Generate</button>
+                        <button type="submit" class="bluebtn " style="margin-top: 15px;" ng-mouseover="flag1=false"
+                            ng-click="handleLink('bank-book-view')">VIEW </button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+    <div class="white-box">
+        <ul class="searchbox">
+            <!-- <li><input type="text" class="textfield" ng-model="keyword1" placeholder="Account Number" /></li>
+            <li><input type="text" class="textfield" ng-model="keyword2" placeholder="college Code" /></li>
+            <li><button class="bluebtn" ng-click="search(keyword1,keyword2)">Search</button></li>
+            <li><button type="button" id="exportToExcel" ng-click="exportTableToExcel()">Download</button>
+            </li> -->
+
+            <!-- <li><button type="button" class="bluebtn" id="exportToExcel" ng-click="exportTableToExcel()">Export Report</button> -->
+        </ul>
+        <table class="table table-striped  table-bordered text-center regtable table-condensed">
+            <thead>
+                <tr>
+                    <th width="80">Bank Date</th>
+                    <th width="80">Bank Code</th>
+                    <th width="80">University Code</th>
+                    <th width="80">Payment Amount</th>
+                    <th width="80">Receipt Amount</th>
+                    <th width="80">Bank Account</th>
+                    <th width="80">College Code</th>
+                    <th width="80">Bank Closing Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tdcolor" ng-repeat="n in bankBookData">
+                    <td>{{ n.bankDate }}</td>
+                    <td>{{ n.bankCode }}</td>
+                    <td>{{ n.universityCode }}</td>
+                    <td>{{ n.paymentAmount }}</td>
+                    <td>{{ n.receiptAmount }}</td>
+                    <td>{{ n.bankAc.toString()}}</td>
+                    <td>{{ n.collegeCode }}</td>
+                    <td>{{ n.bankCb }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>

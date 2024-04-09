@@ -1,0 +1,117 @@
+<style>
+  /* .table{width:100%;margin:0 auto;border-collapse:collapse;border:1px solid #ccc;background-color:#f9f9f9}
+  .table td{padding:8px 12px;border:1px solid #ccc}
+  .table td:first-child{font-weight:bold}.table tbody tr:hover{background-color:#e0e0e0} */
+
+  .add-btn {
+    padding: 4px 10px;
+    margin: 5px;
+    background: var(--blue);
+    color: var(--white);
+    border-radius: 3px;
+    border: none;
+    text-align: center
+  }
+
+  .add-btn:hover {
+    color: white;
+    background-color: var(--blue)
+  }
+
+ 
+</style>
+<section class="formsec" ng-controller="proPlanDetsCtrl">
+  <p class="titles">Project Plan Details</p>
+  <div class="white-box">
+    <ul class="searchbox">
+      <li>
+        <div ng-cloak >
+          <select class="dropdd" name="planNo" ng-model="planNo" data-live-search="true">
+            <option value="">Select Plan Number</option>
+            <option value="{{x.planNo}}" ng-repeat="x in projectPlan">
+              {{x.planNo}} - {{x.planTitle}}
+            </option>
+          </select>
+        </div>
+      </li>
+      <li>
+        <input type="text" class="textfield" ng-model="planfinyear" placeholder="FinYear" />
+      </li>
+      <li>
+        <input type="text" class="textfield" ng-model="planType" placeholder="Plan Type" />
+      </li>
+      <li>
+        <input type="text" class="textfield" ng-model="planTitle" placeholder="Plan Title" />
+      </li>
+      <li>
+        <input type="text" class="textfield" ng-model="planOwnerCostCenterCode"  placeholder="Plan Owner(College Code)" />
+      </li>
+      <li>
+        <input type="text" class="textfield" ng-model="college" placeholder="College" />
+      </li>
+      <li>
+        <button class="bluebtn"
+          ng-click="searchF(planNo,planfinyear,planType,planTitle,planOwnerCostCenterCode,college);">Search</button>
+        <button ng-click="handleLink('project-plan')" class="bluebtn "> Add </button>
+      </li>
+    </ul>
+    <div class="table-responsive" style="margin-top: 20px;">
+      <table class="table table-bordered text-center regtable table-condensed">
+        <thead>
+          <tr>
+            <th>Plan Number</th>
+            <th>Plan Fin Year</th>
+            <th>Plan Type Code</th>
+            <th>Plan Title</th>
+            <th>College Code</th>
+            <th>College Name</th>
+            <th>Plan Reference No</th>
+            <th>Plan Owner(College Code)</th>
+            <th>Plan Owner(College Name)</th>
+            <!-- <th>Plan Approved By</th> -->
+            <th>Plan Ref Date</th>
+            <th>Plan Approval Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="n in projectPlan" class="tdcolor">
+            <td ng-bind="n.planNo"></td>
+            <td ng-bind="n.planFinYear"></td>
+            <td ng-bind="n.planTypeCode"></td>
+            <td ng-bind="n.planTitle | uppercase"></td>
+            <td ng-bind="n.collegeCode | uppercase"></td>
+            <td ng-bind="setClgName(n.collegeCode)"></td>
+            <td ng-bind="n.planRef | uppercase"></td>
+            <td ng-bind="n.costCentreCode"></td>
+            <td ng-bind="n.dscr"></td>
+            <!-- <td ng-bind="n.planApprovedBy | uppercase"></td> -->
+            <td ng-bind="n.planRefDate"></td>
+            <td ng-bind="n.planApprovalDate"></td>
+            <td class="flexbox">
+              <button type="button" class="bluebtn" ng-click="edit(n)">
+                Edit
+              </button>
+              <button type="button" class="bluebtn" ng-click="showDetails(n.planNo,n.planFinYear,n.planTypeCode)">
+                Detail
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="detailmodal">
+    <div id="detailmodal-content" class="table-responsive">
+      <button id="closeBtn" class="close-button" ng-click="closeDetail()">
+        &times;
+      </button>
+      <h2>Purchase Order Detail</h2>
+      <ul class="dtlist">
+        <li ng-repeat="(key, value) in projectPlanDetails">
+          <span>{{ key }}</span><span class="valuesec">{{ value }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

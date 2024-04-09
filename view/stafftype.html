@@ -1,0 +1,59 @@
+<section class="formsec1" ng-controller="stafftypeCtrl">
+    <div class="titles">{{subbreadcrumb}}</div>
+    <form name="myform" ng-submit="save()" novalidate>
+        <div class="white-box notop forms ">
+            <ul>
+                <li class="width10">
+                    <label for="staffTypeCode">Staff Type</label>
+                    <input type="text" class="textfield" ng-model="form.staffTypeCode" id="staffTypeCode"
+                        placeholder="Staff Type" maxlength="3" m-name required ng-disabled="flag" name="staffTypeCode" alpha-only  ng-blur="checkForDuplicate(form.staffTypeCode)">
+                    <div class="error"
+                        ng-show="myform.staffTypeCode.$error.required && myform.staffTypeCode.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                    <div class="error"
+                    ng-show="duplicateCode && myform.staffTypeCode.$touched">
+                    This Staff type Code already exists.
+                     </div>
+                </li>                
+                <li>
+                    <label for="dscr">Description</label>
+                    <input type="text" class="textfield" no-special-characters ng-model="form.dscr" id="dscr" placeholder="Description"
+                        maxlength="20" ng-model="form.dscr" required name="dscr">
+                    <div class="error" ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <button type="submit" class="bluebtn" style="margin-top: 15px; " ng-disabled="myform.$invalid || duplicateCode">Save</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+    <div class="white-box ">
+
+        <table class="table table-bordered text-center regtable table-condensed">
+            <thead>
+                <tr>
+                    <th width="600">Staff Type</th>
+                    <th width="600">Description</th>
+                    <th width="200">Action</th>
+
+
+                    <!-- <th>Gl group code</th> -->
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="n in staffTypeData" class="tdcolor">
+                    <td ng-bind="n.staffTypeCode" ng-disabled="flag"> </td>
+                    <td ng-bind="n.dscr|uppercase"></td>
+                    <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

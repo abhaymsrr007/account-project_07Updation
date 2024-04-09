@@ -1,0 +1,108 @@
+ <style type="text/css"> 
+   .dropdd{padding-right: 20px!important}
+</style>
+  
+   
+    <section class="formsec"  ng-controller="proPlanCustDetCtrl" novalidate>
+      <p class="titles">Project Plan Custdion Details</p>
+
+      <div class="white-box">
+        <ul class="searchbox">
+          <li>
+            <div ng-cloak >
+              <select
+                class="dropdd"
+                name="planNo"
+                ng-model="planNo"
+                data-live-search="true" >
+                <option value="">Select Plan Number</option>
+                <option value="{{x.planNo}}" ng-repeat="x in uniquePlanNos">{{x.planNo}} </option>
+              </select>
+            </div>
+          </li>
+          <li>
+            <div ng-cloak>
+              <select
+                class="dropdd"
+                name="planTypeCode"
+                ng-model="planTypeCode"
+                data-live-search="true" >
+                <option value="">Select PlanTypeCode</option>
+                <option value="{{x.planTypeCode}}" ng-repeat="x in projectPlanCostData | filter:{ planNo: planNo } | uniquePlanNo:'planTypeCode'">{{x.planTypeCode}} </option>
+              </select>    
+            </div>
+          </li>
+          <li>
+          <div ng-cloak  >
+            <select
+            class="dropdd"
+            name="collegeCode"
+            ng-model="collegeCode"
+            data-live-search="true">
+            <option value="">Select collegeCode</option>
+            <option ng-repeat="x in projectPlanCostData | filter: { planNo: planNo, approvingAuthority } | unique:'collegeCode'" value="{{x.collegeCode}}">{{x.collegeCode}}</option>
+          </select>
+          </div> 
+          </li>
+          <li>
+          <button class="bluebtn" ng-click="searchInDtails(planNo,planTypeCode,approvingAuthority,executingAuthority,collegeCode);">Search</button>
+            <a ng-click="handleLink('project-plan-custodians')" class="bluebtn add-btn"> Add </a>
+          </li>
+        </ul>
+        <div class="table-responsive">
+          <table
+            class="table table-bordered text-center regtable table-condensed">
+            <thead>
+              <tr>
+                <th>Plan Number</th>
+                <th>Plan Fin Year</th>
+                <th>Plan Type Code</th>
+                <th>Account Description</th>
+                <!-- <th>ExecutingAuthority</th> -->
+                <th>College Code</th>
+                <th>College Name</th>
+                <th>University code</th>
+                <th>University Name</th>          
+                <th>Approval Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="n in projectPlanCostData" class="tdcolor">
+                <td ng-bind="n.planNo"></td>
+                <td ng-bind="n.planFinYear"></td>
+                <td ng-bind="n.planTypeCode"></td>
+                <td ng-repeat="account in accountType" ng-if="account.accountTypeCode === n.planTypeCode">
+                  {{ account.dscr }}</td>
+                <td ng-hide="n.approvingAuthority" ng-bind="n.approvingAuthority | uppercase"></td> 
+                <!-- <td ng-hide="n.executingAuthority" ng-bind="n.executingAuthority | uppercase"></td> -->
+                <td ng-bind="n.collegeCode "></td>
+                <td ng-bind="setClgName(n.collegeCode)"></td>
+                <td ng-bind="n.universityCode"></td>
+                <td ng-bind="setUniName(n.universityCode)"></td>
+                <td ng-bind="n.approvalDate "></td>
+                <td>
+                  <button type="button" class="bluebtn" ng-click="edit(n)">Edit </button>
+                  <button type="button" class="bluebtn" ng-click="showDetails(n)"> Detail </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div id="detailmodal">
+        <div id="detailmodal-content">
+          <button id="closeBtn" class="close-button" ng-click="closeDetail()">
+            &times;
+          </button>
+          <h2>Project Plan Custdion Detail</h2>
+          <ul class="dtlist">
+            <li ng-repeat="(key, value) in projectPlanCustDetail">
+              <span>{{ key }}</span>: {{ value }}
+            </li>
+          </ul>
+        </div>
+      </div> 
+    </section>
+
+   

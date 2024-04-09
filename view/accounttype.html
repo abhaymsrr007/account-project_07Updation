@@ -1,0 +1,72 @@
+<section class="formsec1" ng-controller="accounttypeCtrl">
+
+  <div class="titles">{{subbreadcrumb}}</div>
+
+    <form name="myform" ng-submit="save()">
+      <div class="white-box forms  notop">
+        <ul>
+
+          <li class="width10">
+            <div>
+              <label for="accountTypeCode">Account Type code</label>
+              <input type="text" ng-disabled="idDisable" num-only maxlength="2"  name="accountTypeCode" no-special-characters class="textfield" ng-model="form.accountTypeCode" id="accountTypeCode" placeholder="Account Type code"  ng-blur="checkForDuplicate(form.accountTypeCode)">
+            </div>
+            <div class="error"
+                ng-show="myform.accountTypeCode.$error.required && myform.accountTypeCode.$touched && !formSubmitted">
+              This field is required.
+            </div>
+       <div class="error"
+          ng-show="duplicateCode && myform.accountTypeCode.$touched">
+          This Account type Code already exists.
+       </div>
+          </li>
+          <li class="width30">
+            <div>
+              <label for="dscr">Description</label>
+              <input type="text" class="textfield" no-special-characters ng-model="form.dscr" id="dscr" placeholder="Description"
+                maxlength="20" required name="dscr">
+              <div class="error" ng-show="myform.dscr.$error.required && myform.dscr.$touched  && !formSubmitted">
+                This field is required.
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <button type="submit" class="bluebtn" style="margin-top: 15px;" ng-disabled="myform.$invalid || duplicateCode">Save</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </form>
+
+    <div class="white-box ">
+      <ul class="searchbox">
+          <li><input type="text" class="textfield" ng-change="search(keyword1,keyword2)" ng-model="keyword1" placeholder="Account Type Code" /></li>
+          <li><input class="textfield" type="text" ng-change="search(keyword1,keyword2)" ng-model="keyword2" placeholder="Description" /></li>
+          <li><button class="bluebtn" ng-click="search(keyword1,keyword2)">Search</button></li>
+      </ul> 
+      
+      <table class="table table-bordered text-center regtable table-condensed">
+        <thead>
+          <tr>
+            <th style="text-align: center;" width="400">Account Type Code</th>
+            <th>Description</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="n in accounttypeData" class="tdcolor">
+
+            <td ng-bind="n.accountTypeCode" ng-disabled="flag"> </td>
+            <td ng-bind=" n.dscr| uppercase"></td>
+
+
+            <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>

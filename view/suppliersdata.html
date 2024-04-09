@@ -1,0 +1,85 @@
+
+<section class="formsec1" ng-controller="suppCtrl">
+    <div class="titles">{{subbreadcrumb}}</div>Supplier</div>
+    <div class="white-box " style="overflow-x: auto;">
+        <ul class="searchbox">
+            <li>
+              <div ng-cloak>
+                <select class="dropdd" name="bankPvId" ng-model="bankPvId" data-live-search="true">
+                  <option value="">Select Voucher ID</option>
+                  <option value="{{x.bankPvId}}"
+                    ng-repeat="x in bPvData | filter:{voucherStatusCode:'U'} | orderBy:orderByDate">
+                    {{x.bankPvId}} - {{x.payTo | uppercase}}
+</option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <input type="text" class="textfield " datepicker ng-model="bankPvIdDate" placeholder="ID Date" />
+            </li>
+            <li><input type="text" class="textfield" ng-model="finYear" placeholder="Fin Year" /></li>
+            <li><input type="text" class="textfield" ng-model="bankPvNo" placeholder="Voucher No" /></li>
+            <li><input type="text" class="textfield datepicker" ng-model="bankPvDate" placeholder="Voucher Date" /></li>
+            <li>
+              <div ng-cloak>
+                <select class="dropdd" name="payee_type" ng-model="payeeTypeCode"
+                  ng-change="setpayFromTypeCode(payeeTypeCode);">
+                  <option value="">Select Payee Type</option>
+                  <option ng-repeat="n in uniquePayToTypes(bPvData)" value="{{n.payFromTypeCode}}">
+                    {{ n.payFromTypeCode === 'V' ? 'Vendor' : n.payFromTypeCode === 'S' ? 'Student'
+                    :
+                    n.payFromTypeCode === 'E' ? 'Employee' : n.payFromTypeCode === 'O' ? "Other" :
+                    '' }}
+                  </option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <div ng-cloak>
+                <select class="dropdd" name="bankPvId" ng-model="payFromTypeCode"
+                  ng-change="getPayFrom(payeeTypeCode, payFromTypeCode)"
+                  ng-options="(x.payFromTypeCode === 'E' ? x.staffNo : (x.payFromTypeCode === 'S' ? x.univRegistrationNo :
+                                                                (x.payFromTypeCode === 'V' ? x.vendorCode : 'Other'))) + ' - ' + x.payTo for x in payFromTypeCodes">
+                  <option value="">Select Payee Code</option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <input type="text" class="textfield" ng-model="payTo" ng-disabled="true" placeholder="Name" />
+            </li>
+            <li>
+              <button class="bluebtn"
+                ng-click="searchFields(bankPvId,bankPvIdDate,finYear,bankPvNo,bankPvDate,payeeTypeCode,payFromTypeCode,payTo);">Search</button>
+              <button ng-click="handleLink('supplier');  " class="bluebtn add-btn"> Add </button>
+            </li>
+          </ul>
+          <table class="table table-bordered text-center regtable table-condensed">
+            <thead>
+                <tr>
+                    <th>Vendor Code</th>
+                    <th>Full Name</th>
+                    <th>City</th>
+                    <th>Bank IFSC Code</th>
+                    <th>Bank Account No</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="n in supplierData" class="tdcolor">
+                    <td ng-bind="n.vendorCode" ng-disabled="flag"> </td>
+                    <td ng-bind="n.fullName"></td>
+                    <td ng-bind="n.city"></td>
+                    <td ng-bind="n.bankIfscCode"></td>
+                    <td ng-bind="n.bankAccountNo"></td>
+                    <td ng-bind="n.email"></td>
+                    <td ng-bind="n.mobile"></td>
+                    <td ng-bind="n.active==='Y'?'YES':'NO'"></td>
+                    <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

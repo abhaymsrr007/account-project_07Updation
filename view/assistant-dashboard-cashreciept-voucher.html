@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html  ng-controller="contr">
+
+<head>
+  <title>Dashboard</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon" />
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet"> -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <script src="js/jquery-3.6.0.min.js"></script>
+  <!-- <script src="js/bootstrap.min.js"></script>    -->
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.17/angular-filter.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/tools.js"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css" />
+  <script src="js/bootstrap-select.min.js"></script>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Include Toastr CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+  <!-- Include Toastr JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <script src="js/linked.js"></script>
+  <style type="text/css">
+    /* .container {
+      max-width: 1200px;
+    } */
+
+    .formsec .container {
+      max-width: 800px;
+    }
+
+    .mainlist {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .mainlist>div {
+      width: 48%
+    }
+
+    .mainlist ul li {
+      margin-bottom: 4px;
+    }
+
+    .mainlist ul li a {
+      padding: 10px 20px;
+      display: block;
+      background: var(--light-gray);
+      border-radius: 4px;
+      color: #444;
+      font-weight: 600
+    }
+
+    .sectionlist {
+      margin-bottom: 15px;
+    }
+
+    .sectionlist>ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 -10px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .sectionlist>ul>li {
+      width: 25%;
+      padding: 10px;
+    }
+
+    .boxs {
+      background: #c5e8ff;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 15px;
+      border-radius: 8px;
+      color: var(--black);
+      min-height: 200px;
+    }
+
+    .icons {
+      position: relative;
+      width: 64px;
+      height: 68px;
+      margin: 0 auto;
+    }
+
+    .cls-1 {
+      fill: #165793;
+      /*stroke:#bd7610;stroke-miterlimit:10;stroke-width:3px;*/
+    }
+
+    .icons img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      filter: brightness(100);
+      max-width: 40px;
+    }
+
+    .stitle {
+      font-size: 16px;
+      font-weight: 500;
+      margin-top: 15px;
+      color: var(--dark-gray);
+      line-height: 1.2;
+    }
+
+    .bighead {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--dark-gray);
+    }
+
+    .heading3 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: var(--dark-gray);
+      line-height: 1.2;
+    }
+
+    .boxsection {
+      padding: 20px 0;
+    }
+
+    .sectionlist {
+      padding: 20px
+    }
+
+    .sectionlist>ul>li:nth-child(1) .boxs,
+    .sectionlist>ul>li:nth-child(9) .boxs {
+      background: #fbe8d4;
+    }
+
+    .sectionlist>ul>li:nth-child(2) .boxs {
+      background: #c5e8ff;
+    }
+
+    .sectionlist>ul>li:nth-child(3) .boxs,
+    .sectionlist>ul>li:nth-child(10) .boxs {
+      background: #d6f1f5;
+    }
+
+    .sectionlist>ul>li:nth-child(4) .boxs,
+    .sectionlist>ul>li:nth-child(12) .boxs {
+      background: #e7e9fc;
+    }
+
+    .sectionlist>ul>li:nth-child(5) .boxs {
+      background: #ffe6aa;
+    }
+
+    .sectionlist>ul>li:nth-child(6) .boxs {
+      background: #c5f6f4;
+    }
+
+    .sectionlist>ul>li:nth-child(7) .boxs {
+      background: #ffcacd;
+    }
+
+    .sectionlist>ul>li:nth-child(8) .boxs {
+      background: #ffe6aa;
+    }
+
+    .sectionlist>ul>li:nth-child(1) .boxs .cls-1,
+    .sectionlist>ul>li:nth-child(9) .boxs .cls-1 {
+      fill: #bd7610;
+    }
+
+    .sectionlist>ul>li:nth-child(2) .boxs .cls-1 {
+      fill: #165793;
+    }
+
+    .sectionlist>ul>li:nth-child(3) .boxs .cls-1,
+    .sectionlist>ul>li:nth-child(10) .boxs .cls-1 {
+      fill: #35727b;
+    }
+
+    .sectionlist>ul>li:nth-child(4) .boxs .cls-1,
+    .sectionlist>ul>li:nth-child(12) .boxs .cls-1 {
+      fill: #6b73bd;
+    }
+
+    .sectionlist>ul>li:nth-child(5) .boxs .cls-1 {
+      fill: #a17816;
+    }
+
+    .sectionlist>ul>li:nth-child(6) .boxs .cls-1 {
+      fill: #1c9590;
+    }
+
+    .sectionlist>ul>li:nth-child(7) .boxs .cls-1 {
+      fill: #9f555a;
+    }
+
+    .sectionlist>ul>li:nth-child(8) .boxs .cls-1 {
+      fill: #a17816;
+    }
+
+    .add-btn {
+      padding: 4px 10px;
+      margin: 5px;
+      background: var(--blue);
+      color: var(--white);
+      border-radius: 3px;
+      border: none;
+      text-align: center
+    }
+
+    .add-btn:hover {
+      color: white;
+      background-color: var(--blue)
+    }
+
+    .searchbox {
+      display: flex;
+      justify-content: end;
+      align-self: flex-end;
+      width: 100%
+    }
+
+    .searchbox>input {
+      padding: 5px;
+      margin: 5px;
+      width: 15%;
+      border-radius: 5px;
+      border: none;
+      outline: #dae7fb;
+      background-color: #dae7fb
+    }
+
+    .searchbox>button {
+      padding: 4px 10px;
+      margin: 5px;
+      background: var(--blue);
+      color: var(--white);
+      border-radius: 3px;
+      border: none;
+      text-align: center
+    }
+
+    .dtlist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 450px;
+      overflow: auto;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap
+    }
+
+    .dtlist>li {
+      width: 50%;
+      padding: 10px;
+      font-size: 14px
+    }
+
+    .dtlist>li span {
+      font-family: "Roboto", Helvetica, Arial, sans-serif;
+      display: inline-block;
+      min-width: 150px;
+      text-transform: capitalize;
+      font-weight: 600
+    }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #555
+    }
+
+    .close-button:hover {
+      color: #000
+    }
+
+    .titles {
+      text-transform: none;
+      font-weight: 400
+    }
+
+    #detailmodal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      min-width: 100px
+    }
+
+    #detailmodal-content {
+      top: 50px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      position: relative;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+      max-width: 800px;
+      margin: auto;
+      overflow: hidden
+    }
+
+    #detailmodal h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      margin-top: 0;
+      font-weight: 600;
+      font-family: roboto
+    }
+
+    #detailmodal-content .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      border-bottom: 1px solid #ccc
+    }
+
+    #detailmodal-content .row:last-child {
+      border-bottom: none
+    }
+
+    #detailmodal-content .row span {
+      font-weight: bold;
+      text-transform: capitalize
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topheading">
+    <div class="logo">
+      <img src="images/nrt-logo.svg" alt="" />
+    </div>
+    <a class="btn bluebtn" ng-click="goBack()">Back</a>
+    <!-- <a class="userlogin" href="index.html">Amit Kumar <span><img src="images/userimg.jpg" alt="student" /></span></a> -->
+    <a class="userlogin" ng-click="logout()">{{details.username}} <span><img
+          src="https://exam.skmu.ac.in/ftpwebapps/skmu/resources/studentdata/users/profileimage/{{details.profile_image}}"
+          alt="student" /></span></a>
+  </header>
+  <section class="boxsection">
+    <div class="container">
+      <h2>Assistant Dashboard (Cash Reciept Voucher)</h2>
+      <div class="tabsec">
+        <ul>
+          <li><a class="tablink active" data-title="tab1">Under Process Vouchers</a></li>
+          <li><a class="tablink " data-title="tab2">Finalised Vouchers</a></li>
+          <li><a class="tablink " data-title="tab3">Returned Vouchers</a></li>
+          <li><a class="tablink " data-title="tab4">Canceled/Accounting/Passed Vouchers</a></li>
+        </ul>
+      </div>
+      <div id="tab1" class="sectionlist white-box maintabsec active">
+        <div class="white-box">
+          <ul>
+            <li class="searchbox">
+              <div ng-cloak style="width: 200px; margin-top: 5px" class="">
+                <select class="selectsearch" name="cashRvId" ng-model="cashRvId" data-live-search="true">
+                  <option value="">Select Voucher ID</option>
+                  <option value="{{x.cashRvId}}" ng-repeat="x in cashRvData | filter:{voucherStatusCode:'U'}">
+                    {{x.cashRvId}} - {{x.recvdFrom | uppercase}}
+                  </option>
+                </select>
+              </div>
+              <input type="text" class="searchbox datepicker" ng-model="cashRvIdDate" placeholder="ID Date" />
+              <input type="text" class="searchbox" ng-model="finYear" placeholder="Fin Year" />
+              <input type="text" class="searchbox" ng-model="bankRvNo" placeholder="Voucher No" />
+              <input type="text" class="searchbox datepicker" ng-model="bankRvDate" placeholder="Voucher Date" />
+              <div ng-cloak style="width: 180px; margin: 5px 5px" class="">
+                <select class="dropdd" name="payee_type" ng-model="payeeTypeCode"
+                ng-change="setpayFromTypeCode(payeeTypeCode);">
+                <option value="">Select Payee Type</option>
+                <option ng-repeat="n in uniquePayToTypes(cashRvData)" value="{{n.payFromTypeCode}}">
+                    {{ n.payFromTypeCode === 'V' ? 'Vendor' : n.payFromTypeCode === 'S' ? 'Student'
+                    :
+                    n.payFromTypeCode === 'E' ? 'Employee' : n.payFromTypeCode === 'O' ? "Other" :
+                    '' }}
+                  </option>
+                </select>
+
+              </div>
+              <div ng-cloak style="width:  180px; margin:5px 5px" class="">
+                <select class="dropdd" name="cashRvId" ng-model="payFromTypeCode"
+                  ng-change="getPayFrom(payeeTypeCode, payFromTypeCode)"
+                  ng-options="(x.payFromTypeCode === 'E' ? x.staffNo : (x.payFromTypeCode === 'S' ? x.univRegistrationNo :
+                                                            (x.payFromTypeCode === 'V' ? x.vendorCode : 'Other'))) + ' - ' + x.recvdFrom for x in payFromTypeCodes">
+                  <option value="">Select Payee Code</option>
+                </select>
+
+              </div>
+              <input type="text" class="searchbox" ng-model="recvdFrom" ng-disabled="true" placeholder="Name" />
+              <button class="bluebtn btn text-end"
+                ng-click="searchFields(cashRvId,cashRvIdDate,finYear,bankRvNo,bankRvDate,payeeTypeCode,payFromTypeCode,recvdFrom);">Search</button>
+              <a href="cash-reciept-voucher.html" class="add-btn"> Add </a>
+            </li>
+          </ul>
+        </div>
+        <div class="table-responsive" style="margin-top: 20px;">
+          <table class="table table-bordered text-center regtable table-condensed">
+            <thead>
+              <tr>
+                <th>Voucher Id</th>
+                <th>ID Date</th>
+                <th>Fin Year</th>
+                <!-- <th>Receipt Voucher No</th> -->
+                <!-- <th>Receipt Voucher Date</th> -->
+                <th>Payee Type</th>
+                <th>Payee From</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="n in cashRvData | filter:{voucherStatusCode:'U'} | orderBy:'-cashRvId'" class="tdcolor" ng-show="n.sectionCode===details.sectionCode" ng-show="n.sectionCode===details.sectionCode">
+                <td ng-bind="n.cashRvId"></td>
+                <td ng-bind="n.cashRvIdDate"></td>
+                <td ng-bind="n.finYear"></td>
+                <!-- <td ng-bind="n.receiptNo"></td> -->
+                <!-- <td ng-bind="n.receiptDate"></td> -->
+                <td
+                  ng-bind="n.payFromTypeCode === 'V' ? 'Vendor' :  n.payFromTypeCode === 'S' ? 'Student' :  n.payFromTypeCode === 'E' ? 'Employee' :  'Other';">
+                </td>
+                <td ng-bind="n.recvdFrom | uppercase"></td>
+                <td ng-bind="n.voucherStatusCode | uppercase"></td>
+                <td>
+                  <button type="button" class="bluebtn" ng-click="delete(n.cashRvId,n.finYear)">
+                    Delete
+                  </button>
+                  <button type="button" class="bluebtn" ng-click="edit(n)">
+                    Edit
+                  </button>
+                  <!-- <button type="button" class="bluebtn" ng-click="showDetails(n.cashRvId,n.finYear)">
+
+                    Detail
+                  </button> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+
+
+      <div id="tab2" class="sectionlist white-box maintabsec " style="display: none;">
+        <div class="white-box">
+          <ul>
+            <li class="searchbox">
+              <div ng-cloak style="width: 200px; margin-top: 5px" class="">
+                <select class="selectsearch" name="cashRvId" ng-model="cashRvId" data-live-search="true">
+                  <option value="">Select Voucher ID</option>
+                  <option value="{{x.cashRvId}}" ng-repeat="x in cashRvData | filter:{voucherStatusCode:'P'}">
+                    {{x.cashRvId}} - {{x.recvdFrom | uppercase}}
+                  </option>
+                </select>
+              </div>
+              <input type="text" class="searchbox datepicker" ng-model="cashRvIdDate" placeholder="ID Date" />
+              <input type="text" class="searchbox" ng-model="finYear" placeholder="Fin Year" />
+              <input type="text" class="searchbox" ng-model="bankRvNo" placeholder="Voucher No" />
+              <input type="text" class="searchbox datepicker" ng-model="bankRvDate" placeholder="Voucher Date" />
+              <div ng-cloak style="width: 180px; margin: 5px 5px" class="">
+
+                <select class="dropdd" name="payee_type" ng-model="payeeTypeCode"
+                  ng-change="setpayFromTypeCode(payeeTypeCode);">
+                  <option value="">Select Payee Type</option>
+                  <option ng-repeat="n in uniquePayToTypes(cashRvData)" value="{{n.payFromTypeCode}}">
+                    {{ n.payFromTypeCode === 'V' ? 'Vendor' : n.payFromTypeCode === 'S' ? 'Student'
+                    :
+                    n.payFromTypeCode === 'E' ? 'Employee' : n.payFromTypeCode === 'O' ? "Other" :
+                    '' }}
+                  </option>
+                </select>
+
+              </div>
+              <div ng-cloak style="width:  180px; margin:5px 5px " class="">
+                <select class="dropdd" name="cashRvId" ng-model="payFromTypeCode"
+                  ng-change="getPayFrom(payeeTypeCode, payFromTypeCode)"
+                  ng-options="(x.payFromTypeCode === 'E' ? x.staffNo : (x.payFromTypeCode === 'S' ? x.univRegistrationNo :
+                                                                    (x.payFromTypeCode === 'V' ? x.vendorCode : 'Other'))) + ' - ' + x.recvdFrom for x in payFromTypeCodes">
+                  <option value="">Select Payee Code</option>
+                </select>
+
+              </div>
+              <input type="text" class="searchbox" ng-model="recvdFrom" ng-disabled="true" placeholder="Name" />
+              <button class="bluebtn btn text-end"
+                ng-click="searchFields(cashRvId,cashRvIdDate,finYear,bankRvNo,bankRvDate,payeeTypeCode,payFromTypeCode,recvdFrom);">Search</button>
+              <!-- <a href="bank-reciept-voucher.html" class="add-btn"> Add </a> -->
+            </li>
+          </ul>
+        </div>
+        <div class="table-responsive" style="margin-top: 20px;">
+          <table class="table table-bordered text-center regtable table-condensed">
+            <thead>
+              <tr>
+                <th>Voucher Id</th>
+                <th>ID Date</th>
+                <th>Fin Year</th>
+                <!-- <th>Receipt Voucher No</th>
+                <th>Receipt Voucher Date</th> -->
+                <th>Payee Type</th>
+                <th>Payee From</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="n in cashRvData|filter:{voucherStatusCode:'F'}" class="tdcolor" ng-show="n.sectionCode===details.sectionCode" ng-show="n.sectionCode===details.sectionCode">
+                <td ng-bind="n.cashRvId"></td>
+                <td ng-bind="n.cashRvIdDate"></td>
+                <td ng-bind="n.finYear"></td>
+                <!-- <td ng-bind="n.bankRvNo"></td>
+                <td ng-bind="n.bankRvDate"></td> -->
+                <td
+                  ng-bind="n.payFromTypeCode === 'V' ? 'Vendor' :  n.payFromTypeCode === 'S' ? 'Student' :  n.payFromTypeCode === 'E' ? 'Employee' :  'Other';">
+                </td>
+                <td ng-bind="n.recvdFrom | uppercase"></td>
+                <td ng-bind="n.voucherStatusCode | uppercase"></td>
+                <td>
+                  <!-- <button type="button" class="bluebtn" ng-click="edit(n)">
+                    Edit
+                  </button> -->
+                  <button type="button" class="bluebtn" ng-click="showDetails(n)">
+                    Detail
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <section class="container" id="detailmodal">
+          <div id="detailmodal-content" class="table-responsive">
+            <button id="closeBtn" class="close-button" ng-click="closeDetail()">
+              &times;
+            </button>
+            <h2>Bank Payment Detail</h2>
+            <ul class="dtlist">
+              <li ng-repeat="(key, value) in bankpay">
+                <span>{{ key }}</span> {{ value }}
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+      <div id="tab3" class="sectionlist white-box maintabsec ">
+        <div class="white-box">
+          <ul>
+            <li class="searchbox">
+              <div ng-cloak style="width: 200px; margin-top: 5px" class="">
+                <select class="selectsearch" name="cashRvId" ng-model="cashRvId" data-live-search="true">
+                  <option value="">Select Voucher ID</option>
+                  <option value="{{x.cashRvId}}" ng-repeat="x in cashRvData | filter:{voucherStatusCode:'R'}">
+                    {{x.cashRvId}} - {{x.recvdFrom | uppercase}}
+                  </option>
+                </select>
+              </div>
+              <input type="text" class="searchbox datepicker" ng-model="cashRvIdDate" placeholder="ID Date" />
+              <input type="text" class="searchbox" ng-model="finYear" placeholder="Fin Year" />
+              <input type="text" class="searchbox" ng-model="bankRvNo" placeholder="Voucher No" />
+              <input type="text" class="searchbox datepicker" ng-model="bankRvDate" placeholder="Voucher Date" />
+              <div ng-cloak style="width: 180px; margin: 5px 5px" class="">
+
+                <select class="dropdd" name="payee_type" ng-model="payeeTypeCode"
+                  ng-change="setpayFromTypeCode(payeeTypeCode);">
+                  <option value="">Select Payee Type</option>
+                  <option ng-repeat="n in uniquePayToTypes(cashRvData)" value="{{n.payFromTypeCode}}">
+                    {{ n.payFromTypeCode === 'V' ? 'Vendor' : n.payFromTypeCode === 'S' ? 'Student'
+                    :
+                    n.payFromTypeCode === 'E' ? 'Employee' : n.payFromTypeCode === 'O' ? "Other" :
+                    '' }}
+                  </option>
+                </select>
+
+              </div>
+              <div ng-cloak style="width:  180px; margin:5px 5px" class="">
+                <select class="dropdd" name="cashRvId" ng-model="payFromTypeCode"
+                  ng-change="getPayFrom(payeeTypeCode, payFromTypeCode)"
+                  ng-options="(x.payFromTypeCode === 'E' ? x.staffNo : (x.payFromTypeCode === 'S' ? x.univRegistrationNo :
+                                                                    (x.payFromTypeCode === 'V' ? x.vendorCode : 'Other'))) + ' - ' + x.recvdFrom for x in payFromTypeCodes">
+                  <option value="">Select Payee Code</option>
+                </select>
+
+              </div>
+              <input type="text" class="searchbox" ng-model="recvdFrom" ng-disabled="true" placeholder="Name" />
+              <button class="bluebtn btn text-end"
+                ng-click="searchFields(cashRvId,cashRvIdDate,finYear,bankRvNo,bankRvDate,payeeTypeCode,payFromTypeCode,recvdFrom);">Search</button>
+              <!-- <a href="bank-reciept-voucher.html" class="add-btn"> Add </a> -->
+            </li>
+          </ul>
+        </div>
+        <div class="table-responsive" style="margin-top: 20px;">
+          <table class="table table-bordered text-center regtable table-condensed">
+            <thead>
+              <tr>
+                <th>Voucher Id</th>
+                <th>ID Date</th>
+                <th>Fin Year</th>
+                <!-- <th>Receipt Voucher No</th>
+                <th>Receipt Voucher Date</th> -->
+                <th>Payee Type</th>
+                <th>Payee From</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="n in cashRvData |filter:{voucherStatusCode:'R'}" class="tdcolor" ng-show="n.sectionCode===details.sectionCode" ng-show="n.sectionCode===details.sectionCode">
+                <td ng-bind="n.cashRvId"></td>
+                <td ng-bind="n.cashRvIdDate"></td>
+                <td ng-bind="n.finYear"></td>
+                <!-- <td ng-bind="n.receiptNo"></td>
+                <td ng-bind="n.receiptDate"></td> -->
+                <td
+                  ng-bind="n.payFromTypeCode === 'V' ? 'Vendor' :  n.payFromTypeCode === 'S' ? 'Student' :  n.payFromTypeCode === 'E' ? 'Employee' :  'Other';">
+                </td>
+                <td ng-bind="n.recvdFrom | uppercase"></td>
+                <td ng-bind="n.voucherStatusCode | uppercase"></td>
+                <td>
+                  <button type="button" class="bluebtn" ng-click="edit(n)">
+                    Edit
+                  </button>
+                  <!-- <button type="button" class="bluebtn" ng-click="edit(n)">
+                    Detail
+                  </button> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+<div id="tab4" class="sectionlist white-box maintabsec ">
+  <div class="white-box">
+    <ul>
+      <li class="searchbox">
+        <div ng-cloak style="width: 200px; margin-top: 5px" class="">
+          <select class="selectsearch" name="cashRvId" ng-model="cashRvId" data-live-search="true">
+            <option value="">Select Voucher ID</option>
+            <option value="{{x.cashRvId}}" ng-repeat="x in cashRvData |filter:filterForStatusAandC">
+              {{x.cashRvId}} - {{x.recvdFrom | uppercase}}
+            </option>
+          </select>
+        </div>
+        <input type="text" class="searchbox datepicker" ng-model="cashRvIdDate" placeholder="ID Date" />
+        <input type="text" class="searchbox" ng-model="finYear" placeholder="Fin Year" />
+        <input type="text" class="searchbox" ng-model="bankRvNo" placeholder="Voucher No" />
+        <input type="text" class="searchbox datepicker" ng-model="bankRvDate" placeholder="Voucher Date" />
+        <div ng-cloak style="width: 180px; margin: 5px 5px" class="">
+
+          <select class="dropdd" name="payee_type" ng-model="payeeTypeCode"
+            ng-change="setpayFromTypeCode(payeeTypeCode);">
+            <option value="">Select Payee Type</option>
+            <option ng-repeat="n in uniquePayToTypes(cashRvData)" value="{{n.payFromTypeCode}}">
+              {{ n.payFromTypeCode === 'V' ? 'Vendor' : n.payFromTypeCode === 'S' ? 'Student'
+              :
+              n.payFromTypeCode === 'E' ? 'Employee' : n.payFromTypeCode === 'O' ? "Other" :
+              '' }}
+            </option>
+          </select>
+
+        </div>
+        <div ng-cloak style="width:  180px; margin:5px 5px" class="">
+          <select class="dropdd" name="cashRvId" ng-model="payFromTypeCode"
+            ng-change="getPayFrom(payeeTypeCode, payFromTypeCode)"
+            ng-options="(x.payFromTypeCode === 'E' ? x.staffNo : (x.payFromTypeCode === 'S' ? x.univRegistrationNo :
+                                                                          (x.payFromTypeCode === 'V' ? x.vendorCode : 'Other'))) + ' - ' + x.recvdFrom for x in payFromTypeCodes">
+            <option value="">Select Payee Code</option>
+          </select>
+
+        </div>
+        <input type="text" class="searchbox" ng-model="recvdFrom" ng-disabled="true" placeholder="Name" />
+        <button class="bluebtn btn text-end"
+          ng-click="searchFields(cashRvId,cashRvIdDate,finYear,bankRvNo,bankRvDate,payeeTypeCode,payFromTypeCode,recvdFrom);">Search</button>
+        <!-- <a href="bank-reciept-voucher.html" class="add-btn"> Add </a> -->
+      </li>
+    </ul>
+  </div>
+  <div class="table-responsive" style="margin-top: 20px;">
+    <table class="table table-bordered text-center regtable table-condensed">
+      <thead>
+        <tr>
+          <th>Voucher Id</th>
+          <th>ID Date</th>
+          <th>Fin Year</th>
+          <th>Receipt Voucher No</th>
+          <th>Receipt Voucher Date</th> 
+          <th>Payee Type</th>
+          <th>Payee From</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="n in cashRvData |filter:filterForStatusAandC" class="tdcolor" ng-show="n.sectionCode===details.sectionCode" ng-show="n.sectionCode===details.sectionCode">
+          <td ng-bind="n.cashRvId"></td>
+          <td ng-bind="n.cashRvIdDate"></td>
+          <td ng-bind="n.finYear"></td>
+          <td ng-bind="n.bankRvNo"></td>
+          <td ng-bind="n.bankRvDate"></td>
+          <td
+            ng-bind="n.payFromTypeCode === 'V' ? 'Vendor' :  n.payFromTypeCode === 'S' ? 'Student' :  n.payFromTypeCode === 'E' ? 'Employee' :  'Other';">
+          </td>
+          <td ng-bind="n.recvdFrom | uppercase"></td>
+          <td ng-bind="n.voucherStatusCode | uppercase"></td>
+          <td>
+            <!-- <button type="button" class="bluebtn" ng-click="edit(n)">
+                          Edit
+                        </button> -->
+            <button type="button" class="bluebtn" ng-click="showDetails(n)">
+              Detail
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+      <script>
+
+        setTimeout(function () {
+          $(".selectsearch").selectpicker();
+        }, 5000);
+        // $('.datepicker').datepicker({
+        //     format: "dd-mm-yyyy",
+        //     // startDate: new Date('2022-7-15'),
+        //     // endDate: new Date('2022-8-15')
+        //   });
+        $(".tablink").click(function () {
+          $('.tablink').removeClass('active');
+          $(this).addClass('active');
+          var id = $(this).attr("data-title");
+          $(".maintabsec").hide();
+          $("#" + id).fadeIn();
+          $(".maintabsec").removeClass('active');
+          $("#" + id).addClass('active');
+        });
+
+
+        // $(".addfield").click(function () {
+        //   var html = '';
+        //   html += '<ul class="addcol6">';
+        //   html += '<li class="width5"><div><input type="text" class="textfield" name="sl_no1" value="" placeholder=""></div></li> <li><div><input type="text" class="textfield" name="account_no" value="" placeholder=""></div></li><li class="width24"><div><input type="text" class="textfield" name="account_desc" value="" placeholder=""></div></li><li><div><input type="text" class="textfield" name="debit_amount" value="" placeholder=""></div></li><li><div><input type="text" class="textfield" name="credit_amount" value="" placeholder=""></div></li><li class="width24"><div><input type="text" class="textfield" name="remarks" value="" placeholder=""></div></li><li class="width3 checkbtn"><label><input type="checkbox" name="delete" class="checksec" /></label> </li>';
+        //   html += '</ul>';
+
+        //   $('.recordlist').append(html);
+        // });
+
+        // $(document).on("click", ".deletebtn", function () {
+        //   $('input:checked').closest('.addcol6').remove();
+        //   $(".deletebtn").prop("disabled", true);
+        // });
+        // $(document).on("change", '.addcol6 input[type="checkbox"]', function () {
+        //   var checked = $('.addcol6 input[type="checkbox"]:checked').length > 0;
+        //   if (checked) {
+        //     $(".deletebtn").prop("disabled", false);
+        //   } else {
+        //     $(".deletebtn").prop("disabled", true);
+        //   }
+        // });
+
+      </script>
+
+
+      <script>
+        
+        app.controller('contr', function ($scope, $http, $timeout, $window, $rootScope, $filter, $location) {
+          $scope.img = profile;
+          $scope.details = [];
+          var token;
+          const userDetailsJSON = $window.sessionStorage.getItem('userDetails');
+          if (userDetailsJSON) {
+            const userDetails = JSON.parse(userDetailsJSON);
+            if (userDetails.token != null || userDetails.token != '') {
+              $scope.details = angular.copy(userDetails);
+              token = $scope.details.token;
+            }
+          } else {
+            $window.location.href = "index.html";
+            console.log('User details not found in sessionStorage');
+          }
+          $scope.logout = function () {
+            $window.sessionStorage.removeItem('userDetails');
+            $window.location.href = 'index.html';
+          };
+
+          var config = {
+            //  form: $scope.form,
+            headers: {
+              'Authorization': 'Bearer ' + token
+            },
+          };
+
+
+
+          $scope.uniquePayToTypes = function (cashRvData) {
+            var uniqueTypes = {};
+            var uniqueList = [];
+            for (var i = 0; i < cashRvData.length; i++) {
+              var typeCode = cashRvData[i].payFromTypeCode;
+              if (!uniqueTypes[typeCode]) {
+                uniqueTypes[typeCode] = true;
+                uniqueList.push(cashRvData[i]);
+              }
+            }
+            return uniqueList;
+          };
+
+          $scope.setpayFromTypeCode = function (payFromTypeCode) {
+            $scope.payFromTypeCodes = [];
+            console.log(payFromTypeCode);
+            if (payFromTypeCode === "E") {
+              $scope.payFromTypeCodes = $scope.cashRvData.filter(x => x.payFromTypeCode === "E");
+              console.log("payeeType in Emp", payFromTypeCode);
+            }
+            if (payFromTypeCode === "V") {
+              $scope.payFromTypeCodes = $scope.cashRvData.filter(x => x.payFromTypeCode === "V");
+              console.log("payeeType in Ven", payFromTypeCode);
+            }
+            if (payFromTypeCode === "S") {
+              $scope.payFromTypeCodes = $scope.cashRvData.filter(x => x.payFromTypeCode === "S");
+              console.log("payeeType in Stu", payFromTypeCode)
+            }
+            if (payFromTypeCode === "O") {
+              $scope.payFromTypeCodes = $scope.cashRvData.filter(x => x.payFromTypeCode === "O");
+              console.log("payeeType in Oth", payFromTypeCode);
+            }
+            // $scope.payFromTypeCodes = $scope.cashRvData.filter(x => x.payFromTypeCode === payeeTypeCode);
+            console.log(`payeeType ${payFromTypeCode}`, $scope.payFromTypeCodes);
+          };
+          $scope.recvdFrom = '';
+          $scope.getPayFrom = function (payeeTypeCode, payFromTypeCode) {
+            console.log("abhay", payeeTypeCode, payFromTypeCode);
+            if (payFromTypeCode != null) {
+              for (let i = 0; i < $scope.payFromTypeCodes.length; i++) {
+                const x = $scope.payFromTypeCodes[i];
+
+                if ((payeeTypeCode === 'S' && x.univRegistrationNo === payFromTypeCode.univRegistrationNo) ||
+                  (payeeTypeCode === 'V' && x.vendorCode === payFromTypeCode.vendorCode) ||
+                  (payeeTypeCode === 'E' && x.staffNo === payFromTypeCode.staffNo)
+                ) {
+                  console.log("Matching payeeType", payeeTypeCode);
+                  $scope.recvdFrom = x.recvdFrom;
+                  break;
+                } else {
+                  console.log("Matching payeeType", payeeTypeCode);
+                  if (payeeTypeCode === payFromTypeCode.payFromTypeCode && payFromTypeCode.recvdFrom !== $scope.recvdFrom) {
+                    $scope.recvdFrom = payFromTypeCode.recvdFrom;
+                  } else {
+                    $scope.recvdFrom = '';
+                  }
+                  break;
+                }
+              }
+            } else {
+              $scope.recvdFrom = '';
+            }
+          };
+          $scope.payeeTypeData = [];
+          $scope.getPayeeTypeData = function () {
+            $http.get(path + '/api/v1/account/paytotype', config).then(
+              function (res) {
+                // console.log("response", res.data)
+                $scope.payeeTypeData = res.data
+                // console.log("$scope.payeeTypeData", $scope.payeeTypeData)
+              },
+              function (err) {
+                console.log(err)
+              }
+            )
+          }
+          $scope.getPayeeTypeData();
+          $scope.suuplierdetail = [];
+          $scope.bankpay = [];
+          // $scope.showDetails = function (cashRvId, finyear) {
+          //   document.getElementById("detailmodal").style.display = "block";
+          //   $http.get(path + `/api/v1/account/brv/${cashRvId}/${finyear}`, config)
+          //     .then(function successCallback(response) {
+          //       console.log("sanction data", response.data)
+          //       $scope.bankpay = convertCamelToReadable(response.data);
+          //     },
+          //       function errorCallback(response) {
+          //         console.log("Unable to update  request");
+          //       });
+          // }
+          $scope.isDisable=0;
+          $scope.showDetails = function (n) {
+            $scope.isDisable=1;
+            var nObject = {
+              cashRvId: n.cashRvId,
+              finYear: n.finYear,
+              isDisable:$scope.isDisable
+              // Add more properties if needed
+            };
+              window.location.href = 'cash-reciept-voucher.html?n=' + encryptData(JSON.stringify(nObject));
+              // $scope.status = true;
+          }
+          $scope.filterForStatusAandC = (item) => {
+            return item.voucherStatusCode === 'C' || item.voucherStatusCode === 'A' || item.voucherStatusCode === 'P';
+          }
+          $scope.timeoutPromise = null;
+          $scope.data = [];
+          $scope.cashRvData = [];
+          $scope.getdata = function () {
+            $http.get(path + '/api/v1/account/crv', config)
+              .then(function (response) {
+                $scope.cashRvData = response.data;
+                console.table(response.data)
+              });
+          };
+          $scope.getdata();
+          $scope.closeDetail = () => {
+            // console.log("hiiiiiiiii")
+            document.getElementById("detailmodal").style.display = "none";
+          };
+          var modal = document.getElementById("detailmodal");
+          var closeBtn = document.getElementById("closeBtn");
+          // Add an event listener for the "Escape" key press
+          document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+              modal.style.display = "none"; // Hide the modal when "Escape" key is pressed
+            }
+          });
+          $scope.delete = function (cashRvId, finyear) {
+            $http.delete(path + `/api/v1/account/crv/${cashRvId}/${finyear}`, config)
+              .then(function successCallback(response) {
+              console.log(response.data);
+              toastr.success("Data Saved Successfully", "Congratulations");
+              },
+                function errorCallback(response) {
+                  console.log("Unable to update  request");
+                });
+          }
+          function encryptData(data) {return btoa(data);}
+          $scope.edit = function (n) {
+            console.log(n)
+            // Create an array of values for 'n'
+            var nObject = {
+              cashRvId: n.cashRvId,
+              finYear: n.finYear,
+              // Add more properties if needed
+            };
+            // Encode the object as a JSON string and include it in the URL
+            window.location.href = 'cash-reciept-voucher.html?n=' + encryptData(JSON.stringify(nObject));
+          }
+          $scope.searchFields = function (keyword1, keyword2, keyword3, keyword4, keyword5, payeeTypeCode, payFromTypeCode, recvdFrom) {
+            // Create a request object with the keywords in the request body
+            let dd = keyword5?.substring(0, 2);
+            let mm = keyword5?.substring(2, 6);
+            let yyyy = keyword5?.substring(6, 10);
+            let dd1 = keyword2?.substring(0, 2);
+            let mm1 = keyword2?.substring(2, 6);
+            let yyyy1 = keyword2?.substring(6, 10);
+            let voucherDate = keyword5 ? yyyy + mm + dd : null;
+            let idDate = keyword2 ? yyyy1 + mm1 + dd1 : null;
+            // console.log("yyy-MM-dd >>>", yyyy + mm + dd);
+            var bankReceiptVoucherDto = {
+              cashRvId: keyword1 || null,
+              cashRvIdDate: keyword2 ? idDate : null,
+              finYear: keyword3 || null,
+              bankRvNo: keyword4 || null,
+              receiptDate: keyword5 ? voucherDate : null,
+              payeeTypeCode: payFromTypeCode || null,
+              payFromTypeCode: payeeTypeCode.payeeTypeCode || null,
+              recvdFrom: recvdFrom || null
+            };
+            console.log("bankReceiptVoucherDto", bankReceiptVoucherDto);
+            $http.post(path + '/api/v1/account/crv/search', bankReceiptVoucherDto, config)
+            .then(function successCallback(response) {
+                $scope.cashRvData = response.data;
+                $scope.cashRvData = response.data;
+                console.table($scope.cashRvData);
+              },
+                function errorCallback(error) {
+                  console.log("Unable to perform request", error);
+                });
+          };
+        $scope.goBack = function () {
+        window.history.back();
+      }
+        });
+      </script>
+
+
+</body>
+
+</html>

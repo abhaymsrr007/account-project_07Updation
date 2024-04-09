@@ -1,0 +1,67 @@
+  <section class="formsec1" ng-controller="semSystemCtrl"> 
+    <div class="titles">{{subbreadcrumb}}</div>
+    <form name="myform" ng-submit="save()" novalidate>
+      <div class="forms white-box notop"> 
+        <ul>
+          <li> 
+            <label for="semesterSystemCode">Semester System Code</label>
+            <input type="text" class="textfield" m-name required ng-model="form.semesterSystemCode" id="semesterSystemCode"
+              placeholder="Semester System Code" maxlength="1" ng-disabled="flag" 
+              name="semesterSystemCode" ng-blur="checkForDuplicate(form.semesterSystemCode)">
+            <div class="error"
+              ng-show="myform.semesterSystemCode.$error.required && myform.semesterSystemCode.$touched && !formSubmitted">
+              This field is required.
+            </div>           
+            <div class="error"
+                ng-show="duplicateCode && myform.semesterSystemCode.$touched">
+                This Semester System Code already exists.
+            </div>
+
+          </li>
+          <li>
+
+            <label for="dscr">Description</label>
+            <input type="text" class="textfield" ng-model="form.dscr" m-name id="dscr" placeholder="Description" maxlength="20"
+              name="dscr" required>
+            <div class="error" ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">
+              This field is required.
+
+            </div>
+
+          </li>
+          <li>
+            <div>
+              <button type="submit" class="bluebtn " style="margin-top: 15px;" ng-disabled="myform.$invalid || duplicateCode">Save</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </form>
+    <div class="white-box ">
+
+      <table class="table table-bordered text-center regtable table-condensed">
+        <thead>
+          <tr>
+            <th style="text-align: center;" width="400">Semester System Code</th>
+            <th>Discription</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="n in semData" class="tdcolor">
+            <td ng-bind="n.semesterSystemCode"> </td>
+            <td ng-bind="n.dscr|uppercase"></td>
+
+
+            <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+
+            </td>
+
+          </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+  </section>
+ 

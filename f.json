@@ -1,0 +1,101 @@
+[
+    {
+        "seq_no": 150,
+        "iconName": null,
+        "roleCode": "mgr",
+        "subMenuLabel": "7_a",
+        "pageName": "mgr_dash_bankpay_vouchers",
+        "desc": "Bank Payment Voucher Data List",
+        "menuLabel": "7"
+    },
+    {
+        "seq_no": 151,
+        "iconName": null,
+        "roleCode": "mgr",
+        "subMenuLabel": "7_b",
+        "pageName": "bank-payment-voucher",
+        "desc": "Bank Payment Voucher",
+        "menuLabel": "7"
+    },
+    {
+        "seq_no": 152,
+        "iconName": null,
+        "roleCode": "mgr",
+        "subMenuLabel": "7_c",
+        "pageName": "mgr_dash_bankrec_vouchers",
+        "desc": "Bank Receipt Voucher Data List",
+        "menuLabel": "7"
+    },
+    {
+        "seq_no": 153,
+        "iconName": null,
+        "roleCode": "mgr",
+        "subMenuLabel": "7_d",
+        "pageName": "bank-receipt-voucher",
+        "desc": "Bank Receipt Voucher",
+        "menuLabel": "7"
+    },
+    {
+        "seq_no": 158,
+        "iconName": null,
+        "roleCode": "mgr",
+        "subMenuLabel": "7_e",
+        "pageName": "mgr_dash_cashpay_vouchers",
+        "desc": "Cash Payment Voucher Data List",
+        "menuLabel": "7"
+    },
+    {
+        "seq_no": 160,
+        "iconName": "fa fa-ticket",
+        "roleCode": "mgr",
+        "subMenuLabel": "Y",
+        "pageName": "mgr_dash_bankpay_vouchers",
+        "desc": "Transaction Vouchers",
+        "menuLabel": "7"
+    },
+    {
+        "seq_no": 191,
+        "iconName": null,
+        "roleCode": "mgr",
+        "subMenuLabel": "7_f",
+        "pageName": "cash-payment-voucher",
+        "desc": "Cash Payment Voucher",
+        "menuLabel": "7"
+    },
+    {
+        "seq_no": 192,
+        "iconName": null,
+        "roleCode": "mgr",
+        "subMenuLabel": "7_k",
+        "pageName": "cash-receipt-voucher",
+        "desc": "Cash Receipt Voucher",
+        "menuLabel": "7"
+    },
+    {
+        "seq_no": 201,
+        "iconName": null,
+        "roleCode": "mgr",
+        "subMenuLabel": "7_g",
+        "pageName": "mgr_dash_cashrec_vouchers",
+        "desc": "Cash Receipt Voucher Data List",
+        "menuLabel": "7"
+    },
+    {
+        "seq_no": 203,
+        "iconName": null,
+        "roleCode": "mgr",
+        "subMenuLabel": "7_i",
+        "pageName": "mgr_dash_journal_voucher",
+        "desc": "Journal Voucher Data List",
+        "menuLabel": "7"
+    },
+    {
+        "seq_no": 205,
+        "iconName": null,
+        "roleCode": "mgr",
+        "subMenuLabel": "7_j",
+        "pageName": "journal-voucher",
+        "desc": "Journal Voucher",
+        "menuLabel": "7"
+    }
+]

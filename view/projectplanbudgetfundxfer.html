@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <!-- <script src="js/bootstrap.min.js"></script>    -->
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/linked.js"></script>
+
+
+    <title>Project PlanBudget Fund Xfer</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+    <style>
+        .flexbox .dropdd {
+            width: 100%;
+        }
+
+        .s2 {
+            width: 20%;
+        }
+    </style>
+</head>
+
+<body  ng-controller="contr">
+    <header class="topheading">
+        <div class="logo">
+            <img src="images/nrt-logo.svg" alt="" />
+        </div>
+        <a class="btn bluebtn" ng-click="goBack()">Back</a>
+        <a class="userlogin" ng-click="logout()">{{details.name}} <span><img src="https://exam.skmu.ac.in/ftpwebapps/skmu/resources/studentdata/users/profileimage/{{details.profile_image}}" alt="student" /></span></a>
+          
+
+    </header>
+    <section class="formsec">
+        <div class="titles">{{subbreadcrumb}}</div>Project PlanBudget Fund Transfer</div>
+        <!-- <div class="titles">{{subbreadcrumb}}</div>Gl Group Master</div> -->
+        <form name="myform" ng-submit="save()">
+            <div class="container notop white-box">
+                <ul class="flexbox" style="flex-wrap: wrap; gap:15px;">
+                    <li class="s2">
+                        <div class="">
+                            <label for="transferSlNo">Transfer Sl. No</label>
+                            <input type="text" class="textfield uppercase" ng-model="form.transferSlNo"
+                                id="transferSlNo" placeholder="Transfer Sl. No" ng-disabled="flag" maxlength="5"
+                                required>
+                        </div>
+                    </li>
+                    <li class="width30">
+                        <div>
+                            <label for="planNo">Plan No</label>
+                            <select ng-model="form.planNo" class="dropdd" required>
+                                <option value="" disabled selected> Select </option>
+                                <option ng-repeat="x in ProjectPlan" value="{{x.planNo}}">{{x.planNo}}
+                                   
+                                </option>
+                            </select>
+                        </div>
+
+                    </li>
+
+                    <li>
+
+                        <label for="planFinYear">Plan Fin Year</label>
+                        <select ng-model="form.planFinYear" class="dropdd" required>
+                            <option value="" disabled selected> Select Plan Fin Year</option>
+                            <option ng-repeat="x in ProjectPlan" value="{{x.planFinYear}}">{{x.planFinYear}}
+                            </option>
+                        </select>
+
+                    </li>
+                    <li>
+
+                        <label for="planTypeCode">Plan Type Code</label>
+                        <select ng-model="form.planTypeCode" class="dropdd" required>
+                            <option value="" disabled selected> Select </option>
+                            <option ng-repeat="x in ProjectPlan" value="{{x.planTypeCode}}">{{x.planTypeCode}} 
+                                
+                            </option>
+                        </select>
+
+                    </li>
+                    <li>
+                        <div>
+                          <label>Bank Transaction Id</label>
+                          <input type="text" class="textfield " name="bankTransactionId" only-numbers value="" placeholder="Bank Transaction Id"
+                            ng-model="form.bankTransactionId" />
+                        </div>
+                      </li>
+                    <li>
+                        <div>
+                          <label>Transfer Date<sup>*</sup></label>
+                          <input type="text" class="textfield datepicker" autocomplete="off" name="transferDate" value="" placeholder="Transfer Date"
+                            ng-model="form.transferDate" required />
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <label>Sanction Fin Year<sup>*</sup></label>
+                          <input type="text" class="textfield" name="sanctionFinYear" value="" placeholder="Sanction Fin Year"
+                            ng-model="form.sanctionFinYear" required />
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+          
+                          <label>Total Fund Transfer<sup>*</sup></label>
+                          <input type="text" class="textfield" name="totalFundTransfer" value="" placeholder="Plan Reference"
+                            ng-model="form.totalFundTransfer" required />
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <label>Capital Transfer</label>
+                          <input type="text" class="textfield " name="capitalTransfer" only-numbers value="" placeholder="Capital Transfer"
+                            ng-model="form.capitalTransfer"/>
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <label>Revenue Transfer<sup>*</sup></label>
+                          <input type="text" class="textfield " name="revenueTransfer" only-numbers value="" placeholder="Revenue Transfer"
+                            ng-model="form.revenueTransfer" required />
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <label>Approval Reference No<sup>*</sup></label>
+                          <input type="text" class="textfield " name="approvalRefNo" only-numbers value="" placeholder="Approval Reference No"
+                            ng-model="form.approvalRefNo" required />
+                        </div>
+                      </li>
+                      <li>
+                      <div>
+                        <label>Approving Authority<sup>*</sup></label>
+                        <input type="text" class="textfield " name="approvingAuthority" value="" placeholder="Approving Authority" ng-model="form.approvingAuthority" required />
+                      </div>
+                    </li>
+                      <li>
+                        <div>
+                          <label>Approval Date<sup>*</sup></label>
+                          <input type="text" class="textfield datepicker " autocomplete="off" name="approvalDate" value=""
+                            placeholder="Approval Date" ng-model="form.approvalDate" required />
+                        </div>
+                      </li>
+                      
+                    <li>
+                        <div>
+                            <button type="submit" class="bluebtn " style="margin-top: 25px;">Save</button>
+                        </div>
+                    </li>
+
+
+                </ul>
+            </div>
+        </form>
+        <div class="white-box">
+
+            <table class="table table-bordered text-center regtable table-condensed">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;" width="80">Transfer Sl. No</th>
+                        <th width="120">Plan No</th>
+                        <th width="80">Plan Fin Year</th>
+                        <th width="80">Plan Type Code</th>
+                        <th width="80">Bank Transaction Id</th>
+                        <th width="80">Transfer Date</th>
+                        <th width="80">Sanction Fin Year</th>
+                        <th width="80">Total Fund Transfer</th>
+                        <th width="80">Capital Transfer</th>
+                        <th width="80">Revenue Transfer</th>
+                        <th width="80">Approval Reference No</th>
+                        <th width="80">Approving Authority</th>
+                        <th width="80">Approval Date</th>
+                        <th width="100">Action </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="n in data" class="tdcolor">
+                        <td ng-bind="n.transferSlNo | uppercase" ng-disabled="flag"> </td>
+                        <td ng-bind="n.planNo"></td>
+                        <td ng-bind="n.planFinYear"></td>
+                        <td ng-bind="n.planTypeCode"></td>
+                        <td ng-bind="n.bankTransactionId"> </td>
+                        <td ng-bind="n.transferDate"> </td>
+                        <td ng-bind="n.sanctionFinYear"> </td>
+                        <td ng-bind="n.totalFundTransfer"></td>
+                        <td ng-bind="n.capitalTransfer"></td>
+                        <td ng-bind="n.revenueTransfer"> </td>
+                        <td ng-bind="n.approvalRefNo"> </td>
+                        <td ng-bind="n.approvingAuthority"> </td>
+                        <td ng-bind="n.approvalDate"> </td>
+                       
+                        
+                        <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+                        </td>
+                    </tr>
+                    <tr></tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </section>
+    <footer class="footerbg footerdown">
+        © 2023 All Rights Reserved.
+    </footer>
+    <link rel='stylesheet' type='text/css' href='css/bootstrap-datepicker.min.css'>
+    <script type='text/javascript' src='js/bootstrap-datepicker.min.js'></script>
+    <script type="text/javascript">
+      $('.datepicker').datepicker({
+        format: "yyyy-MM-dd",
+        startDate: new Date('1900-7-15'),
+        endDate: new Date('3022-8-15')
+      }); 
+    </script>
+  
+    <script>
+        
+
+        app.controller('contr', function ($scope, $http, $timeout, $window, $rootScope, $filter) {
+            $scope.form = {};
+            $scope.flag = false;
+
+            $scope.details=[];
+            var token;
+            const userDetailsJSON = $window.sessionStorage.getItem('userDetails');
+            if (userDetailsJSON) {
+            const userDetails = JSON.parse(userDetailsJSON);
+            if (userDetails.token!=null || userDetails.token!=''){
+                $scope.details=angular.copy(userDetails);
+                token=$scope.details.token;
+            }
+            } else {
+            $window.location.href = "index.html";
+            console.log('User details not found in sessionStorage');
+            }
+            $scope.logout = function() {
+            $window.sessionStorage.removeItem('userDetails');
+            $window.location.href = 'index.html';
+            };
+
+            var config = {
+            headers: {
+           'Authorization': 'Bearer ' + token
+               },   
+            };
+
+            // saving data to Project PlanBudget Fund Xfer table 
+            $scope.save = function () {
+                console.log($scope.form);
+                $http.post(path+"/api/v1/account/fundXfer/data", $scope.form,config)
+                    .then(function successCallback(response) {
+                        $scope.form = {};
+                        $scope.getdata()
+                    },
+                        function errorCallback(response) {
+                            console.log("saving of data failed");
+                        });
+            }
+
+            //Fetching of data from bankaccount table 
+            $scope.getdata = function () {
+                $http.get(path+"/api/v1/account/fundXfer/alldata",config)
+                    .then(function successCallback(response) {
+                        $scope.data = response.data;
+                        console.log($scope.data)
+                    },
+                        function errorCallback(response) {
+                            console.log("saving of data failed");
+                        });
+
+            }
+            $scope.getdata();
+
+
+            // Fetching data from bank table 
+            $scope.ProjectPlan = [];
+            $scope.getProjectPlan = function () {
+                $http.get(path+"/api/v1/account/projectPlan/alldata",config)
+                    .then(function successCallback(response) {
+                        $scope.ProjectPlan = response.data;
+                        console.log("Data 2", $scope.ProjectPlan)
+                    },
+                        function errorCallback(response) {
+                            console.log("Fetching of data failed from Project Plan table ");
+                        });
+
+
+            }
+            $scope.getProjectPlan();
+
+            
+            // To edit the data 
+            $scope.edit = function edit(n) {
+                $scope.flag = true;
+
+                console.log($scope.form)
+                $scope.form = {
+                    transferSlNo: n.transferSlNo,
+                    planNo: n.planNo.toString(),
+                    planFinYear: n.planFinYear.toString(),
+                    planTypeCode: n.planTypeCode,
+                    bankTransactionId: n.bankTransactionId,
+                    transferDate: n.transferDate,
+                    sanctionFinYear: n.sanctionFinYear,
+                    totalFundTransfer: n.totalFundTransfer,
+                    capitalTransfer: n.capitalTransfer,
+                    revenueTransfer: n.revenueTransfer,
+                    approvalRefNo: n.approvalRefNo,
+                    approvingAuthority: n.approvingAuthority,
+                    approvalDate: n.approvalDate,
+                   
+                    
+                }
+                 console.log($scope.form)
+
+            };
+
+
+            //To update the data and save the data back to the table 
+            $scope.update = function () {
+
+                var data = $scope.form;
+                var sl = data.transferSlNo;
+                var url = path+'/api/v1/account/fundXfer/data/{id}' + sl;
+                $http.put(url, data,config)
+                    .then(function successCallback(response) {
+
+                        $scope.getdata()
+                        $scope.form = {};
+
+                    },
+                        function errorCallback(response) {
+                            console.log("updating of data failed  ");
+                        });
+            }
+                    $scope.goBack = function () {
+                    window.history.back();
+                }
+        })
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+<section class="formsec1" ng-controller="cashBookCntrl">
+    <div class="titles">{{subbreadcrumb}}</div>Cash Book</div>
+    <form name="myform" ng-submit="save()" novalidate>
+        <div class="notop forms white-box">
+            <ul>
+                <li class="width20">
+                    <label for="universityCode">University Code</label>
+                    <!-- <select ng-model="form.universityCode" class="dropdd" required>
+                            <option value="" disabled selected> Select </option>
+                            <option ng-repeat="x in collgData" value="{{x.universityCode}}">{{x.universityCode}} -
+                                {{x.dscr}}
+                            </option>
+                        </select> -->
+                    <input type="text" class="textfield" ng-model="form.universityCode" id="universityCode"
+                        placeholder="University Code" disabled>
+                    <div class="error"
+                        ng-show="myform.collegCode.$error.required && myform.collegCode.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+
+                <li class="width20">
+                    <label for="collegCode">College Code</label>
+                    <select ng-model="form.collegeCode" class="dropdd" required name="collegCode"
+                        ng-change="selectUniversity(collgData,form.collegeCode,UniData)">
+                        <option value="" disabled selected> Select </option>
+                        <option ng-repeat="x in collgData" value="{{x.collegeCode}}">{{x.collegeCode}} - {{x.dscr}}
+                        </option>
+                    </select>
+                    <div class="error"
+                        ng-show="myform.collegCode.$error.required && myform.collegCode.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li class="width30">
+                    <div>
+                        <label for="dscr">Bank Date</label>
+                        <input type="text" class="textfield" datepicker autocomplete="off" ng-model="form.dscr"
+                            id="dscr" placeholder="Description" maxlength="50" required name="dscr">
+                        <div class="error"
+                            ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">
+                            This field is required.
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <button type="submit" class="bluebtn" style="margin-top: 15px;"
+                            ng-mouseover="flag1=false">Generate</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+    <div class="white-box">
+        <ul class="searchbox">
+            <li><input type="text" class="textfield" ng-model="keyword1" placeholder="Account Number" /></li>
+            <li><input type="text" class="textfield" ng-model="keyword2" placeholder="college Code" /></li>
+            <li><button class="bluebtn" ng-click="search(keyword1,keyword2)">Search</button></li>
+            <li><button type="button" id="exportToExcel" ng-click="exportTableToExcel()">Download</button></li>
+        </ul>
+        <table class="table table-striped  table-bordered text-center regtable table-condensed">
+            <thead>
+                <tr>
+                    <th width="80">Bank Date</th>
+                    <th width="80">Bank Code</th>
+                    <th width="80">University Code</th>
+                    <th width="80">Bank Account</th>
+                    <th width="80">Payment Amount</th>
+                    <th width="80">Receipt Amount</th>
+                    <th width="80">College Code</th>
+                    <th width="80">Bank Closing Balance</th>
+                    <!-- <th width="100"></th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tdcolor" ng-repeat="n in bankBookData">
+                    <td>{{ n.bankDate }}</td>
+                    <td>{{ n.bankCode }}</td>
+                    <td>{{ n.universityCode }}</td>
+                    <td>{{ n.paymentAmount }}</td>
+                    <td>{{ n.receiptAmount }}</td>
+                    <td>{{ n.bankAc}}</td>
+                    <td>{{ n.collegeCode }}</td>
+                    <td>{{ n.bankCb }}</td>
+                    <!-- <td>
+                    <button type="button" class="bluebtn" ng-click="edit(bankData, UniData)">Edit</button>
+                    <button type="button" class="bluebtn" ng-click="exportToExcel(n)">Export</button>
+                </td> -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>

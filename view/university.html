@@ -1,0 +1,232 @@
+<style type="text/css">
+  .flexbox .dropdd {
+    width: 100%;
+  }
+</style>
+<section class="formsec1" ng-controller="universityCtrl">
+  <div class="titles">{{subbreadcrumb}}</div>
+  <form name="myform" ng-submit="save()" novalidate>
+    <div class="notop white-box forms">
+      <ul class="flexbox">
+        <li>
+          <div>
+            <label for="dscr">University Code</label>
+            <input type="text" class="textfield" ng-model="form.universityCode" id="unicode" ng-disabled="isDisabledflag" placeholder="University Code"
+               num-only maxlength="3" name="universityCode" required ng-blur="checkForDuplicate(form.universityCode)">
+               <div class="error" ng-show="myform.universityCode.$error.required && myform.universityCode.$touched && !formSubmitted">
+                This field is required.
+              </div>
+              <div class="error"
+              ng-show="duplicateCode && myform.universityCode.$touched">
+              This University Code already exists.
+               </div>
+          </div>
+        </li>
+        <li class="width30">
+          <label for="dscr">Description</label>
+          <input type="text" class="textfield" m-name ng-model="form.dscr" id="dscr" placeholder="Description"
+            maxlength="100" required name="dscr">
+          <div class="error" ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">
+            This field is required.
+          </div>
+        </li>
+        <li>
+          <label for="sname">Short Name</label>
+          <input type="text" class="textfield" m-name ng-model="form.shortName" id="dscr" placeholder="Short Name"
+            maxlength="10" required name="sname">
+          <div class="error" ng-show="myform.sname.$error.required && myform.sname.$touched && !formSubmitted">
+            This field is required.
+          </div>
+        </li>
+        <!-- <li>
+          <label for="universityId">University Id</label>
+          <input type="text" class="textfield" ng-model="form.universityId" id="universityId" m-capitalize
+            placeholder="Enter UId" maxlength="20" required ng-pattern="/^\d{4}[A-Z]{5}\d{2}$/" name="universityId">
+          <div class="error"
+            ng-show="myform.universityId.$error.required && myform.universityId.$touched && !formSubmitted">
+            This field is required.
+          </div>
+          <div class="error"
+            ng-show="myform.universityId.$error.pattern && myform.universityId.$touched && !formSubmitted">
+            Please enter a valid University Id (format: 4 digits followed by 5 uppercase letters and 2 digits).
+          </div>
+        </li> -->
+
+        <li>
+          <label for="universityId">University Id</label>
+          <input type="text" class="textfield" ng-model="form.universityId" id="universityId" m-capitalize
+            placeholder="Enter UId" maxlength="20" required name="universityId">
+          <div class="error"
+            ng-show="myform.universityId.$error.required && myform.universityId.$touched && !formSubmitted">
+            This field is required.
+          </div>
+        </li>
+
+        <li>
+          <div>
+            <label for="location">Location </label>
+            <select ng-model="form.locationCode" class="dropdd" required name="location">
+              <option value="" disabled selected>Select Location </option>
+              <option ng-repeat="x in locationData" value="{{x.locationCode}}">{{x.locationCode}} - {{x.dscr}}</option>
+            </select>
+            <div class="error" ng-show="myform.location.$error.required && myform.location.$touched && !formSubmitted">
+              This field is required.
+            </div>
+          </div>
+        </li>
+        <li class="s1">
+          <div>
+            <label for="add">Address</label>
+            <input type="text" class="textfield" ng-model="form.address" id="dscr" no-special-characters
+              placeholder="Address" required maxlength="100" name="add"></textarea>
+            <div class="error" ng-show="myform.add.$error.required && myform.add.$touched && !formSubmitted">
+              This field is required.
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="city">City</label>
+            <input type="text" class="textfield" ng-model="form.city" id="dscr" m-name placeholder="City" required
+              maxlength="20" name="city">
+            <div class="error" ng-show="myform.city.$error.required && myform.city.$touched && !formSubmitted">
+              This field is required.
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="state">State</label>
+            <input type="text" class="textfield" m-name ng-model="form.state" id="dscr" placeholder="State" required
+              maxlength="20" name="state">
+            <div class="error" ng-show="myform.state.$error.required && myform.state.$touched && !formSubmitted">
+              This field is required.
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="country">Country</label>
+            <input type="text" class="textfield" m-name ng-model="form.country" id="dscr" placeholder="Country" required
+              m-name maxlength="20" name="country">
+            <div class="error" ng-show="myform.country.$error.required && myform.country.$touched && !formSubmitted">
+              This field is required.
+            </div>
+          </div>
+        </li>
+        <li class="width10">
+          <label for="pin">PIN</label>
+          <input type="text" class="textfield" num-only ng-model="form.pinCode" id="dscr" placeholder="Enter Pin Code"
+            required maxlength="6" name="pinCode">
+            <div class="error" ng-show="(myform.pinCode.$error.pattern || form.pinCode.length !== 6) && myform.pinCode.$touched && !formSubmitted">Please enter a valid 6-digit PIN code.</div>
+        </li>
+        <!-- <li>
+          <div>
+            <label for="pan">PAN</label>
+            <input type="text" class="textfield uppercase" ng-model="form.pan" id="pan" placeholder="PAN" required
+              maxlength="10" name="pan" pan-number
+              ng-model-options="{ debounce: 500 }">
+            <div class="error" ng-show="myform.pan.$error.required && myform.pan.$touched && !formSubmitted">
+              This field is required.
+            </div>
+            <div class="error" ng-show="myform.pan.$error.pattern && myform.pan.$touched && !formSubmitted">
+              Please enter a valid PAN number.
+            </div>
+          </div>
+        </li> -->
+        <li>
+          <div>
+            <label for="pan">PAN No.</label>
+            <input type="text" class="textfield" m-capitalize maxlength="10" minlength="10"
+              placeholder="e.g., ABCTY1234D" required name="pan" pan-number ng-model="form.pan" />
+          </div>
+          <div class="error" ng-show="myform.pan.$error.required && myform.pan.$touched && !formSubmitted"
+            style="color: red;">
+            PAN number is required.
+          </div>
+          <div class="error" ng-show="myform.pan.$error.minlength || myform.pan.$error.maxlength" style="color: red;">
+            PAN number must be exactly 10 characters long.
+          </div>
+          <div class="error" ng-show="myform.pan.$error.panNumber" style="color: red;">
+            Please enter a valid PAN number (e.g., ABCTY1234D).
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="gstin">GSTIN</label>
+            <input type="text" class="textfield" ng-model="form.gstin" id="gstin" placeholder="GSTIN" required
+              maxlength="15" name="gstin" ng-pattern="/^\d{2}[A-Z]{5}\d{4}[A-Z]{1}\d[Z]{1}[A-Z\d]{1}$/">
+            <div class="error"
+              ng-show="(myform.gstin.$error.required || myform.gstin.$error.pattern) && myform.gstin.$touched && !formSubmitted">
+              Please enter a valid GSTIN.
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <button type="submit" class="bluebtn" style="margin-top: 15px;"  ng-disabled="myform.$invalid || duplicateCode">Save</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </form>
+  <div class="white-box ">
+
+    <table class="table table-bordered text-center regtable table-condensed">
+      <thead>
+        <tr>
+
+          <th style="text-align: center;" width="80">University Code</th>
+          <th style="text-align: center;" width="200">Description</th>
+          <th style="text-align: center;" width="80">Short Name</th>
+          <th style="text-align: center;" width="80">University Id</th>
+          <th style="text-align: center;" width="80">Location Code </th>
+          <th style="text-align: center;" width="80">Location Description</th>
+          <th style="text-align: center;" width="200">Address</th>
+          <th style="text-align: center;" width="80">City</th>
+          <th style="text-align: center;" width="100">State</th>
+          <th style="text-align: center;" width="100">Country</th>
+          <th style="text-align: center;" width="100">PIN</th>
+          <th style="text-align: center;" width="100">PAN</th>
+          <th style="text-align: center;" width="100">GSTIN</th>
+
+
+          <!-- <th style="text-align: center;" width="100">Tax Reg No</th> -->
+          <th style="text-align: center;" width="100">Action</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="n in universityData" class="tdcolor">
+
+          <td ng-bind="n.universityCode"> </td>
+          <td ng-bind="n.dscr |uppercase"> </td>
+          <td ng-bind="n.shortName | uppercase"> </td>
+          <td ng-bind="n.universityId"> </td>
+
+          <td ng-bind="n.locationCode"> </td>
+
+          <td ng-bind="getLocationDscr(locationData,n.locationCode) | uppercase"> </td>
+
+          <td ng-bind="n.address"> </td>
+          <td ng-bind="n.city"> </td>
+          <td ng-bind="n.state"> </td>
+          <td ng-bind="n.country"> </td>
+
+          <td ng-bind="n.pinCode"> </td>
+          <td ng-bind="n.pan | uppercase"> </td>
+          <td ng-bind="n.gstin | uppercase"> </td>
+          <!-- <td ng-bind="n.taxRegNo"></td> -->
+
+
+          <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+
+          </td>
+
+        </tr>
+
+
+      </tbody>
+    </table>
+  </div>
+</section>

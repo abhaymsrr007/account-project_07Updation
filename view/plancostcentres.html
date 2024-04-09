@@ -1,0 +1,63 @@
+<section class="formsec" ng-controller="planCostCentreCtrl">
+  <div class="titles">Plan Cost Centres </div>
+  <!-- <div class="titles">Gl Group Master</div> -->
+  <form name="myform" ng-submit="save()" novalidate>
+    <div class=" white-box notop forms">
+      <ul class="">
+        <li>
+          <div>
+            <label for="costCentreCode">Cost Centre Code</label>
+            <input type="text" class="textfield" ng-model="form.costCentreCode" id="costCentreCode"
+              placeholder="Cost Centre Code" maxlength="2" required name="cc">
+            <span class="error" ng-show="myform.cc.$error.required && myform.cc.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+
+        </li>
+
+        <li>
+          <div>
+
+            <label for="dscr">Description</label>
+            <input type="text" class="textfield" ng-model="form.dscr" id="dscr" placeholder="Description" name="dscr"
+              maxlength="50" required>
+            <span class="error" ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+
+        </li>
+        <li>
+          <div>
+            <button type="submit" class="bluebtn " style="margin-top: 15px; ">Save</button>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </form>
+  <div class="white-box ">
+
+    <table class="table table-bordered text-center regtable table-condensed">
+      <thead>
+        <tr>
+          <th style="text-align: center;" width="200">Cost Centre Code</th>
+          <th width="500">Description</th>
+          <th width="200">Action</th>
+          <!-- <th>Gl group code</th> -->
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="n in data" class="tdcolor">
+          <td ng-bind="n.costCentreCode"> </td>
+          <td ng-bind="n.dscr|uppercase"></td>
+          <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</section>

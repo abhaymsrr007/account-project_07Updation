@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Dashboard</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon" />
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet"> -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <script src="js/jquery-3.6.0.min.js"></script>
+  <!-- <script src="js/bootstrap.min.js"></script>    -->
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.17/angular-filter.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/linked.js"></script>
+  <style type="text/css">
+    .container {
+      max-width: 1200px;
+    }
+
+    .formsec .container {
+      max-width: 800px;
+    }
+
+    .mainlist {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .mainlist>div {
+      width: 48%
+    }
+
+    .mainlist ul li {
+      margin-bottom: 4px;
+    }
+
+    .mainlist ul li a {
+      padding: 10px 20px;
+      display: block;
+      background: var(--light-gray);
+      border-radius: 4px;
+      color: #444;
+      font-weight: 600
+    }
+
+    .sectionlist {
+      margin-bottom: 15px;
+    }
+
+    .sectionlist>ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 -10px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .sectionlist>ul>li {
+      width: 25%;
+      padding: 10px;
+    }
+
+    .boxs {
+      background: #c5e8ff;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 15px;
+      border-radius: 8px;
+      color: var(--black);
+      min-height: 200px;
+    }
+
+    .icons {
+      position: relative;
+      width: 64px;
+      height: 68px;
+      margin: 0 auto;
+    }
+
+    .cls-1 {
+      fill: #165793;
+      /*stroke:#bd7610;stroke-miterlimit:10;stroke-width:3px;*/
+    }
+
+    .icons img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      filter: brightness(100);
+      max-width: 40px;
+    }
+
+    .stitle {
+      font-size: 16px;
+      font-weight: 500;
+      margin-top: 15px;
+      color: var(--dark-gray);
+      line-height: 1.2;
+    }
+
+    .bighead {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--dark-gray);
+    }
+
+    .heading3 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: var(--dark-gray);
+      line-height: 1.2;
+    }
+
+    .boxsection {
+      padding: 20px 0;
+    }
+
+    .sectionlist {
+      padding: 20px
+    }
+
+    .sectionlist>ul>li:nth-child(1) .boxs,
+    .sectionlist>ul>li:nth-child(9) .boxs {
+      background: #fbe8d4;
+    }
+
+    .sectionlist>ul>li:nth-child(2) .boxs {
+      background: #c5e8ff;
+    }
+
+    .sectionlist>ul>li:nth-child(3) .boxs,
+    .sectionlist>ul>li:nth-child(10) .boxs {
+      background: #d6f1f5;
+    }
+
+    .sectionlist>ul>li:nth-child(4) .boxs,
+    .sectionlist>ul>li:nth-child(12) .boxs {
+      background: #e7e9fc;
+    }
+
+    .sectionlist>ul>li:nth-child(5) .boxs {
+      background: #ffe6aa;
+    }
+
+    .sectionlist>ul>li:nth-child(6) .boxs {
+      background: #c5f6f4;
+    }
+
+    .sectionlist>ul>li:nth-child(7) .boxs {
+      background: #ffcacd;
+    }
+
+    .sectionlist>ul>li:nth-child(8) .boxs {
+      background: #ffe6aa;
+    }
+
+    .sectionlist>ul>li:nth-child(1) .boxs .cls-1,
+    .sectionlist>ul>li:nth-child(9) .boxs .cls-1 {
+      fill: #bd7610;
+    }
+
+    .sectionlist>ul>li:nth-child(2) .boxs .cls-1 {
+      fill: #165793;
+    }
+
+    .sectionlist>ul>li:nth-child(3) .boxs .cls-1,
+    .sectionlist>ul>li:nth-child(10) .boxs .cls-1 {
+      fill: #35727b;
+    }
+
+    .sectionlist>ul>li:nth-child(4) .boxs .cls-1,
+    .sectionlist>ul>li:nth-child(12) .boxs .cls-1 {
+      fill: #6b73bd;
+    }
+
+    .sectionlist>ul>li:nth-child(5) .boxs .cls-1 {
+      fill: #a17816;
+    }
+
+    .sectionlist>ul>li:nth-child(6) .boxs .cls-1 {
+      fill: #1c9590;
+    }
+
+    .sectionlist>ul>li:nth-child(7) .boxs .cls-1 {
+      fill: #9f555a;
+    }
+
+    .sectionlist>ul>li:nth-child(8) .boxs .cls-1 {
+      fill: #a17816;
+    }
+
+
+     body {
+    font-family: 'Roboto', sans-serif; /* Use an appropriate font family */
+    background-color: #f4f4f4; /* Use a background color that complements your theme */
+    color: #333; /* Set a default text color */
+  }
+
+  header {
+    background-color: #2196F3; /* Update the header background color */
+    color: #fff; /* Set header text color to white */
+    padding: 10px;
+  }
+
+  .container {
+    background-color: #fff; /* Set a background color for the main container */
+    border-radius: 8px; /* Add rounded corners for a modern look */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    margin-top: 20px; /* Adjust margin for spacing */
+    padding: 20px; /* Add padding for content */
+  }
+
+  .boxs:hover {
+    transform: scale(1.05); /* Add a scale effect on hover */
+  }
+
+  footer {
+    background-color: #333; /* Update the footer background color */
+    color: #fff; /* Set footer text color to white */
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  </style>
+</head>
+
+<body  ng-controller="contr">
+
+  <header class="topheading">
+    <div class="logo">
+      <img src="images/nrt-logo.svg" alt="AMS" />
+    </div>
+    <a class="btn bluebtn" ng-click="goBack()">Back</a>
+    <a class="userlogin" ng-click="logout()">{{details.username}} <span><img src="{{img}}{{details.profile_image}}"
+          alt="no profile" /></span></a>
+  </header>
+  <section class="boxsection">
+    <!-- <div class="container">
+      <h2>Admin Dashboard</h2>
+      <div class="sectionlist white-box">
+        <ul>
+          <li>
+            <a href="dashboard4master.html" class="boxs aos-init aos-animate" data-aos="fade-in"
+              data-aos-duration="1000" data-aos-delay="800" data-aos-easing="ease-in-back" data-aos-offset="0">
+              <div class="icons">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 194.89 215.34">
+                  <path class="cls-1"
+                    d="M179,171.06l-66.79,38.86a28.87,28.87,0,0,1-28.89.09L16.29,171.6a28.88,28.88,0,0,1-14.53-25L1.5,69.35A28.91,28.91,0,0,1,15.86,44.28L82.66,5.42a28.89,28.89,0,0,1,28.89-.1L178.6,43.74a28.87,28.87,0,0,1,14.53,25l.26,77.28A28.89,28.89,0,0,1,179,171.06Z">
+                  </path>
+                </svg>
+                <img src="images/exam.png">
+              </div>
+              <div class="stitle">Masters Data</div>
+            </a>
+          </li>
+          <li>
+            <a href="asst_main_dashboard.html"  ng-click="setRole('assistant')" class="boxs aos-init aos-animate" data-aos="fade-in" data-aos-duration="1000"
+              data-aos-delay="1000" data-aos-easing="ease-in-back" data-aos-offset="0">
+              <div class="icons">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 194.89 215.34">
+                  <path class="cls-1"
+                    d="M179,171.06l-66.79,38.86a28.87,28.87,0,0,1-28.89.09L16.29,171.6a28.88,28.88,0,0,1-14.53-25L1.5,69.35A28.91,28.91,0,0,1,15.86,44.28L82.66,5.42a28.89,28.89,0,0,1,28.89-.1L178.6,43.74a28.87,28.87,0,0,1,14.53,25l.26,77.28A28.89,28.89,0,0,1,179,171.06Z">
+                  </path>
+                </svg>
+                <img src="images/exam.png">
+              </div>
+              <div class="stitle">Assistant Dashboard</div>
+            </a>
+          </li>
+          <li>
+            <a href="mgr_main_dashboard.html" ng-click="setRole('manager')" class="boxs aos-init aos-animate" data-aos="fade-in" data-aos-duration="1000"
+              data-aos-delay="900" data-aos-easing="ease-in-back" data-aos-offset="0">
+              <div class="icons">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 194.89 215.34">
+                  <path class="cls-1"
+                    d="M179,171.06l-66.79,38.86a28.87,28.87,0,0,1-28.89.09L16.29,171.6a28.88,28.88,0,0,1-14.53-25L1.5,69.35A28.91,28.91,0,0,1,15.86,44.28L82.66,5.42a28.89,28.89,0,0,1,28.89-.1L178.6,43.74a28.87,28.87,0,0,1,14.53,25l.26,77.28A28.89,28.89,0,0,1,179,171.06Z">
+                  </path>
+                </svg>
+                <img src="images/exam.png">
+              </div>
+              <div class="stitle">Manager Dashboard</div>
+            </a>
+          </li>
+          <li>
+            <a href="cashier_main_dashboard.html" ng-click="setRole('cashier')" class="boxs aos-init aos-animate" data-aos="fade-in"
+              data-aos-duration="1000" data-aos-delay="900" data-aos-easing="ease-in-back" data-aos-offset="0">
+              <div class="icons">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 194.89 215.34">
+                  <path class="cls-1"
+                    d="M179,171.06l-66.79,38.86a28.87,28.87,0,0,1-28.89.09L16.29,171.6a28.88,28.88,0,0,1-14.53-25L1.5,69.35A28.91,28.91,0,0,1,15.86,44.28L82.66,5.42a28.89,28.89,0,0,1,28.89-.1L178.6,43.74a28.87,28.87,0,0,1,14.53,25l.26,77.28A28.89,28.89,0,0,1,179,171.06Z">
+                  </path>
+                </svg>
+                <img src="images/exam.png">
+              </div>
+              <div class="stitle">Cahsier Dashboard</div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div> -->
+    <div class="container">
+      <h2>Admin Dashboard</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <a href="dashboard4master.html" class="boxs">
+            <div class="icons">
+              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-collection"
+                viewBox="0 0 16 16">
+                <!-- Your SVG path data goes here -->
+                <path
+                  d="M7.5 0h1v4h-1V0zm0 5h1v4h-1V5zm0 5h1v4h-1v-4zm0 5h1v4h-1v-4zm-6 6h1v-4H1v4zM2 0H1v4h1V0zm0 5H1v4h1V5zm0 5H1v4h1v-4zm0 5H1v4h1v-4zm6-11H0v1h1v3H0v1h1v3H0v1h1v3H0v1h1v3H0v1h1v3H0v1h1v3H0v1h1v3H0v1h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v3h1v-3h1v-3h1v-4h-1V5h-1V4h-1V0z" />
+              </svg>
+            </div>
+            <div class="stitle">Masters Data</div>
+          </a>
+        </div>
+        <div class="col-md-6">
+          <a href="asst_main_dashboard.html" ng-click="setRole('assistant')" class="boxs">
+            <div class="icons">
+              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-person"
+                viewBox="0 0 16 16">
+                <!-- SVG path data for the assistant icon goes here -->
+                <path
+                  d="M1.5 1a2.5 2.5 0 0 1 2.5 2.5c0 1.157-.81 2.85-1.426 4.637-.136.269-.288.533-.464.783a6.262 6.262 0 0 1-.785 1.03c-.462.507-.976.977-1.53 1.38a14.74 14.74 0 0 1-2.248 1.287c.3-.532.622-1.11.974-1.735.748-1.41 1.664-3.062 2.21-4.22C2.404 4.73 1.958 3.647 1.782 3.098a4.979 4.979 0 0 0-1.014-.876A2.5 2.5 0 0 1 1.5 1zM8 0a7.524 7.524 0 0 1 5.48 2.313 13.964 13.964 0 0 1-.52.714 17.366 17.366 0 0 0-.915 1.662c-.385.824-.835 1.842-1.218 2.77-.788 1.968-1.497 3.744-1.935 5.09-.08.246-.155.482-.23.71A6.5 6.5 0 0 1 1 8.5 8.5 8.5 0 1 1 8 0zM8 1a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15z" />
+              </svg>
+            </div>
+            <div class="stitle">Assistant Dashboard</div>
+          </a>
+        </div>
+        <div class="col-md-6">
+          <a href="mgr_main_dashboard.html" ng-click="setRole('manager')" class="boxs aos-init aos-animate"
+            data-aos="fade-in" data-aos-duration="1000" data-aos-delay="900" data-aos-easing="ease-in-back"
+            data-aos-offset="0">
+            <div class="icons">
+              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-briefcase"
+                viewBox="0 0 16 16">
+                <!-- SVG path data for the manager icon goes here -->
+                <path
+                  d="M8 1a2 2 0 0 0-2 2v1H5a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3h-1V3a2 2 0 0 0-2-2zM5 5h6a1 1 0 0 1 1 1v1H4V6a1 1 0 0 1 1-1zm8 10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9h10v6z" />
+              </svg>
+            </div>
+            <div class="stitle">Manager Dashboard</div>
+          </a>
+        </div>
+        <div class="col-md-6">
+          <a href="cashier_main_dashboard.html" ng-click="setRole('cashier')" class="boxs aos-init aos-animate"
+            data-aos="fade-in" data-aos-duration="1000" data-aos-delay="900" data-aos-easing="ease-in-back"
+            data-aos-offset="0">
+            <div class="icons">
+              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-cash-coin"
+                viewBox="0 0 16 16">
+                <!-- SVG path data for the cashier icon goes here -->
+                <path
+                  d="M3.5 1a.5.5 0 0 0-1 0v11a.5.5 0 0 0 1 0v-11zM14 3.5a.5.5 0 0 1-1 0V1a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v2.5a.5.5 0 0 1-1 0V1a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2.5a.5.5 0 0 1-1 0V3.5zM14 14H4a1 1 0 0 1 0-2h10a1 1 0 0 1 0 2z" />
+                <path d="M0 15a1 1 0 0 1 1-1h14a1 1 0 0 1 0 2H1a1 1 0 0 1-1-1z" />
+              </svg>
+            </div>
+            <div class="stitle">Cashier Dashboard</div>
+          </a>
+        </div>
+  </section>
+  <footer class="footerbg">
+    © 2023 All Rights Reserved.
+  </footer>
+  <script>
+    
+    app.controller('contr', function ($scope, $http, $timeout, $window, $rootScope, $filter, $location) {
+      $scope.img = profile;
+      $scope.details = [];
+      var userDetailsJSON = $window.sessionStorage.getItem('userDetails');
+      const t = $window.sessionStorage.getItem('tempRole');
+      $scope.tempRole = JSON.parse(t);
+      // console.log("kkkkkk>>>", userDetailsJSON);
+      console.log(">>>>>>sdsd", $scope.tempRole);
+      if (userDetailsJSON) {
+        var userDetails = JSON.parse(userDetailsJSON);
+        if (userDetails.token != null || userDetails.token != '') {
+          $scope.details = angular.copy(userDetails);
+          console.log($scope.details);
+        }
+      } else {
+        $window.location.href = "index.html";
+        console.log('User details not found in sessionStorage');
+      }
+
+      $scope.logout = function () {
+        $window.sessionStorage.removeItem('userDetails');
+        $window.location.href = 'index.html';
+      };
+      $scope.setRole = (role)=> {
+        console.log(role);
+        window.sessionStorage.setItem('tempRole', JSON.stringify({'role':role}));
+      }
+      $scope.goBack = function () {
+        window.history.back();
+      }
+    });
+  </script>
+
+
+</body>
+
+</html>

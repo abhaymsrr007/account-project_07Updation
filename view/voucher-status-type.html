@@ -1,0 +1,70 @@
+<style>
+    .notop>ul>li {
+        width: 20%;
+    }
+</style>
+<section class="formsec1" ng-controller="voucherStatusTypeCtrl">
+    <div class="titles">Voucher Status Type </div>
+    <form name="myform" ng-submit="save()" novalidate>
+        <div class=" white-box forms  notop">
+            <ul>
+                <li>
+                    <div>
+                        <label for="locationCode">Voucher Status Code</label>
+                        <input type="text" class="textfield" m-name m-capitalize ng-model="form.voucherStatusCode" id="voucherStatusCode"
+                            placeholder="Voucher Status Code" maxlength="3"  name="voucherStatusCode" required>
+                        <span class="error"
+                            ng-show="myform.voucherStatusCode.$error.required && myform.voucherStatusCode.$touched && !formSubmitted">This
+                            field is required.</span>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label for="dscr">Description</label>
+                        <input type="text" class="textfield" m-name ng-model="form.dscr" id="dscr" placeholder="Description"
+                            maxlength="50" name="dscr" required></input>
+                        <span class="error"
+                            ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">This
+                            field is required.</span>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <button type="submit" class="bluebtn " style="margin-top: 15px;" ng-disabled="myform.$invalid">Save</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+    <div class="white-box ">
+
+        <table class="table table-bordered text-center regtable table-condensed">
+            <thead>
+                <tr>
+                    <th style="text-align: center; " width="200">Voucher Status Code</th>
+                    <th width="600">Description</th>
+                    <th width="200">Action</th>
+
+
+                    <!-- <th>Gl group code</th> -->
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="n in voucherTypeData" class="tdcolor">
+                    <td ng-bind="n.voucherStatusCode " ng-disabled="flag"> </td>
+                    <td ng-bind="n.dscr | uppercase"></td>
+
+
+
+                    <td><button type="button" class="bluebtn" ng-click="edit(n)" >Edit</button>
+
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</section>

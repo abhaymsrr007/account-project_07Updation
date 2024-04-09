@@ -1,0 +1,426 @@
+<style type="text/css">
+  .container {
+    max-width: 1200px;
+  }
+
+  .formsec .container {
+    max-width: 800px;
+  }
+
+  .mainlist {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .mainlist>div {
+    width: 48%
+  }
+
+  .mainlist ul li {
+    margin-bottom: 4px;
+  }
+
+  .mainlist ul li a {
+    padding: 10px 20px;
+    display: block;
+    background: var(--light-gray);
+    border-radius: 4px;
+    color: #444;
+    font-weight: 600
+  }
+
+  .sectionlist {
+    margin-bottom: 15px;
+  }
+
+  .sectionlist>ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 -10px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .sectionlist>ul>li {
+    width: 25%;
+    padding: 10px;
+  }
+
+  .boxs {
+    background: #c5e8ff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px;
+    border-radius: 8px;
+    color: var(--black);
+    min-height: 200px;
+  }
+
+  .icons {
+    position: relative;
+    width: 64px;
+    height: 68px;
+    margin: 0 auto;
+  }
+
+  .cls-1 {
+    fill: #165793;
+    /*stroke:#bd7610;stroke-miterlimit:10;stroke-width:3px;*/
+  }
+
+  .icons img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    filter: brightness(100);
+    max-width: 40px;
+  }
+
+  .stitle {
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 15px;
+    color: var(--dark-gray);
+    line-height: 1.2;
+  }
+
+  .bighead {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--dark-gray);
+  }
+
+  .heading3 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: var(--dark-gray);
+    line-height: 1.2;
+  }
+
+  .boxsection {
+    padding: 20px 0;
+  }
+
+  .sectionlist {
+    padding: 20px
+  }
+
+  .sectionlist>ul>li:nth-child(1) .boxs,
+  .sectionlist>ul>li:nth-child(9) .boxs {
+    background: #fbe8d4;
+  }
+
+  .sectionlist>ul>li:nth-child(2) .boxs {
+    background: #c5e8ff;
+  }
+
+  .sectionlist>ul>li:nth-child(3) .boxs,
+  .sectionlist>ul>li:nth-child(10) .boxs {
+    background: #d6f1f5;
+  }
+
+  .sectionlist>ul>li:nth-child(4) .boxs,
+  .sectionlist>ul>li:nth-child(12) .boxs {
+    background: #e7e9fc;
+  }
+
+  .sectionlist>ul>li:nth-child(5) .boxs {
+    background: #ffe6aa;
+  }
+
+  .sectionlist>ul>li:nth-child(6) .boxs {
+    background: #c5f6f4;
+  }
+
+  .sectionlist>ul>li:nth-child(7) .boxs {
+    background: #ffcacd;
+  }
+
+  .sectionlist>ul>li:nth-child(8) .boxs {
+    background: #ffe6aa;
+  }
+
+  .sectionlist>ul>li:nth-child(1) .boxs .cls-1,
+  .sectionlist>ul>li:nth-child(9) .boxs .cls-1 {
+    fill: #bd7610;
+  }
+
+  .sectionlist>ul>li:nth-child(2) .boxs .cls-1 {
+    fill: #165793;
+  }
+
+  .sectionlist>ul>li:nth-child(3) .boxs .cls-1,
+  .sectionlist>ul>li:nth-child(10) .boxs .cls-1 {
+    fill: #35727b;
+  }
+
+  .sectionlist>ul>li:nth-child(4) .boxs .cls-1,
+  .sectionlist>ul>li:nth-child(12) .boxs .cls-1 {
+    fill: #6b73bd;
+  }
+
+  .sectionlist>ul>li:nth-child(5) .boxs .cls-1 {
+    fill: #a17816;
+  }
+
+  .sectionlist>ul>li:nth-child(6) .boxs .cls-1 {
+    fill: #1c9590;
+  }
+
+  .sectionlist>ul>li:nth-child(7) .boxs .cls-1 {
+    fill: #9f555a;
+  }
+
+  .sectionlist>ul>li:nth-child(8) .boxs .cls-1 {
+    fill: #a17816;
+  }
+
+  .add-btn {
+    padding: 4px 10px;
+    margin: 5px;
+    background: var(--blue);
+    color: var(--white);
+    border-radius: 3px;
+    border: none;
+    text-align: center
+  }
+
+  .add-btn:hover {
+    color: white;
+    background-color: var(--blue)
+  }
+
+  .searchbox {
+    display: flex;
+    justify-content: end;
+    align-self: flex-end;
+    width: 100%
+  }
+
+  .searchbox>input {
+    padding: 5px;
+    margin: 5px;
+    width: 15%;
+    border-radius: 5px;
+    border: none;
+    outline: #dae7fb;
+    background-color: #dae7fb
+  }
+
+  .searchbox>button {
+    padding: 4px 10px;
+    margin: 5px;
+    background: var(--blue);
+    color: var(--white);
+    border-radius: 3px;
+    border: none;
+    text-align: center
+  }
+
+  .dtlist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 450px;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap
+  }
+
+  .dtlist>li {
+    width: 50%;
+    padding: 10px;
+    font-size: 14px
+  }
+
+  .dtlist>li span {
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    display: inline-block;
+    min-width: 150px;
+    text-transform: capitalize;
+    font-weight: 600
+  }
+
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #555
+  }
+
+  .close-button:hover {
+    color: #000
+  }
+
+  .titles {
+    text-transform: none;
+    font-weight: 400
+  }
+
+  #detailmodal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    min-width: 100px
+  }
+
+  #detailmodal-content {
+    top: 50px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    position: relative;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    max-width: 800px;
+    margin: auto;
+    overflow: hidden
+  }
+
+  #detailmodal h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-top: 0;
+    font-weight: 600;
+    font-family: roboto
+  }
+
+  #detailmodal-content .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #ccc
+  }
+
+  #detailmodal-content .row:last-child {
+    border-bottom: none
+  }
+
+  #detailmodal-content .row span {
+    font-weight: bold;
+    text-transform: capitalize
+  }
+
+  .selectdata {
+    width: 200px !important;
+    height: 30px !important;
+    border-radius: 4px !important;
+    padding: 5px 10px !important;
+    font-size: 14px !important;
+  }
+</style>
+
+
+
+<section class="boxsection" ng-controller="mgrJounalVouchDataCtrl">
+  <div class="container">
+    <div class="" style="display: flex;justify-content: space-between;align-items: center;">
+      <h2>Journal Voucher List</h2>
+      <div class="btn bluebtn" ng-click="goAdminSection()" ng-if="tempRole">Admin Dashboard</div>
+    </div>
+    <div class="tabsec">
+      <ul>
+        <li><a class="tablink active" data-title="tab1" id="t1" ng-click="handleClick('U'); tabToggle('1');"
+            ng-init="handleInitialClick('U')">Under Process Vouchers</a></li>
+        <li><a class="tablink " data-title="tab2" id="t2" ng-click="handleClick('F'); tabToggleJv('2');">Finalize
+            Vouchers</a></li>
+        <li><a class="tablink " data-title="tab3" id="t3" ng-click="handleClick('R'); tabToggleJv('3');">Returned
+            Vouchers</a></li>
+        <li><a class="tablink " data-title="tab4" id="t4" ng-click="handleClick('C'); tabToggleJv('4');">Canceled
+            Vouchers</a></li>
+      </ul>
+    </div>
+
+
+    <div id="tab1" class="sectionlist white-box maintabsec active">
+      <div class="white-box">
+        <ul>
+          <li class="searchbox">
+            <div ng-cloak style="width: 200px; margin-top: 5px;margin: 2px;" class="">
+              <select class="selectdata" name="jvId" ng-model="jvId"
+                ng-options="x.jvId as x.jvId for x in journaldetailData | filter: { voucherStatusCode:status , sectionCode:details.sectionCode }">
+                <option value="" selected>Voucher Id </option>
+              </select>
+            </div>
+            <div ng-cloak style="width: 200px; margin-top: 5px;margin: 2px;" class="">
+              <select class="selectdata" name="jIdDate" ng-model="jIdDate"
+                ng-options="x.jvIdDate as x.jvIdDate for x in journaldetailData | filter: { voucherStatusCode:status , sectionCode:details.sectionCode }">
+                <option value="" selected>Voucher Id Date</option>
+              </select>
+            </div>
+
+            <div ng-cloak style="width: 200px; margin-top: 5px;margin: 2px;" class="">
+              <select class="selectdata" name="jvFinYear" ng-model="jvFinYear"
+                ng-options="x.jvFinYear as x.jvFinYear for x in journaldetailData | filter: { voucherStatusCode:status , sectionCode:details.sectionCode }">
+                <option value="" selected>Voucher FinYear</option>
+              </select>
+            </div>
+
+            <div ng-cloak style="width: 200px; margin-top: 5px;margin: 2px;" class="">
+              <select class="selectdata" name="jvNo" ng-model="jvNo"
+                ng-options="x.jvNo as x.jvNo for x in journaldetailData | filter: { voucherStatusCode:status , sectionCode:details.sectionCode }">
+                <option value="">Voucher Number</option>
+              </select>
+            </div>
+
+            <div ng-cloak style="width: 200px; margin-top: 5px;margin: 2px;" class="">
+              <select class="selectdata" name="jDate" ng-model="jDate"
+                ng-options="x.jvDate as x.jvDate for x in journaldetailData | filter: { voucherStatusCode:status , sectionCode:details.sectionCode }">
+                <option value="">Voucher date</option>
+              </select>
+            </div>
+            <button class="bluebtn btn text-end"
+              ng-click="searchInDtails(jvId,jIdDate,jvFinYear,narration,asssistantStaffNo,voucherStatusCode,jvNo,jDate);">Search</button>
+            <a href="journal-voucher.html" class="add-btn"> Add </a>
+          </li>
+        </ul>
+      </div>
+      <div class="table-responsive" style="margin-top: 20px;">
+        <table class="table table-bordered text-center regtable table-condensed">
+          <thead>
+            <tr>
+              <th>Voucher Id</th>
+              <th>Voucher Date</th>
+              <th>Voucher Fin Year</th>
+              <th>Voucher Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="n in journalVData" class="tdcolor"
+              ng-show="n.voucherStatusCode === status && n.sectionCode===details.sectionCode">
+              <td ng-bind="n.jvId"></td>
+              <td ng-bind="n.jvIdDate"></td>
+              <td ng-bind="n.jvFinYear"></td>
+              <td
+                ng-bind="n.voucherStatusCode === 'U' ? 'Under Processing' :  n.voucherStatusCode === 'F' ? 'Finalize' :  n.voucherStatusCode === 'R' ? 'Return' : n.voucherStatusCode === 'C' ? 'Cancelled' :  'Other';">
+              </td>
+              <td ng-if="status === 'U' || status === 'R'">
+                <button type="button" class="bluebtn" ng-click="edit(n,$index)">Edit</button>
+                <button type="button" class="bluebtn" ng-click="delete(n,$index)">Delete</button>
+              </td>
+              <td ng-if="status !== 'U' && status !== 'R'">
+                <button type="button" class="bluebtn" ng-click="edit(n,$index)">Detail</button>
+              </td>
+            </tr>
+          </tbody>
+  
+        </table>
+      </div>
+    </div>
+    </div>
+</section>

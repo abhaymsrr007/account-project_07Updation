@@ -1,0 +1,57 @@
+<section class="formsec1" ng-controller="locationCtrl">
+    <div class="titles">{{subbreadcrumb}}</div>
+    <form name="myform" ng-submit="save()" novalidate>
+        <div class="notop white-box forms">
+            <ul>
+                <li class="width10">
+                    <label for="locationCode">Location Code</label>
+                    <input type="text" class="textfield uppercase" ng-model="form.locationCode" id="locationCode"
+                        placeholder="Location Code" maxlength="20" no-special-characters required ng-disabled="flag" name="locationCode" ng-blur="checkForDuplicate(form.locationCode)">
+                    <div class="error"
+                        ng-show="myform.locationCode.$error.required && myform.locationCode.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                    <div class="error"
+                        ng-show="duplicateCode && myform.locationCode.$touched">
+                        This Location Code already exists.
+                   </div>
+                </li>
+
+                <li class="width30">
+
+                    <label for="dscr">Description</label>
+                    <input type="text" class="textfield" no-special-characters ng-model="form.dscr" id="dscr" placeholder="Description"
+                        maxlength="50" required name="dscr"></inp>
+                    <div class="error" ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <button type="submit" class="bluebtn " style="margin-top: 15px; " ng-disabled="myform.$invalid || duplicateCode">Save</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+    <div class="white-box ">
+        <table class="table table-bordered text-center regtable table-condensed">
+            <thead>
+                <tr>
+                    <th style="text-align: center; " width="200">Location code</th>
+                    <th width="600">Description</th>
+                    <th width="200">Action</th>
+                    <!-- <th>Gl group code</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="n in locationData" class="tdcolor">
+                    <td ng-bind="n.locationCode |uppercase" ng-disabled="flag"> </td>
+                    <td ng-bind="n.dscr|uppercase"></td>
+                    <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

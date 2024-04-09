@@ -1,0 +1,80 @@
+<section class="formsec1" ng-controller="stuDetlCtrl">
+        <div class="titles">{{subbreadcrumb}}</div>
+        <div class="white-box forms  notop">
+            <ul >
+                <li><input type="text" class="textfield" ng-model="uRegNo" placeholder="University Reg. No" ng-change="searchF(uRegNo,rollNo,departmentCode,fullName,collegCode,dob,casteCode)"/></li>
+                <li><input type="text" class="textfield" ng-model="rollNo" placeholder="College Roll No" ng-change="searchF(uRegNo,rollNo,departmentCode,fullName,collegCode,dob,casteCode)"/></li>
+                <li><input type="text" class="textfield" ng-model="departmentCode" placeholder="Department Code" ng-change="searchF(uRegNo,rollNo,departmentCode,fullName,collegCode,dob,casteCode)"/></li>
+                <li><input type="text" class="textfield" ng-model="fullName" placeholder="First/Last/Full Name" ng-change="searchF(uRegNo,rollNo,departmentCode,fullName,collegCode,dob,casteCode)"/></li>
+                <li><input type="text" class="textfield" ng-model="collegCode" placeholder="College Code" ng-change="searchF(uRegNo,rollNo,departmentCode,fullName,collegCode,dob,casteCode)"/></li>
+                <li><input type="text" class="textfield" ng-model="dob" placeholder="DOB" ng-change="searchF(uRegNo,rollNo,departmentCode,fullName,collegCode,dob,casteCode)"/></li>
+                <li><input type="text" class="textfield" ng-model="casteCode" placeholder="Cast Code" ng-change="searchF(uRegNo,rollNo,departmentCode,fullName,collegCode,dob,casteCode)"/></li>
+
+                <li><button class="bluebtn" ng-click="searchF(uRegNo,rollNo,departmentCode,fullName,collegCode,dob,casteCode)">Search</button> <button type="button" ng-click="handleLink('student')"  class="add-btn bluebtn"> Add </button></li>
+            </ul>
+        </div>
+        <div class="white-box forms ">
+            <div style="overflow-x: auto;">
+                <table class="table table-bordered text-center regtable table-condensed">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;" width="80">University Reg. No</th>
+                            <th style="text-align: center;" width="80">Full Name</th>
+                            <th style="text-align: center;" width="100">Date of Birth</th>
+                            <th style="text-align: center;" width="60">College Roll No</th>
+                            <th style="text-align: center;" width="60">College Code</th>
+                            <th style="text-align: center;" width="100">College</th>
+                            <th style="text-align: center;" width="70">Department Code</th>
+                            <th style="text-align: center;" width="150">Department</th>
+                            <th style="text-align: center;" width="80">Cast Code</th>
+                            <th style="text-align: center;" width="80">Cast</th> 
+                            <th style="text-align: center;" width="100">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="n in data" class="tdcolor">
+                            <td ng-bind="n.univRegistrationNo" ng-disabled="flag"></td>
+                            <td ng-bind="n.fullName"></td>
+                            <!-- <td ng-if="n.sex=='M'">Male </td> -->
+                            <!-- <td ng-if="n.sex=='F'">Female </td> -->
+                            <td ng-bind="n.dob"></td>
+                            <td ng-bind="n.collegeRollNo"></td>
+                            <td ng-bind="n.collegeCode"></td>
+                            <td ng-bind="bindCollegeDscr(n.collegeCode)"></td>
+                            <td ng-bind="n.departmentCode"></td>
+                            <td ng-bind="bindDepartmentDscr(n.departmentCode)">s</td>
+                            <!-- <td ng-bind="n.pan | uppercase"></td> -->
+                            <td ng-bind="n.casteCode"></td>
+                            <td ng-bind="bindCastDscr(n.casteCode)"></td>
+                            <!-- <td ng-bind="n.aadhaarNumber"></td> -->
+                            <!-- <td ng-bind="n.mobile"></td> -->
+                            <!-- <td ng-bind="n.nationality"></td> -->
+                            <td>
+                                <button type="button" class="bluebtn" ng-click="edit(n)">
+                                    Edit
+                                </button>
+                                <button type="button" class="bluebtn" ng-click="showDetails(n.univRegistrationNo)">
+                                    Detail
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <div  id="detailmodal">
+        <div id="detailmodal-content" class="table-responsive">
+            <button id="closeBtn" class="close-button" ng-click="closeDetail()">
+                &times;
+            </button>
+            <h2>Student Details</h2>
+            <ul class="dtlist">
+                <li ng-repeat="(key, value) in studentDetail">
+                    <span>{{ key }}</span>: {{ value }}
+                </li>
+            </ul>
+        </div>
+    </div>
+   </section>
+
+   

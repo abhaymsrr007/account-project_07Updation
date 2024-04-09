@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Journal Voucher</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="js/linked.js"></script>
+    <style>
+          .custom-select {
+      width: 125px; 
+      padding: 8px; 
+      border: 1px solid #ccc; 
+      border-radius: 4px; 
+      background-color: #dae7fb; 
+      color: #333; 
+      font-size: 14px; 
+    }
+     
+    .custom-select option {
+      font-size: 14px; 
+      background-color: #ffffff; 
+      color: #333; 
+    }.forms ul.column11 li:nth-child(7), .forms ul.column11 li:nth-child(8), .forms ul.column11 li:nth-child(9), .forms ul.column11 li:nth-child(10) {
+    min-width: 10%;
+    max-width: 10%;
+}
+.forms ul.column11 li{max-width: 9%;}
+.flexwidthsec{ width:150px; display:flex; align-items:center; justify-content:space-between; }
+.forms ul.column11.totalsec li:first-child { min-width: 60%; }
+.forms ul.column11.totalsec li:nth-child(2), .forms ul.column11.totalsec li:nth-child(3), .forms ul.column11 li:last-child {
+    min-width: 10%;
+    max-width: 10%;
+}
+.forms ul.column11 li:last-child .bluebtn{padding:4px 8px;}
+
+.popup-container {
+    position: relative;
+}
+
+.textfield {
+    width: 100%;
+}
+
+.popup {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    z-index: 1;
+}
+
+.popup-container:hover .popup {
+    display: block;
+}
+
+</style>
+</head>
+<body  ng-controller="contr">
+    <header class="topheading">
+        <div class="logo">
+            <img src="images/nrt-logo.svg" alt="" />
+        </div>
+        <a class="btn bluebtn" href="manager_dashboard.html">Back</a>
+        <a class="userlogin" ng-click="logout()">{{details.username}} <span><img src="https://exam.skmu.ac.in/ftpwebapps/skmu/resources/studentdata/users/profileimage/{{details.profile_image}}" alt="student" /></span></a>
+        
+      </header>
+    <section class="formsec">
+        <div class="container">
+        <div class="titles text-center"> Journel Voucher </div>      
+        <form name="form">
+            <div class="white-box forms notop">
+              <div>
+                <h4 style="text-align: end;">
+                  <a class="bluebtn btn"  href="journal-voucher-details.html">Journal Voucher List</a>
+                </h4>
+             </div>
+                <ul>
+                    <li>
+                        <div>
+                            <label>Voucher Id<sup>*</sup></label>
+                            <input type="text" class="textfield" name="JvId" value="" ng-model="form.jvId"  placeholder=""  disabled />
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <label>Id Date<sup>*</sup></label>
+                            <input type="text" class="textfield datepicker" name="JvIdDate" value="" ng-model="form.jvIdDate" placeholder="" ng-change="calculateFinYear(form.jvIdDate)" disabled/>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <label>Fin Year<sup>*</sup></label>
+                            <input type="text" class="textfield " name="fin_year" value="" placeholder="" ng-model="form.jvFinYear" disabled/>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <label>Voucher No.</label>
+                            <input type="text" class="textfield" name="voucher_no" value="" placeholder="" ng-model="form.jvNo" disabled/>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <label>Voucher Date</label>
+                            <input type="text" class="textfield datepicker" name="voucher_date" value="" placeholder=""  ng-model="form.jvDate" disabled/>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <label>Status<sup>*</sup></label>
+                            <select class="dropdd" ng-model="form.voucherStatusCode"  disabled>
+                                <option value={{x.voucherStatusCode}} ng-repeat="x in statusdata">{{x.voucherStatusCode}}-{{x.dscr}}</option>
+                            </select>
+                        </div>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <div class="flexbox">
+                            <label>Narration<sup>*</sup></label>
+                            <input type="text" class="textfield" name="voucher" value="" placeholder="" ng-model="form.narration" disabled/>
+                        </div>
+                    </li>
+                </ul> 
+                <ul>
+                  <li ng-hide="details.username =='assistant'">
+                      <div>
+                          <label>Assistant<sup>*</sup></label>
+                          <div class="flexbox">
+                            <input type="text" class="textfield" name="id" value=""  disabled/>
+                            <input type="text" class="textfield" name="name" value=""  disabled/>
+                        </div>
+                      </div>
+                  </li>
+                  <li ng-if="details.username =='assistant'">
+                    <div>
+                        <label>Assistant<sup>*</sup></label>
+                        <div class="flexbox">
+                            <input type="text" class="textfield" name="id" value="" ng-model="details.userid" disabled/>
+                            <input type="text" class="textfield" name="name" value="" ng-model="details.username" disabled/>
+                        </div>
+                    </div>
+                </li>
+                  <li ng-hide="details.username =='manager'" >
+                    <div>
+                        <label>Manager</label>
+                        <div class="flexbox">
+                            <input type="text" class="textfield" name="id" value="" placeholder=""  disabled/>
+                            <input type="text" class="textfield" name="name" value="" placeholder=""   disabled/>
+                        </div>
+                    </div>
+                </li>
+                <li ng-if="details.username =='manager'">
+                  <div>
+                      <label>Manager </label>
+                      <div class="flexbox">
+                          <input type="text" class="textfield" name="id" value="" placeholder="" ng-model="details.userid"   disabled/>
+                          <input type="text" class="textfield" name="name" value="" placeholder="" ng-model="details.username"   disabled/>
+                      </div>
+                  </div>
+              </li>
+                <li ng-hide="details.username =='cashier'">
+                  <div>
+                      <label>Cashier</label>
+                      <div class="flexbox"> 
+                          <input type="text" class="textfield" name="id" value="" placeholder=""  disabled/>
+                          <input type="text" class="textfield"  name="name" value="" placeholder=""  disabled/>
+                      </div>
+                  </div>
+              </li>  
+              <li ng-if="details.username == 'cashier'">
+                <div>
+                    <label>Cashier</label>
+                    <div class="flexbox"> 
+                        <input type="text" class="textfield" name="id" value="" placeholder="" ng-model="details.userid"  disabled/>
+                        <input type="text" class="textfield"  name="name" value="" placeholder="" ng-model="details.username"  disabled/>
+                    </div>
+                </div>
+            </li>
+            <li>
+              <div>
+                  <label>Voucher Passed Date</label>
+                  <input type="text" class="textfield datepicker" value="" placeholder="" disabled />
+              </div>
+          </li> 
+              </ul>
+              <div class="btnlist">
+                <ul>
+                  <!-- <li><div><button type="button" class="bluebtn" ng-click="postJournel()" >Save</button></div></li>  -->
+                  <!-- <li><div class="btncenter"><button type="submit" class="bluebtn">SUBMIT</button></div></li>  -->
+                </ul>
+              </div> 
+
+
+        </div> 
+        
+            <div class="white-box forms notop"> 
+                <div class="titles text-center">JOURNAL VOUCHER DETAILS</div>
+                <div class="recordlist">
+                  <div class="white-box forms ">
+                    <h3>Custodian wise Allocation Details</h3>
+                    <ul class="column11">
+                      <li class="width5">
+                        <div>
+                          <label for="slno">Slno<sup>*</sup></label>
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <label for="type">Type <sup>*</sup></label>
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <label for="venderCode,">Vendor Code<sup>*</sup></label>
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <label for="employeeNo">Employee No</label>
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <label for="studentRegNo">student Reg No</label>
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <label for="accountNo">account Code</label>
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <label for="accountDescription=">Account Description</label>
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <label for="debitAmount">Debit Amount</label>
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <label for="creditAmount">Credit Amount</label>
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <label for="remarks">Remarks</label>
+                        </div>
+                      </li>
+                      <li></li>
+                      <!-- <li><label>&nbsp;</label><div class="flexbox"><a class="bluebtn detailsbtn" data-toggle="modal" data-target="#details">Details</a> <label><input type="checkbox" name="delete" class="checksec" /></label></div></li> -->
+                    </ul>
+                  </div>
+                <ul class="column11" ng-repeat="x in journalData">
+                    <li class="width5">
+                      <div>
+                        <input type="text" class="textfield" name="jvDetSlno"   placeholder=""  ng-model="$index + 1"  disabled/>
+                    </div>
+                        <div ng-hide="true">
+                            <input type="text" class="textfield" name="jvDetSlno" value="" placeholder="" ng-model="x.jvDetSlno"  disabled/>
+                        </div>
+                    </li>
+                    <li >
+                        <div>
+                            <select class="dropdd" name="type" ng-model="x.txIndivTypeCode"  ng-change="fieldDisable(x)" disabled>
+                                <option value="">Select</option>
+                                <option value={{i.payToTypeCode}} ng-repeat="i in paydata">{{i.payToTypeCode}}-{{i.dscr}}</option>
+                            </select>
+                        </div>
+                   </li>
+                   <li>
+                    <div class="popup-container">
+                        <select class="dropdd" name="vender_code" ng-model="x.vendorCode" ng-disabled="flag1 || hideFlag" ng-mouseover="togglePopup(true)" ng-mouseleave="togglePopup(false)" disabled>
+                            <option value="" disabled>Select</option>
+                            <option ng-value="i.vendorCode" ng-repeat="i in supplierdata">{{i.vendorCode}}-{{i.fullName}}</option>
+                        </select>
+                        <div class="popup" ng-show="isPopupVisible">
+                            {{ x.vendorCode }}
+                        </div>
+                    </div>
+                </li> 
+                    <!-- <li>
+                        <div>
+                            <select class="dropdd" name="vender_code" ng-model="x.vendorCode" ng-disabled="flag1 || hideFlag" >
+                                <option value="">Select</option>
+                               <option value={{i.vendorCode}}  ng-repeat="i in supplierdata" >{{i.vendorCode}}-{{i.fullName}}</option>
+                            </select>
+                        </div>
+                    </li> -->
+                    <li>
+                      <div class="popup-container">
+                          <select class="dropdd" name="employee_no" ng-model="x.staffNo" ng-disabled="flag2 || hideFlag" ng-mouseover="togglePopup(true)" ng-mouseleave="togglePopup(false)" disabled>
+                              <option value="" disabled>Select</option>
+                              <option ng-value="i.staffNo" ng-repeat="i in empdata">{{i.staffNo}}-{{i.firstName}}</option>
+                          </select>
+                          <div class="popup" ng-show="isPopupVisible">
+                              {{ x.staffNo }}
+                          </div>
+                      </div>
+                  </li>  
+                    <!-- <li>
+                        <div>
+                            <select class="dropdd" name="employee_no" ng-model="x.staffNo" ng-disabled="flag2 || hideFlag">
+                              <option value="">Select</option>
+                              <option value={{i.staffNo}} ng-repeat="i in empdata">{{i.staffNo}}-{{i.firstName}}</option>
+                            </select>
+                        </div>
+                    </li> -->
+                    <li>
+                      <div class="popup-container">
+                          <select class="dropdd" name="student_reg_no" ng-model="x.univRegistrationNo" ng-disabled="flag3 || hideFlag" ng-mouseover="togglePopup(true)" ng-mouseleave="togglePopup(false)" disabled>
+                              <option value="" disabled>Select</option>
+                              <option ng-value="i.univRegistrationNo" ng-repeat="i in studentdata">{{i.univRegistrationNo}}-{{i.firstName}}</option>
+                          </select>
+                          <div class="popup" ng-show="isPopupVisible">
+                              {{ x.univRegistrationNo }}
+                          </div>
+                      </div>
+                  </li>
+
+                    <li>
+                        <div>
+                            <select class="dropdd" name="account_no" ng-model="x.accountCode" ng-change="getAccIdData(x.accountCode,$index)" disabled>
+                              <option value="">Select</option>
+                               <option value={{i.accountCode}} ng-repeat="i in accountdata" >{{i.accountCode}}-{{i.dscr}}</option>
+                            </select>
+                        </div>
+                    </li>
+
+                    <!-- <li>
+                        <div>
+                            <input type="text" class="textfield" name="account_disc" value="" placeholder="" ng-model="x.accountDisc" />
+                        </div>
+                    </li> -->
+                    <li>
+                      <div class="popup-container">
+                          <input type="text" class="textfield" name="account_disc" value="" placeholder="" ng-model="x.accountDisc" 
+                                 ng-mouseover="togglePopup(true)" ng-mouseleave="togglePopup(false)" disabled/>
+                          <div class="popup" ng-show="isPopupVisible">
+                              {{ x.accountDisc }}
+                          </div>
+                      </div>
+                  </li>
+                    <li>
+                        <div>
+                          <input type="text" class="textfield" name="debit_amount" ng-model="x.dbAmount | number:2" ng-change="updatedeb()" style="text-align: right;" disabled/> 
+                      </div>
+                    </li>
+                    <li>
+                        <div>
+                            <input type="text" class="textfield" name="credit_amount" value="" ng-model="x.crAmount | number:2" ng-change="updatecrd()" style="text-align: right;" disabled/>
+                        </div>
+                    </li>
+                    <li >
+                        <div>
+                            <input type="text" class="textfield" name="remarks" value="" placeholder="" ng-model="x.remarks" disabled/>
+                        </div>
+                    </li>
+                    <li class="flexwidthsec" ><div class="flexbox"><a class="bluebtn detailsbtn" data-toggle="modal" data-target="#details" ng-click="showdetail(x.jvDetSlno,$index)">Details</a>                      
+                      <!-- <label><label><input type="checkbox" name="deleteCust" ng-model="x.selected"  ng-click="getSvtSno(x.jvDetSlno)"  class="checksec"></label> -->
+                    </div></li>                    
+                </ul>
+            <ul class="column11 totalsec">
+                <li>
+                    <div>
+                        <label>Total</label> 
+                    </div> 
+                </li>
+                <li>
+                    <div> 
+                        <input type="text" class="textfield" name="debit_amount" ng-model="totaldeb | number:2"  style="text-align: right;"/> 
+                    </div> 
+                </li>
+                <li>
+                    <div>  
+                        <input type="text" class="textfield" name="credit_amount" ng-model="totalcrd | number:2"  style="text-align: right;" />
+                    </div> 
+                </li>
+            </ul>
+            <div class="btnlist">
+                <ul>
+                  <!-- <li><div><button type="button" class="bluebtn" ng-click="addFields()">ADD</button></div></li> -->
+                  <!-- <li><div><button type="button" class="bluebtn">EDIT</button></div></li> -->
+                  <!-- <li><button type="button" class="bluebtn" ng-click="deleteCust(); deletevoucherDetail(jvDetSlno);" >Delete</button></li> -->
+                  <!-- <li><div><button type="button" class="bluebtn"  ng-click="deleteCust()" ng-model="x.selected">Delete</button></div></li>  -->
+                  <!-- <li><div class="btncenter"><button type="submit" class="bluebtn" ng-click="postJournelDetail()" ng-disabled="sub" >SUBMIT</button></div></li>  -->
+                </ul>
+              </div> 
+        </form> 
+        </div>
+
+
+      
+    </div>
+    </section> 
+
+<footer class="footerbg">
+© 2023 All Rights Reserved.
+</footer>
+
+<div id="details" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg"> 
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">JV Misc Details</h4>
+      </div>
+      <div class="modal-body">
+        <div class="white-box forms notop">
+            <ul>
+              <li>
+                <div>
+                  <label>Voucher Id</label>
+                  <input type="text" class="textfield" name="voucher" value="" placeholder="" ng-model="jvdetail.jvId" disabled/>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Id Date</label>
+                  <input type="text" class="textfield datepicker" name="id_date" value="" placeholder=""  ng-model="jvdetail.jvIdDate" disabled/>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Fin Year</label>
+                  <input type="text" class="textfield" name="fin_year" value="" placeholder="" ng-model="jvdetail.jvFinYear" disabled/>
+                </div>
+              </li>
+              
+              <li>
+                <div>
+                  <label>JV Det SL No.</label>
+                  <input type="text" class="textfield" name="voucher_no" value="" placeholder="" ng-model="jvdetail.jvDetSlno" disabled/>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Voucher No.</label>
+                  <input type="text" class="textfield datepicker" name="voucher_no" value="" placeholder="" ng-model="jvdetail.jvNo" disabled/>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Voucher Date</label>
+                  <input type="text" class="textfield datepicker" name="voucher_no" value="" placeholder="" ng-model="jvdetail.jvDate" disabled/>
+                </div>
+              </li>
+            </ul>
+           
+            <ul>
+              <li class="width35">
+                <div>
+                  <label>Remarks</label>
+                  <input type="text" class="textfield" name="voucher" value="" placeholder="" ng-model="jvdetail.remarks" disabled/>
+                </div>
+              </li>
+              <li class="width35">
+                <div>
+                  <label>Ref. No.</label>
+                  <input type="text" class="textfield " name="id_date" value="" placeholder="" ng-model="jvdetail.refNo" disabled/>
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Date</label>
+                  <input type="text" class="textfield datepicker" name="fin_year" value="" placeholder="" ng-model="jvdetail.refDate" disabled/>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="white-box forms notop">
+            <h3>Vendor / Employee / Student Details</h3>
+            <ul>
+                <li>
+                    <div>
+                      <label>Type</label>
+                      <input type="text" class="textfield" name="employee_no" value="" placeholder="" ng-model="jvdetail.txIndivTypeCode" disabled/>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>Vendor Code</label>
+                      <div class="flexbox">
+                        <input type="text" class="textfield" name="employee_no" value="" placeholder="" ng-model="jvdetail.vendorCode" disabled/>
+                        <input type="text" class="textfield" name="vender_code" value="" placeholder="" ng-model="jvdetail.vendorName" disabled/>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>Employee No.</label>
+                      <div class="flexbox">
+                        <input type="text" class="textfield" name="employee_no" value="" placeholder="" ng-model="jvdetail.staffNo" disabled/>
+                        <input type="text" class="textfield" name="employee_no" value="" placeholder="" ng-model="jvdetail.employeeName" disabled/>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>Student Reg. No.</label>
+                      <div class="flexbox">
+                        <input type="text" class="textfield" name="employee_no" value="" placeholder="" ng-model="jvdetail.univRegistrationNo" disabled/>
+                        <input type="text" class="textfield" name="student_reg_no" value="" placeholder="" ng-model="jvdetail.studentName" disabled/>
+                      </div>
+                    </div>
+                  </li>
+            </ul>
+          </div>
+          <div class="white-box forms notop">
+            <h3>Advance / Indent / Student Details</h3>
+            <ul>
+              <li>
+                <div>
+                  <label>Advance Id</label>
+                  <input type="text" class="textfield" name="voucher" value="" placeholder="" ng-model="jvdetail.advanceId" disabled/>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Fin Year</label>
+                  <input type="text" class="textfield datepicker" name="id_date" value="" placeholder="" ng-model="jvdetail.advanceFinYear" disabled/>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Indent No.</label>
+                  <input type="text" class="textfield" name="fin_year" value="" placeholder="" ng-model="jvdetail.indentNo" disabled/>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Date</label>
+                  <input type="text" class="textfield" name="fin_year" value="" placeholder="" ng-model="jvdetail.indentDate" disabled/>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>PO Id</label>
+                  <select ng-options="cc.poId as (cc.poId +' - ' + cc.poTitle) for cc in purchaseOrderData"  class="dropdd" name="po_Id"
+                  ng-model="jvdetail.poId"   disabled></select>
+                </div>
+              </li>
+
+              <li>
+                <div>
+                  <label>Fin Year</label>
+                  <select class="dropdd" name="po_id" ng-model="jvdetail.poFinYear" ng-change="getpurchaseOrder(jvdetail.poId,jvdetail.poFinYear)"  disabled>
+                    <option value="">Select</option>
+                    <option value={{i.poFinYear}} ng-repeat="i in purchaseOrderData | filter:{poId:jvdetail.poId}">{{i.poFinYear}}</option>
+                  </select>
+                </div>
+              </li>
+          </ul>
+          <ul>
+              <li style="min-width: 83.5%;">
+                <div>
+                  <label>PO No.</label>
+                  <input type="text" class="textfield" name="fin_year" value="" placeholder="" ng-model="jvdetail.poNumber"  disabled/>
+                </div>
+              </li>
+              <li style="min-width: 16.5%;">
+                <div>
+                  <label>Date</label> 
+                  <input type="text" class="textfield" name="Date" value="" placeholder="" ng-model="jvdetail.poDate"  disabled/>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="white-box forms">
+            <h3>Plan/project Details:</h3>
+            <ul>
+              <li>
+                <div>
+                  <label>Plan No.</label>
+                  <select class="dropdd" name="po_id" ng-model="jvdetail.planNo" ng-change="getProjectplanIdData(jvdetail.planNo)"  disabled>
+                    <option value="">Select</option>
+                    <option value={{i.planNo}} ng-repeat="i in projectPlanData ">{{i.planNo}}-{{i.planFinYear}}-{{i.planTypeCode}}</option>
+                  </select>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Fine Year</label>
+                  <input type="text" class="textfield" name="fine_year" value="" placeholder="" ng-model="jvdetail.planFinYear"  disabled/>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Plan Type</label>
+                  <input type="text" class="textfield" name="plan_type" value="" placeholder="" ng-model="jvdetail.planTypeCode"  disabled/>
+                </div>
+              </li>
+              <li style="min-width: 30%;">
+                <div>
+                  <label>CostCenter Id</label> 
+                  <input type="text" class="textfield" name="plan_title" value="" placeholder="" ng-model="jvdetail.costCentreId"  disabled/>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Budget Fine Year</label>
+                  <select class="dropdd" name="po_id" ng-model="jvdetail.allocationFinYear"  disabled>
+                    <option value="">Select</option>
+                    <option ng-repeat="i in budgetData ">{{i.allocationFinYear}}</option>
+                </select>
+                </div>
+              </li>
+            </ul> 
+          </div>
+          <div class="white-box forms notop">
+            <h3>Department Details</h3>
+            <ul>
+                <li>
+                    <div>
+                      <label>Department</label>
+                      <div class="flexbox">
+                        <select ng-options="cc.departmentCode as (cc.departmentCode +' - ' + cc.dscr) for cc in departmentData"  class="dropdd" name="college_code"
+                         ng-model="jvdetail.departmentCode" ng-change="getdepartmentIddata(jvdetail.departmentCode,$index)" disabled>
+                        <input type="text" class="textfield" name="deptdscr" value="" placeholder="" ng-model="jvdetail.deptdscr" disabled >
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>College</label>
+                      <div class="flexbox">
+                        <input type="text" class="textfield" name="manager" value="" placeholder="" ng-model="jvdetail.collegeCode" disabled/>
+                        <input type="text" class="textfield" name="manager" value="" placeholder="" ng-model="jvdetail.clgdscr" disabled/>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>University</label>
+                      <div class="flexbox">
+                        <input type="text" class="textfield" name="cashier" value="" placeholder="" ng-model="jvdetail.universityCode" disabled/>
+                        <input type="text" class="textfield" name="cashier" value="" placeholder="" ng-model="jvdetail.univerdscr" disabled/>
+                      </div>
+                    </div>
+                  </li>
+            </ul>
+            <div class="btnlist">
+                <ul>
+                  <!-- <li><div><button type="button" class="bluebtn"  ng-click="postJournelDetail1()">Save</button></div></li>  -->
+                  <li><div><button type="button" class="bluebtn" data-dismiss="modal">Back</button></div></li>   
+                </ul>
+              </div>
+          </div>
+          
+      </div>
+       
+    </div>
+
+  </div>
+</div>  
+
+
+<link rel='stylesheet' type='text/css' href='css/bootstrap-datepicker.min.css' >
+ <script  type='text/javascript' src='js/bootstrap-datepicker.min.js'></script>
+<script type="text/javascript">
+    $('.datepicker').datepicker({
+        format: "dd-mm-yyyy",
+        autoclose: true
+
+    }); 
+
+</script>
+
+<script>
+  
+
+  app.controller('contr', function ($scope, $http, $timeout, $window, $rootScope, $filter) {
+
+    $scope.flag = false;
+    $scope.timeoutPromise = null;
+    $scope.glgroupData = [];
+    $scope.form=[];
+
+
+
+  $scope.details=[];
+  var token;
+  const userDetailsJSON = $window.sessionStorage.getItem('userDetails');
+  if (userDetailsJSON) {
+    const userDetails = JSON.parse(userDetailsJSON);
+    if (userDetails.token!=null || userDetails.token!=''){
+      $scope.details=angular.copy(userDetails);
+      token=$scope.details.token;
+    }
+  } else {
+    $window.location.href = "login.html";
+    console.log('User details not found in sessionStorage');
+  }
+  $scope.logout = function() {
+    $window.sessionStorage.removeItem('userDetails');
+    $window.location.href = 'login.html';
+  }; 
+
+      var config = {
+         headers: {
+        'Authorization': 'Bearer ' + token
+          },   
+        };
+    
+
+ 
+  //   $scope.journalData = [
+  //   {
+  //     jvDetSlno: "",
+  //     payToTypeCode: "",
+  //     venderCode: "",
+  //     staffNo: "",
+  //     univRegistrationNo: "",
+  //     bankAccountNo: "",
+  //     accountDisc: "",
+  //     debitAmount: "",
+  //     creditAmount: "",
+  //     remarks: ""
+
+  //   }
+  // ];
+
+
+  //     $scope.addFields = function () {
+  //     var newField = {
+  //       jvDetSlno: "",
+  //     payToTypeCode: "",
+  //     venderCode: "",
+  //     staffNo: "",
+  //     univRegistrationNo: "",
+  //     bankAccountNo: "",
+  //     accountDisc: "",
+  //     debitAmount: "",
+  //     creditAmount: "",
+  //     remarks: ""
+  //   };
+  //   $scope.journalData.push(newField);
+  // };
+
+
+
+
+            //get All Employee Data
+          $scope.empdata=[];
+          $scope.getEmployee = function () {
+          $http.get(path+`/api/v1/account/employee/alldata`,config)
+          .then(function (response) {   
+          $scope.empdata=response.data;           
+          console.log("All Employee Data", $scope.empdata)
+          },
+            function (error) {
+              console.log("erroe has occured Employee data")
+            }
+          );       
+      };
+      $scope.getEmployee();
+
+          //get All Status
+          $scope.statusdata=[];
+          $scope.getStatus = function () {
+          $http.get(path+`/api/v1/account/vst`,config)
+          .then(function (response) {   
+          $scope.statusdata=response.data;       
+          console.log("All Status Data", $scope.statusdata)
+          },
+            function (error) {
+              console.log("erroe has occured Status data")
+            }
+          );       
+      };
+      $scope.getStatus();
+
+        //get All Pat to type
+          $scope.paydata=[];
+          $scope.getPay = function () {
+          $http.get(path+`/api/v1/account/paytotype`,config)
+          .then(function (response) {   
+          $scope.paydata=response.data;           
+          console.log("All pays Data", $scope.paydata)
+          },
+            function (error) {
+              console.log("erroe has occured Pays data")
+            }
+          );       
+      };
+      $scope.getPay();
+
+          //get All supplier
+          $scope.supplierdata=[];
+          $scope.getsupplier = function () {
+          $http.get(path+`/api/v1/account/supplier`,config)
+          .then(function (response) {   
+          $scope.supplierdata=response.data;           
+          console.log("All supplierdata Data", $scope.supplierdata)
+          },
+            function (error) {
+              console.log("erroe has occured Pays data")
+            }
+          );       
+      };
+      $scope.getsupplier();
+
+          //get All student
+          $scope.studentdata=[];
+          $scope.getstudent = function () {
+          $http.get(path+`/api/v1/account/student`,config)
+          .then(function (response) {   
+          $scope.studentdata=response.data;           
+          console.log("All studentdata Data", $scope.studentdata)
+          },
+            function (error) {
+              console.log("erroe has occured Pays data")
+            }
+          );       
+      };
+      $scope.getstudent();
+
+          //get All Department
+          $scope.departmentdata=[];
+          $scope.getdepartment = function () {
+          $http.get(path+`/api/v1/account/department`,config)
+          .then(function (response) {   
+          $scope.departmentdata=response.data;           
+          console.log("All departmentdata Data", $scope.departmentdata)
+          },
+            function (error) {
+              console.log("erroe has occured Pays data")
+            }
+          );       
+      };
+      $scope.getdepartment();
+
+      
+          //get  Department data by id
+          $scope.departmentIddata=[];
+          $scope.getdepartmentIddata = function (departmentCode,index) {
+          $http.get(path+`/api/v1/account/department/${departmentCode}`,config)
+          .then(function (response) {   
+          $scope.departmentIddata=response.data;
+           $scope.jvdetail.deptdscr=$scope.departmentIddata.dscr;
+           $scope.jvdetail.collegeCode=$scope.departmentIddata.collegeCode;
+           $scope.jvdetail.universityCode=$scope.departmentIddata.universityCode;
+           $scope.collegeData($scope.departmentIddata.collegeCode);
+          $scope.universityData($scope.departmentIddata.universityCode)           
+          console.log("department Id Data", $scope.jvdetail)
+          },
+            function (error) {
+              console.log("erroe has occured department Id data")
+            }
+          );       
+      };
+
+
+            //get college data by id           
+            $scope.collegeData = function (college_code) {
+            $http.get(path+`/api/v1/account/college/${college_code}`,config)
+           .then(function (response) {
+            console.log("college data",response.data)
+            $scope.jvdetail.clgdscr=response.data.dscr;
+             console.log("dddddd",response.data.dscr)
+            // console.log("college name",$scope.dataArray)
+          },
+            function (error) {
+              console.log("erroe has occured clgGet")
+            }
+          );
+      };
+
+
+      $scope.universityData = function (universityCode) {      
+        $http.get(path+`/api/v1/account/university/${universityCode}`,config)
+          .then(function (response) {
+            console.log("university data",response.data)
+            $scope.jvdetail.univerdscr=response.data.dscr;
+          // console.log("university name", $scope.dataArray)
+          },
+            function (error) {
+              console.log("erroe has occured in uniGet")
+            }
+          );
+      };
+    
+
+          //get All Account
+          $scope.accountdata=[];
+          $scope.getaccount = function () {
+          $http.get(path+`/api/v1/account/accreport`,config)
+          .then(function (response) {   
+          $scope.accountdata=response.data;           
+          console.log("All account Master Data", $scope.accountdata)
+          },
+            function (error) {
+              console.log("erroe has occured account data")
+            }
+          );       
+      };
+      $scope.getaccount();
+
+
+
+      // $scope.flag1 = false;
+      // $scope.flag2 = false;
+      // $scope.flag3 = false;
+      // $scope.jwc=false;
+      // $scope.hideFlag = true;
+      // $scope.fieldDisable = function (x) {
+      //   if (x.txIndivTypeCode == "E") {
+      //     $scope.flag1 = true
+      //     $scope.flag3 = true
+      //     $scope.flag2 = false
+      //     $scope.hideFlag = false
+      //     $scope.jwc=true;
+      //     x.vendorCode = "";
+      //     x.univRegistrationNo="";              
+      //   }
+      //   if (x.txIndivTypeCode == "S") {
+      //     $scope.flag1 = true
+      //     $scope.flag2 = true        
+      //     $scope.flag3 = false
+      //     $scope.hideFlag = false
+      //     $scope.jwc=true;  
+      //     x.vendorCode = "";
+      //     x.staffNo="";          
+      //   }
+      //   if (x.txIndivTypeCode == "V") {
+      //     $scope.flag2 = true
+      //     $scope.flag3 = true
+      //     $scope.flag1 = false
+      //     $scope.hideFlag = false
+      //     $scope.jwc=false;  
+      //     x.univRegistrationNo = "";
+      //     x.staffNo="";    
+      //   }
+      // };
+
+
+
+
+          //get data by Account Master 
+          $scope.accountIdData=[];
+          $scope.getAccIdData = function (account_code,index) {
+          $http.get(path+`/api/v1/account/accreport/${account_code}`,config)
+          .then(function (response) {   
+          $scope.accountIdData=response.data;
+          $scope.journalData[index].accountDisc=$scope.accountIdData.dscr;                
+          console.log("accountIdData ID  Data", $scope.accountIdData)
+          },
+            function (error) {
+              console.log("erroe has occured Employee id data")
+            }
+          );       
+      };
+      
+      
+        //post  data in JOURNAL VOUCHER
+      //   $scope.sub=true;
+      //   $scope.journel =[];
+      //   $scope.postJournel = function () { 
+      //    $scope.form.asssistantStaffNo=$scope.details.userid;
+      //    $scope.form.managerStaffNo=$scope.details.userid;
+      //    $scope.form.mgrcaStaffNo=$scope.details.userid;
+      //    $scope.form.autoManual='M';
+      //    $http.post(path+"/api/v1/account/journelvoucher",$scope.form,config)
+      //     .then(function successCallback(response) {
+      //       $scope.sub=false;
+      //       $scope.journel=response.data;
+      //       $scope.form.jvId=response.data.jvId;
+
+      //       console.log("JOURNEL VOUCHER Data saved", $scope.journel)
+      //       alert("data saved ")
+      //     } 
+      //   ,function errorCallback(response) {
+      //          console.log("Saving of data failed in journel");
+      //         // toastr.error('An error occurred while saving data.', 'Error');
+      //     }       
+      //   );
+      // };
+
+      //post All data in JOURNAL VOUCHER DETAILS   
+      //   $scope.postJournelDetail = function () { 
+      //     if($scope.journel){
+      //           var jdata = {
+      //               jvId: $scope.journel.jvId,
+      //               jvFinYear: $scope.journel.jvFinYear
+      //          }
+      //         }else{
+      //             var jdata = {
+      //             jvId: $scope.form.jvId,
+      //             jvFinYear: $scope.form.jvFinYear
+      //               }
+      //         }
+      //   $scope.jdetail = $scope.journalData.filter((x) => { return x.jvDetSlno !== "" })
+      //   console.log($scope.jdetail, "filtered");
+      //   $scope.jdetail = $scope.journalData.map((row, i) => { return { ...row, ...jdata } })
+      //   console.log($scope.jdetail, "filtered after merged");
+   
+      //     console.log("$scope.journalData",$scope.jdetail)
+      //    $http.post(path+"/api/v1/account/journelvoucherdetail",$scope.jdetail,config)
+      //     .then(function successCallback(response) {           
+      //      $scope.journalData=response.data;
+      //      $scope.getAccIdData($scope.journalData[0].accountCode,0);
+      //      alert("data saved ")
+      //       console.log("journel Detail saved All Data", $scope.journalData);
+      //       console.log("after saved Data", $scope.journalData);
+      //     } 
+      //   ,function errorCallback(response) {
+      //          console.log("Saving of All data failed in journel Detail");
+      //         // toastr.error('An error occurred while saving data.', 'Error');
+      //     }       
+      //   );
+      // };  
+
+      //post One data in JOURNAL VOUCHER DETAILS
+      // $scope.postJournelDetailOne = function (index) { 
+      //   console.log("index",index);
+
+      //   if($scope.journel!=0){
+      //     $scope.journalData[index].jvId=$scope.journel.jvId;
+      //    $scope.journalData[index].jvFinYear=$scope.journel.jvFinYear;
+      //   }else{
+      //     $scope.journalData[index].jvId=$scope.form.jvId;
+      //     $scope.journalData[index].jvFinYear=$scope.form.jvFinYear;
+      //   }  
+      //   console.log("$scope.journalData",$scope.journalData[index])
+      //    $http.post(path+"/api/v1/account/journeldetail",$scope.journalData[index],config)
+      //     .then(function successCallback(response) {           
+      //       $scope.journalData[index]=response.data;
+      //       $scope.getAccIdData($scope.journalData[index].accountCode,index);
+      //      alert("data saved ")
+      //       console.log("journel Detail saved Single Data", $scope.journalData);
+      //       console.log("after saved Data", $scope.journalData);
+      //     } 
+      //   ,function errorCallback(response) {
+      //          console.log("Saving of Single data failed in journel Detail");
+      //         // toastr.error('An error occurred while saving data.', 'Error');
+      //     }       
+      //   );
+      // }; 
+
+    
+      // $scope.postJournelDetail1 = function () { 
+      //   $scope.jvdetailList=[];
+      //    console.log("Post agian data",$scope.jvdetail)
+      //   //  $scope.jvdetailList.push($scope.jvdetail);
+      //    $http.post(path+"/api/v1/account/journeldetail",$scope.jvdetail,config)
+      //     .then(function successCallback(response) {           
+      //       console.log("jData Update",response.data);
+      //       alert("save Data")
+      //     } 
+      //   ,function errorCallback(response) {
+      //          console.log("Saving of data failed in again Detail");
+      //     }       
+      //   );
+      // };
+
+
+
+      $scope.jvdetail={};
+      
+      $scope.showdetail=function(x,index){      
+        document.getElementById("details").style.display="block";
+        $scope.getJvtDetail(x,index); 
+      };
+
+          //get project plan data by id
+          $scope.jvtData=[];
+          $scope.getJvtDetail = function (jvDetSlno,index) {
+          $http.get(path+`/api/v1/account/journelvoucherdetail/${jvDetSlno}`,config)
+          .then(function (response) {   
+          $scope.jvtData=response.data;
+          $scope.jvdetail.jvDetSlno=response.data.jvDetSlno;
+          $scope.jvdetail.remarks=response.data.remarks;
+          $scope.jvdetail.txIndivTypeCode=response.data.txIndivTypeCode;
+          $scope.jvdetail.staffNo=response.data.staffNo;
+          $scope.jvdetail.univRegistrationNo=response.data.univRegistrationNo;
+          $scope.jvdetail.vendorCode=response.data.vendorCode;
+          $scope.jvdetail.accountCode=response.data.accountCode;
+          $scope.jvdetail.refNo=response.data.refNo;
+          $scope.jvdetail.refDate=response.data.refDate;
+          $scope.jvdetail.jvNo=response.data.jvNo;
+          $scope.jvdetail.jvDate=response.data.jvDate;
+          $scope.jvdetail.planNo=response.data.planNo;
+          $scope.jvdetail.planFinYear=response.data.planFinYear;
+          $scope.jvdetail.planTypeCode=response.data.planTypeCode;
+          $scope.jvdetail.costCentreId=response.data.costCentreId;
+          $scope.jvdetail.planFinYear=response.data.planFinYear;
+          $scope.jvdetail.planTypeCode=response.data.planTypeCode;
+          $scope.jvdetail.collegeCode=response.data.collegeCode;
+          $scope.jvdetail.universityCode=response.data.universityCode;
+          $scope.jvdetail.departmentCode=response.data.departmentCode;
+           $scope.jvdetail.poId=response.data.poId;
+           $scope.jvdetail.poFinYear=response.data.poFinYear;
+          // $scope.jvdetail.poNumber=response.data.poNumber;
+          // $scope.jvdetail.poDate=response.data.poDate;
+          $scope.jvdetail.advanceId=response.data.advanceId;
+          $scope.jvdetail.advanceFinYear=response.data.advanceFinYear;
+          $scope.jvdetail.indentNo=response.data.indentNo;
+          $scope.jvdetail.indentDate=response.data.indentDate;
+
+   
+
+          console.log("Display data",$scope.form)
+          $scope.getPurchData(response.data.poId,response.data.poFinYear);
+          $scope.getCollege(response.data.collegeCode);
+          $scope.getUniversity(response.data.universityCode);
+          $scope.getdepartment(response.data.departmentCode);
+
+  
+
+          $scope.getEmpIdData(response.data.staffNo,index);
+          $scope.getSuplierData(response.data.vendorCode,index);
+          $scope.getStudentData(response.data.univRegistrationNo,index); 
+
+           $scope.getJvIdDetail(response.data.jvId);
+           console.log("jv  jvdetail", $scope.jvdetail)
+        
+          },
+            function (error) {
+              console.log("erroe has occured jvt  data")
+            }
+          );       
+      };
+
+      $scope.purchasData=[];
+          $scope.getPurchData = function (poId,poFinYear,index) {
+            console.log("Success purchase",poId,poFinYear)
+          $http.get(path+`/api/v1/account/po/${poId}/${poFinYear}`,config)
+          .then(function (response) {   
+          $scope.purchasData=response.data;
+          $scope.jvdetail.poNumber=response.data.poNumber;
+          $scope.jvdetail.poDate=response.data.poDate;     
+          console.log("account show ID  Data", $scope.journalData)
+          },
+            function (error) {
+              console.log("erroe has occured Employee id data")
+            }
+          );       
+      };
+
+        $scope.accountData1=[];
+          $scope.getAccountData = function (account_code,index) {
+            console.log("Success Account",index)
+          $http.get(path+`/api/v1/account/accreport/${account_code}`,config)
+          .then(function (response) {   
+          $scope.accountData1=response.data;
+           $scope.journalData[index].accountDisc=response.data.dscr;       
+          console.log("account show ID  Data", $scope.journalData)
+          },
+            function (error) {
+              console.log("erroe has occured Employee id data")
+            }
+          );       
+      };
+
+
+                //get data by employee id 
+          $scope.empIdData=[];
+          $scope.getEmpIdData = function (staffNo,index) {
+          console.log("staffNo",staffNo)
+          if(staffNo){
+          $http.get(path+`/api/v1/account/employee/${staffNo}`,config)
+          .then(function (response) {   
+          $scope.empIdData=response.data;
+          $scope.jvdetail.employeeName=response.data.firstName;
+          $scope.getCollege(response.data.collegeCode);
+          $scope.getUniversity(response.data.universityCode);
+          $scope.getdepartment(response.data.departmentCode);
+          $scope.jvdetail.studentName="";
+          $scope.jvdetail.vendorName="";
+          console.log(" empIdData ID  Data", $scope.empIdData)
+          },
+            function (error) {
+              console.log("erroe has occured Employee id data")
+            }
+          );  
+            }else{
+              console.log("data Not send")
+            }     
+      };
+
+        //get college data by id
+          $scope.clgData=[];
+          $scope.getCollege = function (college_code) {
+          if(college_code){
+          $http.get(path+`/api/v1/account/college/${college_code}`,config)
+          .then(function (response) {   
+          $scope.clgData=response.data;
+          $scope.jvdetail.collegeCode=response.data.collegeCode;
+          $scope.jvdetail.clgdscr=response.data.dscr;
+          console.log("college Data", $scope.jvdetail)
+          },
+            function (error) {
+              console.log("erroe has occured college data")
+            }
+          ); 
+            }else{
+              console.log("data not send")
+            }      
+      };
+
+          //get university data by id
+          $scope.uniData=[];
+          $scope.getUniversity = function (university_code) {
+          if(university_code){
+          $http.get(path+`/api/v1/account/university/${university_code}`,config)
+          .then(function (response) {   
+          $scope.uniData=response.data;
+          $scope.jvdetail.universityCode=response.data.universityCode;
+          $scope.jvdetail.univerdscr=response.data.dscr;
+          console.log("college Data", $scope.jvdetail)
+          },
+            function (error) {
+              console.log("erroe has occured college data")
+            }
+          ); 
+            }else{
+              console.log("data not send")
+            }      
+      };
+
+                //get university data by id
+          $scope.deptData=[];
+          $scope.getdepartment = function (departmentCode) {
+          if(departmentCode){
+          $http.get(path+`/api/v1/account/department/${departmentCode}`,config)
+          .then(function (response) {   
+          $scope.deptData=response.data;
+          $scope.jvdetail.departmentCode=response.data.departmentCode;
+          $scope.jvdetail.deptdscr=response.data.dscr;
+          console.log("department Data", $scope.deptData)
+          },
+            function (error) {
+              console.log("erroe has occured college data")
+            }
+          ); 
+            }else{
+              console.log("data not send")
+            }      
+      };
+
+          //get data by Vendor id by supplier
+          $scope.suplierIdData=[];
+          $scope.getSuplierData = function (vendorCode,index) {
+          console.log("vendorCode",vendorCode)
+          if(vendorCode){
+          $http.get(path+`/api/v1/account/supplier/${vendorCode}`,config)
+          .then(function (response) {   
+          $scope.suplierIdData=response.data; 
+          $scope.jvdetail.vendorName=response.data.fullName;
+          $scope.getCollege(response.data.collegeCode);
+          $scope.getUniversity(response.data.universityCode);
+          $scope.getdepartment(response.data.departmentCode);
+          $scope.jvdetail.studentName="";
+          $scope.jvdetail.employeeName="";
+          console.log(" vendorCode ID  Data", $scope.suplierIdData)
+          },
+            function (error) {
+              console.log("erroe has occured vendorCode id data")
+            }
+          );
+            }else{
+              console.log("data not send")
+            }       
+      };
+
+          //get data by student RegsNo
+          $scope.studentIdData=[];
+          $scope.getStudentData = function (univRegistrationNo,index) {
+          console.log("univRegistrationNo",univRegistrationNo)
+          if(univRegistrationNo){
+          $http.get(path+`/api/v1/account/student/${univRegistrationNo}`,config)
+          .then(function (response) {   
+          $scope.studentIdData=response.data;
+          $scope.jvdetail.studentName=response.data.fullName;
+          $scope.getCollege(response.data.collegeCode);
+          $scope.getUniversity(response.data.universityCode);
+          $scope.getdepartment(response.data.departmentCode);
+          $scope.jvdetail.vendorName="";
+          $scope.jvdetail.employeeName="";
+          console.log("Student Id Data", $scope.studentIdData)
+          },
+            function (error) {
+              console.log("erroe has occured vendorCode id data")
+            }
+          ); 
+            }else{
+              console.log("data not send")
+            }      
+      };
+
+          $scope.jvtIdData=[];
+          $scope.getJvIdDetail = function (jvId) {
+            console.log("jvId",jvId)
+          $http.get(path+`/api/v1/account/journelvoucher/${jvId}`,config)
+          .then(function (response) {   
+          $scope.jvtIdData=response.data;
+          console.log(" jvd Id Data", $scope.jvtIdData);
+          $scope.jvdetail.jvId=response.data.jvId;
+          $scope.jvdetail.jvIdDate=response.data.jvIdDate;
+          $scope.jvdetail.jvFinYear=response.data.jvFinYear;
+          $scope.jvdetail.jvNo=response.data.jvNo;
+          $scope.jvdetail.jvDate=response.data.jvDate;
+          },
+            function (error) {
+              console.log("erroe has occured jvt Id data")
+            }
+          );       
+      };
+
+
+          //get data of Project plan cost center
+          $scope.projectPlanData=[];
+          $scope.getprojectPalnData = function () {
+          $http.get(path+`/api/v1/account/costCentre/alldata`,config)
+          .then(function (response) {   
+          $scope.projectPlanData=response.data;
+          console.log("projectPlanData all  Data", $scope.projectPlanData)
+          },
+            function (error) {
+              console.log("erroe has occured projectPlanData all data")
+            }
+          );       
+      };
+      $scope.getprojectPalnData();
+
+
+          //get project plan data by id
+          $scope.projectplanIdData=[];
+          $scope.getProjectplanIdData = function (planNo,index) {
+          $http.get(path+`/api/v1/account/costCentre/all/${planNo}`,config)
+          .then(function (response) {   
+          $scope.projectplanIdData=response.data;
+          $scope.jvdetail.planFinYear=$scope.projectplanIdData[0].planFinYear;
+          $scope.jvdetail.planTypeCode=$scope.projectplanIdData[0].planTypeCode;
+          $scope.jvdetail.costCentreId=$scope.projectplanIdData[0].costCentreId;
+          console.log("jvdetail ID  Data", $scope.jvdetail)
+          },
+            function (error) {
+              console.log("erroe has occured projectplanIdData id data")
+            }
+          );       
+      };
+
+          //get all data of department 
+          $scope.departmentData=[];
+          $scope.getdepartmentData = function () {
+          $http.get(path+`/api/v1/account/department`,config)
+          .then(function (response) {   
+          $scope.departmentData=response.data;
+          console.log("departmentData all  Data", $scope.departmentData)
+          },
+            function (error) {
+              console.log("erroe has occured departmentData all data")
+            }
+          );       
+      };
+      $scope.getdepartmentData();
+
+          //get all data of purchase order 
+          $scope.purchaseOrderData=[];
+          $scope.getpurchaseData = function () {
+          $http.get(path+`/api/v1/account/po`,config)
+          .then(function (response) {   
+          $scope.purchaseOrderData=response.data;
+          console.log("purchaseOrderData all  Data", $scope.purchaseOrderData)
+          },
+            function (error) {
+              console.log("erroe has occured purchaseOrderData all data")
+            }
+          );       
+      };
+      $scope.getpurchaseData();
+
+      //get data by purchaseOrder poid and poFinYear
+      $scope.getpurchaseOrder=function(poId,poFinYear){
+        $http.get(path+`/api/v1/account/po/${poId}/${poFinYear}`,config)
+          .then(function (response) {   
+          $scope.purchaseOrder=response.data;
+          console.log("purchaseOrder   Data", $scope.purchaseOrder)
+          $scope.jvdetail.poNumber=$scope.purchaseOrder.poNumber;
+          $scope.jvdetail.poDate=$scope.purchaseOrder.poDate;
+
+          $scope.jvdetail.planNo=$scope.purchaseOrder.planNo;
+          $scope.jvdetail.planFinYear=$scope.purchaseOrder.planFinYear;
+          $scope.jvdetail.planTypeCode=$scope.purchaseOrder.planTypeCode;
+          $scope.jvdetail.costCentreId=$scope.purchaseOrder.costCentreId;
+          $scope.jvdetail.collegeCode=$scope.purchaseOrder.collegeCode;
+          $scope.jvdetail.universityCode=$scope.purchaseOrder.universityCode;
+          console.log("purchaseOrder   Data", $scope.jvdetail)
+          },
+            function (error) {
+              console.log("erroe has occured purchaseOrder all data")
+            }
+          ); 
+      };
+
+
+
+           //get all data of Budget Allocation  
+          $scope.budgetData=[];
+          $scope.uniqueAllocationFinYearsArray=[];
+          $scope.getbudgetData = function () {
+          $http.get(path+`/api/v1/account/budgetAllocation/data`,config)
+          .then(function (response) {   
+          $scope.budgetData=response.data;        
+          console.log("budgetData all  Data",  $scope.budgetData)
+          },
+            function (error) {
+              console.log("erroe has occured budgetData all data")
+            }
+          );       
+      };
+      $scope.getbudgetData();
+
+
+      // $scope.calculateFinYear = function (jvIdDate) {
+      //   var jvIdDate = jvIdDate;
+      //   var dateParts = jvIdDate.split('-');
+      //   console.log(dateParts);
+      //   if (dateParts.length === 3) {
+      //     var day = parseInt(dateParts[0]);
+      //     var month = parseInt(dateParts[1]);
+      //     var year = parseInt(dateParts[2]);
+
+      //     if (day >= 1 && day <= 31 && month >= 1 && month <= 12) {
+      //       var jvFinYear;
+      //       if (month >= 4) {
+      //         jvFinYear = year + '-' + (year + 1);
+      //       } else {
+      //         jvFinYear = (year - 1) + '-' + year;
+      //       }
+      //       console.log(jvFinYear);
+      //       $scope.form.jvFinYear = jvFinYear;
+      //     } else {
+      //       $scope.form.jvFinYear = '';
+      //     }
+      //   } else {
+      //     $scope.form.jvFinYear = '';
+      //   }
+
+      // };
+
+
+        $scope.getJvtDetailShow = function (jvId,index) {
+        console.log("index",index)
+          $http.get(path+`/api/v1/account/journelvoucherdetailData/${jvId}`,config)
+          .then(function (response) { 
+            $scope.journalData=[];
+            $scope.journalData=response.data;
+              // $scope.journalData.push(response.data);
+              console.log("$scope.journalData detail data",$scope.journalData);
+
+              for (var a = 0; a < $scope.journalData.length; a++) {
+              $scope.getAccountData($scope.journalData[a].accountCode,a);
+              }
+     
+              var a=$scope.journalData[0].jvId;
+               $scope.getJvIdDetailShow(a)
+
+              console.log("$scope.journalData detail data",response.data);
+              console.log("$scope.journalData[0].jvId",$scope.journalData[0].jvId);
+          }
+          )};
+
+      
+
+          $scope.jvtIdDataShow=[];
+          $scope.getJvIdDetailShow = function (jvId) {
+          console.log("jvId",jvId)
+          $http.get(path+`/api/v1/account/journelvoucher/${jvId}`,config)
+          .then(function (response) {   
+          $scope.jvtIdDataShow=response.data;
+           console.log("jvd Id Data show", response.data);
+          $scope.form.jvId=response.data.jvId;
+          $scope.form.jvIdDate=response.data.jvIdDate;
+          $scope.form.jvFinYear=response.data.jvFinYear;
+          $scope.form.jvNo=response.data.jvNo;
+          $scope.form.narration=response.data.narration;
+          $scope.form.jvNo=response.data.jvNo;
+          $scope.form.jvDate=response.data.jvDate;
+          $scope.form.voucherStatusCode=response.data.voucherStatusCode;
+          },
+            function (error) {
+              console.log("erroe has occured jvt Id data show")
+            }
+          );       
+      };
+
+
+
+
+      function getQueryParam(name,index) {
+        // console.log("index 1",index)
+                const urlParams = new URLSearchParams(window.location.search);
+                const paramValue = urlParams.get(name);
+                try {
+                    // Attempt to parse the JSON string into an object
+                    return JSON.parse(paramValue);
+                } catch (error) {
+                    // Handle any parsing errors (e.g., invalid JSON)
+                    console.error(`Error parsing query parameter '${name}':`, error);
+                    return null; // Return null or an appropriate default value
+                }
+            }
+            // Get the 'n' object from the query parameter
+            $scope.nObject = getQueryParam('n');
+            var index = getQueryParam('index');
+            console.log('Value of index:', index);
+            console.log('Value of n:', $scope.nObject);
+            //$scope.poIdDisable =false;
+            
+            if($scope.nObject){
+              $scope.getJvtDetailShow($scope.nObject.jvId,index);
+              // $scope.getAccIdDetail($scope.nObject.accountCode)
+              // $scope.getCheckIdBudget($scope.nObject.costCentreId);
+              // $scope.getCheckIdFund($scope.nObject.costCentreId)
+            };
+
+            $scope.getSvtSno = function (n){
+           $scope.jvDetSlno =n;
+         }
+
+            $scope.deleteCust = function () {
+        for (var i = $scope.journalData.length - 1; i >= 0; i--) {
+            if ($scope.journalData[i].selected) {
+                $scope.journalData.splice(i, 1);
+            }          
+        }      
+    };
+            
+
+            $scope.deletevoucherDetail = function (jvDetSlno) {
+            console.log("jvDetSlno",jvDetSlno)
+            $http.delete(path+`/api/v1/account/journelvoucherdetail/${jvDetSlno}`,config)
+           .then(function (response) {   
+           console.log("jvd Id Data show", response.data);
+           alert("Delete SuucessFully")
+          },
+            function (error) {
+              console.log("erroe has occured jvt Id data show")
+            }
+          );       
+      };
+
+
+
+
+        // Function to update the total sum
+        $scope.updatedeb = function () {
+            $scope.totaldeb = 0;
+            // Loop through all items and update the total
+            angular.forEach($scope.journalData, function (x) {
+                if (!isNaN(parseFloat(x.dbAmount))) {
+                    $scope.totaldeb += parseFloat(x.dbAmount);
+                }
+            });
+        };
+
+                // Function to update the total sum
+            $scope.updatecrd = function () {
+            $scope.totalcrd = 0;
+            // Loop through all items and update the total
+            angular.forEach($scope.journalData, function (x) {
+                if (!isNaN(parseFloat(x.crAmount))) {
+                    $scope.totalcrd += parseFloat(x.crAmount);
+                }
+            });
+        };
+  
+
+        $scope.isPopupVisible = false;
+        $scope.togglePopup = function(isVisible) {
+            $scope.isPopupVisible = isVisible;
+        };
+
+
+            // Initialize totaldeb
+    $scope.totaldeb = 0;
+    // Watch for changes in journalData and recalculate the sum
+    $scope.$watchCollection('journalData', function(newValues) {
+      $scope.totaldeb = calculateTotalDebit1(newValues);
+    });
+
+    // Function to calculate the sum of x.dbAmount
+    function calculateTotalDebit1(data) {
+      var sum1 = 0;
+      angular.forEach(data, function(item) {
+        sum1 += parseFloat(item.dbAmount) || 0;
+      });
+      return sum1;
+    }
+
+
+        // Initialize totaldeb
+        $scope.totalcrd = 0;
+        // Watch for changes in journalData and recalculate the sum
+        $scope.$watchCollection('journalData', function(newValues) {
+        $scope.totalcrd = calculateTotalDebit(newValues);
+        });
+
+        // Function to calculate the sum of x.dbAmount
+        function calculateTotalDebit(data) {
+          var sum = 0;
+          angular.forEach(data, function(item) {
+            sum += parseFloat(item.crAmount) || 0;
+          });
+          return sum;
+        }
+
+
+
+
+
+});
+  </script>
+</body>
+
+</html>

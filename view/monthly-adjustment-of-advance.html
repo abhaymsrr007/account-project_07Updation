@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monthly Adjustment of Advance</title> 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon" />  
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/bootstrap.min.css" /> 
+<script src="js/jquery-3.6.0.min.js"></script>
+<!-- <script src="js/bootstrap.min.js"></script>    -->
+ <link rel="stylesheet" href="css/style.css">
+ <script src="js/linked.js"></script>
+
+</head>
+<header class="topheading">
+    <div class="logo">
+      <img src="images/nrt-logo.svg" alt="" />  
+    </div> 
+    <a class="btn bluebtn" ng-click="goBack()">Back</a>
+    <a class="userlogin" ng-click="logout()">{{details.name}} <span><img src="https://exam.skmu.ac.in/ftpwebapps/skmu/resources/studentdata/users/profileimage/{{details.profile_image}}" alt="student" /></span></a>
+  
+  </header>
+  <body>
+    
+<section class="formsec">
+    <div class="container">
+        <div class="tabsec">
+          <ul>
+            <li><a class="tablink active" data-title="tab1">Monthly Adjustment</a></li>
+            <li><a class="tablink " data-title="tab2">Fully Deducted</a></li> 
+          </ul>
+        </div>
+      <div id="tab1" class="maintabsec active">
+        <form>
+        <div class="titles text-center">Monthly Adjustment of Advance</div> 
+            <div class="white-box forms notop"> 
+                    <h3>Populate Data:</h3>
+                    <ul>
+                      <li class="smallsec2">
+                        <div>
+                          <label>Adjustment Year<sup>*</sup></label>
+                          <input type="text" class="textfield" name="voucher" value="" placeholder="Auto/Drop"/>
+                        </div>
+                      </li>
+                      <li class="smallsec2">
+                        <div>
+                          <label>Month<sup>*</sup></label>
+                          <input type="text" class="textfield datepicker" name="id_date" value="" placeholder="Auto" />
+                        </div>
+                      </li>
+                      <li class="smallsec2">
+                        <div>
+                          <label>Sl. No</label>
+                          <input type="text" class="textfield" name="fin_year" value="" placeholder="Auto"/>
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <label>Advance Type<sup>*</sup></label>
+                          <div class="flexbox"> 
+                             
+                              <select class="dropdd"  name="advance_type2">
+                                <option>Select</option>
+                                <option>1234567891234567</option>
+                                <option>5678912345671234</option>
+                                <option>1234567891234567</option>
+                              </select>  
+                            <input type="text" class="textfield" name="college2" value="" placeholder="Auto"/> 
+                          </div>
+                        </div>
+                      </li>
+                      <li class="smallsec2">
+                        <div>
+                          <label>Population Date<sup>*</sup></label>
+                          <input type="text" class="textfield datepicker" name="voucher_date" value="" placeholder="" />
+                        </div>
+                      </li>
+                      
+                    </ul> 
+
+                    <ul >
+                        <li>
+                        <div>
+                          <label>Entered By<sup>*</sup></label>
+                          <div class="flexbox">
+                            <input type="text" class="textfield" name="college" value="" placeholder="Auto" />
+                            <input type="text" class="textfield" name="college2" value="" placeholder="Auto"/>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <label>Approved By<sup>*</sup></label>
+                          <div class="flexbox">
+                            <input type="text" class="textfield" name="college" value="" placeholder="Auto" />
+                            <input type="text" class="textfield" name="college2" value="" placeholder="Auto"/>
+                          </div>
+                        </div>
+                      </li>
+                        </ul>
+
+                        <ul >
+                            <li>
+                                <div>
+                                  <label>Voucher Type<sup>*</sup></label>
+                                  <div class="flexbox">  
+                                    <input type="text" class="textfield" name="voucher_tyoe" value="" placeholder="">
+                                    <span>-</span>
+                                    <input type="text" class="textfield" name="voucher_type" value="" placeholder="">
+                                  </div>
+                                </div>
+                              </li>
+
+                              <li>
+                                <div>
+                                  <label>Voucher No.<sup>*</sup></label>
+                                  <input type="text" class="textfield voucher_No" name="voucher_No" value="" placeholder="" />
+                                </div>
+                              </li>
+
+                              <li class="smallsec2">
+                                <div>
+                                  <label>Voucher Date<sup>*</sup></label>
+                                  <input type="text" class="textfield datepicker" name="voucher_date" value="" placeholder="" />
+                                </div>
+                              </li>
+
+                              <li>
+                                <div>
+                                  <label>Voucher Status<sup>*</sup></label>
+                                  <input type="text" class="textfield voucher_status" name="voucher_status" value="" placeholder="" />
+                                </div>
+                              </li>
+                            </ul>
+
+                            <div class="btnlist text-center">
+                              <ul> 
+                                  <li><div><button type="submit" class="bluebtn">Populate Adjustment Data</button></div></li> 
+                                  <li><div><button type="submit" class="bluebtn" disabled>Delete</button></div></li>                                
+                              </ul>
+                          </div> 
+
+                  </div> 
+                 
+                  <div class="white-box forms ">
+                      <div class="titles text-center">Adjustment Details</div>
+                      <div class="recordlist table-responsive">
+                        <table class="table table-bordered table-hover" id="table1">
+                          <thead>
+                            <tr>
+                              <th>Advance Id</th>
+                              <th>Fin Year</th>
+                              <th>Payee Type</th>
+                              <th>Payee Id</th>
+                              <th>Payee Name</th>
+                              <th>Place Visited</th>
+                              <th>Debit Amount</th>
+                              <th>Credit Amount</th>
+                              <th>Balance</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>488</td>
+                              <td>2022</td>
+                              <td>College</td>
+                              <td>0448</td>
+                              <td>Amit Kumar</td>
+                              <td>Ranchi</td>
+                              <td>₹24500</td>
+                              <td>₹25400</td>
+                              <td>₹15400</td>
+                            </tr>
+                            <tr>
+                              <td>488</td>
+                              <td>2022</td>
+                              <td>College</td>
+                              <td>0448</td>
+                              <td>Amit Kumar</td>
+                              <td>Ranchi</td>
+                              <td>₹24500</td>
+                              <td>₹25400</td>
+                              <td>₹15400</td>
+                            </tr>
+                            <tr>
+                              <td>488</td>
+                              <td>2022</td>
+                              <td>College</td>
+                              <td>0448</td>
+                              <td>Amit Kumar</td>
+                              <td>Ranchi</td>
+                              <td>₹24500</td>
+                              <td>₹25400</td>
+                              <td>₹15400</td>
+                            </tr>
+                            <tr>
+                              <td>488</td>
+                              <td>2022</td>
+                              <td>College</td>
+                              <td>0448</td>
+                              <td>Amit Kumar</td>
+                              <td>Ranchi</td>
+                              <td>₹24500</td>
+                              <td>₹25400</td>
+                              <td>₹15400</td>
+                            </tr>
+                            <tr>
+                              <td>488</td>
+                              <td>2022</td>
+                              <td>College</td>
+                              <td>0448</td>
+                              <td>Amit Kumar</td>
+                              <td>Ranchi</td>
+                              <td>₹24500</td>
+                              <td>₹25400</td>
+                              <td>₹15400</td>
+                            </tr>
+                            <tr>
+                              <td>488</td>
+                              <td>2022</td>
+                              <td>College</td>
+                              <td>0448</td>
+                              <td>Amit Kumar</td>
+                              <td>Ranchi</td>
+                              <td>₹24500</td>
+                              <td>₹25400</td>
+                              <td>₹15400</td>
+                            </tr>
+                            <tr>
+                              <td>488</td>
+                              <td>2022</td>
+                              <td>College</td>
+                              <td>0448</td>
+                              <td>Amit Kumar</td>
+                              <td>Ranchi</td>
+                              <td>₹24500</td>
+                              <td>₹25400</td>
+                              <td>₹15400</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      <!--  <ul class="adjestments">
+                        <li>
+                          <div>
+                            <label>Advance Id</label>
+                            <input type="text" class="textfield" name="advance_id" value="" placeholder="Auto"/>
+                          </div>
+                        </li>
+                        <li>
+                          <div>
+                            <label>Fin Year</label>
+                            <input type="text" class="textfield" name="fin_year" value="" placeholder="Auto"/>
+                          </div>
+                        </li>
+                        <li>
+                          <div>
+                            <label>Payee Type</label>
+                            <input type="text" class="textfield" name="payee_type" value="" placeholder="Auto"/>
+                            </div>
+                        </li>
+                        <li>
+                          <div>
+                            <label>Payee Id</label>
+                            <input type="text" class="textfield" name="payee_id" value="" placeholder="Auto"/>
+                            </div>
+                        </li>
+                        <li>
+                          <div>
+                            <label>Payee Name</label>
+                            <input type="text" class="textfield" name="payee_name" value="" placeholder="Auto"/>
+                            </div>
+                        </li>
+                        <li>
+                          <div>
+                            <label>Place Visited</label>
+                            <input type="text" class="textfield" name="place_visited" value="" placeholder="Auto"/>
+                           </div>
+                        </li>
+    
+                        <li>
+                          <div>
+                            <label>Debit Amount</label>
+                            <input type="text" class="textfield" name="debit_amount" value="" placeholder="Auto"/>
+                           </div>
+                        </li>
+    
+                        <li>
+                          <div>
+                            <label>Credit Amount</label>
+                            <input type="text" class="textfield" name="credit_amount" value="" placeholder="Auto"/>
+                           </div>
+                        </li>
+                        <li>
+                          <div>
+                            <label>Balance</label>
+                            <input type="text" class="textfield" name="balance" value="" placeholder="Auto"/>
+                           </div>
+                        </li> 
+                        <li class="width3 checkbtn"><label>&nbsp;</label> </li>
+                      </ul> 
+
+                     <ul class="adjestments">
+                        <li><div><input type="text" class="textfield" name="advance_id" value="" placeholder="Auto"/></div></li>
+                        <li><div><input type="text" class="textfield" name="fin_year" value="" placeholder="Auto"/></div></li>
+                        <li><div><input type="text" class="textfield" name="payee_type" value="" placeholder="Auto"/></div></li>
+                        <li><div><input type="text" class="textfield" name="payee_id" value="" placeholder="Auto"/></div></li>
+                        <li><div><input type="text" class="textfield" name="payee_name" value="" placeholder="Auto"/></div></li>
+                        <li><div><input type="text" class="textfield" name="place_visited" value="" placeholder="Auto"/></div></li>   
+                        <li><div><input type="text" class="textfield" name="debit_amount" value="" placeholder="Auto"/></div></li>
+                        <li><div><input type="text" class="textfield" name="credit_amount" value="" placeholder="Auto"/></div></li>
+                        <li><div><input type="text" class="textfield" name="balance" value="" placeholder="Auto"/></div></li> 
+                        <li class="width3 checkbtn"><label><input type="checkbox" name="delete" class="checksec" /></label> </li>
+                      </ul> -->
+                      
+                    </div>
+                        
+                     <div class="btnlist">
+                        <ul>
+                          <li><div class="btncenter"><button type="button" class="bluebtn">Save</button></div></li> 
+                          <!-- <li><div><button type="button" class="bluebtn addfield">ADD</button></div></li>
+                          <li><div><button type="button" class="bluebtn">EDIT</button></div></li> 
+                          <li><div><button type="button" class="bluebtn deletebtn" disabled>Delete</button></div></li> -->
+                          <li><div class="btncenter"><button type="submit" class="bluebtn">SUBMIT</button></div></li> 
+                        </ul>
+                      </div> 
+                          
+                 </div>
+               </form> 
+                 </div>
+
+ <div id="tab2" class="maintabsec "> 
+  <div class="titles text-center">Advance Fully Deducted</div>
+      <div class="white-box forms notop"> 
+                    <h3>Adjustment Details:</h3>
+                    <ul>
+                      <li class="smallsec2">
+                        <div>
+                          <label>Adjustment Year </label>
+                          <input type="text" class="textfield" name="voucher" value="" placeholder="Auto/Drop"/>
+                        </div>
+                      </li>
+                      <li class="smallsec2">
+                        <div>
+                          <label>Month </label>
+                          <input type="text" class="textfield datepicker" name="id_date" value="" placeholder="Auto" />
+                        </div>
+                      </li>
+                      <li class="smallsec2">
+                        <div>
+                          <label>Sl. No</label>
+                          <input type="text" class="textfield" name="fin_year" value="" placeholder="Auto"/>
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <label>Advance Type </label>
+                          <div class="flexbox">
+                            <input type="text" class="textfield" name="college" value="" placeholder="Drop" />
+                            <input type="text" class="textfield" name="college2" value="" placeholder="Auto"/>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="smallsec2">
+                        <div>
+                          <label>Population Date </label>
+                          <input type="text" class="textfield datepicker" name="voucher_date" value="" placeholder="" />
+                        </div>
+                      </li>
+                      
+                    </ul> 
+
+                    
+
+                    <ul>
+                        <li>
+                            <div>
+                              <label>Voucher Type </label>
+                              <div class="flexbox">  
+                                <input type="text" class="textfield" name="voucher_tyoe" value="" placeholder="">
+                                <span>-</span>
+                                <input type="text" class="textfield" name="voucher_type" value="" placeholder="">
+                              </div>
+                            </div>
+                          </li>
+
+                          <li>
+                            <div>
+                              <label>Voucher No. </label>
+                              <input type="text" class="textfield voucher_No" name="voucher_No" value="" placeholder="" />
+                            </div>
+                          </li>
+
+                          <li class="smallsec2">
+                            <div>
+                              <label>Voucher Date< </label>
+                              <input type="text" class="textfield datepicker" name="voucher_date" value="" placeholder="" />
+                            </div>
+                          </li>
+
+                          <li>
+                            <div>
+                              <label>Voucher Status </label>
+                              <input type="text" class="textfield voucher_status" name="voucher_status" value="" placeholder="" />
+                            </div>
+                          </li>
+                        </ul>
+
+                        
+              </div> 
+
+
+              <div class="white-box nextprev">
+                <div class="titles text-center">Payee wise Deduction Details</div>
+                <div class="flexspace text-center" style="display: block;"> 
+                  <div style="margin:0;">
+                    <button type="button" name="first" class="btn gofirst">First</button>
+                    <button type="button" name="prev" class="btn prev">←</button>
+                    <span class="scount">1</span> to <span class="count">5</span>
+                    <button type="button" name="next" class="btn next">→</button>
+                    <button type="button" name="last" class="btn golast">Last</button>
+                  </div>
+                </div>
+
+                <div class="rowbox  forms form2">
+          
+                <ul>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Advance Id</label>
+                      <div>
+                        <input type="text" class="textfield" name="advance_id" value="111" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Fin Year</label>
+                      <div>
+                        <input type="text" class="textfield" name="fine_year" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Deduct Sl No.</label>
+                      <div>
+                        <input type="text" class="textfield" name="deduct_sl" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li >
+                    <div>
+                      <label>Advance Type</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="advance_type" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="advance_type" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Payee Type</label>
+                      <div>
+                        <input type="text" class="textfield" name="payee_type" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  </ul>
+                  <ul>
+                  <li class="smallsec">
+                    <div>
+                      <label>Vendor Code</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="vendor_code" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="vendor_code" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec">
+                    <div>
+                      <label>Employee No.</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="employee_no" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="employee_no" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec">
+                    <div>
+                      <label>Student Reg No.</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="student_reg" value="" placeholder="" disabled disabled>
+                        <input type="text" class="textfield" name="student_reg" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  </ul>
+                  <ul>
+                  <li > 
+                    <div>
+                      <label>Paid to</label>
+                      <div>
+                        <input type="text" class="textfield" name="paid_to" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec">
+                    <div>
+                      <label>Department</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="department" value="" placeholder="" disabled disabled>
+                        <input type="text" class="textfield" name="department" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec">
+                    <div>
+                      <label>College</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="college" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="college" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec">
+                    <div>
+                      <label>University</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="university" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="university" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  </ul>
+                  <ul>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>From Date</label>
+                      <div>
+                        <input type="text" class="textfield" name="from_date" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>To Date</label>
+                      <div>
+                        <input type="text" class="textfield" name="to_date" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li > 
+                    <div>
+                      <label>Place</label>
+                      <div>
+                        <input type="text" class="textfield" name="palce" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>City</label>
+                      <div>
+                        <input type="text" class="textfield" name="city" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>State</label>
+                      <div>
+                        <input type="text" class="textfield" name="state" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Country</label>
+                      <div>
+                        <input type="text" class="textfield" name="countery" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Foreign</label>
+                      <div>
+                        <input type="text" class="textfield" name="foregin" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  </ul>
+                  <ul>
+                  <li>
+                    <div>
+                      <label>Voucher Type</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="voucher_tyoe" value="" placeholder="" disabled>
+                        <label>-</label>
+                        <input type="text" class="textfield" name="voucher_type" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Voucher No.</label>
+                      <div>
+                        <input type="text" class="textfield" name="voucher_no" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Voucher Date</label>
+                      <div>
+                        <input type="text" class="textfield" name="voucher_date" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li >
+                    <div>
+                      <label>Account Code<sup>*</sup></label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="account_code" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="accouont_code" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                <ul>
+                  <li>
+                    <div>
+                      <label>Advance Amount</label>
+                      <input type="text" class="textfield" name="advance_amount" value="" placeholder="" disabled>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>Deducted Amount</label>
+                      <div>
+                        <input type="text" class="textfield" name="deducted_amount" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>Voucher Status</label>
+                      <div>
+                        <input type="text" class="textfield" name="voucher_status" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                </ul> 
+              </div> 
+              <div class="rowbox  forms form2">
+          
+                <ul>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Advance Id</label>
+                      <div>
+                        <input type="text" class="textfield" name="advance_id" value="222" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Fin Year</label>
+                      <div>
+                        <input type="text" class="textfield" name="fine_year" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Deduct Sl No.</label>
+                      <div>
+                        <input type="text" class="textfield" name="deduct_sl" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li >
+                    <div>
+                      <label>Advance Type</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="advance_type" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="advance_type" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Payee Type</label>
+                      <div>
+                        <input type="text" class="textfield" name="payee_type" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  </ul>
+                  <ul>
+                  <li class="smallsec">
+                    <div>
+                      <label>Vendor Code</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="vendor_code" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="vendor_code" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec">
+                    <div>
+                      <label>Employee No.</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="employee_no" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="employee_no" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec">
+                    <div>
+                      <label>Student Reg No.</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="student_reg" value="" placeholder="" disabled disabled>
+                        <input type="text" class="textfield" name="student_reg" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  </ul>
+                  <ul>
+                  <li > 
+                    <div>
+                      <label>Paid to</label>
+                      <div>
+                        <input type="text" class="textfield" name="paid_to" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec">
+                    <div>
+                      <label>Department</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="department" value="" placeholder="" disabled disabled>
+                        <input type="text" class="textfield" name="department" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec">
+                    <div>
+                      <label>College</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="college" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="college" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec">
+                    <div>
+                      <label>University</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="university" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="university" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  </ul>
+                  <ul>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>From Date</label>
+                      <div>
+                        <input type="text" class="textfield" name="from_date" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>To Date</label>
+                      <div>
+                        <input type="text" class="textfield" name="to_date" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li > 
+                    <div>
+                      <label>Place</label>
+                      <div>
+                        <input type="text" class="textfield" name="palce" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>City</label>
+                      <div>
+                        <input type="text" class="textfield" name="city" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>State</label>
+                      <div>
+                        <input type="text" class="textfield" name="state" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Country</label>
+                      <div>
+                        <input type="text" class="textfield" name="countery" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Foreign</label>
+                      <div>
+                        <input type="text" class="textfield" name="foregin" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  </ul>
+                  <ul>
+                  <li>
+                    <div>
+                      <label>Voucher Type</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="voucher_tyoe" value="" placeholder="" disabled>
+                        <label>-</label>
+                        <input type="text" class="textfield" name="voucher_type" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Voucher No.</label>
+                      <div>
+                        <input type="text" class="textfield" name="voucher_no" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Voucher Date</label>
+                      <div>
+                        <input type="text" class="textfield" name="voucher_date" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li >
+                    <div>
+                      <label>Account Code<sup>*</sup></label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="account_code" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="accouont_code" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                <ul>
+                  <li>
+                    <div>
+                      <label>Advance Amount</label>
+                      <input type="text" class="textfield" name="advance_amount" value="" placeholder="" disabled>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>Deducted Amount</label>
+                      <div>
+                        <input type="text" class="textfield" name="deducted_amount" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>Voucher Status</label>
+                      <div>
+                        <input type="text" class="textfield" name="voucher_status" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                </ul> 
+              </div> 
+                <div class="rowbox  forms form2">
+          
+                <ul>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Advance Id</label>
+                      <div>
+                        <input type="text" class="textfield" name="advance_id" value="333" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Fin Year</label>
+                      <div>
+                        <input type="text" class="textfield" name="fine_year" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Deduct Sl No.</label>
+                      <div>
+                        <input type="text" class="textfield" name="deduct_sl" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li >
+                    <div>
+                      <label>Advance Type</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="advance_type" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="advance_type" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Payee Type</label>
+                      <div>
+                        <input type="text" class="textfield" name="payee_type" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  </ul>
+                  <ul>
+                  <li class="smallsec">
+                    <div>
+                      <label>Vendor Code</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="vendor_code" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="vendor_code" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec">
+                    <div>
+                      <label>Employee No.</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="employee_no" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="employee_no" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec">
+                    <div>
+                      <label>Student Reg No.</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="student_reg" value="" placeholder="" disabled disabled>
+                        <input type="text" class="textfield" name="student_reg" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  </ul>
+                  <ul>
+                  <li > 
+                    <div>
+                      <label>Paid to</label>
+                      <div>
+                        <input type="text" class="textfield" name="paid_to" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec">
+                    <div>
+                      <label>Department</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="department" value="" placeholder="" disabled disabled>
+                        <input type="text" class="textfield" name="department" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec">
+                    <div>
+                      <label>College</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="college" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="college" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec">
+                    <div>
+                      <label>University</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="university" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="university" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  </ul>
+                  <ul>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>From Date</label>
+                      <div>
+                        <input type="text" class="textfield" name="from_date" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>To Date</label>
+                      <div>
+                        <input type="text" class="textfield" name="to_date" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li > 
+                    <div>
+                      <label>Place</label>
+                      <div>
+                        <input type="text" class="textfield" name="palce" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>City</label>
+                      <div>
+                        <input type="text" class="textfield" name="city" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>State</label>
+                      <div>
+                        <input type="text" class="textfield" name="state" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Country</label>
+                      <div>
+                        <input type="text" class="textfield" name="countery" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Foreign</label>
+                      <div>
+                        <input type="text" class="textfield" name="foregin" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  </ul>
+                  <ul>
+                  <li>
+                    <div>
+                      <label>Voucher Type</label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="voucher_tyoe" value="" placeholder="" disabled>
+                        <label>-</label>
+                        <input type="text" class="textfield" name="voucher_type" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Voucher No.</label>
+                      <div>
+                        <input type="text" class="textfield" name="voucher_no" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="smallsec"> 
+                    <div>
+                      <label>Voucher Date</label>
+                      <div>
+                        <input type="text" class="textfield" name="voucher_date" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li >
+                    <div>
+                      <label>Account Code<sup>*</sup></label>
+                      <div class="flexbox">  
+                        <input type="text" class="textfield" name="account_code" value="" placeholder="" disabled>
+                        <input type="text" class="textfield" name="accouont_code" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                <ul>
+                  <li>
+                    <div>
+                      <label>Advance Amount</label>
+                      <input type="text" class="textfield" name="advance_amount" value="" placeholder="" disabled>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>Deducted Amount</label>
+                      <div>
+                        <input type="text" class="textfield" name="deducted_amount" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>Voucher Status</label>
+                      <div>
+                        <input type="text" class="textfield" name="voucher_status" value="" placeholder="" disabled>
+                      </div>
+                    </div>
+                  </li>
+                </ul> 
+              </div> 
+        
+        <div class="btnlist text-center">
+                <ul>        
+                    <!-- <li><div><button type="submit" class="bluebtn">Save</button></div></li> -->
+                    <li><div><button type="submit" class="bluebtn">Submit</button></div></li>                                
+                </ul>
+            </div> 
+        </div> 
+
+
+
+
+        </div>
+    </div>
+   
+    </section>  
+
+    <footer class="footerbg"> © 2023 All Rights Reserved.  </footer>
+ 
+
+
+
+
+<link rel="stylesheet" href="css/simple-datatables.css">
+<script src="js/simple-datatables.js"></script>
+<script src="js/pages-simple-datatables.js"></script>
+ 
+<link rel='stylesheet' type='text/css' href='css/bootstrap-datepicker.min.css' >
+<script  type='text/javascript' src='js/bootstrap-datepicker.min.js'></script>
+
+<script type="text/javascript">
+$('.datepicker').datepicker({
+format: "dd-mm-yyyy",
+autoclose: true
+//startDate: new Date('2022-7-15'),
+// endDate:  new Date('2022-8-15')
+});  
+$(".tablink").click(function(){
+$('.tablink').removeClass('active');
+$(this).addClass('active'); 
+var id=$(this).attr("data-title"); 
+$(".maintabsec").hide(); 
+$("#"+id).fadeIn(); 
+$(".maintabsec").removeClass('active');
+$("#"+id).addClass('active');
+}); 
+
+
+$(".addfield").click(function () {
+var html = '';
+html += '<ul class="adjestments">';
+html += ' <li><div><input type="text" class="textfield" name="advance_id" value="" placeholder="Auto"/></div></li> <li><div><input type="text" class="textfield" name="fin_year" value="" placeholder="Auto"/></div></li> <li><div><input type="text" class="textfield" name="payee_type" value="" placeholder="Auto"/></div></li> <li><div><input type="text" class="textfield" name="payee_id" value="" placeholder="Auto"/></div></li> <li><div><input type="text" class="textfield" name="payee_name" value="" placeholder="Auto"/></div></li> <li><div><input type="text" class="textfield" name="place_visited" value="" placeholder="Auto"/></div></li> <li><div><input type="text" class="textfield" name="debit_amount" value="" placeholder="Auto"/></div></li> <li><div><input type="text" class="textfield" name="credit_amount" value="" placeholder="Auto"/></div></li> <li><div><input type="text" class="textfield" name="balance" value="" placeholder="Auto"/></div></li> <li class="width3 checkbtn"><label><input type="checkbox" name="delete" class="checksec" /></label> </li> ';  
+html += '</ul>';
+
+$('.recordlist').append(html);
+});
+
+$(document).on("click", ".deletebtn", function() {
+    $('input:checked').closest('.adjestments').remove();
+    $(".deletebtn").prop("disabled", true);
+});
+$(document).on("change", '.adjestments input[type="checkbox"]', function() {
+    var checked = $('.adjestments input[type="checkbox"]:checked').length > 0;
+    if (checked) {
+        $(".deletebtn").prop("disabled", false);
+    } else {
+        $(".deletebtn").prop("disabled", true);
+    }
+});
+
+ 
+
+</script>
+
+
+
+<script type="text/javascript">
+$(document).ready(function () {
+  
+ 
+ 
+  var divs = $('.nextprev > .rowbox');
+  var count = divs.length;
+  $('.count').text(count);
+  var now = 0; 
+  divs.hide().first().show();  
+
+  $("button[name='next']").click(function (e) {
+    divs.eq(now).hide();
+    now = (now + 1 < divs.length) ? now + 1 : 0;
+    divs.eq(now).show(); 
+    $('.scount').text(1 + now);  
+  });
+
+  $("button[name='prev']").click(function (e) {
+    divs.eq(now).hide();
+    now = (now > 0) ? now - 1 : divs.length - 1;
+    divs.eq(now).show(); 
+    $('.scount').text(1 + now);  
+  });
+
+  $(".deleterow").click(function () {
+    $('input:checked').closest('.rowbox').remove();
+    divs = $('.nextprev > .rowbox'); 
+    count = divs.length; 
+    $('.count').text(count);    
+    if (count > 0) {
+      if (now >= count) {
+        now = 0; 
+      }
+      divs.hide().eq(now).show(); 
+      $('.scount').text(1 + now);
+    } else { 
+      $("button[name='next'], button[name='prev']").hide();
+    }    
+    $(".deleterow").prop("disabled", true); 
+  });
+
+  $(".gofirst").click(function() {
+    divs.eq(now).hide();
+    now = 0;
+    divs.eq(now).show();
+    $('.scount').text(1 + now);
+  });
+
+  $(".golast").click(function() {
+    divs.eq(now).hide();
+    now = divs.length - 1;
+    divs.eq(now).show();
+    $('.scount').text(1 + now);
+  });
+
+});
+
+</script>
+<script>
+  
+
+  app.controller('contr', function ($scope, $http, $timeout, $window, $rootScope, $filter) {
+    $scope.terte = 10;
+    $scope.flag = false;
+    $scope.timeoutPromise = null;
+    $scope.glgroupData = [];
+
+  $scope.details=[];
+  var token;
+  const userDetailsJSON = $window.sessionStorage.getItem('userDetails');
+  if (userDetailsJSON) {
+    const userDetails = JSON.parse(userDetailsJSON);
+    if (userDetails.token!=null || userDetails.token!=''){
+      $scope.details=angular.copy(userDetails);
+      token=$scope.details.token;
+    }
+  } else {
+    $window.location.href = "index.html";
+    console.log('User details not found in sessionStorage');
+  }
+  $scope.logout = function() {
+    $window.sessionStorage.removeItem('userDetails');
+    $window.location.href = 'index.html';
+  }; 
+
+      var config = {
+         headers: {
+        'Authorization': 'Bearer ' + token
+          },   
+        };        
+        $scope.goBack = function () {
+        window.history.back();
+      }
+      });
+  </script>
+
+</body>
+</html>

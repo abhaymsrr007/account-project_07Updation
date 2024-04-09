@@ -1,0 +1,187 @@
+  <style>
+ 
+    .flexbox .dropdd {
+      width: 100%;
+    } 
+    .forms>ul>li {
+      max-width: 16%;
+    }
+
+    .forms label {
+      line-height: 15px;
+    }
+  </style>
+
+  <section class="formsec1" ng-controller="departmentCtrl">
+    <div class="titles">{{subbreadcrumb}}</div>
+    <form name="myform" ng-submit="save()" novalidate>
+      <div class="forms white-box  ">
+        <ul class="flexbox">
+          <li>
+            <div>
+              <label for="operative">University</label>
+              <input type="text" class="textfield" ng-model="form.universityCode" id="universityCode"
+              placeholder="University" maxlength="50" required disabled>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="cllg">College </label>
+              <select ng-model="form.collegeCode" class="dropdd" required name="cllg"
+              ng-change="fetchingUniversity(collegeData,form.collegeCode,uniData)">
+                <option value="" selected>Select College</option>
+                <option ng-repeat="x in collegeData" value="{{x.collegeCode}}">{{x.collegeCode}} - {{x.dscr}}</option>
+              </select>
+              <div class="error" ng-show="myform.cllg.$error.required && myform.cllg.$touched && !formSubmitted">
+                This field is required.
+              </div>
+            </div>
+          </li>
+          
+          <li>
+            <div>
+              <label for="dscr">Department Code</label>
+              <input type="text" class="textfield" name="departmentCode" num-only 
+              ng-model="form.departmentCode" placeholder="Department Code" required ng-blur="checkForDuplicate(form.departmentCode)" ng-disabled="flag">
+            </div>
+            <div class="error" ng-show="myform.departmentCode.$error.required && myform.departmentCode.$touched && !formSubmitted">
+              This field is required.
+            </div>
+            <div class="error"
+            ng-show="duplicateCode && myform.departmentCode.$touched">
+            This Department Code already exists.
+             </div>
+          </li>
+
+          <li>
+            <div>
+              <label for="dscr">Description</label>
+              <input type="text" class="textfield" ng-model="form.dscr" placeholder="Description" required
+                maxlength="100" name="dscr">
+              <div class="error" ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">
+                This field is required.
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="sname">Short Name</label>
+              <input type="text" class="textfield" ng-model="form.shortName" placeholder="Short Name" required
+                maxlength="10" name="sname">
+              <div class="error" ng-show="myform.sname.$error.required && myform.sname.$touched && !formSubmitted">
+                This field is required.
+              </div>
+
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="lcode">Location Code</label>
+              <select ng-model="form.locationCode" class="dropdd" required name="lcode">
+                <option value=""  selected>Select Location Code</option>
+                <option ng-repeat="x in locationData" value="{{x.locationCode}}">{{x.locationCode}} - {{x.dscr}}
+                </option>
+              </select>
+              <div class="error" ng-show="myform.lcode.$error.required && myform.lcode.$touched && !formSubmitted">
+                This field is required.
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="city">City</label>
+              <input type="text" class="textfield" ng-model="form.city" placeholder="City" required maxlength="20"
+                name="city">
+              <div class="error" ng-show="myform.city.$error.required && myform.city.$touched && !formSubmitted">
+                This field is required.
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div>
+              <label for="pin">PIN</label>
+              <input type="text" class="textfield" ng-model="form.pincode" id="dscr" placeholder="Enter Pin Code" required
+                     minlength="6" maxlength="6" name="pin" num-only>
+              <div class="error" ng-show="myform.pin.$error.required && myform.pin.$touched && !formSubmitted">
+                  This field is required.
+              </div>
+              <span class="error" ng-show="(myform.pin.$error.minlength || myform.pin.$error.maxlength) && !formSubmitted">
+                  Please enter a PIN code with exactly 6 digits.
+              </span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="state">State</label>
+              <input type="text" class="textfield" ng-model="form.state" placeholder="State" name="state" required
+                maxlength="20">
+              <div class="error" ng-show="myform.state.$error.required && myform.state.$touched && !formSubmitted">
+                This field is required.
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="country">Country</label>
+              <input type="text" class="textfield" ng-model="form.country" placeholder="Country" required maxlength="20"
+                name="country">
+              <div class="error" ng-show="myform.country.$error.required && myform.country.$touched && !formSubmitted">
+                This field is required.
+              </div>
+            </div>
+          </li>
+          <li>
+            <div> 
+              <button type="submit" class="bluebtn" style="margin-top: 15px;" ng-disabled="myform.$invalid || duplicateCode">Save</button>
+            </div>
+          </li>
+          <!-- </div> -->
+        </ul>
+      </div>
+    </form>
+    <div class="white-box ">
+
+      <table class="table table-bordered text-center regtable table-condensed">
+        <thead>
+          <tr>
+            <th style="text-align: center;" width="80">Department Code</th>
+            <th style="text-align: center;" width="80">College Code </th>
+            <th style="text-align: center;" width="100"> College Description</th>
+            <th style="text-align: center;" width="80"> University Code</th>
+            <th style="text-align: center;" width="100"> University Description</th>
+            <th style="text-align: center;" width="100"> Department Description</th>
+            <th style="text-align: center;" width="80">Short Name</th>
+            <th style="text-align: center;" width="80">Location code</th>
+            <th style="text-align: center;" width="80">Location</th>
+            <th style="text-align: center;" width="80">Pin Code</th>
+            <th style="text-align: center;" width="80">City</th>
+            <th style="text-align: center;" width="100">State</th>
+            <th style="text-align: center;" width="100">Country</th>
+            <th style="text-align: center;" width="100">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="n in departmentData" class="tdcolor">
+            <td ng-bind="n.departmentCode"> </td>
+            <td ng-bind="n.collegeCode"> </td>
+            <td ng-bind="getcllgDscr(collegeData,n.collegeCode) | uppercase"> </td>
+            <td ng-bind="n.universityCode"> </td>
+            <td ng-bind="getUniDscr(uniData,n.universityCode) | uppercase"> </td>
+            <td ng-bind="n.dscr"> </td>
+            <td ng-bind="n.shortName"> </td>
+            <td ng-bind="n.locationCode"> </td>
+            <td ng-bind="getLocationDscr(locationData,n.locationCode) | uppercase"> </td>
+            <td ng-bind="n.pincode"> </td>
+            <td ng-bind="n.city"> </td>
+            <td ng-bind="n.state"> </td>
+            <td ng-bind="n.country"> </td>
+            <!-- <td ng-bind="n.gl_group_code"> </td> -->
+            <td><button type="button" class="bluebtn" ng-click="edit(uniData,n,n.universityCode)">Edit</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  

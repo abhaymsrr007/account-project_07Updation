@@ -1,0 +1,455 @@
+<style>
+    .flex-container {
+        display: flex;
+        justify-content: flex-end;
+        /* Align items to the right */
+    }
+    .forms > ul >li { min-width: 20%;}
+</style>
+<section class="formsec1" ng-controller="suppBillDetsCtrl">
+    <div class="flextitles">
+        <div class="titles ">Supplier Bill Details</div>
+        <button type="button" ng-click="handleLink('supplierbilldata')" class="bluebtn btn text-end">Supplier Bill
+            Details List</button>
+    </div>
+    <form name="myform" novalidate>
+        <div class="white-box forms notop">
+            <h3>PO Identification :</h3>
+            <ul>
+                <li>
+                    <div>
+                        <label>PO Id.<sup>*</sup></label>
+                        <select class="dropdd" name="poId" ng-model="form.poId" id="poid" ng-change="change(form.poId)"
+                            ng-disabled="hideflag">
+                            <option value="" selected disabled>Select</option>
+                            <option ng-repeat="x in data" ng-value="{{x.poId}}" ng-show="form.poId!=x.poId">
+                                {{x.poId}}{{form.poId!=x.poId?'/'+x.poFinYear+'/':''}}{{form.poId!=x.poId?x.poNumber+'/':''}}{{form.poId!=x.poId?x.poDate:''}}
+                            </option>
+                        </select>
+                        <div class="error"
+                            ng-show="myform.poId.$error.required && myform.poId.$touched && !formSubmitted">
+                            This field is required.
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Fin Year</label>
+                        <input type="text" class="textfield" name="fin-year" ng-model="form.poFinYear"
+                            ng-disabled="projectPlanDataDisable" />
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>PO No.</label>
+                        <input type="text" class="textfield" name="fin-year" ng-model="form.poNumber"
+                            ng-disabled="hideflag || projectPlanDataDisable" />
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>PO Date</label>
+                        <input type="text" class="textfield" name="po-date" ng-model="form.poDate"
+                            ng-disabled="projectPlanDataDisable" />
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label class="required">Bill Sl. No.<sup>*</sup></label>
+                        <input type="text" class="textfield" name="billSlNo" required no-special-characters
+                            ng-model="form.billSlNo" />
+                        <div class="error"
+                            ng-show="myform.billSlNo.$error.required && myform.billSlNo.$touched && !formSubmitted">
+                            This field is required.
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>PO Status</label>
+                        <input type="text" class="textfield" name="po-status" ng-model="form.postatus"
+                            ng-disabled="hideflag || projectPlanDataDisable" />
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="flexbox">
+            <div class="white-box forms notop">
+                <h3>Vendor Details :</h3>
+                <ul>
+                    <li>
+                        <div>
+                            <label>Vendor Code<sup>*</sup></label>
+                            <input type="text" class="textfield" name="vendor-code" ng-model="form.vendorCode"
+                                ng-disabled="hideflag || projectPlanDataDisable" />
+                        </div>
+                    </li>
+                    <li class="width70">
+                        <div>
+                            <label>Vendor Name</label>
+                            <input type="text" class="textfield" name="Vendor-name" ng-model="form.vendorName"
+                                ng-disabled="hideflag || projectPlanDataDisable" />
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="white-box forms notop">
+                <h3>Bill/Invoice Details :</h3>
+                <ul>
+                    <li>
+                        <div>
+                            <label>Invoice No.<sup>*</sup></label>
+                            <input type="text" class="textfield" name="invoiceNo" maxlength="20" minlength="1"
+                                no-special-characters m-capitalize  ng-model="form.invoiceNo"  required />
+                            <div class="error"
+                                ng-show="myform.invoiceNo.$error.required && myform.invoiceNo.$touched && !formSubmitted">
+                                This field is required.
+                            </div>
+                        </div>
+                    </li>
+                    <li style="max-width: 20%;">
+                        <div>
+                            <label>Date<sup>*</sup></label>
+                            <input type="text" class="textfield" required datepicker name="invoiceDate"
+                                ng-model="form.invoiceDate" />
+                            <div class="error"
+                                ng-show="myform.invoiceDate.$error.required && myform.invoiceDate.$touched && !formSubmitted">
+                                This field is required.
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <label>Amount<sup>*</sup></label>
+                            <input type="text" class="textfield" name="invoiceAmount" required num-only maxlength="24"
+                                ng-model="form.invoiceAmount" />
+                            <div class="error"
+                                ng-show="myform.invoiceAmount.$error.required && myform.invoiceAmount.$touched && !formSubmitted">
+                                This field is required.
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="white-box forms notop">
+            <h3>Plan Details :</h3>
+            <ul>
+                <li>
+                    <div>
+                        <label>Plan No.<sup>*</sup></label>
+                        <input type="text" class="textfield" name="plan-no" ng-model="form.planNo"
+                            ng-disabled="projectPlanDataDisable" />
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Fin Year</label>
+                        <input type="text" class="textfield" name="fin-year" ng-model="form.planFinYear"
+                            ng-disabled="projectPlanDataDisable" />
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Plan Type</label>
+                        <div class="flexbox">
+                            <input type="text" class="textfield" name="type" ng-model="form.planTypeCode"
+                                ng-disabled="projectPlanDataDisable" />
+                            <input type="text" class="textfield" name="type" ng-model="form.ptdscr"
+                                ng-disabled="projectPlanDataDisable" />
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Plan Title</label>
+                        <input type="text" class="textfield" name="title" ng-model="form.planTitle"
+                            ng-disabled="projectPlanDataDisable" />
+                    </div>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <div>
+                        <label>Custodian Type</label>
+                        <div class="flexbox">
+                            <input type="text" class="textfield" name="Custodian-type" ng-model="form.costCenterId"
+                                ng-disabled="projectPlanDataDisable" />
+                            <input type="text" class="textfield" name="Custodian-type"
+                                ng-disabled="projectPlanDataDisable" />
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Department</label>
+                        <div class="flexbox">
+                            <input type="text" class="textfield" name="Department" ng-model="form.departmentCode"
+                                ng-disabled="projectPlanDataDisable" />
+                            <input type="text" class="textfield" name="Department" ng-model="form.deptdscr"
+                                ng-disabled="projectPlanDataDisable" />
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>College</label>
+                        <div class="flexbox">
+                            <input type="text" class="textfield" name="College" ng-model="form.collegeCode"
+                                ng-disabled="projectPlanDataDisable" />
+                            <input type="text" class="textfield" name="College" ng-model="form.cllgdscr"
+                                ng-disabled="projectPlanDataDisable" />
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>University</label>
+                        <div class="flexbox">
+                            <input type="text" class="textfield" name="University" ng-model="form.universityCode"
+                                ng-disabled="projectPlanDataDisable" />
+                            <input type="text" class="textfield" name="University" ng-model="form.unidscr"
+                                ng-disabled="projectPlanDataDisable" />
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="white-box forms notop">
+            <h3>Bill Registration Details : </h3>
+            <ul>
+                <li>
+                    <div>
+                        <label>GARN No. & Date</label>
+                        <div class="flexsec">
+                            <input type="text" no-special-characters m-capitalize maxlength="10" class="textfield"
+                                name="gran-no" ng-model="form.garnNo" />
+                            <input type="text" class="textfield" datepicker name="gran-no" ng-model="form.garnDate" />
+                        </div>
+                    </div>
+                </li>
+                <!-- <li>
+                    <div>
+                        <label>GARN No. & Date</label>
+                        <select ng-model="poId" class="dropdd">
+                            <option value="" disabled>Select</option>
+                            <option ng-repeat="x in employeeData | filter: {}" value="{{x.staffNo}}">
+                                {{x.staffNo}}
+                            </option>
+                        </select>
+                    </div>
+                </li> -->
+                <li>
+                    <div>
+                        <label>Certified by <sup>*</sup></label>
+                        <div class="flexsec">
+                            <select ng-model="form.certifiedBy" name="certifiedBy" class="dropdd"
+                                ng-change="setEmpName(form.certifiedBy)" required>
+                                <option value="" disabled>Select</option>
+                                <option ng-repeat="x in employeeData | filter: {designationCode:'1'}"
+                                    value="{{x.staffNo}}" ng-show="form.certifiedBy != x.staffNo">
+                                    <!-- {{x.staffNo}} - {{ x.fullName}} -->
+                                    {{x.staffNo}} {{ form.certifiedBy != x.staffNo ? '- ' + x.fullName:''}}
+                                </option>
+                            </select>
+                            <div class="error"
+                                ng-show="myform.certifiedBy.$error.required && myform.certifiedBy.$touched && !formSubmitted">
+                                This field is required.
+                            </div>
+                            <input type="text" class="textfield" name="Certified-by" ng-model="employeeNameCirtifiedBy" />
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Certificate No. & Date</label>
+                        <div class="flexsec">
+                            <input type="text" class="textfield" name="certificate_no" no-special-characters
+                                m-capitalize maxlength="20" ng-model="form.acceptCertNo" />
+                            <input type="text" class="textfield" datepicker name="date"
+                                ng-model="form.acceptCertDate" style="max-width:35%" />
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Reg No. & Date<sup>*</sup></label>
+                        <div class="flexsec">
+                            <input type="text" class="textfield" name="billRegNo" no-special-characters m-capitalize
+                                num-only maxlength="5" ng-model="form.billRegNo" required />
+                            <input type="text" class="textfield" datepicker name="date" ng-model="form.billRegDate" />
+                            <div class="error" ng-show="myform.billRegNo.$error.required && myform.billRegNo.$touched && !formSubmitted">
+                                This field is required.
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="white-box forms notop">
+            <h3>Bill Processing Details :</h3>
+            <ul>
+                <li>
+                    <div>
+                        <label>Receive Date<sup>*</sup></label>
+                        <input type="text" class="textfield" datepicker name="recvDt" required ng-model="form.recvDt" />
+                        <div class="error"
+                            ng-show="myform.recvDt.$error.required && myform.recvDt.$touched && !formSubmitted">
+                            This field is required.
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Entry Date</label>
+                        <input type="text" class="textfield" datepicker name="type" ng-model="form.entryDt" />
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Date at Deptt</label>
+                        <input type="text" class="textfield" datepicker name="type" ng-model="form.processedDtDept" />
+                    </div>
+                </li>
+
+                <li>
+                    <div>
+                        <label>Date at Accounts</label>
+                        <input type="text" class="textfield" datepicker name="type"
+                            ng-model="form.processedDtAccount" />
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Tentative Pay Date</label>
+                        <input type="text" class="textfield" datepicker name="type"
+                            ng-model="form.tentativePaymentDt" />
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Actual Date</label>
+                        <input type="text" class="textfield" datepicker name="type" ng-model="form.actualPaymentDt" />
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Bank Voucher Id</label>
+                        <!-- <input type="text" class="textfield" name="Voucher-id" ng-model="form.bankPvId" /> -->
+                        <select ng-model="form.bankPvId" name="bankPvId" class="dropdd" required>
+                            <option value="" disabled>Select</option>
+                            <option ng-repeat="x in bPvData" value="{{x.bankPvId}}" ng-show="form.bankPvId!=x.bankPvId">
+                                {{x.bankPvId}}  {{form.bankPvId==x.bankPvId?'': x.finYear}}  {{ form.bankPvId==x.bankPvId?'':x.payTo}}
+                                <!-- {{x.bankPvId}}  -->
+                            </option>
+                        </select>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Id Date</label>
+                        <input type="text" class="textfield" datepicker ng-model="form.bankPvIdDate" name="date" />
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Fin Year</label>
+                        <input type="text" class="textfield" name="fin-year" ng-model="form.bankPvFinYear" disabled/>
+                    </div>
+                </li>
+                <!-- <li>
+                    <div>
+                        <label>Voucher No.</label>
+                        <input type="text" class="textfield" name="Voucher" />
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Voucher Date</label>
+                        <input type="text" class="textfield" datepicker name="date" ng-model="form.bankPvDate" />
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Passed Amount</label>
+                        <input type="text" class="textfield" name="amount" ng-model="form.passedAmount" />
+                    </div>
+                </li> -->
+            <!-- </ul>
+
+            <ul> -->
+                <li>
+                    <div>
+                        <label>SGST</label>
+                        <input type="text" class="textfield" name="SGST" ng-model="form.sgstUgst" />
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>CGST</label>
+                        <input type="text" class="textfield" name="SGST" ng-model="form.cgst" />
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>IGST</label>
+                        <input type="text" class="textfield" name="IGST" ng-model="form.igst" />
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Processing Remarks</label>
+                        <input type="text" class="textfield" name="Processing-remarks"
+                            ng-model="form.processingRemarks" />
+                    </div>
+                </li>
+                <!-- <li>
+                    <div>
+                        <label>Enterted By<sup>*</sup></label>
+                        <div class="flexbox">
+                            <input type="text" class="textfield" name="entered-by" 
+                                ng-model="form.enteredBy" />
+                            <input type="text" class="textfield" name="entered-by"  />
+                        </div>
+                    </div>
+                </li> -->
+                <li>
+                    <div>
+                        <label>Enterted By <sup>*</sup></label>
+                        <div class="flexsec">
+                            <select ng-model="form.enteredBy" class="dropdd" ng-change="setEmpName(form.enteredBy)">
+                                <option value="" disabled>Select</option>
+                                <option ng-repeat="x in employeeData" value="{{x.staffNo}}"
+                                    ng-show="form.enteredBy != x.staffNo">
+                                    <!-- {{x.staffNo}} - {{ x.fullName}} -->
+                                    {{x.staffNo}} {{ form.enteredBy != x.staffNo ? '- ' + x.fullName:''}}
+                                </option>
+                            </select>
+                            <input type="text" class="textfield" name="enteredBy-by" ng-model="employeeName1" />
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Bill Status<sup>*</sup></label>
+                        <select ng-model="form.billStatusCode" class="dropdd">
+                            <option value="" disabled>Select</option>
+                            <option ng-repeat="x in billStatusData" value="{{x.billStatusCode}}" ng-show="form.billStatusCode != x.billStatusCode">
+                                {{x.billStatusCode}} - {{x.dscr}}
+                            </option>
+                        </select>
+                        <!-- <input type="text" class="textfield" name="bill-status" ng-model="form.billStatusCode" /> -->
+                    </div>
+                </li>
+            </ul>
+            <div class="btnlist">
+                <ul>
+                    <li>
+                        <div><button type="submit" ng-click="savebilldetails()" class="bluebtn">Save</button></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </form>
+</section>

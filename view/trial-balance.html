@@ -1,0 +1,105 @@
+<section class="formsec1" ng-controller="trialBalCntrl">
+    <div class="titles">{{subbreadcrumb}}</div>Trial Balance</div>
+    <form name="myform"  novalidate>
+        <div class="notop forms white-box">
+            <ul>
+                
+                <li class="width30">
+                    <div>
+                        <label for="fromMothYear">From Month Year</label>
+                        <input type="text" month-year-picker class="textfield"  autocomplete="off" ng-model="form.fromMothYear" id="fromMothYear" placeholder="Date"
+                            maxlength="50" required name="fromMothYear">
+                        <div class="error"
+                            ng-show="myform.fromMothYear.$error.required && myform.fromMothYear.$touched && !formSubmitted">
+                            This field is required.
+                        </div>
+                    </div>
+
+                </li>
+                <li class="width30">
+                    <div>
+                        <label for="toMothYear">To Month Year</label>
+                        <input type="text" month-year-picker class="textfield"  autocomplete="off" ng-model="form.toMothYear" id="toMothYear" placeholder="Date"
+                            maxlength="50" required name="toMothYear">
+                        <div class="error"
+                            ng-show="myform.toMothYear.$error.required && myform.toMothYear.$touched && !formSubmitted">
+                            This field is required.
+                        </div>
+                    </div>
+
+                </li>
+                <li class="flexbox">
+                    <div>
+                        <button type="submit" class="bluebtn " style="margin-top: 15px;"
+                            ng-mouseover="flag1=false" ng-click="post(form.fromMothYear,form.toMothYear)">Generate</button>
+                            <button type="button" class="bluebtn" id="exportToExcel" ng-click="exportTableToExcel()">Export Report</button>
+                    </div>
+                </li>
+                <!-- <li><button type="button" class="bluebtn" id="exportToExcel" ng-click="exportTableToExcel()">Export Report</button>
+                </li> -->
+            </ul>
+        </div>
+    </form>
+    <div class="white-box">
+        <ul class="searchbox">
+            <!-- <li><input type="text" class="textfield" ng-model="keyword1" placeholder="Account Number" /></li>
+            <li><input type="text" class="textfield" ng-model="keyword2" placeholder="college Code" /></li>
+            <li><button class="bluebtn" ng-click="search(keyword1,keyword2)">Search</button></li> -->
+            
+        </ul>
+        <!-- <table class="table table-striped  table-bordered text-center regtable table-condensed">
+            <thead>
+              <tr>
+                <th width="80">Bank Date</th>
+                <th width="80">Bank Code</th>
+                <th width="80">University Code</th>
+                <th width="80">Payment Amount</th>
+                <th width="80">Receipt Amount</th>
+                <th width="80">Bank Account</th>
+                <th width="80">College Code</th>
+                <th width="80">Bank Closing Balance</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="tdcolor" ng-repeat="n in subLedData">
+                <td>{{ n  }}</td>
+                <td>{{ n.bankCode }}</td>
+                <td>{{ n.universityCode  }}</td>
+                <td>{{ n.paymentAmount  }}</td>
+                <td>{{ n.receiptAmount  }}</td>
+                <td>{{ n.bankAc.toString()}}</td>
+                <td>{{ n.collegeCode }}</td>
+                <td>{{ n.bankCb }}</td>
+            </tr>
+            </tbody>
+        </table> -->
+
+
+        <!-- Assuming the provided object is stored in a variable named trialData -->
+        <table class="table table-striped  table-bordered text-center regtable table-condensed">
+            <thead>
+                <tr>
+                    <th>Trial From Date</th>
+                    <th>Trial To Date</th>
+                    <th>Account Code</th>
+                    <th>GL Group Code</th>
+                    <th>DB Amount</th>
+                    <th>CR Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr  ng-repeat="data in trialBalanceData">
+                    <td>{{ data.trialFromDate }}</td>
+                    <td>{{ data.trialToDate }}</td>
+                    <td>{{ data.accountCode }}</td>
+                    <td>{{ data.glGroupCode }}</td>
+                    <td>{{ data.dbAmount }}</td>
+                    <td>{{ data.crAmount }}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+
+</section>
+

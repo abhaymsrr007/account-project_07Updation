@@ -1,0 +1,121 @@
+  <style>
+ 
+    .flexbox .dropdd {
+      width: 100%;
+    }
+
+    .notop>ul>li {
+      max-width: 16%; }
+
+  
+  </style>
+
+  <section class="formsec1" ng-controller="univerDepartCtrl">
+    <div class="titles">{{subbreadcrumb}}</div>University Department</div>
+    <form name="myform" ng-submit="save()">
+      <div class="forms white-box notop">
+        <ul class="flexbox"  >
+          <li>
+            <div>
+              <label for="operative">University </label>
+              <select ng-model="form.universityCode" class="dropdd" required>
+                <option value="" disabled selected>Select University</option>
+                <option ng-repeat="x in data2" value="{{x.universityCode}}">{{x.dscr}}</option>
+              </select>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="dscr">Department Code</label>
+              <input type="text" class="textfield" m-capitalize no-special-charecters ng-model="form.departmentCode" placeholder="Department Code" disabled >
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="dscr">Description</label>
+              <input type="text" class="textfield" m-name ng-model="form.dscr" placeholder="Description" required maxlength="100">
+            </div>
+          </li>
+
+
+          <li>
+            <div>
+              <label for="dscr">Short Name</label>
+              <input type="text" class="textfield" m-name m-capitalize ng-model="form.shortName" placeholder="Short Name" maxlength="10" required>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="operative">Location </label>
+              <select ng-model="form.locationCode" class="dropdd" required>
+                <option value="" disabled selected>Location</option>
+                <option ng-repeat="x in data3" value="{{x.locationCode}}">{{x.dscr}}</option>
+              </select>
+            </div>
+          </li>
+          <li class="s1">
+            <div>
+              <label for="dscr">Address</label>
+              <input type="text" class="textfield" ng-model="form.address" placeholder="Address" required maxlength="100">
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="dscr">City</label>
+              <input type="text" class="textfield" ng-model="form.city" m-name m-capitalize placeholder="City" required maxlength="20">
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="dscr">State</label>
+              <input type="text" class="textfield" m-name m-capitalize ng-model="form.state" placeholder="State" required maxlength="20">
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="dscr">Country</label>
+              <input type="text" class="textfield" m-name m-capitalize ng-model="form.country" placeholder="Country" required maxlength="20">
+            </div>
+          </li>
+          <li>
+            <div>
+              <button type="submit" class="bluebtn " style="margin-top:15px;" ng-disabled="myform.$invalid">Save</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </form>
+    <div class="white-box ">
+      <table class="table table-bordered text-center regtable table-condensed">
+        <thead>
+          <tr>
+            <th style="text-align: center;" width="80">Department Code</th>
+            <th style="text-align: center;" width="80">University </th>
+            <th style="text-align: center;" width="200">Description</th>
+            <th style="text-align: center;" width="80">Short Name</th>
+            <th style="text-align: center;" width="80">Location </th>
+            <th style="text-align: center;" width="200">Address</th>
+            <th style="text-align: center;" width="80">City</th>
+            <th style="text-align: center;" width="100">Country</th>
+            <th style="text-align: center;" width="100">State</th>
+            <th style="text-align: center;" width="100">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="n in data" class="tdcolor">
+            <td ng-bind="n.departmentCode" > </td>
+            <td ng-bind="n.universityCode" > </td>
+            <td ng-bind="n.dscr|uppercase" > </td>
+            <td ng-bind="n.shortName" > </td>
+            <td ng-bind="n.locationCode" > </td>
+            <td ng-bind="n.address" > </td>
+            <td ng-bind="n.city" > </td>
+            <td ng-bind="n.state" > </td>
+            <td ng-bind="n.country" > </td>
+            <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>

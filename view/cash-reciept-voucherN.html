@@ -1,0 +1,1996 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Cash Reciept Voucher</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon" />
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet"> -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <script src="js/jquery-3.6.0.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/linked.js"></script>
+  <script src="js/tools.js"></script>
+  <style>
+    .tabs-container {
+      position: relative;
+    }
+  </style>
+
+</head>
+
+<body  ng-controller="contr">
+  <header class="topheading">
+    <div class="logo">
+      <img src="images/nrt-logo.svg" alt="" />
+    </div>
+    <a class="btn bluebtn" ng-click="goBack()">Back</a>
+    <a class="userlogin" ng-click="logout()">{{details.name}} <span><img
+          src="https://exam.skmu.ac.in/ftpwebapps/skmu/resources/studentdata/users/profileimage/{{details.profile_image}}"
+          alt="student" /></span></a>
+  </header>
+  <section class="formsec">
+    <div class="container">
+      <div class="tabsec">
+        <ul class="tabs-container">
+          <li><a class="tablink active" data-title="tab1">Cash Receipt Voucher</a></li>
+          <li><a class="tablink" data-title="tab2">Cash Receipt Voucher Details</a></li>
+          <li style="position: absolute;right:0;align-self: flex-end;"><button class="bluebtn btn"
+              ng-click="goDataLst()">Bank Payment List</button></li>
+        </ul>
+
+      </div>
+      <div id="tab1" class="maintabsec active">
+        <form name="cForm" ng-submit="saveCashForm()">
+          <div class="titles text-center">CASH RECEIPT VOUCHER</div>
+          <div class="white-box forms notop">
+            <ul>
+              <li>
+                <div>
+                  <label>Voucher Id<sup>*</sup></label>
+                  <input ng-model="cform.cashRvId" type="text" class="textfield" name="voucher" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Id Date<sup>*</sup></label>
+                  <input ng-model="cform.cashRvIdDate" ng-change="calculateFinYear(cform.cashRvIdDate)" type="text"
+                    class="textfield datepicker" name="id_date" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Fin Year<sup>*</sup></label>
+                  <input ng-model="cform.finYear" type="text" class="textfield" name="fin_year" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Voucher No.</label>
+                  <input ng-model="cform.cashRvNo" type="text" class="textfield" name="voucher_no" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Voucher Date</label>
+                  <input ng-model="cform.cashRvDate" type="text" class="textfield datepicker" name="voucher_date" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="voucherStatusCode">Status <sup>*</sup></label>
+                  <select class="dropdd" name="voucherStatusCode" ng-model="cform.voucherStatusCode" required
+                    ng-disabled="isDisable"
+                    ng-options="x.voucherStatusCode as (x.voucherStatusCode + ' - ' + x.dscr.toUpperCase()) for x in voucherType"
+                    ng-disabled=" isDisable || (role === 'manager' && x.voucherStatusCode === 'F') || (role === 'cashier' && x.voucherStatusCode === 'P')"
+                    ng-show="role === 'assistant' ? (x.voucherStatusCode !== 'R' && x.voucherStatusCode !== 'P' && x.voucherStatusCode !== 'C' && x.voucherStatusCode !== 'A') : (role === 'manager' ? (x.voucherStatusCode !== 'U' && x.voucherStatusCode !== 'C' && x.voucherStatusCode !== 'A') : (role === 'cashier' ? (x.voucherStatusCode !== 'U' && x.voucherStatusCode !== 'F' && x.voucherStatusCode !== 'R') : true))">
+                    <option value="" disabled selected>--Select--</option>
+                  </select>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="white-box forms form2">
+            <h3>Payer Details:</h3>
+            <ul>
+              <li>
+                <div>
+                  <label>Payer Type<sup>*</sup></label>
+                  <select class="dropdd" name="payFromTypeCode" ng-model="cform.payFromTypeCode" required
+                    ng-change="fieldDisable(cform.payFromTypeCode)" ng-disabled="isDisable || disableFlag1">
+                    <option value="" disabled selected>--Select--</option>
+                    <option ng-repeat="x in payeeTypeData" value="{{x.payToTypeCode}}">{{x.payToTypeCode}} -
+                      {{x.dscr.toUpperCase()}}</option>
+                  </select>
+                </div>
+                <div class="error"
+                  ng-show="cForm.payFromTypeCode.$error.required && cForm.payFromTypeCode.$touched && !formSubmitted">
+                  This field is required.
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Vendor Code</label>
+                  <div class="flexbox">
+                    <select class="dropdd" name="vender_code2" ng-disabled="isDisable || disableVendor || disableFlag1"
+                      ng-model="cform.vendorCode"
+                      ng-change="getVendorDscr(cform.vendorCode); setPurchaseOrderDetails(cform.vendorCode)">
+                      <option value="" disabled selected>Select</option>
+                      <option ng-repeat="x in supplierData" value="{{x.vendorCode}}"
+                        ng-show="x.vendorCode != form.vendorCode">{{x.vendorCode}} {{x.vendorCode != form.vendorCode ? '
+                        - ' + x.fullName.toUpperCase() : '' }}</option>
+                    </select>
+                    <input type="text" class="textfield" name="vender_code" value="" placeholder=""
+                      ng-model="cform.vendorDscr" ng-disabled="isDisable || disableFlag1" />
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Employee No.</label>
+                  <div class="flexbox">
+                    <select class="dropdd" name="payee_type" ng-model="cform.staffNo"
+                      ng-change="getEmpDscr(cform.staffNo)" ng-disabled=" isDisable ||disableEmp || disableFlag1 ">
+                      <option value="" disabled selected>--Select--</option>
+                      <option ng-repeat="x in empData" value="{{x.staffNo}}" ng-show="form.staffNo != x.staffNo">
+                        {{x.staffNo}} {{form.staffNo != x.staffNo ? ' - ' + x.fullName:''}}
+                      </option>
+                    </select>
+                    <input type="text" class="textfield" name="employee_no" value="" ng-model="cform.empDscr"
+                      placeholder="" ng-disabled=" isDisable ||disableEmp || disableFlag1" />
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Student Reg. No.</label>
+                  <div class="flexbox">
+                    <select class="dropdd" style="width: 55%;" name="student_reg_no2"
+                      ng-disabled=" isDisable ||disableStu ||  disableFlag1" ng-model="cform.univRegistrationNo"
+                      ng-change="getStudentDscr(cform.univRegistrationNo)">
+                      <option value="" disabled selected>--Select--</option>
+                      <option ng-repeat="x in studentData" value="{{x.univRegistrationNo.toString()}}"
+                        ng-show="cform.univRegistrationNo != x.univRegistrationNo">
+                        {{x.univRegistrationNo}} {{form.univRegistrationNo != x.univRegistrationNo ? ' - ' + x.fullName
+                        : ''}}
+                        <!-- {{x.univRegistrationNo}} - {{x.fullName.toUpperCase()}} -->
+                      </option>
+                    </select>
+                    <input type="text" class="textfield" name="student_reg_no" ng-model="cform.studentDscr"
+                      placeholder="" ng-disabled=" isDisable ||disableStu || disableFlag1" />
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Paid by<sup>*</sup></label>
+                  <input type="text" class="textfield" name="paidBy" required value="" placeholder=""
+                    ng-model="cform.recvdFrom" ng-disabled=" isDisable ||paidByFlag || disableFlag1 " />
+                </div>
+                <div class="error" ng-show="cForm.paidBy.$error.required && cForm.paidBy.$touched && !formSubmitted">
+                  This field is required.
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Address</label>
+                  <input type="text" class="textfield" name="address" value="" placeholder="" ng-model="cform.address "
+                    ng-disabled=" isDisable || disableFlag1" />
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <div>
+                  <label>Department</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="department" value="" placeholder=""
+                      ng-model="cform.departmentCode" ng-disabled=" isDisable ||vflag || disableFlag1 " />
+                    <input type="text" class="textfield" name="department2" value="" placeholder=""
+                      ng-model="cform.departmentDscr" ng-disabled=" isDisable ||vflag || disableFlag1 " />
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>College</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="college" value="" placeholder=""
+                      ng-model="cform.collegeCode" ng-disabled=" isDisable ||vflag || disableFlag1 " />
+                    <input type="text" class="textfield" name="college2" value="" placeholder=""
+                      ng-model="cform.collegeDscr" ng-disabled=" isDisable ||vflag || disableFlag1 " />
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>University</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="university" value="" placeholder=""
+                      ng-model="cform.universityCode" ng-disabled=" isDisable ||vflag || disableFlag1 " />
+                    <input type="text" class="textfield" name="" value="" placeholder="" ng-model="cform.universityDscr"
+                      ng-disabled=" isDisable ||vflag || disableFlag1 " />
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="white-box forms notop">
+            <ul>
+              <li>
+                <div class="flexbox">
+                  <label>Narration<sup>*</sup></label>
+                  <input ng-model="cform.narration" type="text" class="textfield" name="narration" required />
+                </div>
+                <div class="error"
+                  ng-show="cForm.narration.$error.required && cForm.narration.$touched && !formSubmitted">
+                  This field is required.
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="white-box forms">
+            <h3>Indent/Purchase Order Details:</h3>
+            <ul>
+              <li class="smallsec">
+                <div>
+                  <label>Indent No</label>
+                  <input ng-model="cform.indentNo" type="text" class="textfield" name="indent_no" />
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Date</label>
+                  <input ng-model="cform.indentDate" type="text" class="textfield datepicker" name="date" />
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>PO Id</label>
+                  <input type="text" class="textfield datepicker" name="date3" value="" ng-model="cform.poId"
+                    ng-disabled=" isDisable || hideFlag || disableFlag1" />
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Fin Year</label>
+                  <input type="text" class="textfield" name="fin_year2" value="" ng-model="cform.poFinYear"
+                    ng-disabled=" isDisable || hideFlag || disableFlag1" />
+              </li>
+              <li style="min-width: 25%;">
+                <div>
+                  <label for="poNumber">PO No.</label>
+                  <select class="dropdd" id="poNumber" name="poNumber"
+                    ng-disabled=" isDisable || hideFlag || disableFlag1" ng-model="cform.poNumber"
+                    ng-change="getPurchaseOrderDetails(cform.poNumber)">
+                    <option value="">Select</option>
+                    <option ng-repeat="x in poDetails" value="{{x.poNumber}}">{{x.poNumber}}</option>
+                  </select>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Date</label>
+                  <input type="text" class="textfield datepicker" name="date3" value="" ng-model="cform.poDate"
+                    ng-disabled=" isDisable || hideFlag || disableFlag1" />
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="white-box forms">
+            <h3>Plan / Project Details:</h3>
+            <ul>
+              <li>
+                <div>
+                  <label>Plan No.</label>
+                  <!-- <input type="text" class="textfield" name="plan_no" value=""  ng-disabled=" isDisable || hideFlag || disableFlag1"
+                              ng-model="cform.planNo" /> -->
+                  <select class="dropdd" name="plan_no" ng-model="cform.planNo" ng-change="selectplan(cform.planNo,data)"
+                    ng-disabled=" isDisable || hideFlag || disableFlag1">
+                    <option value="" disabled selected>Select PlanNo</option>
+                    <option ng-repeat="x in planNos" value="{{x}}">{{x}}
+                    </option>
+                  </select>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Fin Year</label>
+                  <input type="text" class="textfield" name="fin_year3" value=""
+                    ng-disabled=" isDisable || hideFlag || disableFlag1" ng-model="cform.planFinYear" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Plan Type</label>
+                  <input class="textfield" name="plan_type" ng-disabled=" isDisable || hideFlag || disableFlag1"
+                    ng-model="cform.planTypeCode">
+
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Plan Title</label>
+                  <input type="text" class="textfield" name="plan_title" value="" ng-model="cform.planTitle"
+                    ng-disabled=" isDisable || hideFlag || disableFlag1" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Budget Fin Year</label>
+                  <input type="text" class="textfield" name="budget_fin_year" value="" ng-model="cform.budgetFinYear"
+                    ng-disabled=" isDisable || hideFlag || disableFlag1" />
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="white-box forms form2">
+            <h3>Processing Details:</h3>
+            <ul>
+              <li>
+                <div>
+                  <label>Account No</label>
+                  <select class="dropdd" name="account_no2" ng-model="cform.bankAcNo" ng-disabled="isDisable"
+                    ng-change="getbankdeatil(cform.bankAcNo)"
+                    ng-options="x.bankAccountNo as (x.bankAccountNo + ' - ' + x.dscr) for x in  bankaccountData">
+                    <option value="" disabled selected>Select Account</option>
+                  </select>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Bank<sup>*</sup></label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield ng-pristine ng-untouched ng-valid ng-not-empty" name="bank2"
+                      ng-disabled="isDisable || disableFlag1" value="" ng-model="cform.bankCode">
+                    <input type="text" class="textfield ng-pristine ng-untouched ng-valid ng-not-empty" name="bank3"
+                      ng-disabled="isDisable || disableFlag1" value="" ng-model="cform.bankDscr">
+                  </div>
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Bank Deposit Date</label>
+                  <div>
+                    <input ng-model="cform.bankDepositDate" type="text" class="textfield datepicker"
+                      name="bank_deposit_date" />
+                  </div>
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Recepit No.</label>
+                  <div>
+                    <input ng-model="cform.receiptNo" type="text" class="textfield" name="recepit_no" />
+                  </div>
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Date</label>
+                  <input ng-model="cform.receiptDate" type="text" class="textfield" name="date" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Assistant<sup>*</sup></label>
+                  <div class="flexbox" name="assistant3">
+                    <input type="text" class="textfield" name="assistant" value="" ng-model="assistantStaffNo"
+                      ng-init="setAssisName(assistantStaffNo)" ng-disabled="isDisable || disableFlag1" />
+                    <input type="text" class="textfield" ng-model="assistantName" name="assistant2" value=""
+                      ng-disabled="isDisable || disableFlag1" />
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Manager</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="manager" value="" ng-model="managerStaffNo"
+                      ng-disabled="isDisable || disableFlag1" />
+                    <input type="text" class="textfield" name="manager2" value="" ng-model="managerName"
+                      ng-disabled="isDisable || disableFlag1" />
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Cashier</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="cashier" value="" ng-model="mgrcashStaffNo"
+                      ng-disabled="isDisable || disableFlag1" />
+                    <input type="text" class="textfield" name="cashier2" value="" ng-model="cashierName"
+                      ng-disabled="isDisable || disableFlag1" />
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li class="smallsec">
+                <div>
+                  <label>Ref No.</label>
+                  <input type="text" class="textfield" name="ref_no" value="" ng-disabled="isDisable || disableFlag1"
+                    ng-model="cform.refNo" />
+                </div>
+              </li class="smallsec">
+              <li>
+                <div>
+                  <label>Date</label>
+                  <input type="text" class="textfield datepicker" name="date7" value=""
+                    ng-disabled="isDisable || disableFlag1" ng-model="cform.refDate" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Advance Id</label>
+                  <input class="textfield" name="advance_id" ng-model="cform.advanceId"
+                    ng-disabled="isDisable || disableFlag1">
+                  </input>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Fin Year</label>
+                  <input type="text" class="textfield" name="fin_year4"  ng-model="cform.advanceFinYear"
+                    ng-disabled="isDisable || disableFlag1" />
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>VR Passed Date</label>
+                  <input type="text" class="textfield datepicker" name="voucher_passed_date" 
+                    ng-model="cform.datePassed" ng-disabled="isDisable || disableFlag2 || !disableFlag3"
+                    ng-required="disableFlag3" />
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Net Amount</label>
+                  <input type="text" class="textfield" name="passed_amount" ng-model="cform.voucherNetAmount"
+                    ng-disabled="true" />
+                </div>
+                <div class="error" ng-show="negFlag">
+                  Never be Negetive!
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <div class="flexbox">
+                  <label>Amount in words</label>
+                  <input type="text" class="textfield" name="amount_in_words" ng-model="ammountInWords" 
+                    ng-disabled="true" />
+                </div>
+              </li>
+            </ul>
+            <div class="btnlist text-center"><button type="submit" ng-disabled="isDisable || negFlag" class="bluebtn">Save and
+                Next</button>
+              <!-- <button type="button" class="bluebtn" disabled>Next</button> -->
+            </div>
+          </div>
+        </form>
+      </div>
+      <div id="tab2" class="maintabsec ">
+        <div class="titles text-center">Cash Reciept Voucher Details</div>
+        <form ng-submit="saveCashRvDet()">
+          <div class="white-box forms notop">
+            <ul>
+              <li>
+                <div>
+                  <label>Voucher Id<sup>*</sup></label>
+                  <input type="text" class="textfield" name="voucher" value="" ng-model="cform.cashRvId"
+                    ng-disabled="true" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Id Date<sup>*</sup></label>
+                  <input type="text" class="textfield datepicker" name="id_date" value="" ng-model="cform.cashRvIdDate"
+                    ng-disabled="true" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Fin Year<sup>*</sup></label>
+                  <input type="text" class="textfield" name="fin_year" value="" ng-model="cform.finYear"
+                    ng-disabled="true" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Voucher No.</label>
+                  <input type="text" class="textfield" name="voucher_no" value="" ng-model="cform.bankPvNo"
+                    ng-disabled="true" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Voucher Date</label>
+                  <input type="text" class="textfield datepicker" name="voucher_date" value=""
+                    ng-model="cform.bankPvDate" ng-disabled="true" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="voucherStatusCode">Status <sup>*</sup></label>
+                  <select class="dropdd" name="voucherStatusCode" ng-model="cform.voucherStatusCode" required
+                    ng-disabled="true">
+                    <option value="" disabled selected>--Select--</option>
+                    <option ng-repeat="x in voucherType" value="{{x.voucherStatusCode}}"
+                      ng-disabled=" isDisable || (role === 'manager' && x.voucherStatusCode === 'F') || (role === 'cashier' && x.voucherStatusCode === 'P')"
+                      ng-show="role === 'assistant' ? (x.voucherStatusCode !== 'R' && x.voucherStatusCode !== 'P' && x.voucherStatusCode !== 'C' && x.voucherStatusCode !== 'A') : (role === 'manager' ? (x.voucherStatusCode !== 'U' && x.voucherStatusCode !== 'C' && x.voucherStatusCode !== 'A') : (role === 'cashier' ? (x.voucherStatusCode !== 'U' && x.voucherStatusCode !== 'F' && x.voucherStatusCode !== 'R') : true))">
+                      {{x.voucherStatusCode}} - {{x.dscr.toUpperCase()}}
+                    </option>
+                  </select>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="white-box forms ">
+            <div class="recordlist">
+              <ul class="addcol6">
+                <li class="width5 ">
+                  <div>
+                    <label>SL No</label>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <label>Account No.<sup>*</sup></label>
+                  </div>
+                </li>
+                <li class="smallsec width24">
+                  <div>
+                    <label>Account Description</label>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <label> (₹) Debit Amount</label>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <label>(₹) Credit Amount</label>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <label>Remarks</label>
+                  </div>
+                </li>
+              </ul>
+              <ul class="addcol6" ng-repeat="v in crvds">
+                <li class="width5">
+                  <div>
+                    <input type="hidden" class="textfield" name="sl_no" value="{{v.cashRvDetSlno}}"
+                      ng-model="v.cashRvDetSlno" ng-disabled="true" />
+                    <input type="text" class="textfield" name="ind" value="{{$index+1}}" ng-disabled="true" />
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <select class="dropdd" name="accountNo" ng-model="v.accountCode"
+                      ng-change="setAccountDscr(v.accountCode,$index)" ng-init="setAccountDscr(v.accountCode,$index)"
+                      ng-disabled="isDisable" required>
+                      <option value="">Select</option>
+                      <option ng-repeat="account in accMasterData" value="{{account.accountCode}}"
+                        ng-show="v.accountCode!=account.accountCode">
+                        {{account.accountCode}} {{ v.accountCode != account.accountCode ? ' - '+ account.dscr : ''}}
+                      </option>
+                    </select>
+                  </div>
+                </li>
+                <li class="width24">
+                  <div>
+                    <div>
+                      <input type="text" class="textfield" name="account_description" value="" ng-model="v.accDscr"
+                        ng-disabled="true" />
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <input type="text" class="textfield" num-only name="debit_amount" value="v.dbAmount "
+                      ng-change="getTotalAmmounts()" style="text-align: end;" ng-init="getTotalAmmounts()"
+                      ng-model="v.dbAmount"
+                      ng-disabled="isDisable || v.crAmount !== null && v.crAmount !== '' && v.crAmount !== undefined || disableFlag1" />
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <div>
+                      <input type="text" class="textfield" num-only name="credit_amount" value="v.crAmount "
+                        ng-change="getTotalAmmounts()" style="text-align: end;" ng-init="getTotalAmmounts()"
+                        ng-model="v.crAmount"
+                        ng-disabled="isDisable || v.dbAmount !== null && v.dbAmount !== '' && v.dbAmount !== undefined || disableFlag1" />
+                    </div>
+                    
+                  </div>
+                </li>
+                <li class="width24">
+                  <div>
+                    <input type="text" class="textfield" name="remark" value="" ng-model="v.remarks"
+                      ng-disabled="isDisable ||  disableFlag1" />
+                  </div>
+                </li>
+                <li class="width3 checkbtn"><label><input type="checkbox" ng-model="v.select" name="deletecheck"
+                      ng-click="setdeleteCashRvD(cform.cashRvId,cform.finYear,v)" class="checksec"
+                      ng-disabled="isDisable || disableFlag1"> </label>
+                </li>
+              </ul>
+            </div>
+            <ul class="addcol6">
+              <li class="width35">
+                <div style="text-align: right; padding-top: 7px;">
+                  <label>Total</label>
+                </div>
+              </li>
+              <li>
+                <div><input type="number" ng-view="{{totalDebitAmount}}" style="text-align: end;" class="textfield"
+                    name="total_debit" value="{{totalDebitAmount}}" ng-disabled=" isDisable || true" />
+                </div>
+              </li>
+              <li>
+                <div><input type="number" class="textfield" ng-view="{{totalCreditAmount}}"
+                    value="{{totalCreditAmount}}" style="text-align: end;" name="total_credit"
+                    ng-disabled=" isDisable || true" />
+                </div>
+                <div class="error" ng-show="negFlag">
+                  Never less than Debit Amount!
+                </div>
+              </li>
+            </ul>
+            <div class="btnlist">
+              <ul>
+                <li>
+                  <div><button type="button" class="bluebtn addfield" ng-click="addObj()"
+                      ng-disabled="isDisable || disableFlag1">ADD</button></div>
+                </li>
+                <!-- <li><div><button type="button" class="bluebtn">EDIT</button></div></li> -->
+                <li>
+                  <div><button type="button" class="bluebtn deletebtn" ng-click="deleteCashRvD();" disabled
+                      ng-disabled="isDisable || disableFlag1">Delete</button>
+                  </div>
+                </li>
+                <li>
+                  <div class="btncenter"><button type="submit" class="bluebtn" ng-disabled="negFlag"
+                      ng-disabled="isDisable || disableFlag1">SUBMIT</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  <footer class="footerbg">
+    © 2023 All Rights Reserved.
+  </footer>
+  <link rel='stylesheet' type='text/css' href='css/bootstrap-datepicker.min.css'>
+  <script type='text/javascript' src='js/bootstrap-datepicker.min.js'></script>
+  <script type="text/javascript">
+    $('.datepicker').datepicker({
+      format: "dd-mm-yyyy",
+      autoclose: true
+      //startDate: new Date('2022-7-15'),
+      // endDate:  new Date('2022-8-15')
+    });
+    $(".tablink").click(function () {
+      $('.tablink').removeClass('active');
+      $(this).addClass('active');
+      var id = $(this).attr("data-title");
+      $(".maintabsec").hide();
+      $("#" + id).fadeIn();
+      $(".maintabsec").removeClass('active');
+      $("#" + id).addClass('active');
+    });
+    // $(".addfield").click(function () {
+    //   var html = '';
+    //   html += '<ul class="addcol6">';
+    //   html += '<li class="width5"><div><input ng-model="cform" type="text" class="textfield" name="sl_no1"  ></div></li> <li><div><input ng-model="cform" type="text" class="textfield" name="account_no"  ></div></li><li class="width24"><div><input ng-model="cform" type="text" class="textfield" name="account_desc"  ></div></li><li><div><input ng-model="cform" type="text" class="textfield" name="debit_amount"  ></div></li><li><div><input ng-model="cform" type="text" class="textfield" name="credit_amount"  ></div></li><li class="width24"><div><input ng-model="cform" type="text" class="textfield" name="remarks"  ></div></li><li class="width3 checkbtn"><label><input ng-model="cform" type="checkbox" name="delete" class="checksec" /></label> </li>';
+    //   html += '</ul>';
+    //   $('.recordlist').append(html);
+    // });
+    // $(document).on("click", ".deletebtn", function () {
+    //   $('input:checked').closest('.addcol6').remove();
+    //   $(".deletebtn").prop("disabled", true);
+    // });
+    // $(document).on("change", '.addcol6 input[type="checkbox"]', function () {
+    //   var checked = $('.addcol6 input[type="checkbox"]:checked').length > 0;
+    //   if (checked) {
+    //     $(".deletebtn").prop("disabled", false);
+    //   } else {
+    //     $(".deletebtn").prop("disabled", true);
+    //   }
+    // });
+  </script>
+  <link rel='stylesheet' type='text/css' href='css/bootstrap-datepicker.min.css'>
+  <script type='text/javascript' src='js/bootstrap-datepicker.min.js'></script>
+
+  <script type="text/javascript">
+    $('.datepicker').datepicker({
+      format: "dd-mm-yyyy",
+      // startDate: new Date('2022-7-15'),
+      endDate: new Date()
+    });
+    $(".tablink").click(function () {
+      $('.tablink').removeClass('active');
+      $(this).addClass('active');
+      var id = $(this).attr("data-title");
+      $(".maintabsec").hide();
+      $("#" + id).fadeIn();
+      $(".maintabsec").removeClass('active');
+      $("#" + id).addClass('active');
+    });
+
+    $(document).on("change", '.addcol6 input[type="checkbox"]', function () {
+      var checked = $('.addcol6 input[type="checkbox"]:checked').length > 0;
+      if (checked) {
+        setTimeout(() => {
+          $(".deletebtn").prop("disabled", false);
+        }, 500)
+      } else {
+        $(".deletebtn").prop("disabled", true);
+      }
+    });
+    $(document).on("click", ".deletebtn", function () {
+      $('input:checked').closest('.addcol6').remove();
+      $(".deletebtn").prop("disabled", true);
+    });
+  </script>
+  <script>
+    
+    app.controller('contr', function ($scope, $http, $timeout, $window, $rootScope, $filter) {
+      $scope.details = [];
+      var token;
+      $scope.flag1 = false;
+      $scope.flag2 = false;
+      $scope.flag3 = false;
+      $scope.hideFlag = false;
+      $scope.terte = 10;
+      $scope.flag = false;
+      $scope.vflag = false;
+      $scope.sflag = false;
+      $scope.assistantStaffNo = '';
+      $scope.t = {};
+      $scope.cform = {};
+      const userDetailsJSON = $window.sessionStorage.getItem('userDetails');
+      const t = $window.sessionStorage.getItem('tempRole');
+      $scope.tempRole = JSON.parse(t) || undefined;
+      // // console.log("kkkkkk>>>", userDetailsJSON);
+      // // console.log(">>>>>>tempRole", $scope.tempRole);
+      if (userDetailsJSON) {
+        const userDetails = JSON.parse(userDetailsJSON);
+        // // console.log("😒😒😒😒",userDetails)
+        if (userDetails.token != null || userDetails.token != '') {
+          $scope.details = angular.copy(userDetails);
+          $scope.role = $scope.tempRole ? $scope.tempRole.role : $scope.details.roles[0].role;
+          // // console.log("details", $scope.details)
+          $scope.token = $scope.details.token;
+          if ($scope.tempRole?.role === "assistant") {
+            // // console.log("admin2", $scope.tempRole?.role)
+            $scope.assistantStaffNo = $scope.details.staffNo;
+            $scope.assistantName = $scope.details.name;
+            // console.log("check1", $scope.assistantStaffNo);
+          } else if ($scope.tempRole?.role === "manager") {
+            // // console.log("admin", $scope.tempRole.role)
+            $scope.managerStaffNo = $scope.details.staffNo;
+            $scope.cform.managerStaffNo = $scope.details.staffNo;
+            $scope.managerName = $scope.details.name;
+          } else {
+            if ($scope.tempRole?.role === "cashier") {
+              // // console.log("check3", $scope.tempRole.role)
+              $scope.cashierName = $scope.details.name;
+              $scope.mgrcashStaffNo = $scope.details.staffNo;
+              $scope.cform.mgrcashStaffNo = $scope.details.staffNo;
+            }
+          }
+          if ($scope.role === "assistant") {
+            $scope.assistantStaffNo = $scope.details.staffNo;
+            // $scope.getEmpData();
+            // $scope.setAssisName($scope.assistantStaffNo);
+            $scope.cform.assistantStaffNo = $scope.details.staffNo;
+            $scope.assistantName = $scope.details.name;
+          } else if ($scope.role === "cashier") {
+            $scope.cashierName = $scope.details.name;
+            $scope.mgrcashStaffNo = $scope.details.staffNo;
+            $scope.cform.mgrcashStaffNo = $scope.details.staffNo;
+            // $scope.assistantName = $scope.details.name;
+          } else {
+            if ($scope.role === "manager") {
+              $scope.managerStaffNo = $scope.details.staffNo;
+              $scope.cform.managerStaffNo = $scope.details.staffNo;
+              $scope.managerName = $scope.details.name;
+            }
+            // // console.log(">>>>>>>>>>>>>>>>>>S>>>", $scope.cform.manager);
+            // $scope.manager = $scope.details?.username;
+          }
+          // $scope.cform.assistantStaffNo  = userDetails.username;
+        }
+        $scope.config = {
+          //  form: $scope.cform,
+          headers: {
+            'Authorization': 'Bearer ' + $scope.token
+          },
+        };
+      } else {
+        $window.location.href = "index.html";
+        // console.log('User details not found in sessionStorage');
+      }
+      $scope.logout = function () {
+        $window.sessionStorage.removeItem('userDetails');
+        $window.sessionStorage.removeItem('tempRole');
+        $window.location.href = 'index.html';
+      };
+
+      $timeout(function () {
+        $scope.cform.voucherStatusCode = 'U';
+        $scope.sflag = true;
+      });
+      $scope.glgroupData = [];
+      $scope.cform = {};
+      $scope.crvds = [];
+      $scope.crvds.push({
+      })
+      //get transaction data
+
+      $scope.payeeTypeData = [];
+      $scope.getPayeeTypeData = function () {
+        $http.get(path + "/api/v1/account/paytotype", $scope.config).then(
+          function (res) {
+            //console.log("response", res.data)
+            $scope.payeeTypeData = res.data;
+            //console.log("$scope.payeeTypeData", $scope.payeeTypeData)
+          },
+          function (err) {
+            console.log(err)
+          }
+        )
+      }
+      $scope.getPayeeTypeData();
+      $scope.empData = [];
+      // $scope.getEmpData = function () {
+      $http.get(path + "/api/v1/account/employees", $scope.config)
+        .then(function (response) {
+          $scope.empData = response.data;
+          // // console.log("$scope.empData", $scope.empData);
+        });
+      // };
+
+      $scope.plancostcenter = [];
+      $scope.getplancostcenter = function () {
+        $http.get(path + "/api/v1/account/costCentre/alldata", $scope.config).then(
+          function (res) {
+            // // console.log("response", res.data)
+            $scope.plancostcenter = res.data
+            //  // console.log("$scope.plancostcenter", $scope.plancostcenter)
+          },
+          function (err) {
+            console.log(err)
+          }
+        )
+      }
+      $scope.getplancostcenter();
+      $scope.bankaccountData = [];
+      $scope.getdata = function () {
+        $http.get(path + "/api/v1/account/bankacc", $scope.config)
+          .then(function successCallback(response) {
+            $scope.bankaccountData = response.data;
+          },
+            function errorCallback(response) {
+              // console.log("saving of data failed");
+            });
+      }
+      $scope.getdata();
+      // selectplan
+      $scope.getbankdeatil = function (bankAccountNo) {
+        if (bankAccountNo) {
+          // console.log("lollllllll", bankAccountNo);
+          for (let index = 0; index < $scope.bankaccountData.length; index++) {
+            const element = $scope.bankaccountData[index];
+            if (element.bankAccountNo === bankAccountNo) {
+              // // console.log("yessssssss", element);
+              $scope.cform.bankCode = element.bankCode;
+              $scope.cform.bankDscr = element.dscr;
+              return;
+            }
+          }
+        }
+      }
+      $scope.addObj = function () {
+        $scope.crvds.push({
+        });
+      };
+      $scope.setAssisName = function (staffNo) {
+        if (staffNo) {
+          // console.log("emp Data 7878787", $scope.empData);
+          for (let i = 0; i < $scope.empData.length; i++) {
+            const row = $scope.empData[i];
+            if (row.staffNo === staffNo) {
+              if ($scope.role === "assistant") {
+                $scope.assistantStaffNo = row.staffNo;
+                $scope.cform.assistantStaffNo = row.staffNo;
+                // // console.log("fnc amal trigger", $scope.t.assistantName, $scope.assistantStaffNo, $scope.cform.assistantStaffNo);
+              } else if ($scope.role === "cashier") {
+                $scope.cashierName = row.fullName;
+                $scope.cform.mgrCashStaffNo = row.staffNo;
+                $scope.t.mgrCashStaffNo = row.staffNo;
+              } else {
+                if ($scope.role === "manager") {
+                  $scope.cform.managerStaffNo = row.staffNo;
+                  $scope.managerStaffNo = row.staffNo;
+                } else {
+                  console.error("Role is ----->", $scope.role);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      $scope.saveCashForm = function () {
+        const role = $scope.role;
+        const voucherStatusCode = $scope.cform.voucherStatusCode;
+        $scope.cform.sectionCode = $scope.details.sectionCode;
+        if (voucherStatusCode === 'P' && role === 'manager') {
+          $http.get(`${path}/api/v1/account/crv/passed/${$scope.cform.bankPvNo || 0}`, $scope.config)
+            .then((response) => {
+              // console.log("got it🚗🚗🚗🚗>>>>>", response);
+              if (response.data.status != 0) {
+                $scope.res = response.data.count + 1;
+                $scope.cform.bankPvNo = $scope.res;
+                const inputDate = new Date();
+                const day = inputDate.getDate().toString().padStart(2, '0');
+                const month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
+                const year = inputDate.getFullYear();
+                $scope.cform.bankPvDate = `${day}-${month}-${year}`;
+              }
+              $scope.postDataToServer();
+            })
+            .catch((error) => {
+              throw error;
+            });
+          $scope.getbankdeatil($scope.cform.bankAcNo);
+        };
+
+        // Assistant-specific logic
+        if (role === 'assistant' && (voucherStatusCode === 'F' || voucherStatusCode === 'U')) {
+          $scope.cform.assistantStaffNo = $scope.details.staffNo;
+          $scope.postDataToServer();
+        }
+        // manager-specific logic
+        if ((voucherStatusCode === 'R') && role === 'manager') {
+          $scope.postDataToServer();
+        }
+        if (role === "manager") { $scope.cform.managerStaffNo = $scope.details.staffNo; }
+        if ((voucherStatusCode === 'A' || voucherStatusCode === 'C' || voucherStatusCode === 'P') && role === 'cashier') {
+          $scope.mgrCashStaffNo = $scope.details.staffNo;
+          $scope.cform.mgrCashStaffNo = $scope.details.staffNo;
+          $scope.postDataToServer();
+        } else {
+          // console.log("not save yet")
+        }
+      };
+      // Common logic for saving data to Bank Payment Voucher table
+      $scope.postDataToServer = () => {
+        $scope.cform.voucherNetAmount = $scope.cform.voucherNetAmount || 0;
+        
+        console.log("posting data>>>>>>>>", $scope.cform);
+        $http.post(path + "/api/v1/account/crv", $scope.cform, $scope.config)
+          .then((response) => {
+            toastr.success("Bank Payment Voucher Saved Successfully");
+            $scope.getCashRv(response.data?.cashRvId, response.data?.finYear);
+          })
+          .catch((error) => {
+            toastr.error("ERROR", "Something Went Wrong !!");
+            // Handle the error here or propagate it to the calling code
+            console.error(error);
+            throw error;
+          });
+      };
+
+
+      //Fetching Voucher Type table 
+      $scope.voucherType = [];
+      $scope.getVoucherType = function () {
+        $http.get(path + "/api/v1/account/vst", $scope.config)
+          .then(function successCallback(response) {
+            $scope.voucherType = response.data;
+            //  // console.log("$scope.voucherType>>>>>>", $scope.voucherType)
+            $scope.cform = {
+              voucherStatusCode: $scope.voucherType?.length > 0 ? $scope.voucherType[0].voucherStatusCode : null
+            };
+          },
+            function errorCallback(response) {
+              // // console.log("Error fetching colllege data")
+            });
+      }
+      $scope.getVoucherType();
+      $scope.uniquePayToTypes = function (bPvData) {
+        var uniqueTypes = {};
+        var uniqueList = [];
+        for (var i = 0; i < bPvData.length; i++) {
+          var typeCode = bPvData[i].payFromTypeCode;
+          if (!uniqueTypes[typeCode]) {
+            uniqueTypes[typeCode] = true;
+            uniqueList.push(bPvData[i]);
+          }
+        }
+        return uniqueList;
+      };
+
+      $scope.getEmpDscr = function (staffNo) {
+        if (staffNo) {
+          // console.log("staff No", staffNo)
+          for (let i = 0; i < $scope.empData.length; i++) {
+            let row = $scope.empData[i];
+            if (staffNo == row.staffNo) {
+              // // console.log("row", row)
+              $scope.cform.empDscr = row.fullName
+              $scope.cform.address = row.addr1
+              $scope.cform.departmentCode = row.departmentCode
+              $scope.setDepDscr($scope.cform.departmentCode, $scope.departmentData)
+              $scope.cform.collegeCode = row.collegeCode
+              $scope.setClgDscr($scope.cform.collegeCode, $scope.collegeData)
+              $scope.cform.universityCode = row.universityCode
+              $scope.setUniversityDscr($scope.cform.universityCode, $scope.universityData)
+              $scope.cform.bankIfscCode = row.bankIfscCode
+              $scope.cform.bankAccountNo = row.bankAccountNo
+              $scope.cform.recvdFrom = row.fullName
+              $scope.cform.bankName = row.bankName
+              $scope.cform.bankBranch = row.bankBranch
+              $scope.cform.bankCity = row.bankCity
+              $scope.cform.bankCountry = row.bankCountry
+              $scope.getaccountdetails(row.collegeCode);
+            }
+          }
+        }
+      }
+      $scope.updatedbankacc = []
+      $scope.getaccountdetails = function (collegeCode) {
+        if (collegeCode) {
+          // console.log("bank ke liye ", collegeCode);
+          for (let index = 0; index < $scope.bankaccountData?.length; index++) {
+            const element = $scope.bankaccountData[index];
+            if (element.collegeCode === collegeCode) {
+              // $scope.bankaccount=[];
+              // $scope.bankaccount.push(element);
+              $scope.updatedbankacc.push(element);
+              console.log($scope.updatedbankacc, ".................")
+              break;
+            }
+          }
+        }
+        $scope.bankaccountData = $scope.updatedbankacc;
+      }
+
+
+      $scope.studentData = [];
+      $scope.fetchStudentData = function () {
+        $http.get(path + "/api/v1/account/students", $scope.config)
+          .then(function (response) {
+            $scope.studentData = response.data;
+            // // console.log("$scope.studentData", $scope.studentData)
+          });
+      };
+      $scope.fetchStudentData();
+
+      $scope.getStudentDscr = function (code) {
+        if (code) {
+          // console.log("codezilla", code)
+          for (let i = 0; i < $scope.studentData.length; i++) {
+            let row = $scope.studentData[i];
+            // // console.log("row", row)
+            if (code == row.univRegistrationNo) {
+              // console.log("rowwqsddsdsdsdedSADAS>>>>>>>>>>", row)
+              $scope.cform.studentDscr = row.fullName
+              $scope.cform.address = row.addres1
+              $scope.cform.departmentCode = row.departmentCode
+              $scope.setDepDscr($scope.cform.departmentCode, $scope.departmentData)
+              $scope.cform.collegeCode = row.collegeCode
+              $scope.setClgDscr($scope.cform.collegeCode, $scope.collegeData)
+              $scope.cform.universityCode = row.universityCode
+              $scope.setUniversityDscr($scope.cform.universityCode, $scope.universityData)
+              $scope.cform.bankIfscCode = row.bankIfscCode
+              $scope.cform.bankAccountNo = row.bankAccountNo
+              $scope.cform.recvdFrom = row.fullName
+              $scope.cform.bankName = row.bankName
+              $scope.cform.bankBranch = row.bankBranch
+              $scope.cform.bankCity = row.bankCity
+              $scope.cform.bankCountry = row.bankCountry
+              $scope.getaccountdetails(row.collegeCode);
+            }
+          }
+        }
+      }
+
+      // Data from supplier table for vendor
+      $scope.supplierData = [];
+      $scope.getSupplierData = function () {
+        $http.get(path + "/api/v1/account/supplier", $scope.config)
+          .then(function (response) {
+            $scope.supplierData = response.data;
+            //  // console.log("$scope.supplierData", response.data);
+          });
+      };
+      $scope.getSupplierData();
+      // Data from supplier table for vendor
+      $scope.supplierBillData = [];
+      $scope.getSupplierBillData = function () {
+        $http.get(path + "/api/v1/account/suppbill/alldata", $scope.config)
+          .then(function (response) {
+            $scope.supplierBillData = response.data;
+            // console.log("$scope.supplierData", response.data);
+          });
+      };
+      $scope.getSupplierBillData();
+      $scope.bankaccount = [];
+      $scope.setPoBillDetails = function (billSlNo) {
+        // console.log("yes123", billSlNo)
+        if (billSlNo) {
+          for (let i = 0; i < $scope.supplierBillData.length; i++) {
+            const element = $scope.supplierBillData[i];
+            // console.log("yesss", element);
+            if (billSlNo == element.billSlNo) {
+              $scope.cform.garnNo = element.garnNo?.toString();
+              $scope.cform.garnDate = element.garnDate;
+              $scope.cform.invoiceNo = element.invoiceNo?.toString();
+              $scope.cform.invoiceDate = element.invoiceDate;
+              $scope.cform.billRegNo = element.billRegNo?.toString();
+              $scope.cform.billRegDate = element.billRegDate;
+              $scope.cform.passedAmount = element.passedAmount;
+              // console.log($scope.cform.garnNo, $scope.cform.garnDate, $scope.cform.invoiceNo, $scope.cform.invoiceDate, $scope.cform.billRegNo, $scope.cform.billRegDate, $scope.cform.passedAmount)
+            }
+          }
+        } else {
+          $scope.cform.garnNo = ''
+          $scope.cform.garnDate = ''
+          $scope.cform.invoiceNo = ''
+          $scope.cform.invoiceDate = ''
+          $scope.cform.billRegNo = ''
+          $scope.cform.billRegDate = ''
+          $scope.cform.passedAmount = ''
+        }
+      }
+
+      $scope.getVendorDscr = function (code) {
+        if (code) {
+          // console.log("code", code);
+          for (let i = 0; i < $scope.supplierData.length; i++) {
+            let row = $scope.supplierData[i];
+            if (code == row.vendorCode) {
+              // // console.log("row", row)
+              $scope.vflag = true;
+              $scope.cform.vendorDscr = row.fullName
+              $scope.cform.recvdFrom = row.fullName
+              $scope.cform.address = row.addr1
+              $scope.cform.departmentCode = row.departmentCode
+              $scope.cform.collegeCode = row.collegeCode
+              $scope.cform.universityCode = row.universityCode
+              $scope.cform.bankIfscCode = row.bankIfscCode
+              $scope.cform.bankAccountNo = row.bankAccountNo
+              $scope.cform.bankName = row.bankName
+              $scope.cform.bankBranch = row.bankBranch
+              $scope.cform.bankCity = row.bankCity
+              $scope.cform.bankCountry = row.bankCountry
+              $scope.getpodetails(code);
+            }
+          }
+        }
+      }
+      $scope.getPodata = function () {
+        $http
+          .get(path + "/api/v1/account/po", $scope.config)
+          .then(
+            function successCallback(response) {
+              $scope.data = response.data;
+              // // console.log("purchase order>>>>>>>>>>>>", $scope.data);
+              // After retrieving data, call the updateSuppData function
+              // $scope.updateSuppData();
+            },
+            function errorCallback(response) {
+              // console.log("saving of data failed");
+            });
+      };
+
+      $scope.getsuppdata = function () {
+        $http
+          .get(path + "/api/v1/account/suppbill/alldata", $scope.config)
+          .then(
+            function successCallback(response) {
+              $scope.suppdata = response.data;
+            },
+            function errorCallback(response) {
+              // console.log("saving of data failed");
+            });
+      };
+
+
+      $scope.selectplan = function (x, data) {
+        if (data) {
+          // // console.log("$scope.plancostcenter", x, data);
+          for (let index = 0; index < data.length; index++) {
+            const element = data[index];
+            if (element.planNo == x) {
+              // // console.log("meri", element.planFinYear)
+              $scope.cform.planFinYear = element.planFinYear
+              $scope.cform.planTypeCode = element.planTypeCode
+              $scope.cform.planTitle = element.planTitle
+            }
+          }
+        }
+      }
+
+
+
+      $scope.getPodata();
+      $scope.getsuppdata();
+      $scope.getPurchaseOrderDetails = function (poNumber) {
+        // console.log("checking for poNumber", poNumber, $scope.purchaseOrders);
+        if (poNumber) {
+          $scope.getbillslno(poNumber);
+          for (let index = 0; index < $scope.purchaseOrders?.length; index++) {
+            const element = $scope.purchaseOrders[index];
+            // console.log("object>>>>???", poNumber, element.poNumber)
+            if (poNumber === element.poNumber) {
+              // console.log("element", element);
+              $scope.cform.poDate = element.poDate;
+              $scope.cform.indentNo = element.indentNo;
+              $scope.cform.indentDate = element.indentDate;
+              $scope.cform.poId = element.poId;
+              $scope.cform.poFinYear = element.poFinYear;
+            }
+          }
+        } else {
+          $scope.cform.poDate = '';
+          $scope.cform.indentNo = '';
+          $scope.cform.indentDate = '';
+          $scope.cform.poId = '';
+          $scope.cform.poFinYear = '';
+        }
+      }
+      // $scope.planno = [];
+      $scope.billSlNoArr = [];
+      $scope.getbillslno = function (poNumber) {
+        if (poNumber) {
+          console.log(poNumber);
+          for (let index = 0; index < $scope.supplierBillData.length; index++) {
+            const element = $scope.supplierBillData[index];
+            if (poNumber === element.poNumber) {
+              if (!$scope.billSlNoArr.includes(element.billSlNo)) {
+                $scope.billSlNoArr.push(element.billSlNo);
+              }
+              if (element.planNo !== undefined && !$scope.planno.includes(element.planNo)) {
+                $scope.planno.push(element.planNo);
+              }
+            }
+          }
+        }
+        // console.log("abhay????????///", $scope.billSlNoArr);
+        // console.log($scope.planno);
+      };
+
+      $scope.getponumber = [];
+      $scope.getpodetails = function (code) {
+        // console.log(code, "codwa")
+        $scope.getponumber = [];
+        for (let index = 0; index < $scope.supplierData.length; index++) {
+          const element = $scope.supplierData[index];
+          if (code == element.vendorCode) {
+            if (!$scope.getponumber.includes(element.poNumber)) {
+              $scope.getponumber.push(element.poNumber);
+            }
+          }
+        }
+      }
+
+      $scope.getPurchaseOrders = function () {
+        $http.get(path + "/api/v1/account/po", $scope.config)
+          .then(
+            function successCallback(response) {
+              // console.table((response.data);
+              const uniqueSet = new Set();
+              $scope.purchaseOrders = response.data;
+              // console.log("aml", $scope.purchaseOrders)
+              $scope.uniquePurchaseOrders = response.data.filter((x) => {
+                const value = x.planNo;
+                if (!uniqueSet.has(x.planNo)) {
+                  uniqueSet.add(value);
+                  return true;
+                }
+                return false;
+              })
+              for (let i = 0; i < $scope.purchaseOrders.length; i++) {
+                const element = $scope.purchaseOrders[i];
+                // if()
+              }
+              // console.log("purchase order>>>>1234>>>>>>>>", $scope.uniquePurchaseOrders);
+              //// console.table(($scope.purchaseOrders)
+              // After retrieving data, call the updateSuppData function
+              $scope.getSupplierData();
+            },
+            function errorCallback(response) {
+              // // console.log("saving of data failed");
+            });
+      };
+      $scope.getPurchaseOrders();
+
+      $scope.getsuppdata();
+      // Fetch data from the collgeDepartment table 
+      $scope.departmentData = [];
+      $scope.fetchDepartmentdata = function () {
+        $http.get(path + "/api/v1/account/department", $scope.config)
+          .then(function successCallback(response) {
+            $scope.departmentData = response.data;
+            //  // console.log("department data", response.data)
+          },
+            function errorCallback(resopnse) {
+              // console.log("Error Fetching department data ")
+            });
+      }
+      $scope.fetchDepartmentdata();
+      $scope.setDepDscr = function (depCode, departmentData) {
+        for (let i = 0; i < departmentData.length; i++) {
+          const row = departmentData[i];
+          // // console.log("dep Code", row)
+          if (depCode == row.departmentCode) {
+            $scope.cform.departmentDscr = row.dscr;
+            break;
+          }
+        }
+      }
+      // $scope.setDepDscr();
+      //Fetching college table table 
+      $scope.collegeData = [];
+      $scope.getClgData = function () {
+        $http.get(path + "/api/v1/account/college", $scope.config)
+          .then(function successCallback(response) {
+            $scope.collegeData = response.data;
+          },
+            function errorCallback(response) {
+              // console.log("Error fetching colllege data")
+            });
+      }
+
+      // Our GET request function to fetch data from accountmaster table
+      $scope.accMasterData = [];
+      $scope.getdata = function () {
+        $http.get(path + "/api/v1/account/accreport", $scope.config)
+          .then(function successCallback(response) {
+            $scope.accMasterData = response.data;
+          },
+            function errorCallback(response) {
+              // console.log("Unable to perform  request");
+            }
+          );
+      }
+      $scope.getdata();
+      $scope.getClgData();
+      $scope.setClgDscr = function (ClgCode, collegeData) {
+        for (let i = 0; i < collegeData.length; i++) {
+          const row = collegeData[i];
+          if (ClgCode == row.collegeCode) {
+            $scope.cform.collegeDscr = row.dscr
+            break;
+          }
+        }
+      }
+      $scope.disableFlag1 = false;
+      $scope.disableFlag2 = false;
+      $scope.disableFlag3 = false;
+      $scope.disableFuncFlags = function (voucherStatusCode) {
+        // // console.log("2222",$scope.role);
+        if (voucherStatusCode === 'F' || $scope.role === 'manager' || $scope.role === 'cashier') {
+          $scope.disableFlag1 = true;
+          // console.log("🚀 ~ erterterterterterterterteterte ~ voucherStatusCode:1234567", voucherStatusCode, $scope.disableFlag1)
+        }
+        if ($scope.role === 'cashier') {
+          // $scope.disableFlag2 = false;
+          $scope.disableFlag3 = true;
+        }
+      }
+      // $scope.nObject = getQueryParam('n');
+      //To fetch data from university table
+      $scope.universityData = [];
+      $scope.getUniversityData = function () {
+        $http.get(path + "/api/v1/account/university", $scope.config)
+          .then(function (response) {
+            $scope.universityData = response.data;
+          }, function (response) {
+            // console.log("Error in fetching data from university table  ")
+          });
+      }
+      $scope.getUniversityData();
+      //To fetch data from university discription from university table
+      $scope.setUniversityDscr = function (uniCode, universityData) {
+        for (let i = 0; i < universityData.length; i++) {
+          const row = universityData[i];
+          //  // console.log("university Data", row)
+          if (uniCode == row.universityCode) {
+            $scope.cform.universityDscr = row.dscr
+            break;
+          }
+        }
+      }
+
+      $scope.delBPVDList = [];
+      $scope.setdeleteCashRvD = function (cashRvId, finYear, robj) {
+        $timeout(() => {
+          console.log("robj>>>>>>>>", robj );
+          if (robj.select && cashRvId && finYear) {
+            // Checkbox is checked, add the object to the array.
+            $scope.delObj = {
+              cashRvId: cashRvId,
+              finYear: finYear,
+              cashRvDetSlno: robj.cashRvDetSlno
+            };
+            $scope.delBPVDList.push($scope.delObj);
+            // $scope.getCashRvD($scope.cform.cashRvId, $scope.cform.finYear);
+            console.log("Object added:", $scope.delBPVDList, robj);
+          } else {
+            // Checkbox is unchecked, remove the object from the array.
+            console.log("12345", robj);
+            $scope.delBPVDList = $scope.delBPVDList.filter(obj => !(obj.cashRvDetSlno === robj.cashRvDetSlno && obj.cashRvId === cashRvId && obj.finYear === finYear));
+            console.log("Object removed:", $scope.delBPVDList, robj);
+          }
+        }, 500)
+      };
+
+      $scope.deleteCashRvD = function () {
+        if ($scope.delBPVDList.length > 0) {
+          // console.log("🚀 ~ $scope.setdeleteCashRvD ~ $scope.delObj2:", $scope.delBPVDList, $scope.config)
+          $http({
+            method: 'DELETE',
+            url: path + `/api/v1/account/crvd`,
+            data: $scope.delBPVDList,
+            headers: {
+              'Content-type': 'application/json;charset=utf-8',
+              'Authorization': 'Bearer ' + $scope.token
+            }
+          })
+            .then(
+              (response) => {
+                if (response.status == 200) {
+                  $scope.delBPVDList = [];
+                  console.log("🚀 ~ $scope.deleteCashRvD ~ response:", response);
+                  $scope.getTotalAmmounts();
+                  toastr.success('Deleted Successfully');
+                  $scope.getCashRvD($scope.cform.cashRvId, $scope.cform.finYear);
+                }
+              },
+              (error) => {
+                console.log("🚀 ~ $scope.deleteCashRvD ~ error:", error)
+                toastr.error('Delete Error', 'Error deleting BPVD. Please try again.');
+              }
+            )
+        }
+        else{
+          console.error("error while deleting, check atleat one")
+        }
+      }
+
+      $scope.fieldDisable = function (payFromTypeCode) {
+        // console.log(payFromTypeCode)
+        if (payFromTypeCode === "E") {
+          // console.log(payFromTypeCode)
+          $scope.typeF = "Employee"
+          $scope.disableVendor = true
+          $scope.disableStu = true
+          $scope.disableEmp = false
+          $scope.hideFlag = true
+          $scope.cform.empDscr = ""
+          $scope.cform.address = ""
+          $scope.cform.departmentCode = ""
+          $scope.cform.collegeDscr = ""
+          $scope.cform.departmentDscr = ""
+          $scope.cform.universityDscr = ""
+          $scope.cform.collegeCode = ""
+          $scope.cform.universityCode = ""
+          $scope.cform.bankIfscCode = ""
+          $scope.cform.bankAccountNo = ""
+          $scope.cform.bankName = ""
+          $scope.cform.bankBranch = ""
+          $scope.cform.bankCity = ""
+          $scope.cform.bankCountry = ""
+          $scope.paidByFlag = true
+          $scope.cform.vendorCode = ""
+          $scope.cform.vendorDscr = ""
+          // $scope.cform.staffNo = ""
+          $scope.cform.empDscr = ""
+          // $scope.cform.univRegistrationNo = ""
+          $scope.cform.studentDscr = ""
+          console.log(payFromTypeCode)
+        } else if (payFromTypeCode === "S") {
+          $scope.typeF = "Student"
+          $scope.disableVendor = true
+          $scope.disableEmp = true
+          $scope.disableStu = false
+          $scope.hideFlag = true
+          $scope.paidByFlag = true
+          $scope.cform.empDscr = ""
+          $scope.cform.address = ""
+          $scope.cform.departmentCode = ""
+          $scope.cform.collegeCode = ""
+          $scope.cform.collegeDscr = ""
+          $scope.cform.departmentDscr = ""
+          $scope.cform.universityDscr = ""
+          $scope.cform.universityCode = ""
+          $scope.cform.bankIfscCode = ""
+          $scope.cform.bankAccountNo = ""
+          $scope.cform.bankName = ""
+          $scope.cform.bankBranch = ""
+          $scope.cform.bankCity = ""
+          $scope.cform.bankCountry = ""
+          $scope.cform.vendorCode = ""
+          $scope.cform.vendorDscr = ""
+          $scope.cform.staffNo = ""
+          $scope.cform.empDscr = ""
+          $scope.cform.studentDscr = ""
+          // console.log(payFromTypeCode)
+        } else if (payFromTypeCode === "V") {
+          $scope.typeF = "Vendor"
+          $scope.disableEmp = true
+          $scope.disableStu = true
+          $scope.disableVendor = false
+          $scope.hideFlag = false
+          $scope.paidByFlag = true
+          $scope.cform.empDscr = ""
+          $scope.cform.address = ""
+          $scope.cform.departmentCode = ""
+          $scope.cform.collegeDscr = ""
+          $scope.cform.departmentDscr = ""
+          $scope.cform.universityDscr = ""
+          $scope.cform.collegeCode = ""
+          $scope.cform.universityCode = ""
+          $scope.cform.bankIfscCode = ""
+          $scope.cform.bankAccountNo = ""
+          $scope.cform.bankName = ""
+          $scope.cform.bankBranch = ""
+          $scope.cform.bankCity = ""
+          $scope.cform.bankCountry = ""
+          //$scope.cform.vendorCode = ""r
+          //$scope.cform.vendorDscr = ""
+          $scope.cform.staffNo = ""
+          $scope.cform.empDscr = ""
+          $scope.cform.univRegistrationNo = ""
+          $scope.cform.studentDscr = ""
+          console.log(payFromTypeCode)
+        } else if (payFromTypeCode === "O") {
+          $scope.typeF = "Other"
+          $scope.disableEmp = true
+          $scope.disableStu = true
+          $scope.disableVendor = true
+          $scope.hideFlag = true
+          $scope.cform.empDscr = ""
+          $scope.cform.address = ""
+          $scope.cform.recvdFrom = ""
+          $scope.cform.departmentCode = ""
+          $scope.cform.collegeDscr = ""
+          $scope.cform.departmentDscr = ""
+          $scope.cform.universityDscr = ""
+          $scope.cform.collegeCode = ""
+          $scope.cform.universityCode = ""
+          $scope.cform.planNo = ""
+          $scope.cform.bankIfscCode = ""
+          $scope.cform.bankAccountNo = ""
+          $scope.cform.bankName = ""
+          $scope.cform.bankBranch = ""
+          $scope.cform.bankCity = ""
+          $scope.cform.bankCountry = ""
+          $scope.cform.vendorCode = ""
+          $scope.cform.vendorDscr = ""
+          $scope.cform.staffNo = ""
+          $scope.cform.empDscr = ""
+          $scope.cform.univRegistrationNo = ""
+          $scope.cform.studentDscr = ""
+          console.log(payFromTypeCode)
+        } else {
+          // console.log("Nhi hoga")
+        }
+      }
+
+      // $scope.projectPlanData = [];
+      // $scope.getprojectdata = function () {
+      //   $http.get(path + "/api/v1/account/projectplan/allData", $scope.config)
+      //     .then(function successCallback(response) {
+      //       $scope.projectPlanData = response.data;
+      // // console.log("meri",$scope.projectPlanData);
+      //     },
+      //       function errorCallback(response) {
+      // // console.log("Fetching of data failed");
+      //       });
+      // };
+      // $scope.getprojectdata();
+      $scope.getbankByPk = function (cashRvId, finYear) {
+        // console.log(">>>>>>>>>>>>>>>>", cashRvId, finYear);
+        $http.get(path + `/api/v1/account/crv/${cashRvId}/${finYear}`, $scope.config)
+          .then(function successCallback(response) {
+            // console.log("bankPaymentdata", response.data);
+            if (response.data.payFromTypeCode === 'V') {
+              $scope.cform = response.data;
+              $scope.cform.vendorDscr = response.data.recvdFrom;
+              $scope.cform.vendorCode = response.data.vendorCode.toString();
+              $scope.cform.planTitle = $scope.setonedit(response.data.planTypeCode);
+              $scope.cform.bankDscr = $scope.setoneditbankdscr(response.data.bankCode);
+              // $scope.cform.garnNo = response.data.garnNo.toString();
+            } else if (response.data.payFromTypeCode === 'E') {
+              $scope.cform = angular.copy(response.data);
+              $scope.cform.empDscr = response.data.recvdFrom;
+              //$scope.cform.departmentDscr = getdepdscr(response.data.);
+              $scope.cform.departmentDscr = $scope.setoneditDepDscr(response.data.departmentCode);
+              $scope.cform.collegeDscr = $scope.setoneditcllgDscr(response.data.collegeCode);
+              $scope.cform.universityDscr = $scope.setonedituniDscr(response.data.universityCode);
+              $scope.cform.bankDscr = $scope.setoneditbankdscr(response.data.bankCode);
+            } else {
+              $scope.cform = response.data;
+              $scope.cform.studentDscr = response.data.recvdFrom;
+              $scope.cform.departmentDscr = $scope.setoneditDepDscr(response.data.departmentCode);
+              $scope.cform.collegeDscr = $scope.setoneditcllgDscr(response.data.collegeCode);
+              $scope.cform.universityDscr = $scope.setonedituniDscr(response.data.universityCode);
+              $scope.cform.bankDscr = $scope.setoneditbankdscr(response.data.bankCode);
+            }
+          },
+            function errorCallback(response) {
+              // console.log("Unable to update request");
+            });
+      };
+      $scope.setoneditDepDscr = function (n) {
+        // console.log("nnnnnnnnnnnnnnnnnnnnnnnnn", n)
+        for (let index = 0; index < $scope.departmentData.length; index++) {
+          const element = $scope.departmentData[index];
+          if (element.departmentCode === n) {
+            // console.log(">>>>>>>>>>>>>>", element.departmentCode, element)
+            return element.dscr;
+          }
+        }
+      }
+      $scope.setoneditcllgDscr = function (n) {
+        for (let index = 0; index < $scope.collegeData.length; index++) {
+          const element = $scope.collegeData[index];
+          if (element.collegeCode === n) {
+            // console.log(">>>>>>>>????>>>>>>", element.collegeCode, element)
+            return element.dscr;
+          }
+        }
+      }
+      $scope.setonedituniDscr = function (n) {
+        for (let index = 0; index < $scope.universityData.length; index++) {
+          const element = $scope.universityData[index];
+          if (element.universityCode === n) {
+            // console.log(">>>>>>>>????>>>>>>", element.universityCode, element)
+            return element.dscr;
+          }
+        }
+      }
+      $scope.setoneditbankdscr = function (n) {
+        console.log(n);
+        for (let index = 0; index < $scope.bankaccount.length; index++) {
+          const element = $scope.bankaccount[index];
+          if (element.bankCode === n) {
+            return element.dscr;
+          }
+        }
+      }
+      $scope.setonedit = function (n) {
+        console.log(n);
+        for (let index = 0; index < $scope.projectPlanData.length; index++) {
+          const element = $scope.projectPlanData[index];
+          if (element.planTypeCode === n) {
+            console.log(element)
+            return element.planNo;
+          }
+        }
+      }
+      $scope.cform = {};
+      // $scope.crvds
+
+      $scope.saveCashRvDet = function () {
+        console.log(">>>>>>>>>>>>>>222", $scope.crvds);
+        $scope.filteredCashRv = $scope.crvds
+          .filter(row => row.accountCode !== undefined)
+          .map(row => {
+            console.log("rocking uma ",row)
+            return { ...row, cashRvId: $scope.cform?.cashRvId, finYear: $scope.cform?.finYear };
+          });
+        console.log("saving data bpvd>>>>>", $scope.filteredCashRv)
+        $http.post(path + "/api/v1/account/crvd", $scope.filteredCashRv, $scope.config)
+          .then((res) => {
+            toastr.success("Data Saved Successfully");
+            // console.log(res.data, "saved successfully")
+            $scope.getCashRvD($scope.cform.cashRvId, $scope.cform.finYear)
+          }, (err) => {
+            toastr.error("ERROR", "Please fill  all the required fields");
+            console.log(err);
+          }
+          )
+      }
+
+      $scope.getTotalAmmounts = function () {
+        var cre_total = 0;
+        var db_total = 0;
+        $scope.crvds.forEach(function (transaction) {
+          // // console.log("🚀 ~ $scope.crvds:", $scope.crvds)
+          // Set crAmountTouched and dbAmountTouched to true if crAmount and dbAmount are not null
+          if (transaction.crAmount != null) {
+            transaction.crAmountTouched = true;
+          }
+          if (transaction.dbAmount != null) {
+            transaction.dbAmountTouched = true;
+          }
+          // Calculate totalCreditAmount and totalDebitAmount
+          cre_total += parseFloat(transaction.crAmount) || 0;
+          db_total += parseFloat(transaction.dbAmount) || 0;
+        });
+        $scope.cform.voucherNetAmount = (cre_total - db_total) || 0;
+        if((cre_total - db_total) < 0){$scope.negFlag = true;} else{ $scope.negFlag = false;}
+        $scope.totalCreditAmount = cre_total;
+        $scope.totalDebitAmount = db_total;
+        console.log("🚀 ~ $scope.negFlag:", $scope.negFlag)
+        $scope.ammountInWords = $scope.negFlag ? '' : toWords($scope.cform.voucherNetAmount);
+      };
+      $scope.negFlag = false;
+      $scope.calculateFinYear = function (idDate) {
+        var idDate = idDate;
+        // console.log(idDate);
+        var dateParts = idDate.split('-');
+        //  console.log(dateParts);
+        if (dateParts.length === 3) {
+          var day = parseInt(dateParts[0]);
+          var month = parseInt(dateParts[1]);
+          var year = parseInt(dateParts[2]);
+          if (day >= 1 && day <= 31 && month >= 1 && month <= 12) {
+            var finYear;
+            if (month >= 4) {
+              finYear = year + '-' + (year + 1);
+            } else {
+              finYear = (year - 1) + '-' + year;
+            }
+            //  console.log(finYear);
+            $scope.cform.finYear = finYear;
+          } else {
+            $scope.cform.finYear = '';
+          }
+        } else {
+          $scope.cform.finYear = '';
+        }
+      };
+      $scope.getCashRvD = function (cashRvId, finYear) {
+        if (cashRvId && finYear) {
+          $http.get(path + `/api/v1/account/crvd/${cashRvId}/${finYear}`, $scope.config).then(
+            (resopnse) => {
+              if (resopnse.status == 200) {
+                //console.log(resopnse);
+                $scope.crvds = resopnse.data.length > 0 ? resopnse.data : [{}]
+                // console.table(($scope.crvds);
+                // $scope.setAccountDscr(resopnse.data.accountCode? resopnse.data.accountCode : null,0);
+              }
+            }
+          )
+        }
+      };
+
+      $scope.planNos = [];
+      $scope.setPurchaseOrderDetailsDetails = function (vendorCode) {
+        if (vendorCode) {
+          // console.log("checking vendor code for purchase oder data", vendorCode);
+          $scope.poDetails = $scope.purchaseOrders?.filter(row => {
+            $scope.planNos.push(row.planNo);
+            return vendorCode === row.vendorCode
+          });
+          // // console.log("abc>>>", $scope.planNos);
+          $scope.planNos = [...new Set($scope.planNos)];
+          // // console.log("abc>>>", $scope.planNos);
+          $scope.projectPlanData = $scope.purchaseOrders?.filter(row => vendorCode === row.vendorCode);
+          // // console.log("abc", $scope.poDetails);
+        }
+      }
+      $scope.setName = (staffNo) => {
+        if (staffNo) {
+          for (let i = 0; i < $scope.empData.length; i++) {
+            const row = $scope.empData[i];
+            if (row.staffNo === staffNo) {
+              $scope.cform.assistantName = row.fullName;
+              $scope.assistantName = row.fullName;
+            }
+          }
+        }
+      }
+      $scope.setBankDiscription = (bankCode) => {
+        console.log(bankCode)
+        for (let index = 0; index < $scope.bankaccount.length; index++) {
+          const element = $scope.bankaccount[index];
+          if (element.bankCode === bankCode) {
+            $scope.cform.bankDscr = element.dscr;
+          }
+        }
+      }
+
+      $scope.setAccountDscr = function (accountCode, index) {
+        //  console.log(`🚗🚗🚗${typeof accountCode}🛺🛺🛺🛺`, index)
+        for (let i = 0; i < $scope.accMasterData.length; i++) {
+          const element = $scope.accMasterData[i];
+          // console.log(element.accountCode, accountCode)
+          if (accountCode === element.accountCode) {
+            // console.log(element);
+            $scope.crvds[index].accDscr = element.dscr;
+          } else {
+            if (!accountCode) {
+              $scope.crvds[index].accDscr = "";
+            }
+          }
+        }
+      }
+      $scope.nObject = getQueryParam('n');
+      $scope.getCashRv = function (cashRvId, finYear) {
+        if (cashRvId && finYear) {
+          $http.get(`${path}/api/v1/account/crv/${cashRvId}/${finYear}`, $scope.config).then(
+            (resopnse) => {
+              // console.log("response of bpv", resopnse);
+              if (resopnse.status === 200) {
+                console.log("for spreding in Form", resopnse.data);
+                $scope.cform = resopnse.data;
+                // console.log("amal??>>>>>>", $scope.assistantStaffNo);
+                $scope.cform.assistantStaffNo = $scope.tempRole ? $scope.details.staffNo : resopnse.data.assistantStaffNo;
+                $scope.assistantStaffNo = $scope.tempRole ? $scope.details.staffNo : resopnse.data.assistantStaffNo;
+                $scope.setName($scope.tempRole ? $scope.details.staffNo : resopnse.data.assistantStaffNo);
+                // $scope.setAssisName($scope.assistantStaffNo);
+                $scope.cform.bankPvNo = resopnse.data.bankPvNo;
+                $scope.cform.bankPvDate = resopnse.data.bankPvDate;
+                // console.log("lllllll>>>>>>>", $scope.cform.assistantStaffNo);
+                $scope.ammountInWords = toWords(resopnse.data?.voucherNetAmount);
+                $scope.fieldDisable(resopnse.data.payFromTypeCode);
+                $scope.setPurchaseOrderDetailsDetails(resopnse.data.vendorCode);
+                $scope.disableFuncFlags(resopnse.data?.voucherStatusCode);
+                // $scope.setBankDiscription(resopnse.data.bankCode);
+                // $scope.setAccountDscr(resopnse.data.accountCode? resopnse.data.accountCode : null,0);
+                // $scope.selectplan(form.planNo,data)
+                if (resopnse.data.payFromTypeCode === "S") {
+                  $scope.cform.univRegistrationNo = resopnse.data.univRegistrationNo.toString();
+                  $scope.cform.voucherStatusCode = resopnse.data.voucherStatusCode.toString();
+                  $scope.getStudentDscr($scope.cform.univRegistrationNo);
+                  $scope.disableVendor = true;
+                  $scope.disableEmp = true;
+                  $scope.typeF = "Student";
+                }
+                else if (resopnse.data.payFromTypeCode === "E") {
+                  $scope.typeF = "Employee";
+                  $scope.cform.poNumber = resopnse.data.poNumber?.toString();
+                  $scope.cform.staffNo = resopnse.data.staffNo;
+                  $scope.getEmpDscr(resopnse.data.staffNo);
+                  $scope.disableVendor = true;
+                  $scope.disableStu = true;
+                } else if (resopnse.data.payFromTypeCode === "V") {
+                  $scope.typeF = "Vendor";
+                  // console.log("sdsd", resopnse);
+                  $scope.getPurchaseOrders();
+                  // $scope.setPurchaseOrderDetails(resopnse.data?.vendorCode);
+                  $scope.getPurchaseOrderDetails(resopnse.data?.poNumber);
+                  $scope.getVendorDscr(resopnse.data?.vendorCode, $scope.supplierData);
+                  $scope.cform.vendorCode = resopnse.data.vendorCode?.toString();
+                  $scope.cform.poNumber = resopnse.data.poNumber;
+                  $scope.setPoBillDetails(resopnse.data.billSlNo);
+                  $scope.cform.billSlNo = resopnse.data.billSlNo?.toString();
+                  // $scope.cform.passedAmount = resopnse.data.passedAmount;
+                  $scope.cform.planNo = resopnse.data.planNo?.toString();
+                  $scope.disPlanNo = true;
+                  //console.log("<<<<>>>>>>>>>>>>>", typeof resopnse.data.planNo)
+                  $scope.disableStu = true;
+                  $scope.disableEmp = true;
+                }
+                else {
+                  // // console.log("some thing went wrong!!");
+                }
+                $scope.getbankdeatil(resopnse.data.bankAcNo);
+              }
+            },
+            (error) => {
+              // console.error(error);
+            }
+          )
+        }
+      }
+
+      // Decryption function
+      function decryptData(encryptedData) {
+        try {
+          const parsedData = atob(encryptedData);
+          if (parsedData && typeof parsedData === 'object') {
+            return parsedData;
+          }
+          return parsedData;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        var encryptedParamValue = urlParams.get(name);
+        try {
+          const decryptedData = typeof encryptedParamValue === typeof "String" ? decryptData(encryptedParamValue) : null;
+          return JSON.parse(decryptedData) || null;
+        } catch (error) {
+          return null;
+        }
+      }
+      // console.log('Value of n:', $scope.nObject);
+      if ($scope.nObject) {
+        console.log('Value of n:', $scope.nObject);
+        // $scope.getbankByPk($scope.nObject.cashRvId, $scope.nObject.finYear);
+        $scope.isDisable = $scope.nObject.isDisable == 1 ? true : false;
+        console.log($scope.isDisable);
+        $scope.getCashRv($scope.nObject.cashRvId, $scope.nObject.finYear);
+        $scope.getCashRvD($scope.nObject.cashRvId, $scope.nObject.finYear);
+      }
+      $scope.goDataLst = function () {
+        if ($scope.tempRole) {
+          // console.log("click4545454", $scope.tempRole.role);
+          if ($scope.tempRole?.role === "assistant") {
+            $window.location.href = 'assistant-dashboard-cashreciept-voucher.html';
+          } else if ($scope.tempRole?.role === "manager") {
+            // console.log("click4545454", $scope.tempRole?.role);
+            $window.location.href = 'assistant-dashboard-cashreciept-voucher.html';
+          } else {
+            if ($scope.tempRole?.role === "cashier") {
+              // console.log("click4545454", $scope.tempRole.role);
+              $window.location.href = 'assistant-dashboard-cashreciept-voucher.html';
+            } else {
+              // console.log("nii ho payga")
+            }
+          }
+          // window.location.href = "assistant_dashboard.html";
+        } else {
+          if ($scope.role === "assistant") {
+            $window.location.href = 'assistant-dashboard-cashreciept-voucher.html';
+          } else if ($scope.role === "manager") {
+            $window.location.href = 'assistant-dashboard-cashreciept-voucher.html';
+          } else {
+            if ($scope.role === "cashier") {
+              $window.location.href = 'assistant-dashboard-cashreciept-voucher.html';
+            }
+          }
+        }
+      }
+      $scope.goBack = function () {
+        window.history.back();
+      }
+    })
+
+  app.directive('numOnly', onlyDigitInput);
+
+  function onlyDigitInput() {
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      link: function (scope, element, attr, ngModelCtrl) {
+        function fromUser(text) {
+          if (text !== undefined && text !== null) {
+            // Allow digits, minus, and plus
+            var transformedInput = text.replace(/[^0-9]/g, '');
+
+            if (transformedInput !== text) {
+              ngModelCtrl.$setViewValue(transformedInput);
+              ngModelCtrl.$render();
+            }
+            return transformedInput;
+          }
+          return undefined;
+        }
+
+        ngModelCtrl.$parsers.push(fromUser);
+      }
+    };
+  }
+
+  </script>
+</body>
+
+</html>

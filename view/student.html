@@ -1,0 +1,501 @@
+<style>
+  .forms>ul>li {
+    min-width: 17%;
+    position: relative;
+    margin-top: 13px;
+  }
+</style>
+<div class="flextitles">
+  <div class="titles">{{subbreadcrumb}}</div>
+  <button class="bluebtn" ng-click="handleLink('student-datalist')">Student List</button>
+</div>
+<section ng-controller="studentCtrl">
+  <form name="myform" ng-submit="save()" novalidate>
+    <div class="white-box forms  notop">
+      <ul>
+        <li>
+          <div>
+            <label>University Reg. No.<sup>*</sup></label>
+            <input ng-disabled="flag" type="text" alphanumeric-validation no-special-characters m-capitalize  class="textfield" name="univRegistrationNo" alphanumeric-validation no-special-characters m-capitalize
+              placeholder="University Reg. No." 
+              ng-model="form.univRegistrationNo" required maxlength="20" ng-blur="checkForDuplicate(form.univRegistrationNo)"/>
+            <span class="error"
+              ng-show="myform.univRegistrationNo.$error.required && myform.univRegistrationNo.$touched && !formSubmitted">This
+              field is required.</span>
+              <span class="error"
+              ng-show="myform.univRegistrationNo.$error.alphanumeric && myform.univRegistrationNo.$touched && !formSubmitted">University Code must be alphanumeric.</span>
+              <div class="error"
+              ng-show="duplicateCode && myform.univRegistrationNo.$touched">
+              This University Registration Code is already exists.
+               </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>University Roll No.<sup>*</sup></label>
+            <input type="text" class="textfield" name="univRollNumber"  alphanumeric-validation no-special-characters m-capitalize alphanumeric-validation no-special-characters m-capitalize placeholder="University Roll No."
+              ng-model="form.univRollNumber" required maxlength="20" />
+            <span class="error"
+              ng-show="myform.univRollNumber.$error.required && myform.univRollNumber.$touched && !formSubmitted">This
+              field is required.</span>
+              <!-- <span class="error"
+              ng-show="myform.univRollNumber.$error.alphanumeric && myform.univRollNumber.$touched && !formSubmitted">Roll number must be alphanumeric.</span> -->
+              
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>College Admission No.<sup>*</sup></label>
+            <input type="text" class="textfield" name="collegeAdmissionNo" alphanumeric-validation no-special-characters m-capitalize placeholder="Enter College Admission no" ng-model="form.collegeAdmissionNo" maxlength="20" required/>
+              <span class="error"
+              ng-show="myform.collegeAdmissionNo.$error.alphanumeric && myform.collegeAdmissionNo.$touched && !formSubmitted">Roll number must be alphanumeric.</span>
+
+              <span class="error"
+              ng-show="myform.collegeAdmissionNo.$error.required && myform.collegeAdmissionNo.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>College Roll No<sup>*</sup></label>
+            <input type="text" class="textfield" name="collegeRollNo" alphanumeric-validation no-special-characters m-capitalize placeholder="College Roll No"
+              ng-model="form.collegeRollNo" maxlength="20" required/>
+              <!-- <span class="error"
+              ng-show="myform.collegeRollNo.$error.alphanumeric && myform.collegeRollNo.$touched && !formSubmitted">Roll number must be alphanumeric.</span> -->
+              <span class="error"
+              ng-show="myform.collegeRollNo.$error.required && myform.collegeRollNo.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Salutation<sup>*</sup></label>
+            <select class="dropdd" ng-model="form.salutation" ng-required="true" name="salutation">
+              <option value="" selected="selected">Select</option>
+              <option value="DR">Dr</option>
+              <option value="MR">Mr</option>
+              <option value="MRS">Mrs</option>
+            </select>
+            <span class="error"
+              ng-show="myform.salutation.$error.required && myform.salutation.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>First Name<sup>*</sup></label>
+            <input type="text" class="textfield" name="firstName" value="" placeholder="First Name"
+              ng-model="form.firstName" required maxlength="50" no-special-characters m-capitalize m-name/>
+            <span class="error"
+              ng-show="myform.firstName.$error.required && myform.firstName.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Middle Name</label>
+            <input type="text" class="textfield" name="middleName" value="" placeholder="Middle Name"
+              ng-model="form.middleName" maxlength="50" no-special-characters m-capitalize m-name/>
+              <span class="error"
+              ng-show="myform.middleName.$error.required && myform.middleName.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Last Name</label>
+            <input type="text" class="textfield " name="lastName" placeholder="Last Name" ng-model="form.lastName"
+              maxlength="50" no-special-characters m-capitalize m-name required/>
+              <span class="error"
+              ng-show="myform.middleName.$error.required && myform.middleName.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Full Name<sup>*</sup></label>
+            <input type="text" class="textfield " name="fullName" placeholder="Full Name" ng-model="form.fullName"
+              maxlength="50" required no-special-characters m-capitalize m-name/>
+            <span class="error"
+              ng-show="myform.fullName.$error.required && myform.fullName.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Sex<sup>*</sup></label>
+            <select class="textfield" ng-model="form.sex" ng-required="true" name="sex">
+              <option value="" selected="selected">Select Gender</option>
+
+              <option value="M">Male</option>
+
+              <option value="F">Female</option>
+
+            </select>
+            <span class="error" ng-show="myform.sex.$error.required && myform.sex.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+
+
+        <li>
+          <div>
+            <label>Dob<sup>*</sup></label>
+            <input type="text" class="textfield datepicker" datepicker name="dob" value="" placeholder="Date of Birth"
+              ng-model="form.dob" required />
+            <span class="error" ng-show="myform.dob.$error.required && myform.dob.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Doj University<sup>*</sup></label>
+            <input type="text" class="textfield datepicker " datepicker name="dojUniversity" value=""
+              placeholder="Doj University" ng-model="form.dojUniversity" required />
+            <span class="error"
+              ng-show="myform.dojUniversity.$error.required && myform.dojUniversity.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Doj College<sup>*</sup></label>
+            <input type="text" class="textfield datepicker " datepicker name="dojCollege" value=""
+              placeholder="Doj College" ng-model="form.dojCollege" required/>
+            <span class="error"
+              ng-show="myform.dojCollege.$error.required && myform.dojCollege.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Doj Department<sup>*</sup></label>
+            <input type="text" class="textfield datepicker" datepicker name="doj_department" value=""
+              placeholder="Doj Department" ng-model="form.dojDepartment" required />
+            <span class="error"
+              ng-show="myform.doj_department.$error.required && myform.doj_department.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="pan">PAN No.</label>
+            <input type="text" class="textfield" m-capitalize maxlength="10" minlength="10"
+              placeholder="e.g., ABCTY1234D" required name="pan" pan-number ng-model="form.pan" />
+          </div>
+          <div class="error" ng-show="myform.pan.$error.required && myform.pan.$touched && !formSubmitted"
+            style="color: red;">
+            PAN number is required.
+          </div>
+          <div class="error" ng-show="myform.pan.$error.minlength || myform.pan.$error.maxlength" style="color: red;">
+            PAN number must be exactly 10 characters long.
+          </div>
+          <div class="error" ng-show="myform.pan.$error.panNumber" style="color: red;">
+            Please enter a valid PAN number
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Aadhaar Number</label>
+            <input type="text" class="textfield " name="aadhaarNumber" value="" m-num-only ng-blur="chkAadhar();"
+              placeholder="Aadhaar Number" ng-model="form.aadhaarNumber" maxlength="12" minlength="12" />
+            <span class="error" ng-show="myform.aadhaarNumber.$error.pattern || aadharflag" ng-show="aadharflag">Please
+              enter number only.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Bank Ifsc Code<sup>*</sup></label>
+            <input type="text" class="textfield " name="bankIfscCode" value="" placeholder="Bank Ifsc Code"
+              ng-model="form.bankIfscCode" required maxlength="20" />
+            <span class="error"
+              ng-show="myform.bankIfscCode.$error.required && myform.bankIfscCode.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+              <label>Bank account No<sup>*</sup></label>
+              <input type="text" class="textfield" m-num-only name="bankAccountNo" placeholder="Bank account No"
+                  ng-model="form.bankAccountNo" required maxlength="16" ng-pattern="/^\d{11,16}$/" />
+              <span class="error" ng-show="myform.bankAccountNo.$error.required && myform.bankAccountNo.$touched && !formSubmitted">
+                  This field is required.
+              </span>
+              <span class="error" ng-show="myform.bankAccountNo.$error.pattern && myform.bankAccountNo.$touched && !formSubmitted">
+                  Please enter a valid bank account number with 11-16 digits.
+              </span>
+          </div>
+      </li>
+      
+      
+      
+        <li>
+          <div>
+            <label>Bank Name<sup>*</sup></label>
+            <input type="text" class="textfield" name="bankName" m-capitalize value="" placeholder="Bank Name"
+              ng-model="form.bankName" required maxlength="50" />
+            <span class="error"
+              ng-show="myform.bankName.$error.required && myform.bankName.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Bank Branch<sup>*</sup></label>
+            <input type="text" class="textfield " name="bankBranch" m-capitalize value="" placeholder="Bank Branch"
+              ng-model="form.bankBranch" required maxlength="20" />
+            <span class="error"
+              ng-show="myform.bankBranch.$error.required && myform.bankBranch.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Bank City<sup>*</sup></label>
+            <input type="text" class="textfield " name="bankCity" value="" m-name placeholder="Bank City"
+              ng-model="form.bankCity" required maxlength="20" />
+            <span class="error"
+              ng-show="myform.bankCity.$error.required && myform.bankCity.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Bank Country<sup>*</sup></label>
+            <input type="text" class="textfield " name="bankCountry" value="" m-name placeholder="Bank Country"
+              ng-model="form.bankCountry" required maxlength="20" />
+            <span class="error"
+              ng-show="myform.bankCountry.$error.required && myform.bankCountry.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="departmentCode">Department Code<sup>*</sup></label>
+            <div class="flexbox">
+              <select ng-model="form.departmentCode" class="dropdd" required name="dc" ng-change="setDepartmentDscr(form.departmentCode); setClgAndUniv(form.departmentCode); ">
+                <option value=""  selected>Department Code</option>
+                <option ng-repeat="x in Department" value="{{x.departmentCode}}" ng-show="form.departmentCode != x.departmentCode">
+                  {{x.departmentCode}} {{form.departmentCode == x.departmentCode?'': '- '+ x.dscr}}
+                </option>
+              </select>
+              <input type="text" class="textfield" name="departmentDscr" id="" disabled ng-model="departmentDscr">
+            </div>
+            <span class="error" ng-show="myform.dc.$error.required && myform.dc.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="collegCode">College Code<sup>*</sup></label>
+            <div class="flexbox">
+              <select ng-model="form.collegeCode" class="dropdd" required name="cc"
+                ng-change="setCollegeDscr(form.collegeCode)">
+                <option value=""  selected> Select </option>
+                <option ng-repeat="x in Department | filter:{'departmentCode':form.departmentCode} "
+                  value="{{x.collegeCode}}">{{x.collegeCode}}
+                </option>
+              </select>
+              <input type="text" class="textfield" name="clgDscr" id="" ng-model="collegeDscr" disabled>
+            </div>
+            <span class="error" ng-show="myform.cc.$error.required && myform.cc.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="operative">University Code<sup>*</sup></label>
+            <div class="flexbox">
+              <select ng-model="form.universityCode" class="dropdd" required name="uc"
+                ng-change="setUniversityDscr(form.universityCode)">
+                <option value=""  selected> Select </option>
+                <option ng-repeat="x in Department | filter:{'departmentCode':form.departmentCode}"
+                  value="{{x.universityCode}}">{{x.universityCode}} </option>
+              </select>
+              <input type="text" class="textfield" name="clgDscr" id="" ng-model="universityDscr" disabled>
+            </div>
+            <span class="error" ng-show="myform.uc.$error.required && myform.uc.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="studentProgramCode">Student Program Code<sup>*</sup></label>
+            <select ng-model="form.studentProgramCode" class="dropdd" required name="spc">
+              <option value=""  selected>Student Program Code</option>
+              <option ng-repeat="x in StudentProgram" value="{{x.studentProgramCode}}">
+                {{x.studentProgramCode}} - {{x.dscr}}
+              </option>
+            </select>
+            <span class="error" ng-show="myform.spc.$error.required && myform.spc.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Student Year<sup>*</sup></label>
+            <input type="text" class="textfield " name="studentYear" value="" placeholder=" Enter Student Year"
+              ng-model="form.studentYear" required />
+          </div>
+          <span class="error"
+            ng-show="myform.studentYear.$error.required && myform.studentYear.$touched && !formSubmitted">This
+            field is required.</span>
+        </li>
+        </li>
+        <li>
+          <div>
+            <label for="semesterSystemCode">Semester System Code<sup>*</sup></label>
+            <select ng-model="form.semesterSystemCode" class="dropdd" required name="ssc">
+              <option value="" disabled selected>Semester System Code</option>
+              <option ng-repeat="x in SemesterSystem" value="{{x.semesterSystemCode}}">
+                {{x.semesterSystemCode}}- {{x.dscr}}
+              </option>
+            </select>
+            <span class="error" ng-show="myform.ssc.$error.required && myform.ssc.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="casteCode">Caste Code<sup>*</sup></label>
+            <select ng-model="form.casteCode" class="dropdd" required name="caste">
+              <option value="" disabled selected>Select Caste Code</option>
+              <option ng-repeat="x in Caste" value="{{x.casteCode}}">
+                {{x.casteCode}} - {{x.dscr}}
+              </option>
+            </select>
+            <span class="error" ng-show="myform.caste.$error.required && myform.caste.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="phyHandicappedCode">Phy Handicapped code</label>
+            <select ng-model="form.phyHandicappedCode" class="dropdd">
+              <option value="">Select PhysicallyHandicapped</option>
+              <option ng-repeat="x in PhysicallyHandicapped" value="{{x.phyHandicappedCode}}">
+                {{x.phyHandicappedCode}} - {{x.dscr}}
+              </option>
+            </select>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Email<sup>*</sup></label>
+            <input type="email" class="textfield" name="email" value="" placeholder="Email" ng-model="form.email"
+              required maxlength="50" ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/" />
+            <span class="error" ng-show="myform.email.$error.pattern">Please enter a valid email address.</span>
+            <span class="error" ng-show="myform.email.$error.required && myform.email.$touched && !formSubmitted">This
+              field is
+              required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+              <label>Mobile</label>
+              <input type="text" class="textfield" ng-required="true" limit-to="12" ng-minlength="10" only-numbers
+                  title="Only digits" name="mobile" placeholder="Mobile No" ng-model="form.mobile" maxlength="10" ng-pattern="/^\d+$/" m-num-only/>
+              <span class="error" ng-show="myform.mobile.$error.required && myform.mobile.$touched && !formSubmitted">This field is required.</span>
+              <span class="error" ng-show="myform.mobile.$error.minlength && myform.mobile.$dirty">Please enter at least 10 digits.</span>
+          </div>
+      </li>
+      
+        <li>
+          <div>
+            <label>Country<sup>*</sup></label>
+            <input type="text" class="textfield " name="country" value="" placeholder="Country" ng-model="form.country"
+              required />
+            <span class="error"
+              ng-show="myform.country.$error.required && myform.country.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+              <label>PIN</label>
+              <input type="text" class="textfield" ng-model="form.pin" name="pin" maxlength="6"
+                     placeholder="Pin" ng-pattern="/^\d{6}$/" m-num-only />
+          </div>
+          <span class="error" ng-show="(myform.pin.$error.pattern || form.pin.length !== 6) && myform.pin.$touched && !formSubmitted">Please enter a valid 6-digit PIN code.</span>
+      </li>
+        <li>
+          <div>
+            <label>State<sup>*</sup></label>
+            <input type="text" class="textfield " name="state" value="" placeholder="State" ng-model="form.state"
+              required maxlength="20" />
+            <span class="error" ng-show="myform.state.$error.required && myform.state.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>City<sup>*</sup></label>
+            <input type="text" class="textfield " name="city" value="" placeholder="City" ng-model="form.city" required
+              maxlength="20" />
+            <span class="error" ng-show="myform.city.$error.required && myform.city.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Address 1<sup>*</sup></label>
+            <input type="text" class="textfield " name="addres1" value="" placeholder="Address 1"
+              ng-model="form.addres1" required />
+            <span class="error"
+              ng-show="myform.addres1.$error.required && myform.addres1.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Address 2</label>
+            <input type="text" class="textfield " name="addr2" value="" placeholder="Address 2" ng-model="form.addr2" />
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Address 3</label>
+            <input type="text" class="textfield " name="addr3" value="" placeholder="Address 3" ng-model="form.addr3" />
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Nationality<sup>*</sup></label>
+            <input type="text" class="textfield " name="nationality" value="" placeholder="Nationality"
+              ng-model="form.nationality" required />
+            <span class="error"
+              ng-show="myform.nationality.$error.required && myform.nationality.$touched && !formSubmitted">This
+              field is required.</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label for="stuSeparationTypeCode">Student Separation Code</label>
+            <select ng-model="form.stuSeparationTypeCode" class="dropdd">
+              <option value="">Student Separation Code</option>
+              <option ng-repeat="x in StuSeparation" value="{{x.stuSeparationTypeCode}}">
+                {{x.stuSeparationTypeCode}} - {{x.dscr}}
+              </option>
+            </select>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Student Separation Date</label>
+            <input type="text" class="textfield datepicker " datepicker name="stuSeparationDate" value=""
+              placeholder="Student Separation Date" ng-model="form.stuSeparationDate" />
+          </div>
+        </li>
+        <li>
+          <div>
+            <button type="submit" class="bluebtn" style="margin-top: 15px;"
+              ng-disabled="myform.$invalid || duplicateCode">Submit</button>
+          </div>
+        </li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+  </form>
+</section>

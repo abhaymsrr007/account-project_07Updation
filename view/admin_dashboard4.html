@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Dashboard</title>
+  <link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.17/angular-filter.min.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Add a modern and attractive font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #34495e;
+      color: #ecf0f1;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .container {
+      background-color: #ecf0f1;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+      padding: 20px;
+      max-width: 1200px;
+    }
+
+    .boxs {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 20px;
+      border-radius: 8px;
+      color: #fff;
+      min-height: 200px;
+      text-decoration: none;
+      margin-bottom: 20px;
+      position: relative;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    
+    .boxs:hover {
+      transform: scale(1.05);
+      transition:  transform 1s ease;
+    }
+
+    .icons {
+      width: 64px;
+      height: 68px;
+      margin: 0 auto;
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .stitle {
+      font-size: 16px;
+      font-weight: 500;
+      margin-top: 15px;
+      color: #2c3e50;
+      line-height: 1.2;
+    }
+
+    /* Different colors for each card */
+    .boxs:nth-child(odd) {
+      background-color: #3498db;
+    }
+
+    .boxs:nth-child(even) {
+      background-color: #e74c3c;
+    }
+  </style>
+</head>
+
+<body  ng-controller="contr">
+  <header>
+    <div class="logo">
+      <img src="images/nrt-logo.svg" alt="AMS" />
+    </div>
+    <a class="btn btn-primary" ng-click="goBack()">Back</a>
+    <a class="userlogin" ng-click="logout()">{{details.username}} <span><img src="{{img}}{{details.profile_image}}"
+          alt="no profile" /></span></a>
+  </header>
+
+  <div class="container">
+    <h2>Admin Dashboard</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <a href="dashboard4master.html" class="boxs">
+          <div class="icons">
+            <img src="images/masters-icon.png" alt="Masters Data Icon">
+          </div>
+          <div class="stitle">Masters Data</div>
+        </a>
+      </div>
+      <div class="col-md-6">
+        <a href="asst_main_dashboard.html" ng-click="setRole('assistant')" class="boxs">
+          <div class="icons">
+            <img src="images/assistant-icon.png" alt="Assistant Dashboard Icon">
+          </div>
+          <div class="stitle">Assistant Dashboard</div>
+        </a>
+      </div>
+      <div class="col-md-6">
+        <a href="mgr_main_dashboard.html" ng-click="setRole('manager')" class="boxs aos-init aos-animate"
+          data-aos="fade-in" data-aos-duration="1000" data-aos-delay="900" data-aos-easing="ease-in-back"
+          data-aos-offset="0">
+          <div class="icons">
+            <img src="images/manager-icon.png" alt="Manager Dashboard Icon">
+          </div>
+          <div class="stitle">Manager Dashboard</div>
+        </a>
+      </div>
+      <div class="col-md-6">
+        <a href="cashier_main_dashboard.html" ng-click="setRole('cashier')" class="boxs aos-init aos-animate"
+          data-aos="fade-in" data-aos-duration="1000" data-aos-delay="900" data-aos-easing="ease-in-back"
+          data-aos-offset="0">
+          <div class="icons">
+            <img src="images/cashier-icon.png" alt="Cashier Dashboard Icon">
+          </div>
+          <div class="stitle">Cashier Dashboard</div>
+        </a>
+      </div>
+      <!-- Add similar blocks for other dashboard links -->
+    </div>
+  </div>
+
+  <footer>
+    © 2023 All Rights Reserved.
+  </footer>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.17/angular-filter.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
+  <script src="js/linked.js"></script>
+  <script>
+    // Your AngularJS code here
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>University Student Program</title>
+
+  <link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <script src="js/jquery-3.6.0.min.js"></script>
+  <!-- <script src="js/bootstrap.min.js"></script>    -->
+  <link rel="stylesheet" href="css/style.css">
+  <title>form</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+  <style>
+    tr>td {
+      text-align: center;
+    }
+    .notop >ul >li {width: 20%;}
+      .flexbox .dropdd {
+    width: 100%;
+}
+  </style>
+</head>
+
+<body  ng-controller="contr">
+  <header class="topheading">
+    <div class="logo">
+      <img src="images/nrt-logo.svg" alt="" />
+    </div>
+
+    <a class="btn bluebtn" ng-click="goBack()">Back</a>
+    <a class="userlogin" href="index.html">Amal Prabhat<span><img src="images/userimg.jpg" alt="student" /></span></a>
+
+  </header>
+  <section class="formsec">
+
+    <div class="titles">{{subbreadcrumb}}</div>University Student Program</div>
+
+    <form name="myform" ng-submit="save()">
+      <div class="container white-box notop">
+        <ul class="flexbox">
+          <li>
+            <div>
+              <label for="studentProgramCode">Student Program code</label>
+              <input
+                type="text"
+                disabled
+                class="textfield"
+                ng-model="form.studentProgramCode"
+                id="studentProgramCode"
+                placeholder="Student Program code"
+                maxlength="9"
+              />
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="dscr">Description</label>
+              <input
+                type="text"
+                class="textfield"
+                ng-model="form.dscr"
+                id="dscr"
+                placeholder="Description"
+              />
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="departmentCode">Department Code</label>
+              <select ng-model="form.departmentCode" class="dropdd">
+                <option value="" disabled selected>Department Code</option>
+                <option ng-repeat="x in data2" value="{{x.departmentCode}}">
+                  {{x.departmentCode}}
+                </option>
+              </select>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="universityCode">University Code</label>
+              <select ng-model="form.universityCode" class="dropdd">
+                <option value="" disabled selected>University Code</option>
+                <option ng-repeat="x in data2" value="{{x.universityCode}}">
+                  {{x.universityCode}}
+                </option>
+              </select>
+            </div>
+          </li>
+          <li>
+            <div>
+              <button type="submit" class="bluebtn" style="margin-top: 25px">
+                Save
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </form>
+    <div class="white-box ">
+
+      <table class="table table-bordered text-center regtable table-condensed">
+        <thead>
+          <tr>
+            <th style="text-align: center;" width="400">Student Program code</th>
+            <th>Description</th>
+            <th style="text-align: center;" width="400">Department Code</th>
+           
+            <th style="text-align: center;" width="400">University Code</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="n in data" class="tdcolor">
+            <td ng-bind="n.studentProgramCode" ng-disabled="flag"> </td>
+            <td ng-bind="n.dscr|uppercase "></td>
+            <td ng-bind="n.departmentCode"> </td>
+            <td ng-bind="n.universityCode"> </td>
+
+           
+            <td><button type="button" class="bluebtn" ng-click="edit(n)" >Edit</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  

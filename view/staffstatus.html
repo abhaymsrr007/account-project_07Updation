@@ -1,0 +1,59 @@
+<section class="formsec1" ng-controller="staffStatusCtrl">
+    <div class="titles">{{subbreadcrumb}}</div>
+    <form name="myform" ng-submit="save()" novalidate>
+        <div class="forms  white-box notop">
+            <ul>
+                <li>
+                    <label for="staffStatusCode">Staff Status Code</label>
+                    <input type="text" class="textfield" name="staffStatusCode" maxlength="2" ng-model="form.staffStatusCode" ng-disabled="idDisable" id="ssc" m-num-only  
+                        placeholder="Staff Status Code" ng-blur="checkForDuplicate(form.staffStatusCode)" >
+                        <div class="error" ng-show="myform.staffStatusCode.$error.required && myform.staffStatusCode.$touched && !formSubmitted">
+                            This field is required.
+                        </div>
+                        <div class="error"
+                            ng-show="duplicateCode && myform.staffStatusCode.$touched">
+                            This Staff Status Code already exists.
+                        </div>
+                </li>
+                <li>
+                    <label for="dscr">Description</label>
+                    <input type="text" class="textfield" m-name ng-model="form.dscr" id="dscr" placeholder="Description"
+                        maxlength="30" required name="dscr"></inp>
+                    <div class="error" ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+
+                </li>
+                <li>
+                    <div>
+                        <button type="submit" class="bluebtn " style="margin-top: 15px; " ng-disabled="myform.$invalid || duplicateCode">Save</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+    <div class="white-box ">
+
+        <table class="table table-bordered text-center regtable table-condensed">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">Staff Status Code</th>
+                    <th >Description</th>
+                    <th >Action</th>
+
+
+                    <!-- <th>Gl group code</th> -->
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="n in staffStatusData" class="tdcolor">
+                    <td ng-bind="n.staffStatusCode" ng-disabled="flag"> </td>
+                    <td ng-bind="n.dscr|uppercase"></td>
+                    <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Income Tax Remit</title> 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon" />  
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/bootstrap.min.css" /> 
+<script src="js/jquery-3.6.0.min.js"></script>
+<!-- <script src="js/bootstrap.min.js"></script>    -->
+ <link rel="stylesheet" href="css/style.css">
+ 
+</head>
+<body>
+
+<header class="topheading">
+  <div class="logo">
+    <img src="images/nrt-logo.svg" alt="" />  
+  </div> 
+    <a class="btn bluebtn" href="dashboard.html">Back</a>
+  <a class="userlogin" href="index.html">Amal Prabhat<span><img src="images/userimg.jpg" alt="student" /></span></a>
+  
+</header>
+<section class="formsec">
+  <div class="container">
+  <div class="titles text-center">Income Tax Remit</div> 
+  <form>
+  <div class="white-box forms notop">
+    <ul>
+      <li>
+        <div>
+          <label>Remit Id<sup>*</sup></label>
+          <input type="text" class="textfield" name="voucher" value="" placeholder="" />
+        </div>
+      </li>
+      
+      <li>
+        <div>
+          <label>Fin Year<sup>*</sup></label>
+          <input type="text" class="textfield" name="fin_year" value="" placeholder="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>IT Section<sup>*</sup></label>
+          <div class="flexbox">
+            <select class="dropdd" name="it_Section">
+              <option>Select</option>
+              <option>1</option>
+            </select>
+            <input type="text" class="textfield" name="it_Section" value="" placeholder="" />
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Type Of Remit<sup>*</sup></label>
+          <select class="dropdd" name="Type_Of_Remit">
+            <option>Select</option>
+            <option>1</option>
+          </select>
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Remit Date<sup>*</sup></label>
+          <input type="text" class="textfield datepicker" name="remit_date" value="" placeholder="" />
+        </div>
+      </li>
+    </ul> 
+    <div class="btnlist text-center"><button type="submit" class="bluebtn">Populate Data</button></div>
+  </div>
+   
+
+
+  <div class="white-box forms form2">
+    <h3>Payment Details:</h3>
+    <ul>
+      <li>
+        <div>
+          <label>Pay To<sup>*</sup></label>
+          <div class="flexbox">
+          <select class="dropdd"  name="pay_to1">
+            <option>Select</option>
+            <option>1</option>
+          </select>
+           <input type="text" class="textfield" name="pay_to" value="" placeholder="" />
+          </div>
+        </div>
+      </li> 
+      
+      <li>
+        <div>
+          <label class="bluelbl">University A/c No<sup>*</sup></label>
+          <select class="dropdd" name="status">
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Bank<sup>*</sup></label>
+          <div class="flexbox">
+            <input type="text" class="textfield" name="bank1" value="" placeholder="" />
+            <input type="text" class="textfield" name="bank2" value="" placeholder="" />
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Payee Account No</label>
+          <select class="dropdd" name="payee_account_no">
+            <option>Select</option>
+            <option>1</option>
+          </select>
+        </div>
+      </li>
+      <li class="smallsec">
+        <div>
+          <label>IFSC<sup>*</sup></label>
+          <input type="text" class="textfield" name="ifsc" value="" placeholder="" />
+        </div>
+      </li>
+      <li class="smallsec2">
+        <div>
+          <label>Bank<sup>*</sup></label>
+          <input type="text" class="textfield" name="bank" value="" placeholder="" />
+        </div>
+      </li>
+      <li class="smallsec">
+        <div>
+          <label>Branch<sup>*</sup></label>
+          <input type="text" class="textfield" name="branch" value="" placeholder="" />
+        </div>
+      </li>
+      <li class="smallsec">
+        <div>
+          <label>City<sup>*</sup></label>
+          <input type="text" class="textfield" name="city" value="" placeholder="" />
+        </div>
+      </li>
+      <li class="smallsec">
+        <div>
+          <label>Country<sup>*</sup></label>
+          <input type="text" class="textfield" name="country" value="" placeholder="" />
+        </div>
+      </li> 
+    </ul> 
+    <ul>
+      <li >
+        <div class="flexcenter">
+          <label>Amount Remitted<sup>*</sup></label>
+          <input type="text" class="textfield" name="amount_remitted" value="" placeholder="" />
+        </div>
+      </li> 
+    </ul>
+  </div> 
+  
+  <div class="flexbox">
+  <div class="white-box forms notop">
+    <h3>Remit Voucher Identification::</h3>
+    <ul>
+      <li class="smallsec3">
+        <div>
+          <label>Voucher Type </label>
+          <div class="flexbox2">
+          <select class="dropdd"  name="type1">
+            <option>Select</option>
+            <option>1</option>
+          </select>-
+           <input type="text" class="textfield" name="type" value="" placeholder="" />
+          </div>
+        </div>
+        <li>
+          <div>
+            <label>Voucher Id & Fin Year </label>
+            <div class="flexbox2">
+              <input type="text" class="textfield" name="bank1" value="" placeholder="" /><span>-</span>
+              <input type="text" class="textfield" name="bank2" value="" placeholder="" />
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Voucher No. & Date </label>
+            <div class="flexbox2">
+              <input type="text" class="textfield" name="bank1" value="" placeholder="" /><span>-</span>
+              <input type="text" class="textfield datepicker" name="bank2" value="" placeholder="" />
+            </div>
+          </div>
+        </li> 
+    </ul>
+  </div>
+  <div class="white-box white-box1 forms notop">
+    <h3>&nbsp;</h3>
+    <ul>
+      <li>
+        <div>
+          <label>Instrument No. & Date <sup>*</sup></label>
+          <div class="flexbox2">
+            <input type="text" class="textfield" name="bank1" value="" placeholder="" /><span>-</span>
+            <input type="text" class="textfield datepicker" name="bank2" value="" placeholder="" />
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+  <div class="white-box forms">
+    <h3>Processor Details:</h3>
+    <ul>
+      <li>
+        <div> 
+          <label>Remarks</label>
+          <input type="text" class="textfield" name="remarks" value="" placeholder="" />
+        </div>
+      </li>
+    </ul>
+    <ul>
+      <li>
+        <div>
+          <label>Entered By<sup>*</sup></label>
+          <div class="flexbox">
+            <input type="text" class="textfield" name="entered_by" value="" placeholder="" /><span>-</span>
+           <input type="text" class="textfield" name="entered_by1" value="" placeholder="" />
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Remitted By<sup>*</sup></label>
+          <div class="flexbox">
+            <input type="text" class="textfield" name="remitted_by" value="" placeholder="" /><span>-</span>
+           <input type="text" class="textfield" name="remitted_by1" value="" placeholder="" />
+          </div>
+        </div>
+      </li> 
+       
+      <li>
+        <div> 
+          <label>Status</label>
+          <input type="text" class="textfield" name="indent_no" value="" placeholder="" />
+        </div>
+      </li> 
+    </ul> 
+    <div class="btnlist">
+        <ul> 
+            <li><div><button type="submit" class="bluebtn">Save</button></div></li> 
+            <li><div><button type="submit" class="bluebtn">Submit</button></div></li> 
+            <li><div><button type="submit" class="bluebtn">Generate Voucher</button></div></li>
+        </ul>
+    </div>
+  </div>  
+  </form>
+ </div> 
+</section>
+<footer class="footerbg">
+  © 2023 All Rights Reserved. 
+</footer>
+ 
+<link rel='stylesheet' type='text/css' href='css/bootstrap-datepicker.min.css'>
+<script  type='text/javascript' src='js/bootstrap-datepicker.min.js'></script>
+<script type="text/javascript">
+$('.datepicker').datepicker({
+  format: "dd-mm-yyyy",
+  autoclose: true
+  //startDate: new Date('2022-7-15'),
+  // endDate:  new Date('2022-8-15')
+});  
+</script>
+
+
+</body>
+</html>

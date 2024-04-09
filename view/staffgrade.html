@@ -1,0 +1,87 @@
+<section class="formsec1" ng-controller="staffgradeCtrl">
+    <div class="titles">{{subbreadcrumb}}</div>
+    <!-- <div class="titles">{{subbreadcrumb}}</div>Gl Group Master</div> -->
+    <form name="myform" ng-submit="save()" novalidate>
+        <div class="white-box forms notop">
+            <ul>
+                <li>
+                    <label for="sgrade">Staff Grade</label>
+                    <input type="text" class="textfield" disabled ng-model="form.gradeCode" id="sgrade"
+                        placeholder="Staff Grade" ng-disabled="flag"  maxlength="9" name="sgrade" required ng-blur="checkForDuplicate(form.gradeCode)">
+                    <div class="error"
+                        ng-show="myform.sgrade.$error.required && myform.sgrade.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                    <div class="error"
+                    ng-show="duplicateCode && myform.sgrade.$touched">
+                    This Staff Grade Code already exists.
+                 </div>
+                </li>
+                <li>
+                    <label for="">Staff Type Code</label>
+                    <select ng-model="form.staffTypeCode" class="dropdd" required name="stype">
+                        <option value="" >select</option>
+                        <option ng-repeat="x in staffTypeData" value="{{x.staffTypeCode}}">{{x.dscr}}</option>
+                    </select>
+                    <div class="error"
+                        ng-show="myform.stype.$error.required && myform.stype.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li>
+                    <label for="dscr">Description</label>
+                    <input type="text" class="textfield" no-special-characters ng-model="form.dscr" id="dscr" placeholder="Description"
+                        maxlength="50" required name="dscr"></inp>
+                    <div class="error"  ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <button type="submit" class="bluebtn " style="margin-top: 15px;" ng-disabled="myform.$invalid || duplicateCode">Save</button>
+                    </div>
+                </li>
+            </ul>
+
+
+
+        </div>
+    </form>
+    <div class="white-box ">
+
+        <table class="table table-bordered text-center regtable table-condensed">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">Staff Grade</th>
+                    <th >Staff Type Code</th>
+                    <th >Description</th>
+                    <th >Action</th>
+
+
+                    <!-- <th>Gl group code</th> -->
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="n in staffGradeData" class="tdcolor">
+                    <td ng-bind="n.gradeCode" ng-disabled="flag"> </td>
+                    <td ng-bind="n.staffTypeCode"> </td>
+                    <td ng-bind="n.dscr|uppercase"></td>
+
+
+                    <!-- <td ng-bind="n.gradeCode"> </td> -->
+                    <td><button type="button" class="bluebtn" ng-click="edit(n)" >Edit</button>
+                        <!-- <button type="button" class="btn btn-icon btn-circle btn-secondary" style="width: 100px;"
+                          ng-click="delete(n)">Delete</button> -->
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</section>
+
+<script>
+

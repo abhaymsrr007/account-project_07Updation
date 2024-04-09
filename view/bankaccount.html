@@ -1,0 +1,178 @@
+<section class="formsec1" ng-controller="bankAccCntrl">
+    <div class="titles">{{subbreadcrumb}}</div>
+    <form name="myform" ng-submit="save()" novalidate>
+        <div class="notop forms white-box">
+            <ul>
+                <li class="s2">
+                    <div>
+                        <label for="bankAccountNo">Bank Account Number</label>
+                        <input type="text" class="textfield uppercase" ng-model="form.bankAccountNo" id="bankAccountNo"
+                            placeholder="Account Number" num-only ng-disabled="flag" required name="bankAccountNo"
+                            ng-blur="checkForDuplicate(form.bankAccountNo)"
+                            ng-pattern="/^\d{11,16}$/"
+                            maxlength="16">
+                        <div class="error" ng-show="myform.bankAccountNo.$error.required && myform.bankAccountNo.$touched && !formSubmitted">
+                            This field is required.
+                        </div>
+                        <div class="error" ng-show="myform.bankAccountNo.$error.pattern && myform.bankAccountNo.$touched && !formSubmitted">
+                            Please enter a valid bank account number with 11-16 digits.
+                        </div>
+                        <div class="error" ng-show="duplicateCode && myform.bankAccountNo.$touched">
+                            This Bank Account No already exists.
+                        </div>
+                    </div>
+                </li>
+                
+                <li>
+                    <label for="bcode">Bank Code</label>
+                    <select ng-model="form.bankCode" class="dropdd" required name="bcode">
+                        <option value=""  selected> Select Bank Code</option>
+                        <option ng-repeat="x in bankData" value="{{x.bankCode}}">{{x.bankCode}} - {{x.dscr}}
+                        </option>
+                    </select>
+                    <div class="error"
+                        ng-show="myform.bcode.$error.required && myform.bcode.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                    <div class="error"
+                                ng-show="myform.bcode.$error.alphanumeric && myform.bcode.$touched && !formSubmitted">
+                            Please enter an alphanumeric value.
+                    </div>
+
+                </li>
+
+                <li>
+                    <div>
+                        <label for="ifsc">IFSC</label>
+                        <input type="text" class="textfield uppercase" ng-model="form.ifscCode" id="ifsc"
+                            placeholder="IFSC" maxlength="11" required name="ifscCode" ifsc-validation>
+                        <div class="error" ng-show="myform.ifscCode.$error.required && myform.ifscCode.$touched && !formSubmitted">
+                            This field is required.
+                        </div>
+                        <div class="error" ng-show="myform.ifscCode.$error.ifsc && myform.ifscCode.$touched && !formSubmitted">
+                            Please enter a valid IFSC code.
+                        </div>
+                    </div>
+                </li>
+                
+
+                <li class="width20">
+
+                    <label for="collegCode">College Code</label>
+                    <select ng-model="form.collegeCode" class="dropdd" required name="collegCode"
+                        ng-change="selectUniversity(collgData,form.collegeCode,UniData)">
+                        <option value=""  selected>Select College Code</option>
+                        <option ng-repeat="x in collgData" value="{{x.collegeCode}}">{{x.collegeCode}} - {{x.dscr}}
+                        </option>
+                    </select>
+                    <div class="error"
+                        ng-show="myform.collegCode.$error.required && myform.collegCode.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+
+                </li>
+                <li class="width20">
+                    <label for="operative">University Code</label>
+                    <!-- <select ng-model="form.universityCode" class="dropdd" required>
+                            <option value="" disabled selected> Select </option>
+                            <option ng-repeat="x in collgData" value="{{x.universityCode}}">{{x.universityCode}} -
+                                {{x.dscr}}
+                            </option>
+                        </select> -->
+                    <input type="text" class="textfield" ng-model="form.universityCode" id="universityCode"
+                        placeholder="University Code" disabled>
+
+
+                </li>
+
+                <li class="width30">
+                    <div>
+                        <label for="dscr">Description</label>
+                        <input type="text" class="textfield" ng-model="form.dscr" id="dscr" placeholder="Description"
+                            maxlength="50" required name="dscr">
+                        <div class="error"
+                            ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">
+                            This field is required.
+                        </div>
+                    </div>
+
+                </li>
+
+                <li class="">
+                    <div class="">
+                        <label for="unicode">Account Type Code</label>
+                        <select ng-model="form.accountTypeCode" class="dropdd" required name="unicode">
+                            <option value="" disabled selected>Select </option>
+                            <option ng-repeat="x in accounttypeData" value="{{x.accountTypeCode}}">
+                                {{x.accountTypeCode}} - {{x.dscr}}</option>
+                        </select>
+                        <div class="error"
+                            ng-show="myform.unicode.$error.required && myform.unicode.$touched && !formSubmitted">
+                            This field is required.
+                        </div>
+                    </div>
+
+                </li>
+
+                <li>
+                    <div>
+                        <button type="submit" class="bluebtn " style="margin-top: 15px;"
+                            ng-mouseover="flag1=false" ng-disabled="myform.$invalid || duplicateCode">Save</button>
+                    </div>
+                </li>
+
+
+            </ul>
+        </div>
+    </form>
+    <div class="white-box">
+        <ul class="searchbox">
+            <li><input type="text" class="textfield" ng-model="keyword1" placeholder="Account Number" /></li>
+            <li><input type="text" class="textfield" ng-model="keyword2" placeholder="college Code" /></li>
+            <li><button class="bluebtn" ng-click="search(keyword1,keyword2)">Search</button></li>
+        </ul>
+        <table class="table table-bordered text-center regtable table-condensed">
+            <thead>
+                <tr>
+                    <th style="text-align: center;" width="80">Bank Account code</th>
+                    <th width="120">Description</th>
+                    <th width="80">Bank Code</th>
+                    <th width="80">Bank Code Description</th>
+                    <th width="80">IFSC Code</th>
+                    <th width="80">College Code</th>
+                    <th width="80">College Description</th>
+                    <th width="80">University Code</th>
+                    <th width="80">University Description</th>
+                    <th width="80">Account Type Code </th>
+                    <th width="80">Account Description </th>
+                    <th width="100">Action </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="n in bankaccountData" class="tdcolor">
+                    <td ng-bind="n.bankAccountNo | uppercase" ng-disabled="flag"> </td>
+                    <td ng-bind="n.dscr|uppercase"></td>
+                    <td ng-bind="n.bankCode"> </td>
+                    <td ng-bind="getBankDscr(bankData,n.bankCode)| uppercase"> </td>
+                    <td ng-bind="n.ifscCode | uppercase"> </td>
+                    <td ng-bind="n.collegeCode"> </td>
+                    <td ng-bind="getcllgDscr(collgData,n.collegeCode) | uppercase"> </td>
+                    <td ng-bind="n.universityCode"> </td>
+
+                    <td ng-bind="getUniDscr(UniData,n.universityCode) | uppercase"> </td>
+
+
+                    <td ng-bind="n.accountTypeCode"> </td>
+                    <td ng-bind="getAccTypeDscr(accounttypeData,n.accountTypeCode) | uppercase"> </td>
+                    <td><button type="button" class="bluebtn" ng-click="edit(n,UniData)">Edit</button>
+
+                    </td>
+
+                </tr>
+                <tr></tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</section>

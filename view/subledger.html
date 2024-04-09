@@ -1,0 +1,86 @@
+<section class="formsec1" ng-controller="subLedCntrl">
+    <div class="titles">Sub Ledger</div>
+    <form name="myform"  novalidate>
+        <div class="notop forms white-box">
+            <ul>
+                <li class="width20">
+                    <label for="accountCode">Account Code</label>
+                    <select ng-model="form.accountCode" class="dropdd" required name="accountCode"
+                        ng-change="selectUniversity(collgData,form.collegeCode,UniData)">
+                        <option value="" disabled selected> Select </option>
+                        <option ng-repeat="x in accMasterData" value="{{x.accountCode}}">{{x.accountCode}} - {{x.dscr}}
+                        </option>
+                    </select>
+                    <div class="error"
+                        ng-show="myform.accountCode.$error.required && myform.accountCode.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li class="width30">
+                    <div>
+                        <label for="mothYear">Month Year</label>
+                        <input type="text" class="textfield" month-year-picker autocomplete="off" ng-model="form.mothYear" id="mothYear" placeholder="Date"
+                            maxlength="50" required name="mothYear">
+                        <div class="error"
+                            ng-show="myform.mothYear.$error.required && myform.mothYear.$touched && !formSubmitted">
+                            This field is required.
+                        </div>
+                    </div>
+
+                </li>
+                <li>
+                    <div>
+                        <button type="submit" class="bluebtn " style="margin-top: 15px;"
+                            ng-mouseover="flag1=false" ng-click="post(form.accountCode,form.mothYear)">Generated</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+    <div class="white-box">
+        <ul class="searchbox">
+            <!-- <li><input type="text" class="textfield" ng-model="keyword1" placeholder="Account Number" /></li>
+            <li><input type="text" class="textfield" ng-model="keyword2" placeholder="college Code" /></li>
+            <li><button class="bluebtn" ng-click="search(keyword1,keyword2)">Search</button></li>
+            <li><button type="button" id="exportToExcel" ng-click="exportTableToExcel()">Download</button>
+            </li> -->
+            <li><button type="button" class="bluebtn" id="exportToExcel" ng-click="exportTableToExcel()">Export Report</button>
+        </ul>
+        
+
+
+        <table class="table table-striped  table-bordered text-center regtable table-condensed">
+            <thead>
+                <tr>
+                    <th>Voucher Date</th>
+                    <th>Payee/Payer Name</th>
+                    <th>Transaction Type</th>
+                    <th>Debit Amount</th>
+                    <th>Credit Amount</th>
+                    <th>PO Number</th>
+                    <th>Invoice Number</th>
+                    <th>Invoice Date</th>
+                    <th>Cost Centre ID</th>
+                    <th>Section Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tdcolor" ng-repeat="n in subLedData">
+                    <td >{{ n.voucherDate }}</td>
+                    <td>{{ n.payToFromName }}</td>
+                    <td>{{ n.voucherTypeCode }}</td>
+                    <td>{{ n.dbAmount }}</td>
+                    <td>{{ n.crAmount }}</td>
+                    <td>{{ n.poNumber }}</td>
+                    <td>{{ n.invoiceNo }}</td>
+                    <td>{{ n.invoiceDate }}</td>
+                    <td>{{ n.costCentreId }}</td>
+                    <td>{{ n.sectionCode }}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+
+</section>
+

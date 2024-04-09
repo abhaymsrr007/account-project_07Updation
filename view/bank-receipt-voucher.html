@@ -1,0 +1,771 @@
+
+  <section class="formsec" ng-controller="bankRecVouCtrl"> 
+      <div class="tabsec">
+        <ul>
+          <li><a class="tablink active" data-title="tab1" id="t1" ng-click="tabToggle('1')">Receipt Voucher</a></li>
+          <li><a class="tablink " data-title="tab2" id="t2" ng-click="tabToggle('2')">Receipt Voucher Details</a></li>
+        </ul>
+      </div>
+      <div id="tab1" class="maintabsec active">
+        <form name="brv" ng-submit="saveBrv()">
+          <div class="flextitles">
+            <div class="titles">{{subbreadcrumb}}</div>
+            <button type="button" class="bluebtn" ng-click="goToDataLstRollWise();">Receipt Voucher List</button> 
+          </div>
+          <div class="white-box forms notop">
+            <ul>
+              <li>
+                <div>
+                  <label>Voucher Id<sup>*</sup></label>
+                  <input disabled type="text" required class="textfield" name="voucher"  
+                    ng-model="form.bankRvId" ng-disabled="true" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Id Date<sup>*</sup></label>
+                  <input type="text" class="textfield " datepicker required name="idDate"  
+                    ng-model="form.bankRvIdDate" ng-change="calculateFinYear(form.bankRvIdDate)"
+                    ng-disabled="isDisable || disableFlag1" />
+                </div>
+                <div class="error" ng-show="brv.idDate.$error.required && brv.idDate.$touched && !formSubmitted">
+                  This field is required.
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Fin Year<sup>*</sup></label>
+                  <input type="text" class="textfield" name="finYear"   required
+                    ng-model="form.finYear" ng-disabled="isDisable || disableFlag1" />
+                </div>
+                <div class="error" ng-show="brv.finYear.$error.required && brv.finYear.$touched && !formSubmitted">
+                  This field is required.
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>
+                    Voucher No.</label>
+                  <input type="text" class="textfield" name="voucher_no"  
+                    ng-model="form.bankRvNo" ng-disabled="isDisable || disableFlag1" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Voucher Date</label>
+                  <input type="text" class="textfield " datepicker name="voucher_date"  
+                    ng-model="form.bankRvDate" ng-disabled="isDisable || disableFlag1" />
+                </div>
+              </li>
+              <!-- Your HTML code remains the same -->
+              <li>
+                <div>
+                  <label for="voucherStatusCode">Status <sup>*</sup></label>
+                  <select class="dropdd" name="voucherStatusCode" ng-model="form.voucherStatusCode" required
+                    ng-disabled="isDisable">
+                    <option value="" disabled selected>--Select--</option>
+                    <option ng-repeat="x in voucherType" value="{{x.voucherStatusCode}}"
+                      ng-disabled=" isDisable ||(role === 'manager' && x.voucherStatusCode === 'F') || (role === 'cashier' && x.voucherStatusCode === 'P' )"
+                      ng-show="role === 'assistant' ? (x.voucherStatusCode !== 'R' && x.voucherStatusCode !== 'P' && x.voucherStatusCode !== 'C' && x.voucherStatusCode !== 'A') : (role === 'manager' ? (x.voucherStatusCode !== 'U' && x.voucherStatusCode !== 'C' && x.voucherStatusCode !== 'A') : (role === 'cashier' ? (x.voucherStatusCode !== 'U' && x.voucherStatusCode !== 'F' && x.voucherStatusCode !== 'R') : true))">
+                      {{x.voucherStatusCode}} - {{x.dscr.toUpperCase()}}</option>
+                  </select>
+                </div>
+
+              </li>
+            </ul>
+          </div>
+
+          <div class="white-box forms form2">
+            <h3>Payer Details:</h3>
+            <ul>
+              <li>
+                <div>
+                  <label>Payer Type<sup>*</sup></label>
+                  <select class="dropdd" name="payFromTypeCode" ng-model="form.payFromTypeCode" required
+                    ng-change="fieldDisable(form.payFromTypeCode)" ng-disabled="isDisable || disableFlag1">
+                    <option value="" disabled selected>--Select--</option>
+                    <option ng-repeat="x in payeeTypeData" value="{{x.payToTypeCode}}">{{x.payToTypeCode}} -
+                      {{x.dscr.toUpperCase()}}</option>
+                  </select>
+                </div>
+                <div class="error"
+                  ng-show="brv.payFromTypeCode.$error.required && brv.payFromTypeCode.$touched && !formSubmitted">
+                  This field is required.
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Vendor Code</label>
+                  <div class="flexbox">
+                    <select class="dropdd" name="vender_code2" ng-disabled="isDisable || disableVendor || disableFlag1"
+                      ng-model="form.vendorCode"
+                      ng-change="getVendorDscr(form.vendorCode); setPurchaseOrder(form.vendorCode)">
+                      <option value="" disabled selected>Select</option>
+                      <option ng-repeat="x in supplierData" value="{{x.vendorCode}}"
+                        ng-show="x.vendorCode != form.vendorCode">{{x.vendorCode}} {{x.vendorCode != form.vendorCode ? '
+                        - ' + x.fullName.toUpperCase() : '' }}</option>
+                    </select>
+                    <input type="text" class="textfield" name="vender_code"  
+                      ng-model="form.vendorDscr" ng-disabled="isDisable || disableFlag1" />
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Employee No.</label>
+                  <div class="flexbox">
+                    <select class="dropdd" name="payee_type" ng-model="form.staffNo"
+                      ng-change="getEmpDscr(form.staffNo)" ng-disabled=" isDisable ||disableEmp || disableFlag1 ">
+                      <option value="" disabled selected>--Select--</option>
+                      <option ng-repeat="x in empData" value="{{x.staffNo}}" ng-show="form.staffNo != x.staffNo">
+                        {{x.staffNo}} {{form.staffNo != x.staffNo ? ' - ' + x.fullName:''}}
+                      </option>
+                    </select>
+                    <input type="text" class="textfield" name="employee_no"  ng-model="form.empDscr"
+                       ng-disabled=" isDisable ||disableEmp || disableFlag1" />
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Student Reg. No.</label>
+                  <div class="flexbox">
+                    <select class="dropdd" style="width: 55%;" name="student_reg_no2"
+                      ng-disabled=" isDisable ||disableStu ||  disableFlag1" ng-model="form.univRegistrationNo"
+                      ng-change="getStudentDscr(form.univRegistrationNo)">
+                      <option value="" disabled selected>--Select--</option>
+                      <option ng-repeat="x in studentData" value="{{x.univRegistrationNo.toString()}}"
+                        ng-show="form.univRegistrationNo != x.univRegistrationNo">
+                        {{x.univRegistrationNo}} {{form.univRegistrationNo != x.univRegistrationNo ? ' - ' + x.fullName
+                        : ''}}
+                        <!-- {{x.univRegistrationNo}} - {{x.fullName.toUpperCase()}} -->
+                      </option>
+                    </select>
+                    <input type="text" class="textfield" name="student_reg_no" ng-model="form.studentDscr"
+                       ng-disabled=" isDisable ||disableStu || disableFlag1" />
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Paid by<sup>*</sup></label>
+                  <input type="text" class="textfield" name="paidBy" required  
+                    ng-model="form.recvdFrom" ng-disabled=" isDisable ||paidByFlag || disableFlag1 " />
+                </div>
+                <div class="error" ng-show="brv.paidBy.$error.required && brv.paidBy.$touched && !formSubmitted">
+                  This field is required.
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Address</label>
+                  <input type="text" class="textfield" name="address"   ng-model="form.address "
+                    ng-disabled=" isDisable || disableFlag1" />
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <div>
+                  <label>Department</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="department"  
+                      ng-model="form.departmentCode" ng-disabled=" isDisable ||vflag || disableFlag1 " />
+                    <input type="text" class="textfield" name="department2"  
+                      ng-model="form.departmentDscr" ng-disabled=" isDisable ||vflag || disableFlag1 " />
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>College</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="college"  
+                      ng-model="form.collegeCode" ng-disabled=" isDisable ||vflag || disableFlag1 " />
+                    <input type="text" class="textfield" name="college2"  
+                      ng-model="form.collegeDscr" ng-disabled=" isDisable ||vflag || disableFlag1 " />
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>University</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="university"  
+                      ng-model="form.universityCode" ng-disabled=" isDisable ||vflag || disableFlag1 " />
+                    <input type="text" class="textfield" name=""   ng-model="form.universityDscr"
+                      ng-disabled=" isDisable ||vflag || disableFlag1 " />
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li class="smallsec2">
+                <div>
+                  <label>Advanced Id</label>
+                  <input type="text" class="textfield" name="account_no"  
+                    ng-disabled=" isDisable || disableFlag1" />
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Fin Year</label>
+                  <input type="text" class="textfield" name="fin_year"  
+                    ng-disabled=" isDisable || disableFlag1" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Transaction Type<sup>*</sup></label>
+                  <div class="flexbox">
+                    <select class="dropdd" name="tx" required ng-model="form.txTypeCode"
+                      ng-disabled=" isDisable || disableFlag1" ng-change="changetrx(form.txTypeCode)">
+                      <option value="">select</option>
+                      <option ng-repeat="x in trx | orderBy: 'txTypeCode'" value="{{x.txTypeCode}}"
+                        ng-show="form.txTypeCode != x.txTypeCode">
+                        {{x.txTypeCode}} {{ form.txTypeCode != x.txTypeCode ? ' - ' + x.shortName: ''}}
+                      </option>
+                    </select>
+                    <input type="text" class="textfield" name="transaction_type2" value="" 
+                      ng-model="form.txTypeDscr" ng-disabled=" isDisable || disableFlag1" />
+                  </div>
+                  <div class="error" ng-show="brv.tx.$error.required && brv.tx.$touched && !formSubmitted">
+                    This field is required.
+                  </div>
+                </div>
+              </li>
+              <li class="smallsec2">
+                <div>
+                  <label>Instrument No.<sup>*</sup></label>
+                  <input type="text" class="textfield" name="instrumentNo"  
+                    ng-model="form.challanInstrumentNo" maxlength="30" no-special-characters required ng-disabled="isDisable || disableFlag1" />
+                </div>
+                <div class="error"
+                  ng-show="brv.instrumentNo.$error.required && brv.instrumentNo.$touched && !formSubmitted">
+                  This field is required.
+                </div>
+              </li>
+              <li class="smallsec2">
+                <div>
+                  <label>Date<sup>*</sup></label>
+                  <input type="text" class="textfield " datepicker ng-disabled=" isDisable || disableFlag1"
+                    name="instrumentDate"   ng-model="form.challanInstrumentDate" />
+                </div>
+                <div class="error"
+                  ng-show="brv.instrumentDate.$error.required && brv.instrumentDate.$touched && !formSubmitted">
+                  This field is required.
+                </div>
+              </li>
+              <li class="smallsec2">
+                <div>
+                  <label>Amount</label>
+                  <input type="text" class="textfield" name="instrumentAmount"  
+                    ng-model="form.instrumentAmount" ng-disabled=" isDisable || disableFlag1" />
+                </div>
+              </li>
+            </ul>
+            <!-- <ul>
+              <li class="smallsec2">
+                <div>
+                  <label>Account No {{ typeF }} </label>
+                  <input type="text" class="textfield" ng-disabled=" isDisable || disableFlag1" name="account_no"
+                      ng-model="form.bankAccountNo" />
+                </div>
+                <div class="error"
+                  ng-show="brv.account_no.$error.required && brv.account_no.$touched && !formSubmitted">
+                  This field is required.
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>IFSC</label>
+                  <input type="text" class="textfield" ng-disabled=" isDisable || disableFlag1" name="ifsc" 
+                    ng-model="form.bankIfscCode"  />
+                </div>
+              </li>
+              <li class="smallsec2">
+                <div>
+                  <label>Bank</label>
+                  <input type="text" class="textfield" ng-disabled=" isDisable || disableFlag1" name="bank" 
+                     ng-model="form.bankName" />
+                </div>
+                <div class="error" ng-show="brv.bank.$error.required && brv.bank.$touched && !formSubmitted">
+                  This field is required.
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Branch</label>
+                  <input type="text" class="textfield" ng-disabled=" isDisable || disableFlag1" name="branch" 
+                     ng-model="form.bankBranch" />
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>City</label>
+                  <input type="text" class="textfield" ng-disabled=" isDisable || disableFlag1" name="city" 
+                     ng-model="form.bankCity" />
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Country</label>
+                  <input type="text" class="textfield" name="country" 
+                    ng-disabled=" isDisable || disableFlag1" ng-model="form.bankCountry" />
+                </div>
+              </li>
+            </ul> -->
+          </div>
+          <div class="white-box forms notop">
+            <ul>
+              <li>
+                <div>
+                  <label>Ref No.</label>
+                  <input type="text" class="textfield" name="refNo"  ng-model="form.refNo"
+                    ng-disabled=" isDisable || disableFlag1" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Date</label>
+                  <input type="text" class="textfield " datepicker name="redDate"  ng-model="form.refDate"
+                    ng-disabled=" isDisable || disableFlag1" />
+                </div>
+              </li>
+              <li style="min-width: 50%;">
+                <div>
+                  <label>Narration<sup>*</sup></label>
+                  <input type="text" class="textfield" name="narration" 
+                    ng-disabled=" isDisable || disableFlag1" ng-model="form.narration" required />
+                </div>
+                <div class="error" ng-show="brv.narration.$error.required && brv.narration.$touched && !formSubmitted">
+                  This field is required.
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="white-box forms">
+            <h3>Indent / Purchase Order Details:</h3>
+            <ul>
+              <li>
+                <div>
+                  <label for="poNumber">PO No.</label>
+                  <select id="poNumber" class="dropdd" ng-model="form.poNumber"
+                    ng-change="getPurOrder(form.poNumber); getpodetails(form.vendorCode);"
+                    ng-disabled=" isDisable ||hideFlag || disableFlag1 ">
+                    <option value="" disabled>Select</option>
+                    <option ng-repeat="i in poDetails" value="{{i.poNumber}}">{{i.poNumber}}</option>
+                  </select>
+                </div>
+                <!-- <select class="dropdd" name="plan_no" ng-model="form.planNo" ng-change="selectplan(form.planNo)"
+                  ng-disabled=" isDisable ||hideFlag || form.voucherStatusCode==='F' || role === 'manager' || role === 'cashier' ">
+                  <option value="" disabled selected>Select PlanNo</option>
+                  <option ng-repeat="x in purchaseOrders" value="{{x.planNo}}">{{x.planNo}}
+                  </option>
+                </select> -->
+              </li>
+              <li>
+                <div>
+                  <label>PO Date</label>
+                  <input type="text" class="textfield " datepicker name="date3"  
+                    ng-model="form.poDate" ng-disabled=" isDisable ||hideFlag || disableFlag1 " />
+                </div>
+              </li>
+
+              <li>
+                <div>
+                  <label>PO Id</label>
+                  <input type="text" class="textfield " datepicker name="date3"  
+                    ng-model="form.poId" ng-disabled=" isDisable ||hideFlag || disableFlag1 " />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Fin Year</label>
+                  <input type="text" class="textfield" name="fin_year2"  
+                    ng-model="form.poFinYear" ng-disabled=" isDisable ||hideFlag || disableFlag1 " />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Indent No</label>
+                  <input type="text" class="textfield" name="indent_no"   ng-model="form.indentNo"
+                    ng-disabled=" isDisable ||hideFlag || disableFlag1 " />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Indent Date</label>
+                  <input type="text" class="textfield " datepicker name="date2"  
+                    ng-model="form.indentDate"
+                    ng-disabled=" isDisable ||hideFlag || form.voucherStatusCode==='F' || role === 'manager' || role === 'cashier' " />
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="white-box forms">
+            <h3>Plan / Project Details:</h3>
+            <ul>
+              <li>
+                <div>
+                  <label>Plan No.</label>
+                  <!-- <input  type="text" class="textfield" name="plan_no"   ng-disabled=" isDisable ||hideFlag"
+                      ng-model="form.planNo" /> -->
+                  <select class="dropdd" name="plan_no" ng-model="form.planNo" ng-change="selectplan(form.planNo)"
+                    ng-disabled=" isDisable ||hideFlag || form.voucherStatusCode==='F' || role === 'manager' || role === 'cashier' ">
+                    <option value="" disabled selected>Select PlanNo</option>
+                    <option ng-repeat="x in planNos" value="{{x}}">{{x}}</option>
+                  </select>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Fin Year</label>
+                  <input type="text" class="textfield" name="fin_year3"  
+                    ng-disabled=" isDisable ||hideFlag || form.voucherStatusCode==='F' || role === 'manager' || role === 'cashier' "
+                    ng-model="form.planFinYear" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Plan Type</label>
+                  <input class="textfield" name="plan_type"
+                    ng-disabled=" isDisable ||hideFlag || form.voucherStatusCode==='F' || role === 'manager' || role === 'cashier' "
+                    ng-model="form.planTypeCode">
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Plan Title</label>
+                  <input type="text" class="textfield" name="plan_title"  
+                    ng-model="form.planTitle"
+                    ng-disabled=" isDisable || hideFlag || form.voucherStatusCode==='F' || role === 'manager' || role === 'cashier' " />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Budget Fin Year</label>
+                  <!-- <select class="dropdd" name="budget_fin_year" ng-disabled=" isDisable ||hideFlag" ng-model="form.budgetFinYear">
+                      <option>Select</option>
+                      <option>1</option>
+                    </select> -->
+                  <input type="text" class="textfield" name="budget_fin_year"  
+                    ng-model="form.budgetFinYear"
+                    ng-disabled=" isDisable ||hideFlag || form.voucherStatusCode==='F' || role === 'manager' || role === 'cashier' " />
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="white-box forms form2">
+            <h3>Processing Details:</h3>
+            <ul>
+              <li>
+                <div>
+                  <label>Account No {{type}}<sup>*</sup></label>
+                  <select class="dropdd" name="account_no2" ng-model="form.bankAcNo" ng-required
+                    ng-disabled="isDisable || disableFlag1" ng-change="getbankdeatil(form.bankAcNo)">
+                    <option value="" disabled selected>Select Account</option>
+                    <option ng-repeat="x in uniquePayToTypes(bankaccountData)" value="{{x.bankAccountNo}}"
+                      ng-show="x.bankAccountNo != form.bankAccountNo">
+                      {{x.bankAccountNo}} - {{x.bankAccountNo != form.bankAccountNo ? x.dscr : '' }}
+                    </option>
+                  </select>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Bank<sup>*</sup></label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield " required disabled="true" name="bank2"  
+                      ng-model="form.bankCode">
+                    <input type="text" class="textfield " name="bank3" disabled="true"  
+                      ng-model="form.bankDscr">
+                  </div>
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Bank Deposite Date</label>
+                  <input type="text" class="textfield " datepicker name="bank_deposite_date"  
+                    autocomplete="off" ng-disabled=" isDisable ||form.voucherStatusCode==='F' || role === 'manager'"
+                    ng-model="form.bankDepositDate" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Receipt No.</label>
+                  <input type="text" class="textfield" name="transaction_type"  
+                    ng-disabled=" isDisable ||form.voucherStatusCode==='F' || role === 'manager'"
+                    ng-model="form.receiptNo" />
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Receipt Date</label>
+                  <input type="text" class="textfield " datepicker name="date7"  
+                    ng-disabled=" isDisable ||form.voucherStatusCode==='F' || role === 'manager'" autocomplete="off"
+                    ng-model="form.receiptDate" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Assistant<sup>*</sup></label>
+                  <div class="flexbox" name="assistant3">
+                    <input type="text" class="textfield" required name="assistant" 
+                      ng-disabled="isDisable || disableFlag1" ng-model="assistantStaffNo" />
+                    <input type="text" class="textfield" name="assistant2"  ng-model="t.assistantName"
+                      ng-disabled="isDisable || disableFlag1" />
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Manager</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="manager"  ng-model="managerStaffNo"
+                      ng-disabled="isDisable || disableFlag1" />
+                    <input type="text" class="textfield" name="manager2"  
+                      ng-model="t.managerName" ng-disabled="isDisable || disableFlag1" />
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Cashier</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="cashier"  ng-model="t.mgrCashStaffNo"
+                      ng-disabled="isDisable || disableFlag1" />
+                    <input type="text" class="textfield" name="cashier2"  
+                      ng-model="t.cashierName" ng-disabled="isDisable || disableFlag1" />
+                  </div>
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Accounting Date</label>
+                  <input type="text" class="textfield " datepicker name="voucher_passed_date"  
+                    ng-disabled="isDisable || disableFlag1"  ng-model="form.datePassed"/> 
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li class="smallsec" style=" min-width: 75% !important;">
+                <div>
+                  <label>Amount in Words</label>
+                  <input type="text" class="textfield" disabled name="Amount_in_words"
+                    ng-model="ammountInWords"  ng-disabled="isDisable || disableFlag1" />
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Net Amount</label>
+                  <input type="text" class="textfield" name="passed_amount"  ng-model="form.voucherNetAmount"
+                    disabled ng-disabled="isDisable || disableFlag1" />
+                </div>
+                <div class="error" ng-show="negFlag">
+                  Never be Negetive!
+                </div>
+              </li>
+            </ul>
+            <div class="btnlist text-center"><button type="submit" ng-disabled="isDisable || negFlag" class="bluebtn">Save and
+                Next</button>
+              <!-- <button type="button" class="bluebtn" disabled>Next</button> -->
+            </div>
+          </div>
+        </form>
+      </div>
+      <div id="tab2" class="maintabsec ">
+        <div class="titles text-center">Bank Receipt Voucher Details</div>
+        <form name="form">
+          <div class="white-box forms notop">
+            <ul>
+              <li>
+                <div>
+                  <label>Voucher Id<sup>*</sup></label>
+                  <input type="text" disabled class="textfield" name="voucher" required 
+                    ng-model="form.bankRvId"  ng-disabled="true" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Id Date<sup>*</sup></label>
+                  <input type="text" class="textfield " datepicker name="id_date"  ng-model="form.bankRvIdDate"
+                    required  ng-disabled="true" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Fin Year<sup>*</sup></label>
+                  <input type="text" class="textfield" name="fin_year"  ng-model="form.finYear" required
+                    ng-disabled="true" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Voucher No.</label>
+                  <input type="text" class="textfield" name="voucher_no"  ng-model="form.bankRvNo"
+                    ng-disabled="true" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Voucher Date</label>
+                  <input type="text" class="textfield " datepicker name="voucher_date"  
+                    ng-model="form.bankRvDate" ng-disabled="true" />
+                </div>
+              </li>
+              <!-- Your HTML code remains the same -->
+              <li>
+                <div>
+                  <label for="voucherStatusCode">Status <sup>*</sup></label>
+                  <select class="dropdd" name="voucherStatusCode" ng-model="form.voucherStatusCode" required
+                    ng-disabled="true">
+                    <option value="" disabled selected>--Select--</option>
+                    <option ng-repeat="x in voucherType" value="{{x.voucherStatusCode}}">
+                      {{x.voucherStatusCode}} - {{x.dscr.toUpperCase()}}
+                    </option>
+                  </select>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="white-box forms ">
+            <div class="recordlist">
+              <ul class="addcol6">
+                <li class="width5 ">
+                  <div>
+                    <label>SL No</label>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <label>Account No.<sup>*</sup></label>
+                  </div>
+                </li>
+                <li class="smallsec width24">
+                  <div>
+                    <label>Account Description</label>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <label> (₹) Debit Amount</label>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <label>(₹) Credit Amount</label>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <label>Remarks</label>
+                  </div>
+                </li>
+              </ul>
+              <ul class="addcol6" ng-repeat="v in brvds" ng-model="receiptBankvoucher">
+                <li class="width5">
+                  <div>
+                    <input type="hidden" class="textfield" name="sl_no" value="{{v.bankRvDetSlno}}"
+                      ng-model="v.bankRvDetSlno" ng-disabled="true" />
+                    <input type="text" class="textfield" name="ind" value="{{$index+1}}" ng-disabled="true" />
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <select class="dropdd select" name="accountNo" ng-model="v.accountCode"
+                      ng-change="setAccountDscr(v.accountCode,$index)" ng-init="setAccountDscr(v.accountCode,$index)"
+                      ng-disabled="isDisable || disableFlag1" required>
+                      <option value="">Select</option>
+                      <option ng-repeat="account in accMasterData" value="{{ account.accountCode }}"
+                        ng-show="v.accountCode!=account.accountCode">
+                        {{account.accountCode}} {{ v.accountCode != account.accountCode ? ' - '+ account.dscr : ''}}
+                      </option>
+                    </select>
+                  </div>
+                </li>
+                <li class="width24">
+                  <div>
+                    <div>
+                      <input type="text" class="textfield" name="account_description" value="{{ v.accDscr }}"
+                        ng-disabled="isDisable || disableFlag1" />
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <input type="text" class="textfield" num-only name="debit_amount" value="v.dbAmount || 0"
+                      ng-change="getTotalAmmounts()" style="text-align: end;" ng-init="getTotalAmmounts()"
+                      ng-model="v.dbAmount"
+                      ng-disabled="isDisable || v.crAmount !== null && v.crAmount !== '' && v.crAmount !== undefined || disableFlag1" />
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <div>
+                      <input type="text" class="textfield" num-only name="credit_amount" value="v.crAmount || 0"
+                        ng-change="getTotalAmmounts()" style="text-align: end;" ng-init="getTotalAmmounts()"
+                        ng-model="v.crAmount"
+                        ng-disabled="isDisable || v.dbAmount !== null && v.dbAmount !== '' && v.dbAmount !== undefined || disableFlag1" />
+                    </div>
+                  </div>
+                </li>
+                <li class="width24">
+                  <div>
+                    <input type="text" class="textfield" name="remark"  ng-model="v.remarks"
+                      ng-disabled="isDisable || disableFlag1" />
+                  </div>
+                </li>
+                <!-- <li class="width3 checkbtn"><label><input type="checkbox" ng-model="v.select" name="delete"
+                      ng-click="setDeleteBRVD(form.bankRvId,form.finYear,v)" class="checksec"
+                      ng-disabled="isDisable || disableFlag1"> </label>
+                </li> -->
+                <li style="min-width: 40px;">
+                  <div><button type="button" class="bluebtn deletebtn"
+                      ng-click="deleteBRVD(form.bankRvId,form.finYear,v.bankRvDetSlno,$index);" disabled
+                      ng-disabled="isDisable || disableFlag1 || negFlag">Delete</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <ul class="addcol6">
+              <li class="width35">
+                <div style="text-align: right; padding-top: 7px;">
+                  <label>Total</label>
+                </div>
+              </li>
+              <li>
+                <div><input type="text" ng-view="{{totalDebitAmount}}" style="text-align: end;" class="textfield"
+                    name="total_debit" value="{{totalDebitAmount}}" ng-disabled=" isDisable || true" />
+                </div>
+              </li>
+              <li>
+                <div><input type="text" class="textfield" ng-view="{{totalCreditAmount}}" value="{{totalCreditAmount}}"
+                    style="text-align: end;" name="total_credit" ng-disabled=" isDisable || true" />
+                </div>
+                <div class="error" ng-show="negFlag">
+                  Never less than Debit Amount!
+                </div>
+              </li>
+            </ul>
+            <div class="btnlist">
+              <ul>
+                <li>
+                  <div><button type="button" class="bluebtn addfield" ng-click="addObj();"
+                      ng-disabled="isDisable || disableFlag1 || negFlag">ADD</button></div>
+                </li>
+                <!-- <li><div><button type="button" class="bluebtn">EDIT</button></div></li> -->
+                <!-- <li>
+                  <div><button type="button" class="bluebtn deletebtn" ng-click="deleteBRVD();" disabled>Delete</button>
+                </li> -->
+                <li>
+                  <div class="btncenter"><button type="button" class="bluebtn" ng-click="saveBrvd()"
+                      ng-disabled="isDisable||negFlag">SUBMIT</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </form>
+      </div> 
+  </section>

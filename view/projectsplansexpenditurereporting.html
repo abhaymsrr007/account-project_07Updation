@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects Plans Expenditure Reporting</title>
+
+  <link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <script src="js/jquery-3.6.0.min.js"></script>
+  <!-- <script src="js/bootstrap.min.js"></script>-->
+  <link rel="stylesheet" href="css/style.css">
+  <title>form</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+  <script src="js/linked.js"></script>
+
+  <style>
+    .s1 {
+      width: 40%;
+    }
+
+    .forms label {
+      line-height: 2.2;
+    }
+
+    .s2 {
+      margin-left: 10px;
+      width: 13%;
+    }
+    .white-box {
+    background: var(--white);
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+    width: 111%;
+}
+
+.formsec {
+    width: 91%;
+    padding: 10px;
+    overflow: auto;
+    /* overflow-y: scroll; */
+}
+  </style>
+</head>
+
+<body  ng-controller="contr">
+  <header class="topheading">
+    <div class="logo">
+      <img src="images/nrt-logo.svg" alt="" />
+    </div>
+    <a class="btn bluebtn" ng-click="goBack()">Back</a>
+    <a class="userlogin" ng-click="logout()">{{details.name}} <span><img src="https://exam.skmu.ac.in/ftpwebapps/skmu/resources/studentdata/users/profileimage/{{details.profile_image}}" alt="student" /></span></a>
+     
+
+  </header>
+  <section class="formsec">
+    <div class="container">
+      <div class="titles">{{subbreadcrumb}}</div>Projects Plans Expenditure Reporting</div>
+      <form ng-submit="save()">
+        <div class="white-box forms  notop">
+          <ul>
+            <li>
+              <div>
+
+                <label for="reportingId">Reporting Id</label>
+                <input type="text" class="textfield uppercase" ng-model="form.reportingId" id="reportingId"
+                  placeholder="Reporting Id" ng-disabled="flag" maxlength="5" required />
+              </div>
+            </li>
+            <li>
+              <div>
+
+                <label for="costCentreId">Cost Centre Id</label>
+                <select ng-model="form.costCentreId" class="dropdd" required>
+                  <option value="" disabled selected> Select </option>
+                  <option ng-repeat="x in ProjectPlanCostCentre" value="{{x.costCentreId}}">{{x.costCentreId}}
+
+                  </option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <div>
+
+                <label for="planNo">Plan No</label>
+                <select ng-model="form.planNo" class="dropdd" required>
+                  <option value="" disabled selected> Select </option>
+                  <option ng-repeat="x in ProjectPlanCostCentre" value="{{x.planNo}}">{{x.planNo}}
+
+                  </option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label for="planFinYear">Plan Fin Year</label>
+                <select ng-model="form.planFinYear" class="dropdd" required>
+                  <option value="" disabled selected> Select Plan Fin Year</option>
+                  <option ng-repeat="x in ProjectPlanCostCentre" value="{{x.planFinYear}}">{{x.planFinYear}}
+                  </option>
+                </select>
+
+              </div>
+            </li>
+            <li>
+              <div>
+
+                <label for="planTypeCode">Plan Type Code</label>
+                <select ng-model="form.planTypeCode" class="dropdd" required>
+                  <option value="" disabled selected> Select </option>
+                  <option ng-repeat="x in ProjectPlanCostCentre" value="{{x.planTypeCode}}">{{x.planTypeCode}}
+
+                  </option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Reporting Date<sup>*</sup></label>
+                <input type="text" class="textfield datepicker" autocomplete="off" name="reportingDate" value=""
+                  placeholder="Reporting Date" ng-model="form.reportingDate" required />
+              </div>
+            </li>
+            <li>
+              <div>
+
+                <label for="accountCode">Account Code</label>
+                <select ng-model="form.accountCode" class="dropdd" only-numbers required>
+                  <option value="" disabled selected> Account Code </option>
+                  <option ng-repeat="x in AccountMaster" value="{{x.accountCode}}">{{x.accountCode}} -
+                    {{x.dscr}}
+                  </option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <div>
+
+                <label>Allocation Fin Year<sup>*</sup></label>
+                <input type="text" class="textfield" name="allocationFinYear" value="" placeholder="Allocation Fin Year"
+                  ng-model="form.allocationFinYear" required name="afy" />
+                <div class="error" ng-show="myform.afy.$error.required && myform.afy.$touched">
+                  This field is required.
+                </div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Total Fund Transferred</label>
+                <input type="text" class="textfield " name="totalFundTransferred" only-numbers value=""
+                  placeholder="Total Fund Transferred" ng-model="form.totalFundTransferred" />
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Total Capital Transferred<sup>*</sup></label>
+                <input type="text" class="textfield " name="totalCapitalTransferred" only-numbers value=""
+                  placeholder="Total Capital Transferred" ng-model="form.totalCapitalTransferred" required />
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Total Revenue Transferred<sup>*</sup></label>
+                <input type="text" class="textfield " name="totalRevenueTransferred" only-numbers value=""
+                  placeholder="Total Revenue Transferred" ng-model="form.totalRevenueTransferred" required />
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Reporting Fin Year<sup>*</sup></label>
+                <input type="text" class="textfield " name="reportingFinYear" only-numbers value=""
+                  placeholder="Reporting Fin Year" ng-model="form.reportingFinYear" required />
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Cumulative Total Expenses</label>
+                <input type="text" class="textfield " name="cumulativeTotalExpenses" only-numbers value=""
+                  placeholder="Cumulative Total Expenses" ng-model="form.cumulativeTotalExpenses" />
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Cumulative Capital Expenses<sup>*</sup></label>
+                <input type="text" class="textfield " name="cumulativeCapitalExpenses" only-numbers value=""
+                  placeholder="Cumulative Capital Expenses" ng-model="form.cumulativeCapitalExpenses" required />
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Cumulative Revenue Expenses<sup>*</sup></label>
+                <input type="text" class="textfield " name="cumulativeRevenueExpenses" only-numbers value=""
+                  placeholder="Cumulative Revenue Expenses" ng-model="form.cumulativeRevenueExpenses" required />
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Department Code</label>
+                <input type="text" class="textfield " name="departmentCode" only-numbers value=""
+                  placeholder="Department Code" ng-model="form.departmentCode" />
+              </div>
+            </li>
+            <li>
+              <div>
+                <label for="collegCode">College Code</label>
+                <select ng-model="form.collegeCode" class="dropdd" only-numbers required>
+                  <option value="" disabled selected> Select </option>
+                  <option ng-repeat="x in ClgData" value="{{x.collegeCode}}">{{x.collegeCode}} - {{x.dscr}}
+                  </option>
+                </select>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label for="operative">university Code</label>
+                <select ng-model="form.universityCode" class="dropdd" only-numbers required>
+                  <option value="" disabled selected> Select </option>
+                  <option ng-repeat="x in ClgData" value="{{x.universityCode}}">{{x.universityCode}} -
+                    {{x.dscr}} </option>
+                </select>
+              </div>
+            </li>
+
+
+            <li>
+              <div>
+                <label>Reporting Ref No<sup>*</sup></label>
+                <input type="text" class="textfield " name="reportingRefNo" only-numbers value=""
+                  placeholder="Reporting Ref No" ng-model="form.reportingRefNo" required />
+              </div>
+            </li>
+            <li>
+              <div>
+                <label for="reportingOfficer">Reporting Officer<sup>*</sup></label>
+                <select ng-model="form.reportingOfficer" class="dropdd" only-numbers required>
+                  <option value="" disabled selected>Executing Authority</option>
+                  <option ng-repeat="x in Employee" value="{{x.staffNo}}">
+                    {{x.staffNo}} -  {{x.fullName}}
+                  </option>
+                </select>
+              </div>
+            </li>
+
+
+
+            <li>
+              <div>
+                <button type="submit" class="bluebtn" style="margin-top: 28px;" ng-click="save()">Submit</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </form>
+      <div class="white-box " style="overflow-x: auto;">
+
+        <table class="table table-bordered text-center regtable table-condensed">
+          <thead>
+            <tr>
+              <th style="text-align: center;" width="80">Reporting Id</th>
+              <th style="text-align: center;" width="80">Cost Centre Id</th>
+              <th style="text-align: center;" width="80">Plan No</th>
+              <th style="text-align: center;" width="80">Plan Fin Year</th>
+              <th style="text-align: center;" width="80">Plan Type Code</th>
+              <th style="text-align: center;" width="80">Reporting Date</th>
+              <th style="text-align: center;" width="80">Account Code</th>
+              <th style="text-align: center;" width="80">Allocation Fin Year</th>
+              <th style="text-align: center;" width="80">Total Fund Transferred</th>
+              <th style="text-align: center;" width="80">Total Capital Transferred</th>
+              <th style="text-align: center;" width="80">Total Revenue Transferred</th>
+              <th style="text-align: center;" width="80">Reporting Fin Yearr</th>
+              <th style="text-align: center;" width="80">Cumulative Total Expenses</th>
+              <th style="text-align: center;" width="80">cumulative Capital Expenses</th>
+              <th style="text-align: center;" width="80">Cumulative Revenue Expenses</th>
+              <th style="text-align: center;" width="80">Department Code</th>
+              <th style="text-align: center;" width="80">College Code</th>
+              <th style="text-align: center" width="400">College Description</th>
+              <th style="text-align: center;" width="80">University code</th>
+              <th style="text-align: center" width="400">University Description</th>
+              <th style="text-align: center;" width="100">Reporting Ref No</th>
+              <th style="text-align: center;" width="100">Reporting Officer</th>
+
+
+              <th style="text-align: center;" width="200">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="n in data" class="tdcolor">
+              <td ng-bind="n.reportingId | uppercase" ng-disabled="flag"> </td>
+              <td ng-bind="n.costCentreId"></td>
+              <td ng-bind="n.planNo"></td>
+              <td ng-bind="n.planFinYear"></td>
+              <td ng-bind="n.planTypeCode"></td>
+              <td ng-bind="n.reportingDate"></td>
+              <td ng-bind="n.accountCode"></td>
+              <td ng-bind="n.allocationFinYear"></td>
+              <td ng-bind="n.totalFundTransferred"></td>
+              <td ng-bind="n.totalCapitalTransferred"></td>
+              <td ng-bind="n.totalRevenueTransferred"></td>
+              <td ng-bind="n.reportingFinYear"></td>
+              <td ng-bind="n.cumulativeTotalExpenses"></td>
+              <td ng-bind="n.cumulativeTotalExpenses"></td>
+              <td ng-bind="n.cumulativeTotalExpenses"></td>
+              <td ng-bind="n.departmentCode"> </td>
+              <td ng-bind="n.collegeCode"> </td>
+              <td ng-bind="getcllgDscr(ClgData,n.collegeCode) | uppercase"> </td>
+              <td ng-bind="n.universityCode"> </td>
+              <td ng-bind="getUniDscr(ClgData,n.universityCode) | uppercase"> </td>
+              <td ng-bind="n.reportingRefNo"> </td>
+              <td ng-bind="n.reportingOfficer"> </td>
+
+
+              <td><button class="btn btn-primary" ng-click="edit(n)">Edit</button> </td>
+            </tr>
+
+
+          </tbody>
+        </table>
+      </div>
+  </section>
+  <footer class="footerbg footerdown">
+    © 2023 All Rights Reserved.
+  </footer>
+
+  <link rel='stylesheet' type='text/css' href='css/bootstrap-datepicker.min.css'>
+  <script type='text/javascript' src='js/bootstrap-datepicker.min.js'></script>
+  <script type="text/javascript">
+    $('.datepicker').datepicker({
+      format: "yyyy-MM-dd",
+      startDate: new Date('1900-7-15'),
+      endDate: new Date('3022-8-15')
+    }); 
+  </script>
+
+  <script>
+    
+
+    app.controller('contr', function ($scope, $http, $timeout, $window, $rootScope, $filter) {
+      $scope.form = {};
+      $scope.flag = false;
+
+      $scope.details=[];
+            var token;
+            const userDetailsJSON = $window.sessionStorage.getItem('userDetails');
+            if (userDetailsJSON) {
+            const userDetails = JSON.parse(userDetailsJSON);
+            if (userDetails.token!=null || userDetails.token!=''){
+                $scope.details=angular.copy(userDetails);
+                token=$scope.details.token;
+            }
+            } else {
+            $window.location.href = "index.html";
+            console.log('User details not found in sessionStorage');
+            }
+            $scope.logout = function() {
+            $window.sessionStorage.removeItem('userDetails');
+            $window.location.href = 'index.html';
+            };
+
+            var config = {
+            headers: {
+           'Authorization': 'Bearer ' + token
+               },   
+            };
+
+      // saving data to Projects Plans Expenditure Reporting  table 
+      $scope.save = function () {
+        console.log($scope.form);
+        $http.post(path+"/api/v1/account/expenditureReporting", $scope.form,config)
+          .then(function successCallback(response) {
+            $scope.form = {};
+            $scope.getdata()
+          },
+            function errorCallback(response) {
+              console.log("saving of data failed");
+            });
+      }
+
+      //Fetching of data from table 
+      $scope.getdata = function () {
+        $http.get(path+"/api/v1/account/expenditureReporting/data",config)
+          .then(function successCallback(response) {
+            $scope.data = response.data;
+            console.log($scope.data)
+          },
+            function errorCallback(response) {
+              console.log("saving of data failed");
+            });
+
+      }
+      $scope.getdata();
+
+
+      // Fetching data from  table 
+      $scope.ProjectPlanCostCentre = [];
+      $scope.getProjectPlanCostCentre = function () {
+        $http.get(path+"/api/v1/account/costCentre/alldata",config)
+          .then(function successCallback(response) {
+            $scope.ProjectPlanCostCentre = response.data;
+            console.log("Data 2", $scope.ProjectPlanCostCentre)
+          },
+            function errorCallback(response) {
+              console.log("Fetching of data failed from Projects Plans Expenditure Reporting table ");
+            });
+
+
+      }
+      $scope.getProjectPlanCostCentre();
+
+
+
+
+      $scope.ClgData = [];
+      $scope.getCollege = function () {
+        $http.get(path+"/api/v1/account/college",config)
+          .then(function (response) {
+            $scope.ClgData = response.data;
+            console.log("ClgData", response.data);
+
+          });
+
+      };
+      $scope.getCollege();
+
+
+
+      $scope.Employee = [];
+      $scope.getEmployee = function () {
+        $http.get(path+"/api/v1/account/employee/alldata",config)
+          .then(function (response) {
+            $scope.Employee = response.data;
+            console.log("Employee", response.data);
+
+          });
+
+      };
+      $scope.getEmployee();
+
+      $scope.AccountMaster = [];
+      $scope.getAccountMaster = function () {
+        $http.get(path+"/api/v1/account/accreport",config)
+          .then(function (response) {
+            $scope.AccountMaster = response.data;
+            console.log("AccountMaster", response.data);
+
+          });
+
+      };
+      $scope.getAccountMaster();
+
+
+      //to fetch the University description from Table
+
+      $scope.getUniDscr = function (n, universityCode) {
+        // console.log("University", n, universityCode);
+        var dscr = null;
+        for (var i = 0; i < n.length; i++) {
+          var row = n[i];
+          console.log(row, i);
+          if (row.universityCode === universityCode) {
+            // console.log(row.dscr);
+            dscr = row.dscr;
+            break; // Exit the loop if a match is found
+          }
+        }
+
+        return dscr;
+      };
+
+
+
+      $scope.getcllgDscr = function (n, collegeCode) {
+        //console.log("data2", n, collegeCode);
+        var dscr = null;
+        for (var i = 0; i < n.length; i++) {
+          var row = n[i];
+          // console.log(row, i);
+          if (row.collegeCode === collegeCode) {
+            // console.log(row.dscr);
+            dscr = row.dscr;
+            break; // Exit the loop if a match is found
+          }
+        }
+        return dscr;
+      };
+
+     
+
+
+
+
+      // To edit the data 
+      $scope.edit = function edit(n) {
+        $scope.flag = true;
+
+        console.log($scope.form)
+        $scope.form = {
+          reportingId: n.reportingId,
+          costCentreId: n.costCentreId.toString(),
+          planNo: n.planNo.toString(),
+          planFinYear: n.planFinYear.toString(),
+          planTypeCode: n.planTypeCode.toString(),
+          reportingDate: n.reportingDate,
+          accountCode: n.accountCode,
+          allocationFinYear: n.allocationFinYear,
+          totalFundTransferred: n.totalFundTransferred,
+          totalCapitalTransferred: n.totalCapitalTransferred,
+          totalRevenueTransferred: n.totalRevenueTransferred,
+          reportingFinYear: n.reportingFinYear,
+          cumulativeTotalExpenses: n.cumulativeTotalExpenses,
+          cumulativeCapitalExpenses: n.cumulativeCapitalExpenses,
+          cumulativeRevenueExpenses: n.cumulativeRevenueExpenses,
+          departmentCode: n.departmentCode,
+          collegeCode: n.collegeCode.toString(),
+          universityCode: n.universityCode.toString(),
+          reportingRefNo: n.reportingRefNo,
+          reportingOfficer: n.reportingOfficer.toString(),
+         
+
+
+        }
+        console.log($scope.form)
+
+      };
+
+
+      //To update the data and save the data back to the table 
+      $scope.update = function () {
+
+        var data = $scope.form;
+        var sl = data.reportingId;
+        var url = path+'/api/v1/account/expenditureReporting/{id}' + sl;
+        $http.put(url, data,config)
+          .then(function successCallback(response) {
+
+            $scope.getdata()
+            $scope.form = {};
+
+          },
+            function errorCallback(response) {
+              console.log("updating of data failed  ");
+            });
+      }
+      $scope.goBack = function () {
+        window.history.back();
+      }
+    })
+
+  </script>
+</body>
+
+</html>

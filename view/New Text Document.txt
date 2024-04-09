@@ -1,0 +1,10 @@
+@DeleteMapping("/bpv")
+	public ResponseEntity<?> deleteBpv(@RequestBody BankPvId bankPvId) {
+	    Optional<BankPaymentVoucher> findById = repo.findById(bankPvId);
+	    if (findById.isPresent()) {
+	        bpvService.deleteBankPv(bankPvId);
+	        return new ResponseEntity<>("Bank Payment Voucher deleted successfully", HttpStatus.OK);
+	    } else {
+	        return new ResponseEntity<>("Bank Payment Voucher not found", HttpStatus.NOT_FOUND);
+	    }
+}

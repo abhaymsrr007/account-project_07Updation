@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html  ng-controller="contr">
+
+<head>
+  <title>Dashboard</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon" />
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet"> -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <script src="js/jquery-3.6.0.min.js"></script>
+  <!-- <script src="js/bootstrap.min.js"></script>    -->
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.17/angular-filter.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/tools.js"></script>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css" />
+  <script src="js/bootstrap-select.min.js"></script>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Include Toastr CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+  <!-- Include Toastr JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <!-- <link href="css/font-awesome.min.css" rel="stylesheet" /> -->
+  <script src="js/linked.js"></script>
+  <style type="text/css">
+    .container {
+      max-width: 1200px;
+    }
+
+    .formsec .container {
+      max-width: 800px;
+    }
+
+    .mainlist {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .mainlist>div {
+      width: 48%
+    }
+
+    .mainlist ul li {
+      margin-bottom: 4px;
+    }
+
+    .mainlist ul li a {
+      padding: 10px 20px;
+      display: block;
+      background: var(--light-gray);
+      border-radius: 4px;
+      color: #444;
+      font-weight: 600
+    }
+
+    .sectionlist {
+      margin-bottom: 15px;
+    }
+
+    .sectionlist>ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 -10px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .sectionlist>ul>li {
+      width: 25%;
+      padding: 10px;
+    }
+
+    .boxs {
+      background: #c5e8ff;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 15px;
+      border-radius: 8px;
+      color: var(--black);
+      min-height: 200px;
+    }
+
+    .icons {
+      position: relative;
+      width: 64px;
+      height: 68px;
+      margin: 0 auto;
+    }
+
+    .cls-1 {
+      fill: #165793;
+      /*stroke:#bd7610;stroke-miterlimit:10;stroke-width:3px;*/
+    }
+
+    .icons img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      filter: brightness(100);
+      max-width: 40px;
+    }
+
+    .stitle {
+      font-size: 16px;
+      font-weight: 500;
+      margin-top: 15px;
+      color: var(--dark-gray);
+      line-height: 1.2;
+    }
+
+    .bighead {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--dark-gray);
+    }
+
+    .heading3 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: var(--dark-gray);
+      line-height: 1.2;
+    }
+
+    .boxsection {
+      padding: 20px 0;
+    }
+
+    .sectionlist {
+      padding: 20px
+    }
+
+    .sectionlist>ul>li:nth-child(1) .boxs,
+    .sectionlist>ul>li:nth-child(9) .boxs {
+      background: #fbe8d4;
+    }
+
+    .sectionlist>ul>li:nth-child(2) .boxs {
+      background: #c5e8ff;
+    }
+
+    .sectionlist>ul>li:nth-child(3) .boxs,
+    .sectionlist>ul>li:nth-child(10) .boxs {
+      background: #d6f1f5;
+    }
+
+    .sectionlist>ul>li:nth-child(4) .boxs,
+    .sectionlist>ul>li:nth-child(12) .boxs {
+      background: #e7e9fc;
+    }
+
+    .sectionlist>ul>li:nth-child(5) .boxs {
+      background: #ffe6aa;
+    }
+
+    .sectionlist>ul>li:nth-child(6) .boxs {
+      background: #c5f6f4;
+    }
+
+    .sectionlist>ul>li:nth-child(7) .boxs {
+      background: #ffcacd;
+    }
+
+    .sectionlist>ul>li:nth-child(8) .boxs {
+      background: #ffe6aa;
+    }
+
+    .sectionlist>ul>li:nth-child(1) .boxs .cls-1,
+    .sectionlist>ul>li:nth-child(9) .boxs .cls-1 {
+      fill: #bd7610;
+    }
+
+    .sectionlist>ul>li:nth-child(2) .boxs .cls-1 {
+      fill: #165793;
+    }
+
+    .sectionlist>ul>li:nth-child(3) .boxs .cls-1,
+    .sectionlist>ul>li:nth-child(10) .boxs .cls-1 {
+      fill: #35727b;
+    }
+
+    .sectionlist>ul>li:nth-child(4) .boxs .cls-1,
+    .sectionlist>ul>li:nth-child(12) .boxs .cls-1 {
+      fill: #6b73bd;
+    }
+
+    .sectionlist>ul>li:nth-child(5) .boxs .cls-1 {
+      fill: #a17816;
+    }
+
+    .sectionlist>ul>li:nth-child(6) .boxs .cls-1 {
+      fill: #1c9590;
+    }
+
+    .sectionlist>ul>li:nth-child(7) .boxs .cls-1 {
+      fill: #9f555a;
+    }
+
+    .sectionlist>ul>li:nth-child(8) .boxs .cls-1 {
+      fill: #a17816;
+    }
+
+    .add-btn {
+      padding: 4px 10px;
+      margin: 5px;
+      background: var(--blue);
+      color: var(--white);
+      border-radius: 3px;
+      border: none;
+      text-align: center
+    }
+
+    .add-btn:hover {
+      color: white;
+      background-color: var(--blue)
+    }
+
+    .searchbox {
+      display: flex;
+      justify-content: end;
+      align-self: flex-end;
+      width: 100%
+    }
+
+    .searchbox>input {
+      padding: 5px;
+      margin: 5px;
+      width: 15%;
+      border-radius: 5px;
+      border: none;
+      outline: #dae7fb;
+      background-color: #dae7fb
+    }
+
+    .searchbox>button {
+      padding: 4px 10px;
+      margin: 5px;
+      background: var(--blue);
+      color: var(--white);
+      border-radius: 3px;
+      border: none;
+      text-align: center
+    }
+
+    .dtlist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 450px;
+      overflow: auto;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap
+    }
+
+    .dtlist>li {
+      width: 50%;
+      padding: 10px;
+      font-size: 14px
+    }
+
+    .dtlist>li span {
+      font-family: "Roboto", Helvetica, Arial, sans-serif;
+      display: inline-block;
+      min-width: 150px;
+      text-transform: capitalize;
+      font-weight: 600
+    }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #555
+    }
+
+    .close-button:hover {
+      color: #000
+    }
+
+    .titles {
+      text-transform: none;
+      font-weight: 400
+    }
+
+    #detailmodal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      min-width: 100px
+    }
+
+    #detailmodal-content {
+      top: 50px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      position: relative;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+      max-width: 800px;
+      margin: auto;
+      overflow: hidden
+    }
+
+    #detailmodal h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      margin-top: 0;
+      font-weight: 600;
+      font-family: roboto
+    }
+
+    #detailmodal-content .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      border-bottom: 1px solid #ccc
+    }
+
+    #detailmodal-content .row:last-child {
+      border-bottom: none
+    }
+
+    #detailmodal-content .row span {
+      font-weight: bold;
+      text-transform: capitalize
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topheading">
+    <div class="logo">
+      <img src="images/nrt-logo.svg" alt="" />
+    </div>
+    <a class="btn bluebtn" ng-click="goBack()">Back</a>
+    <!-- <a class="userlogin" href="index.html">Amit Kumar <span><img src="images/userimg.jpg" alt="student" /></span></a> -->
+    <a class="userlogin" ng-click="logout()">{{details.username}} <span><img
+          src="https://exam.skmu.ac.in/ftpwebapps/skmu/resources/studentdata/users/profileimage/{{details.profile_image}}"
+          alt="student" /></span></a>
+  </header>
+  <section class="boxsection">
+    <div class="container">
+      <div class="" style="display: flex;justify-content: space-between;align-items: center;">
+        <h2>Central Account Dashboard (Journal Voucher)</h2>
+        <div class="btn bluebtn" ng-click="goAdminSection()" ng-if="tempRole">Admin Dashboard</div>
+      </div>
+      <div class="tabsec">
+        <ul>
+          <li><a class="tablink active" data-title="tab1" ng-click="handleClick('F')" ng-init="handleInitialClick('F')">Finalize Vouchers</a></li>
+          <li><a class="tablink "       data-title="tab1" ng-click="handleClick('R')">Returned Vouchers</a></li>
+          <li><a class="tablink "       data-title="tab1" ng-click="handleClick('P')" >Passed Vouchers</a></li>
+          <li><a class="tablink "       data-title="tab1" ng-click="handleClick('C')">Canceled Vouchers</a></li>
+        </ul>
+      </div>
+
+
+      <div id="tab1" class="sectionlist white-box maintabsec active">
+        <div class="white-box">
+          <ul>
+            <li class="searchbox">
+              <!-- <div ng-cloak style="width: 200px; margin-top: 5px;margin: 2px;" class="">
+                <select>
+                  <option value="">voucher Id</option>
+                  <option value={{x.jvId}} ng-repeat="x in sdata">{{x.jvId}}</option>                
+              </select>
+              </div>  -->
+              <div ng-cloak style="width: 200px; margin-top: 5px;margin: 2px;" class="">
+                <select class="selectdata" name="jvId" ng-model="jvId"
+                ng-options="x.jvId as x.jvId for x in journaldetailData | filter: { voucherStatusCode:status , sectionCode:details.sectionCode }">
+                <option value="" selected>Voucher Id </option>
+                </select>
+              </div>
+                <div ng-cloak style="width: 200px; margin-top: 5px;margin: 2px;" class="">
+                  <select class="selectdata" name="jvIdDate" ng-model="jvIdDate"
+                  ng-options="x.jvIdDate as x.jvIdDate for x in journaldetailData | filter: { voucherStatusCode:status , sectionCode:details.sectionCode }">
+                  <option value="" selected>Voucher Id Date</option>
+                  </select>
+                </div>
+  
+                <div ng-cloak style="width: 200px; margin-top: 5px;margin: 2px;" class="">
+                  <select class="selectdata" name="jvFinYear" ng-model="jvFinYear"
+                  ng-options="x.jvFinYear as x.jvFinYear for x in journaldetailData | filter: { voucherStatusCode:status , sectionCode:details.sectionCode }">
+                  <option value="" selected>Voucher FinYear</option>
+              </select>
+                </div>
+
+  
+                <div ng-cloak style="width: 200px; margin-top: 5px;margin: 2px;" class="">
+                  <select class="selectdata" name="jvNo" ng-model="jvNo"
+                  ng-options="x.jvNo as x.jvNo for x in journaldetailData | filter: { voucherStatusCode:status , sectionCode:details.sectionCode }">
+                  <option value="">Voucher Number</option>
+                  </select>
+                </div> 
+
+                <div ng-cloak style="width: 200px; margin-top: 5px;margin: 2px;" class="">
+                  <select class="selectdata" name="jDate" ng-model="jDate"
+                  ng-options="x.jvDate as x.jvDate for x in journaldetailData | filter: { voucherStatusCode:status , sectionCode:details.sectionCode }">
+                  <option value="">Voucher date</option>
+                  </select>
+                </div> 
+  
+            <button class="bluebtn btn text-end"
+              ng-click="searchInDtails(jvId,jvIdDate,jvFinYear,narration,asssistantStaffNo,voucherStatusCode);">Search</button>
+              <a href="journal-voucher.html" class="add-btn"> Add </a>
+            </li>
+          </ul>
+        </div>
+        <div class="table-responsive" style="margin-top: 20px;">
+          <table class="table table-bordered text-center regtable table-condensed">
+            <thead>
+              <tr>
+                <th>Voucher Id</th>
+                <th>Voucher Date</th>
+                 <th>Voucher Fin Year</th>                
+                <th>Voucher Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="n in journalVData" class="tdcolor" ng-show="n.voucherStatusCode === status && n.sectionCode===details.sectionCode">
+                <td ng-bind="n.jvId"></td>
+                <td ng-bind="n.jvIdDate"></td>
+                <td ng-bind="n.jvFinYear"></td>
+                <td
+                ng-bind="n.voucherStatusCode === 'P' ? 'Passed' :  n.voucherStatusCode === 'F' ? 'Finalize' :  n.voucherStatusCode === 'R' ? 'Return' : n.voucherStatusCode === 'C' ? 'Cancelled' :  'Other';">
+              </td>
+                <td ng-if="status === 'F' || status === 'C'">
+                  <button type="button" class="bluebtn" ng-click="edit(n,$index)">  Edit</button>
+                  <!-- <button type="button" class="bluebtn" ng-click="delete(n,$index)">  Delete</button> -->
+                </td>
+                <td ng-if="status !== 'F' && status !== 'C'">
+                  <button type="button" class="bluebtn" ng-click="edit(n,$index)">  Detail</button>
+                </td>
+              </tr>
+            </tbody>
+             
+          </table>
+        </div>
+      </div>
+      <script>
+
+        setTimeout(function () {
+          $(".selectsearch").selectpicker();
+        }, 5000);
+        // $('.datepicker').datepicker({
+        //     format: "dd-mm-yyyy",
+        //     // startDate: new Date('2022-7-15'),
+        //     // endDate: new Date('2022-8-15')
+        //   });
+        $(".tablink").click(function () {
+          $('.tablink').removeClass('active');
+          $(this).addClass('active');
+          var id = $(this).attr("data-title");
+          $(".maintabsec").hide();
+          $("#" + id).fadeIn();
+          $(".maintabsec").removeClass('active');
+          $("#" + id).addClass('active');
+        });
+      </script>
+
+
+<script>
+  
+  app.controller('contr', function ($scope, $http, $timeout, $window, $rootScope, $filter, $location) {
+    $scope.img = profile;
+    $scope.details = [];
+    var token;
+    const userDetailsJSON = $window.sessionStorage.getItem('userDetails');
+    if (userDetailsJSON) {
+      const userDetails = JSON.parse(userDetailsJSON);
+      if (userDetails.token != null || userDetails.token != '') {
+        $scope.details = angular.copy(userDetails);
+        token = $scope.details.token;
+      }
+    } else {
+      $window.location.href = "login.html";
+      console.log('User details not found in sessionStorage');
+    }
+    $scope.logout = function () {
+      $window.sessionStorage.removeItem('userDetails');
+      $window.sessionStorage.removeItem('tempRole');
+      $window.location.href = 'login.html';
+    };
+
+
+
+
+    var config = {
+      //  form: $scope.form,
+      headers: {
+        'Authorization': 'Bearer ' + token
+      },
+    };
+
+          $scope.handleInitialClick = function(s) {
+          $scope.handleClick(s);
+        };
+
+
+        $scope.sdata = [];
+        $scope.handleClick = function(s) {
+            $scope.status = s;
+            $scope.sdata = [];
+            for (var a = 0; a < $scope.journaldetailData.length; a++) {
+                if ($scope.journaldetailData[a].voucherStatusCode === s) {
+                    $scope.sdata.push($scope.journaldetailData[a]);
+                }
+            }
+            console.log("sdata", $scope.sdata);
+        };
+
+  
+
+    $scope.journaldetailData=[];
+          var uniqueAccountCodes = [];
+          $scope.getProjectPlan=function () {
+            $http.get(path+"/api/v1/account/journelvoucher",config)
+              .then(function (response) {
+                $scope.journaldetailData = response.data;                     
+                  console.log("$scope.journaldetailData",$scope.journaldetailData); 
+                },
+                function errorCallback(response) {
+                  console.log("error");
+                }
+              );
+          };
+          $scope.getProjectPlan();
+
+          $scope.jvData=[];
+          $scope.searchInDtails = function (jvId,jvDate,jvFinYear,narration,asssistantStaffNo,voucherStatusCode) {
+          
+                let dd = jvDate?.substring(0, 2);
+                let mm = jvDate?.substring(2, 6);
+                let yyyy = jvDate?.substring(6, 10);
+
+                let  jvIdDate  = jvDate ? yyyy + mm + dd : null;
+
+            console.log(jvId,jvIdDate,jvFinYear,narration,voucherStatusCode,asssistantStaffNo)
+            var JvDetail = {
+              jvId: jvId || null,
+              jvIdDate: jvIdDate ? jvIdDate : null,   
+              jvFinYear: jvFinYear || null,
+              narration: narration || null,
+              voucherStatusCode: voucherStatusCode || null,
+              asssistantStaffNo: asssistantStaffNo || null,
+            };
+            console.log("k>>>>>", JvDetail);
+            var path1 = path+"/api/v1/account/journelvoucher/search";
+            $http.post(path1,JvDetail,config).then((res) => {
+                $scope.journalVData = res.data;
+                console.log("JvDetail ",$scope.journalVData);
+              },
+              (err) => {
+                console.log("Data Not fetch",err);
+              }
+            );
+          };
+
+
+    $scope.suuplierdetail = [];
+    $scope.bankpay = [];
+
+      $scope.isDisable = 0;
+      $scope.showDetails = function (n) {
+      $scope.isDisable = 1;
+      var nObject = {
+        bankPvId: n.bankPvId,
+        finYear: n.finYear,
+        isDisable: $scope.isDisable
+      };
+      window.location.href = 'bank-payment-voucher.html?n=' + btoa(JSON.stringify(nObject));
+    }
+
+    $scope.filterForStatusAandC = (item) => {
+            return item.voucherStatusCode === 'C' || item.voucherStatusCode === 'A' ;
+          }
+
+
+    $scope.timeoutPromise = null;
+    $scope.data = [];
+    $scope.bPvData = [];
+    $scope.getdata = function () {
+      $http.get(path + '/api/v1/account/journelvoucher', config)
+        .then(function (response) {
+          $scope.journalVData = response.data;
+          console.table("journelvoucher",response.data);
+        });
+    };
+    $scope.getdata();
+
+
+    // $scope.closeDetail = () => {
+    //   document.getElementById("detailmodal").style.display = "none";
+    // };
+
+
+    var modal = document.getElementById("detailmodal");
+    var closeBtn = document.getElementById("closeBtn");
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        modal.style.display = "none";
+      }
+    });
+
+    $scope.delete = function (bankPvId, finyear) {
+      $http.delete(path + `/api/v1/account/bpv/${bankPvId}/${finyear}`, config)
+        .then(function successCallback(response) {
+          $('#deletemodal').modal('hide');
+          console.log(response.data);
+          toastr.success("Data Deleted Successfully", "Congratulations");
+
+        },
+          function errorCallback(response) {
+            console.log("Unable to update  request");
+          });
+    }
+
+    // $scope.edit = function (n) {
+    //   var nObject = {
+    //     bankPvId: n.bankPvId,
+    //     finYear: n.finYear,
+    //   };
+    //   window.location.href = 'journal-voucher.html?n=' + btoa(JSON.stringify(nObject));;
+    // }
+
+    $scope.edit = function (n,index) {
+            console.log("edit",index)
+            var nObject = {
+              planNo: n.planNo,
+              planFinYear: n.planFinYear,
+              planTypeCode:n.planTypeCode,
+              jvDetSlno:n.jvDetSlno,
+              jvId:n.jvId,
+              accountCode:n.accountCode,
+            };
+            // var url ="journal-voucher.html?n=" + JSON.stringify(nObject,index);
+            var url = "journal-voucher.html?n=" + encodeURIComponent(JSON.stringify(nObject)) + "&index=" + index;
+            window.open(url, "_blank");
+          }; 
+
+
+        $scope.confirmDeleteC = function (p) {
+          $scope.DeleteData = p;
+          document.getElementById("deletemodal").style.display = "block";
+          $('#deletemodal').modal('show');
+        };
+
+    $scope.closeDeletebtn = () => {
+      document.getElementById("deletemodal").style.display = "none";
+    };
+    var modal = document.getElementById("deletemodal");
+    var closeBtn = document.getElementById("closeBtn");
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        modal.style.display = "none";
+      }
+    });
+        $scope.goBack = function () {
+        window.history.back();
+      }
+  });
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AMS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/account-logo-title.png" type="image/x-icon" />
+    <link rel="icon" href="images/account-logo-title.png" type="image/x-icon"> 
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <link rel="stylesheet" href="css/bootstrap-select.css">
+    <script src="js/ui-bootstrap-tpls-0.3.0.min.js"></script>
+    <script src="js/utility.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> -->
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body{font-family: 'Open Sans', sans-serif; background:#eef0f8; }
+        img{max-width: 100%}
+
+        .loginsec {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 700px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13px;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid #f1f1f1;
+        }
+
+        .loginsec h1 {
+            font-size: 30px;
+            font-weight: 600;
+            text-align: center; color: #fff;
+        }
+.formsec a{color: #fff}
+        .half {
+            height: 400px;
+            padding: 50px;
+            width: 50%;
+            background:#222e4b;
+            color: var(--white);
+        }
+
+        .half2 {
+            height: 400px;
+            padding: 30px;
+            width: 50%;
+            background: var();
+            color: var(--white);
+        }
+
+        .bgsec {
+            background:#fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .trtext {
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        /* .formsec{} */
+        .formsec input:focus {
+            outline: none;
+        }
+
+        .formsec input,
+        .formsec button,
+        .btnlogin {
+            width: 100%;
+            border: none;
+            line-height: 24px;
+            background-color: #ffffff;
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            border-radius: 4px;
+            color: #524646;
+        }
+
+        .btnlogin {
+            background: var(--white);
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .btnsignin {
+            width: 100%;
+            border: none;
+            line-height: 24px;
+            background-color: #ffffff;
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            border-radius: 4px;
+            color: #524646;
+        }
+
+        .btnsignin {
+
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .btn {
+            color: var(--black);
+            text-decoration: underline;
+        }
+
+        .forgot {
+            margin-top: 10px;
+            color: black;
+            display: inline-block;
+            text-decoration: underline;
+        }
+
+        .create {
+            margin-top: 10px;
+            color: black;
+            display: inline-block;
+            text-decoration: underline;
+            margin-left: 57px;
+        }
+
+
+        @media (max-width:767px) {
+            .loginsec {
+                width: 320px;
+            }
+
+            .half {
+                height: auto;
+                padding: 30px;
+                width: 100%;
+            }
+
+            .trtext {
+                font-size: 24px;
+            }
+        }
+
+        .popup {
+            width: 100%;
+            height: 100%;
+            display: none;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            background: rgba(0, 0, 0, 0.75);
+        }
+
+        .popup-inner {
+            max-width: 700px;
+            width: 90%;
+            padding: 40px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 1);
+            border-radius: 3px;
+            background: #fff;
+        }
+
+        .popup-close {
+            width: 30px;
+            height: 30px;
+            padding-top: 4px;
+            display: inline-block;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            transition: ease 0.25s all;
+            -webkit-transform: translate(50%, -50%);
+            transform: translate(50%, -50%);
+            border-radius: 1000px;
+            background: rgba(0, 0, 0, 0.8);
+            font-family: Arial, Sans-Serif;
+            font-size: 20px;
+            text-align: center;
+            line-height: 100%;
+            color: #fff;
+        }
+
+        .popup-close:hover {
+            -webkit-transform: translate(50%, -50%) rotate(180deg);
+            transform: translate(50%, -50%) rotate(180deg);
+            background: rgba(0, 0, 0, 1);
+            text-decoration: none;
+        }
+
+        .control-label {
+            color: white;
+            margin-bottom: 0px;
+            margin-top: 5px;
+            font-weight: 100;
+        }
+
+        .half2>.formsec2>div {
+            margin-top: 3px;
+            margin-bottom: 0px;
+        }
+    </style>
+</head>
+
+<body ng-app="app" ng-controller="myContrl">
+    <div class="loginsec">
+        <div class="half bgsec">
+            <div class="adminlogo" data-aos="fade-right" data-aos-duration="1000">
+                <img src="images/account-logo.svg" alt="AMS" />
+            </div>
+        </div>
+        <div class="half log">
+            <div class="formsec">
+                <form ng-submit="login()">
+                    <h1>Login</h1>
+                    <input type="text" name="username" value="" placeholder="User ID" class="user"
+                        ng-model="check.username">
+                    <input type="password" autocomplete name="password" value="" placeholder="Password" class="password"
+                        ng-model="check.password">
+                    <!-- <a href="admin/dashboard.php" class="btnlogin" id="admindash">Login</a> <button name="submit" type="submit" ng-click="login()">Login</button>-->
+                    <!-- <a href="dashboard.html" class="btnlogin" id="universitydash">Login</a> -->
+                    <input class="btnlogin" type="submit" value="login">
+                    <!-- <a class="forgot" href="#">Forgot Password</a>
+                    <a class="btn create" data-popup-open="popup-1">Create User</a> -->
+                </form>
+            </div>
+        </div>
+        <!-- <div class="half2" style="display: none;">
+            <div class="formsec2">
+                <form ng-submit="signup()">
+                    <div>Signup </div>
+                    <label class="control-label" for="firstNameFirstTime">Full name</label>
+                    <input type="text" autocomplete  class="form-control" id="firstNameFirstTime" ng-model="form.name">
+                    <label class="control-label" for="username">User name</label>
+                    <input type="text" autocomplete  class="form-control" id="username" value="" ng-model="form.username">
+                    <label class="control-label" for="password">Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Password"
+                        ng-model="form.password">
+
+                    <label class="control-label" for="Email">Email</label>
+                    <input type="email" class="form-control" id="email" ng-model="form.email">
+
+                    <label class="control-label" for="Email">Phone</label>
+                    <input type="tel" class="form-control" id="phone" ng-model="form.contactNo">
+
+                    <label class="control-label" for="image">Profile Image</label>
+                    <div class="form-group">
+                        <label for="image">Select an image or PDF:</label>
+                        <input type="file" name="image" class="form-control-file" id="image"
+                            accept="image/jpeg, image/png, image/gif, application/pdf" file-model="form.file" required>
+                    </div>
+                    <input class="btnsignin" type="submit" value="signup">
+                    <a class="btn signin" data-popup-open="popup-1">Already have account?</a>
+                </form>
+            </div>
+        </div> -->
+    </div>
+
+    <script>
+        var app = angular.module('app', []);
+        app.controller('myContrl', function ($scope, $http, $timeout, $window, $rootScope) {
+            if (sessionStorage.getItem('token') != '' && sessionStorage.getItem('token') != null) {
+                //$window.sessionStorage.getItem('token');
+                $window.location.href = "landingpage.html";
+            }
+
+            $scope.login = function () {
+                if ($scope.check.username !== undefined && $scope.check.password !== undefined) {
+                    console.log("raajan ", $scope.check)
+                    var req = {
+                        method: 'POST',
+                        url: path + '/api/v1/user/login',
+                        data: $scope.check,
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    };
+                    $http(req).then(function (res) {
+                        console.log("", res)
+                        $scope.rolelist = [];
+                        if ((res.data.token != null || res.data.token != '') && res.data.token !== undefined) {
+                            $window.sessionStorage.setItem("token", res.data.token);
+                            // const map = new Map();
+                            const pages = [];
+                            for (var j = 0; j < res.data.userDetails.userFullInfo.roleMasters.length; j++) {
+                                $scope.rolelist[j] = res.data.userDetails.userFullInfo.roleMasters[j].roleCode;
+                            }
+                            for (let i = 0; i < res.data.userDetails.roles.length; i++) {
+                                // rolesPages.add(res.data.data.roles[i].pageName);
+                                // rolesPagesIcon.add(res.data.data.roles[i].iconName);
+                                if (pages.includes(res.data.userDetails.roles[i].pageName)){
+                                }
+                                else {
+                                    $scope.linkIconLable = {};
+                                    $scope.linkIconLable.link = res.data.userDetails.roles[i].pageName;
+                                    $scope.linkIconLable.icon = res.data.userDetails.roles[i].iconName;
+                                    $scope.linkIconLable.label = res.data.userDetails.roles[i].desc;
+                                    $scope.linkIconLable.menuLabel = res.data.userDetails.roles[i].menuLabel;
+                                    $scope.linkIconLable.seq_no = res.data.userDetails.roles[i].seq_no;
+                                    pages.push(res.data.userDetails.roles[i].pageName, $scope.linkIconLable);
+                                }
+                            }
+                            // console.log("$scope.rolelist", $scope.rolelist);
+                            $window.sessionStorage.setItem("pages", JSON.stringify(Array.from(pages.entries())));
+                            $window.sessionStorage.setItem("userDetails", JSON.stringify(res.data.userDetails.userFullInfo));
+                            $window.sessionStorage.setItem("rolelist", JSON.stringify(res.data.userDetails.roles));
+                            $window.sessionStorage.setItem("roles", JSON.stringify(res.data.userDetails.userFullInfo.roleMasters));
+                            const storedData = $window.sessionStorage.getItem("roles");
+                            console.log("🚀 ~ storedData:", storedData)
+                            // Parse the stored string to an array of entries
+                            const storedEntries = JSON.parse(storedData);
+                            // Convert the array of entries back to a Map
+                            const retrievedMap = new Map(storedEntries);
+                            console.log("Retrieved Maapppp", retrievedMap);
+                            // var url = 'landingpage.html';
+                            $window.location.href = 'landingpage.html';
+                        }
+                        else {
+                            alert("Wrong Username or Password!!");
+                        }
+
+                    },
+                        function (err) {
+                            if (err.status === -1) {
+                                // toastr["error"]("Server Unreachable!!");
+                                alert("Server Unreachable!!");
+                            }
+                            else {
+                                // toastr["error"]("Something Went Wrong!!");
+                                console.log("Something Went Wrong!!");
+                            }
+
+                        });
+                }
+                else {
+                    alert("Please Enter username or password!!");
+                }
+            }
+            $scope.signup = function () {
+                if ($scope.form && $scope.form.file) {
+                    var formData = new FormData();
+                    for (var key in $scope.form) {
+                        formData.append(key, $scope.form[key]);
+                    }
+                    $http.post(path + '/api/v1/user/signup', formData, {
+                        transformRequest: angular.identity,
+                        headers: {
+                            'Content-Type': undefined,
+                        },
+                    })
+                        .then(function (res) {
+                            if (res.data) {
+                                alert("Uploaded");
+                            } else {
+                                console.log("Something went wrong. No token received.");
+                            }
+                        })
+                        .catch(function (err) {
+                            console.log("Error while signing up:", err);
+                        });
+                } else {
+                    console.log("Invalid data in $scope.form or $scope.form.file.");
+                }
+            }
+
+        })
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<style type="text/css">
+    .searchbox li { min-width: auto;}
+</style>
+<section class="formsec1" ng-controller="paytotypeCtrl">
+    <div class="titles">{{subbreadcrumb}}</div>
+    <form name="myform" ng-submit="save()" novalidate>
+        <div class="white-box forms notop">
+            <ul style="display: flex; justify-content: center; align-items: center;">
+                <li class="width10">
+                    <div>
+                        <label for="payToTypeCode">Pay To Type Code</label>
+                        <input type="text" m-name ng-disabled="flag" class="textfield" ng-model="form.payToTypeCode"
+                            id="payToTypeCode" placeholder="Pay To Type Code" maxlength="1" required
+                            name="payToTypeCode" ng-change="formSubmitted = false" ng-blur="checkForDuplicate(form.payToTypeCode)">
+                        <div class="error"
+                            ng-show="myform.payToTypeCode.$error.required && myform.payToTypeCode.$touched && !formSubmitted">
+                            This field is required.
+                        </div>
+                        <div class="error"
+                            ng-show="duplicateCode && myform.payToTypeCode.$touched">
+                            This Pay to type Code already exists.
+                        </div>
+                    </div>
+                </li>
+                <li class="width10">
+                    <div>
+                        <label for="dscr">Description</label>
+                        <input type="text" no-special-characters class="textfield" m-name ng-model="form.dscr" id="dscr" placeholder="Description"
+                            maxlength="75" required name="dscr">
+                        <div class="error"
+                            ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">
+                            This field is required.
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <button type="submit" class="bluebtn" style="margin-top: 15px;" ng-disabled="myform.$invalid || duplicateCode">Save</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+    <div class="white-box ">
+        <ul class="searchbox">
+            <li><input type="text" class="textfield" ng-change="search(keyword1,keyword2)" ng-model="keyword1" placeholder="Pay To Type Code" /></li>
+            <li><input class="textfield" type="text" ng-change="search(keyword1,keyword2)" ng-model="keyword2" placeholder="Description" /></li>
+            <li><button class="bluebtn" ng-click="search(keyword1,keyword2)">Search</button></li>
+        </ul>
+        
+        <table class="table table-bordered text-center regtable table-condensed">
+            <thead>
+                <tr>
+                    <th style="text-align: center;" width="200">Pay To Type Code</th>
+                    <th width="300">Description</th>
+                    <!-- <th width="300">GL Description</th> -->
+                    <th width="200">Action</th>
+                    <!-- <th>Gl group code</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="n in payToType" class="tdcolor">
+                    <td ng-bind="n.payToTypeCode"> </td>
+                    <td ng-bind="n.dscr|uppercase"></td>
+                    <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

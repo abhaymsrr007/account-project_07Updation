@@ -1,0 +1,923 @@
+<style>
+  .success-message {
+  position: absolute;
+  top: 20px; 
+  right: 20px; 
+  background-color: #4CAF50; 
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  
+}
+
+  </style>
+
+  <section class="formsec1" ng-controller="projPlanCusCtrl"> 
+      <div class="tabsec">
+        <ul>
+          <li><a class="tablink active" data-title="tab1"  id="t1" ng-click="tabToggle('1');">Plan Custodians</a></li>
+          <li><a class="tablink" data-title="tab2"  id="t2" ng-click="cln(); tabToggle('2');" >Budget Allocation</a></li>
+          <li><a class="tablink " data-title="tab3"  id="t3" ng-click="tabToggle('3');">Fund Transfer</a></li>
+        </ul>
+      </div>
+      <div id="tab1" class="maintabsec active">
+        <div class="flextitles">
+          <div class="titles">{{subbreadcrumb}}</div>
+          <div><a class="bluebtn btn"  ng-click="handleLink('project-plan-custodians-details')" >Custodians List</a></div>
+        </div>
+        <form name="form" novalidate>
+          <div class="white-box forms form2">
+            <h3>Plan Details</h3>
+            <ul>
+              <li>
+                <div>
+                  <label>Plan No.<sup>*</sup></label>
+                  <div>
+                    <select class="dropdd" name="planno" ng-model="form.planNo" ng-change="getPlanNo(form.planNo)" ng-disabled="isDisable">
+                      <option value="">Select</option>
+                      <option ng-repeat="x in projectplanAlldata" value="{{x.planNo}}">{{x.planNo}}/{{x.planFinYear}}/{{x.planTypeCode}}/{{x.planTitle}}</option>
+                    </select>
+                  </div>
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Fin Year <sup>*</sup></label>
+                  <div>
+                    <input type="text" class="textfield" name="fine_year" value="" placeholder="Fin Year" ng-model="form.planFinYear" ng-disabled="ppc">
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Plan Type Code <sup>*</sup></label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="type" value="" placeholder="Type"  ng-model="form.planTypeCode" ng-disabled="ppc">
+                    <input type="text" class="textfield" name="type" value="" placeholder="Description" ng-model="form.accdscr" ng-disabled="ppc">
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Ref <sup>*</sup></label>
+                  <div>
+                    <input type="text" class="textfield" name="ref" value="" placeholder="Ref." ng-model="form.planRef" ng-disabled="ppc">
+                  </div>
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Ref Date <sup>*</sup></label>
+                  <div>
+                    <input type="text" class="textfield datepicker" name="ref_date" value="" placeholder="Ref Date" ng-model="form.planRefDate" ng-disabled="ppc">
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <div>
+                  <label>Plan Title <sup>*</sup></label>
+                  <input type="text" class="textfield" name="paln_title" value="" placeholder="Plan Title" ng-model="form.planTitle" ng-disabled="ppc">
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <div>
+                  <label>Plan Details <sup>*</sup></label>
+                  <textarea class="textfield" rows="2" name="paln_details"  ng-model="form.planDetails" placeholder="Plan Details" ng-disabled="ppc">
+                </textarea>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class=" forms">
+            <div class="flexspace">
+              <h3>Custodian Details</h3>
+            </div>
+            <div class="nextprev">
+              <div class="rowbox forms " style="background-color:#fff" >               
+                <ul ng-repeat="x in formData" style=" position: relative; background-color:var(--light-gray);margin-bottom: 15px;padding: 5px;">                
+                  <li class="width5">
+                    <div>
+                      <label>Id<sup>*</sup></label>
+                      <input type="text" class="textfield" name="vender_code" value="" placeholder="Id" ng-model="x.costCentreId" disabled>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>Custodian Type<sup>*</sup></label>
+                      <div class="flexbox">
+                         <select class="dropdd" name="costCentreCode" ng-model="x.costCentreCode" required ng-change="getCostCenterById(x.costCentreCode,$index)" ng-disabled="isDisable">
+                          <option value="" selected disabled>Select</option>
+                          <option ng-repeat="i in costAlldata" value="{{i.costCentreCode}}" ng-show="x.costCentreCode != i.costCentreCode">{{i.costCentreCode}} {{x.costCentreCode != i.costCentreCode ? ' - '+i.dscr:''}}</option>
+                        </select> 
+                        <!-- <input type="text" class="textfield" name="vender_code" value="" placeholder="" ng-model="x.costCentreCode"> -->
+                        <input type="text" class="textfield" name="vender_code" value="" placeholder="Description" ng-model="x.costdscr" ng-disabled="ppc">
+                      </div>
+                    </div>
+                    <div class="error" ng-show="form.costCentreCode.$error.required && form.costCentreCode.$touched">
+                      This field is required.
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>University Code &amp; Name<sup>*</sup></label>
+                      <div class="flexbox">
+                        <!-- <select class="dropdd" name="university" ng-model="form.universityCode">
+                          <option value="">Select</option>
+                          <option ng-repeat="i in clgalldata" value="{{i.universityCode}}">{{for.universityCode}}</option>
+                        </select> -->
+                        <input type="text" class="textfield" name="university2" value="" placeholder="University" ng-model="form.universityCode" ng-disabled="ppc"> 
+                        <input type="text" class="textfield" name="university2" value="" placeholder="Description" ng-model="form.univerdscr" ng-disabled="ppc">
+                      </div>
+                    </div>
+                  </li>
+                  <!-- <li>
+                    <div>
+                      <label>College Code &amp; Name</label>
+                      <div class="flexbox">             
+                        <select ng-options="cc.collegeCode  as (cc.collegeCode + ' - ' + cc.dscr) for cc in clgalldata | filter: { collegeCode: '!!'}"  class="dropdd"  name="college_code" required ng-model="x.collegeCode" ng-change="getClgDataById(x.collegeCode,$index); getbankDataByClgId(x.collegeCode,$index);">                                       
+                          <option value="">Select</option>
+                        </select>
+                     <select class="dropdd" name="collegeCode" ng-model="x.collegeCode" required ng-change="getClgDataById(x.collegeCode,$index);">
+                        <option value=""  selected>Select</option>
+                        <option ng-repeat="i in clgalldata | filter: { collegeCode: '!!'}" value="{{i.collegeCode}}" ng-show="x.collegeCode != i.collegeCode">{{i.collegeCode}}{{x.collegeCode != i.collegeCode ? ' - '+i.dscr:''}}</option>
+                      </select>  -->
+                        <!-- <input type="text" class="textfield" name="Description" value="" placeholder="Description" ng-model="x.clgdscr"  ng-init="x.clgdscr=''" ng-disabled="ppc">
+                      </div>
+                      <div class="error" ng-show="form.college_code.$error.required && form.college_code.$touched">
+                        This field is required.
+                      </div>
+                    </div>
+                  </li>  -->
+                  <li>
+                    <div>
+                      <label>College Code&amp; Name<sup>*</sup></label>
+                      <div class="flexbox">
+                      <select ng-options="cc.collegeCode as (cc.collegeCode +' - ' + cc.dscr) for cc in clgalldata"  class="dropdd"               
+                      ng-model="x.collegeCode" ng-change="getClgDataById(x.collegeCode,$index); getbankDataByClgId(x.collegeCode,$index);">
+                      <option value="">Select</option>
+                    </select>
+                        <input type="text" class="textfield" name="dscr" value="" placeholder="Description" ng-model="x.clgdscr"  ng-disabled="ppc">
+                      </div>
+                    </div>
+                  </li>
+
+                  <li>
+                    <div>
+                      <label>Department Code&amp; Name</label>
+                      <div class="flexbox">
+                      <select ng-options="cc.departmentCode as (cc.departmentCode +' - ' + cc.dscr) for cc in departmentData"  class="dropdd" name="college_code"               
+                      ng-model="x.departmentCode" ng-change="getDeptDscr(x.departmentCode,$index)">
+                      <option value="">Select</option>
+                    </select>
+                        <input type="text" class="textfield" name="dscr" value="" placeholder="Description" ng-model="x.deptdscr" ng-disabled="dpt || ppc">
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>Bank Account No<sup>*</sup></label>
+                       <!-- <input type="text" class="textfield" name="bank_account_no" value="" placeholder="" ng-model="x.bankAccountNo"> -->
+                          <select class="dropdd" name="bank_account_no" ng-model="x.bankAccountNo" required ng-change="getbankDataById(x.bankAccountNo,$index)">
+                          <option value="" disabled selected>Select</option>
+                          <option ng-repeat="i in bankDetail | filter:{collegeCode:x.collegeCode}" value="{{i.bankAccountNo}}" ng-show="x.bankAccountNo != i.bankAccountNo" >{{i.bankAccountNo}} {{x.bankAccountNo != i.bankAccountNo ? ' - '+i.dscr:''}}</option>
+                        </select> 
+                    </div>
+                    <div class="error" ng-show="form.bank_account_no.$error.required && form.bank_account_no.$touched">
+                      This field is required.
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>Bank Code &amp; Name<sup>*</sup></label>
+                      <div class="flexbox">
+                        <input type="text" class="textfield" name="bank_code_name" value="" placeholder="Bank" ng-model="x.bankCode" ng-disabled="ppc">
+                        <input type="text" class="textfield" name="bank_code_name" value="" placeholder="Name" ng-model="x.bankdscr" ng-disabled="ppc">
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>Scheduled Start &amp; Completion Dates<sup>*</sup></label>
+                      <div class="flexsec">
+                        <input type="text" class="textfield datepicker" datepicker name="scheduledStartDate" required value="" placeholder="DD-MM-YYYY"   ng-model="x.scheduledStartDate" autocomplete="off" >
+                        <input type="text" class="textfield datepicker" datepicker name="scheduledCompletionDate"  required value="" placeholder="DD-MM-YYYY"  ng-model="x.scheduledCompletionDate" autocomplete="off" 
+                        ng-change="dateCheck(x.scheduledStartDate,x.scheduledCompletionDate)">
+                      </div>
+                    </div>
+                    <div class="error" ng-show="form.scheduledStartDate.$error.required && form.scheduledStartDate.$touched">
+                      This field is required.
+                    </div>
+                    <div class="error" ng-show="date1">
+                      Scheduled Start date is greater than Scheduled Completion Date.
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>Actual Start &amp;Completion Dates</label>
+                      <div class="flexsec">
+                        <input type="text" class="textfield datepicker" datepicker name="start_date" value="" placeholder="DD-MM-YYYY" ng-model="x.actualStartDate" 
+                        ng-change="dateCheck2(x.scheduledStartDate,x.actualStartDate)" autocomplete="off" >
+                        <input type="text" class="textfield datepicker" datepicker name="end_date" value="" placeholder="DD-MM-YYYY" ng-model="x.actualCompletionDate"
+                        ng-change="dateCheck1(x.actualStartDate,x.actualCompletionDate)" autocomplete="off" >
+                      </div>
+                    </div>
+                    <div class="error" ng-show="date2">
+                      Actual Start date is greater than Actual Completion Date.
+                    </div>
+                    <div class="error" ng-show="date3">
+                      Scheduled Start date is greater than Actual Start date.
+                    </div>
+                  </li>
+
+                  <li>
+                    <div>
+                      <label>Approval Ref. No.<sup>*</sup></label>
+                      <input type="text" class="textfield" name="approvalRefNo" value="" placeholder="Approval Ref. No." required ng-model="x.approvalRefNo" ng-pattern="/^[a-zA-Z0-9/ ]*$/" maxlength="30">
+                    </div>
+                    <div class="error" ng-show="form.approvalRefNo.$error.required && form.approvalRefNo.$touched">
+                      This field is required.
+                    </div>
+                      <div class="error" ng-show="form.approvalRefNo.$error.pattern">
+                            Only Alphanumeric allowed and /.
+                      </div>
+                  </li>
+                  <li class="smallsec2">
+                    <div>
+                      <label>Approval Date</label>
+                      <input type="text" class="textfield datepicker" datepicker name="address" value="" placeholder="Approval Date" ng-model="x.approvalDate">
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>Approving Authority<sup>*</sup></label>
+                      <input type="text" class="textfield" name="approvingAuthority" name="approvingAuthority" ng-model="x.approvingAuthority" required placeholder="Approving Authority" ng-pattern="/^[a-zA-Z ]*$/" maxlength="30">
+                    </div>
+                    <div class="error" ng-show="form.approvingAuthority.$error.required && form.approvingAuthority.$touched">
+                      This field is required.
+                    </div>
+                    <div class="error" ng-show="form.approvingAuthority.$error.pattern">
+                      Please enter Alphabeticlly Only.
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label>Executing Authority<sup>*</sup></label>
+                          <select class="dropdd" name="executingAuthority" ng-model="x.executingAuthority" required>
+                          <option value="">Select</option>
+                          <option ng-repeat="i in empdata" value="{{i.staffNo}}" ng-show="x.executingAuthority != i.staffNo" >{{i.fullName}} {{x.executingAuthority != i.staffNo ? ' - '+i.staffNo:''}}</option>
+                          <!-- <option ng-repeat="i in empdata" value="{{i.staffNo}}">{{i.staffNo}}-{{i.fullName}}</option> -->
+                        </select> 
+                    </div>
+                    <div class="error" ng-show="form.executingAuthority.$error.required && form.executingAuthority.$touched">
+                      This field is required.
+                    </div>
+                    <div class="error" ng-show="form.executingAuthority.$error.pattern">
+                      Please enter Alphabeticlly Only.
+                    </div>
+                  </li>
+                    <div style=" position: absolute; right: 8px; top: 6px; font-size: 18px;">
+                      <li class="width5 checkbtn" >             
+                        <i class="fas fa-trash-alt deletebtn" data-placement="top" ng-click="setDeleteData2(x, $index)"
+                        title="Delete" style="font-size: 16px; color: #222e4b; cursor: pointer;"></i>
+
+                      </li> 
+                    </div>
+                </ul>
+
+              </div>
+            </div>
+            <div class="btnlist">
+              <ul>
+                <li>
+                  <div><button type="button" class="bluebtn" ng-click="addFields()">ADD</button></div>
+                </li>
+                <li>
+                  <div><button type="submit"  class="bluebtn" ng-click="saveCustdionsData() ">Save</button></div>
+                </li>
+                <li>
+                  <div>
+                    <button type="button" class="bluebtn tablink" data-title="tab2" ng-click="cln(); tabToggle('2');">Next</button>
+                  </div>
+                  
+                </li>
+              </ul>
+            </div>
+          </div>
+        </form>
+      </div>
+
+
+      <div id="tab2" class="maintabsec ">
+        <div class="titles">Budget Allocation to Executing Colleges</div>
+        <form name="budgetallocation" novalidate>
+          <div class="white-box forms form2 notop">
+            <h3>Plan Details</h3>
+            <ul>
+              <li>
+                <div>
+                  <label>Plan No.<sup>*</sup></label>
+                  <input type="text" class="textfield" name="paln_no" value="" placeholder="Plan No." ng-model="form.planNo" ng-disabled="bae" >
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Fin Year <sup>*</sup></label>
+                  <div>
+                    <input type="text" class="textfield" name="fine_year" value="" placeholder="Fin Year"  ng-model="form.planFinYear" ng-disabled="bae">
+                  </div>
+                </div>
+              </li>
+              <li>
+                <label for="type">Account Type<sup>*</sup></label>
+                <div class="flexbox">
+                  <input type="text" class="textfield" id="bank2" name="bank2" value="" placeholder="Type" ng-model="form.planTypeCode" ng-disabled="bae">
+                  <input type="text" class="textfield" id="bank3" name="bank3" value="" placeholder="Description" ng-model="form.accdscr" ng-disabled="bae">
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Ref <sup>*</sup></label>
+                  <div>
+                    <input type="text" class="textfield" name="ref" value="" placeholder="Ref." ng-model="form.planRef" ng-disabled="bae">
+                  </div>
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Ref Date <sup>*</sup></label>
+                  <div>
+                    <input type="text" class="textfield datepicker" name="ref_date" value="" placeholder="Ref. Date" ng-model="form.planRefDate" ng-disabled="bae">
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li class="smallsec">
+                <div>
+                  <label>Custodian Id</label>
+                  <div>
+                    <select class="dropdd" name="student_reg_no2" ng-model="form.costCentreId" ng-change="getCheckIdInBudget(form.costCentreId)">
+                      <option value="">Select</option>
+                      <option ng-repeat="x in formData" value="{{x.costCentreId}}">{{x.costCentreId}}-{{x.clgdscr}}</option>
+                    </select>
+                </div>
+                </div>
+              </li>
+              <li >
+                <div>
+                  <label>Custodian Type</label>
+                  <div  class="flexbox">
+                    <input type="text" class="textfield"  name="custodian_type1" value="" placeholder="Type" ng-model="form.costCentreCode" ng-disabled="bae">
+                    <input type="text" class="textfield"  name="custodian_type1" value="" placeholder="Description"  ng-model="form.costdscr" ng-disabled="bae">
+                  </div>
+                </div>
+              </li>
+              <li>
+                <label for="type">Department</label>
+                <div class="flexbox">
+                  <input type="text" class="textfield" id="department1" name="department1" value="" placeholder="Department"  ng-model="form.departmentCode" ng-disabled="bae">
+                  <input type="text" class="textfield" id="department2" name="department2" value="" placeholder="Description" ng-model="form.dptdscr" ng-disabled="bae">
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>College</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield"  name="college1" value="" placeholder="College"  ng-model="form.collegeCode" ng-disabled="bae">
+                    <input type="text" class="textfield"  name="college2" value="" placeholder="Description"   ng-model="form.clgdscr" ng-disabled="bae">
+                  </div>
+                </div>
+              </li>            
+            </ul>
+            <ul>
+              <li >
+                <div>
+                  <label>University</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield"  name="university1" value="" placeholder="University" ng-model="form.universityCode" ng-disabled="bae">
+                    <input type="text" class="textfield"  name="university2" value="" placeholder="Description" ng-model="form.univerdscr" ng-disabled="bae">
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="title">Title<sup>*</sup></label>
+                  <input type="text" class="textfield" id="title" name="voucher" value="" placeholder="Title" ng-model="form.planTitle" ng-disabled="bae">
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <div>
+                  <label>Plan Details <sup>*</sup></label>
+                  <textarea class="textfield" rows="2" name="paln_details"  ng-model="form.planDetails" placeholder="Details" ng-disabled="bae">
+                </textarea>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class=" forms ">
+            <h3>Custodian wise Allocation Details</h3>
+            <ul class="addcol10 ">
+              <li class="width5">
+                <div>
+                  <label for="Slno">Id<sup>*</sup></label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="sanctionFinYear">Allo. Date<sup>*</sup></label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="ApprovalNo,">Fin Year<sup>*</sup></label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="ApprovalDate">Approval Ref. No</label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="ApprovalDate">Approval Date</label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="ApprovalDate">Approval Authority</label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="approvingAuthority=">Capital Fund</label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="capitalFund">Revenue Fund</label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="type">Total<sup>*</sup></label>
+                </div>
+              </li>
+              <li class="width3 checkbtn"> </li>
+            </ul>
+          
+            <ul class="addcol10" ng-repeat="d in detailbudget" >
+              <li class="width5">
+                <div>
+                  <input type="text" class="textfield" name="sl_no" value="{{$index+1}}" placeholder="Sl No." disabled />
+
+                  <input type="hidden" class="textfield" name="sl_no"  placeholder="Sl No." value="{{d.allocationId}}" ng-model="d.allocationId"  />
+                </div>
+              </li>
+              <li ng-show="false">
+                <div class="flexbox">
+                  <input type="text" class="textfield" name="plano"            ng-model="d.planNo"          ng-init="d.planNo = form.planNo" placeholder="">
+                  <input type="text" class="textfield" name="planFinYear"      ng-model="d.planFinYear"     ng-init="d.planFinYear = form.planFinYear" placeholder="">
+                  <input type="text" class="textfield" name="planTypeCode"     ng-model="d.planTypeCode"    ng-init="d.planTypeCode = form.planTypeCode" placeholder="">
+                   <input type="text" class="textfield" name="costCentreId"     ng-model="d.costCentreId"    ng-init="d.costCentreId = form.costCentreId" placeholder="">
+                  <input type="text" class="textfield" name="university_code"  ng-model="d.universityCode"  ng-init="d.universityCode = form.universityCode" placeholder="">
+                  <input type="text" class="textfield" name="college_code"     ng-model="d.collegeCode"     ng-init="d.collegeCode = form.collegeCode" placeholder="">
+                  <input type="text" class="textfield" name="college_code"     ng-model="d.executingAuthority"     ng-init="d.executingAuthority = form.executingAuthority" placeholder="">
+                  <input type="text" class="textfield" name="departmentCode"     ng-model="d.departmentCode"     ng-init="d.departmentCode = form.departmentCode" placeholder="">
+                </div>
+              </li>
+
+              <li>
+                <div>
+                  <input type="text" class="textfield datepicker" datepicker name="allocationDate" value="" placeholder="DD-MM-YYYY" required
+                  ng-model="d.allocationDate" ng-change="calAlloFinYear(d.allocationDate,$index)" />
+                </div>
+                <div class="error" ng-show="budgetallocation.allocationDate.$error.required && budgetallocation.allocationDate.$touched">
+                  This field is required.
+                </div>
+              </li>
+              <li>
+                <div>
+                  <input type="text" class="textfield" name="allocationFinYear" value=""  ng-model="d.allocationFinYear"
+                  placeholder="Fin Year" disabled >
+                </div>
+              </li>
+              <li>
+                <div>
+                  <input type="text" class="textfield" name="approvalRefNo" value="" placeholder="Reference"
+                  ng-model="d.approvalRefNo" ng-pattern="/^[a-zA-Z0-9/ ]*$/" />
+                </div>
+                <div class="error"
+                       ng-show="budgetallocation.approvalRefNo.$error.pattern">
+                        Only Alphanumeric and / Allowed.
+                </div>
+              </li>
+              <li>
+                <div>
+                  <input type="text" class="textfield datepicker"  datepicker name="reference" value="" placeholder="DD-MM-YYYY"
+                  ng-model="d.approvalDate" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <input type="text" class="textfield" name="approvingAuthority" value="" placeholder="Approving Authority"
+                  ng-model="d.approvingAuthority" ng-pattern="/^[a-zA-Z ]*$/" />
+                </div>  
+                   <div class="error" ng-show="budgetallocation.approvingAuthority.$error.pattern">
+                                  Only Alphabeticlly Allowed.
+                      </div>
+              </li>
+              <li>
+                <div>
+                  <input type="text" class="textfield" name="capitalAllocated" value=""
+                    ng-model="d.capitalAllocated" placeholder="Capital Fund" format-number style="text-align: right;">
+                </div>                
+                </li>
+              <li>
+                <div>
+                  <input type="text" class="textfield" name="revenueAllocated" value="" ng-model="d.revenueAllocated"
+                    placeholder="Revenue Fund"  ng-change="calculatebudget(d.capitalAllocated, d.revenueAllocated, $index);" format-number style="text-align: right;"></input>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <input type="text" class="textfield" name="totalBudgetAllocated" value="" ng-model="d.totalBudgetAllocated" placeholder="Total" format-number style="text-align: right;">
+                </div>
+                <div class="error" ng-show="budgetallocation.totalBudgetAllocated.$error.required && budgetallocation.totalBudgetAllocated.$touched">
+                  This field is required.
+                </div>
+              </li>
+              <li class="width3 checkbtn"><label>
+                    <button class="btn  deletebtn" data-placement="top" ng-click="setDeleteData(d,$index)"
+                    title="Delete" style="width: 43px;height:30px;margin:3px;background-color: #222e4b;color: white;">Delete</button>
+              </label>
+              </li>
+
+            </ul>
+            <div class="btnlist">
+              <ul>
+                <li>
+                  <div><button type="button" class="bluebtn " ng-click="addRow();">ADD</button></div>
+                </li>
+                <li>
+                  <div><button type="submit" class="bluebtn" ng-click="postBudget(); clean(d)">Save</button></div>
+                </li>
+                <li>
+                  <div> <button type="button" class="bluebtn tablink " data-title="tab3" ng-click="tabToggle('3')">Next</button></div>
+              </ul>             
+            </div>
+          </div>
+        </form>
+      </div>
+
+
+      <div id="tab3" class="maintabsec ">
+        <div class="titles ">Fund Transfer to Executing Departments</div>
+        <form name="saved" novalidate>
+          <div class="white-box forms form2 notop">
+            <h3>Plan Details</h3>
+            <ul>
+              <li>
+                <div>
+                  <label>Plan No.<sup>*</sup></label>
+                  <input type="text" class="textfield" name="paln_no" value="" placeholder="Plan No." ng-model="form.planNo" ng-disabled="fte">
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Fin Year <sup>*</sup></label>
+                  <div>
+                    <input type="text" class="textfield" name="fine_year" value="" placeholder="Fin Year" ng-model="form.planFinYear" ng-disabled="fte">
+                  </div>
+                </div>
+              </li>
+              <li>
+                <label for="type">Account Type<sup>*</sup></label>
+                <div class="flexbox">
+                  <input type="text" class="textfield" id="bank2" name="bank2" value="" placeholder="Type" ng-model="form.planTypeCode" ng-disabled="fte">
+                  <input type="text" class="textfield" id="bank3" name="bank3" value="" placeholder="Description" ng-model="form.accdscr" ng-disabled="fte">
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Ref <sup>*</sup></label>
+                  <div>
+                    <input type="text" class="textfield" name="ref" value="" placeholder="Ref" ng-model="form.planRef" ng-disabled="fte">
+                  </div>
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Ref Date <sup>*</sup></label>
+                  <div>
+                    <input type="text" class="textfield datepicker" name="ref_date" value="" placeholder="Ref Date" ng-model="form.planRefDate" ng-disabled="fte">
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li class="smallsec">
+                <div>
+                  <label>Custodian Id</label>
+                  <div>
+                    <select class="dropdd" name="student_reg_no2" ng-model="form.costCenterId" ng-change="getCheckIdInFund(form.costCenterId)">
+                      <option value="">Select</option>
+                      <option ng-repeat="x in formData" value="{{x.costCentreId}}" >{{x.costCentreId}}-{{x.clgdscr}}</option>
+                    </select>
+                </div>
+                </div>
+              </li>
+              <li >
+                <div>
+                  <label>Custodian Type</label>
+                  <div  class="flexbox">
+                    <input type="text" class="textfield"  name="custodian_type1" value="" placeholder="Type" ng-model="form1.costCentreCode" ng-disabled="fte">
+                    <input type="text" class="textfield"  name="custodian_type1" value="" placeholder="Description"  ng-model="form1.costdscr" ng-disabled="fte">
+                  </div>
+                </div>
+              </li>
+              <li>
+                <label for="type">Department</label>
+                <div class="flexbox">
+                  <input type="text" class="textfield" id="department1" name="department1" value="" placeholder="Department" ng-model="form1.departmentCode" ng-disabled="fte">
+                  <input type="text" class="textfield" id="department2" name="department2" value="" placeholder="Description" ng-model="form1.dptdscr" ng-disabled="fte">
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>College</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield"  name="college1" value="" placeholder="College"  ng-model="form1.collegeCode" ng-disabled="fte">
+                    <input type="text" class="textfield"  name="college2" value="" placeholder="Description" ng-model="form1.clgdscr" ng-disabled="fte">
+                  </div>
+                </div>
+              </li>             
+            </ul>           
+            <ul>
+              <li  class="smallsec">
+                <div>
+                  <label>University</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield"  name="university1" value="" placeholder="University"   ng-model="form1.universityCode" ng-disabled="fte">
+                    <input type="text" class="textfield"  name="university2" value="" placeholder="Description" ng-model="form1.univerdscr" ng-disabled="fte">
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="title">Title<sup>*</sup></label>
+                  <input type="text" class="textfield" id="title" name="voucher" value="" placeholder="Title" ng-model="form.planTitle" ng-disabled="fte">
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li>
+                <div>
+                  <label>Plan Details <sup>*</sup></label>
+                  <textarea class="textfield" rows="2" name="paln_details" ng-model="form.planDetails" placeholder="Details" ng-disabled="fte">
+                </textarea>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class=" forms form2">
+            <h3>Custodian wise Fund Transfer Details</h3>
+            <ul class="addcol10">
+              <li>
+                <div>
+                  <label>Sl No<sup>*</sup></label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Transaction Id <sup>*</sup></label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Transfer Date <sup>*</sup></label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Allocation Fin Year<sup>*</sup></label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Approval Ref No.<sup>*</sup></label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Approval Date<sup>*</sup></label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Approval Authority<sup>*</sup></label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Capital Fund</label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Revenue Fund</label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Total<sup>*</sup></label>
+                </div>
+              </li>
+              <li class="checkbtn"> </li>
+            </ul>
+            <ul class="addcol10" ng-repeat="s in savefund" ng-model="savefund" >
+              <li class="width5">
+                <div>
+                <input type="text" class="textfield" name="sl_no" placeholder="Sl No."
+                                    value="{{$index+1}}"  ng-disabled="true" />
+
+                  <input type="hidden" class="textfield" value="{{s.transferSlNo}}" name="sl_no" placeholder="Sl No." ng-model="s.transferSlNo"  ng-disabled="true" />
+                </div>
+              </li>
+              <li ng-show="false">
+                <div class="flexbox">
+                  <input type="text" class="textfield" name="university_code" ng-model="s.costCentreId" ng-init="s.costCentreId = form.costCenterId" placeholder="">
+                   <input type="text" class="textfield" name="university_code" ng-model="s.planNo" ng-init="s.planNo = form.planNo" placeholder="">
+                  <input type="text" class="textfield" name="university_code" ng-model="s.planFinYear" ng-init="s.planFinYear = form.planFinYear" placeholder="">
+                  <input type="text" class="textfield" name="university_code" ng-model="s.planTypeCode" ng-init="s.planTypeCode = form.planTypeCode" placeholder="">
+                  <input type="text" class="textfield" name="university_code" ng-model="s.universityCode" ng-init="s.universityCode = form1.universityCode" placeholder="">
+                  <input type="text" class="textfield" name="college_code" ng-model="s.collegeCode" ng-init="s.collegeCode = form1.collegeCode" placeholder="">
+                  <input type="text" class="textfield" name="department" ng-model="s.departmentCode" ng-init="s.departmentCode = form1.departmentCode" placeholder="">
+
+                </div>
+              </li> 
+
+              <li>
+                <div>
+                  <input type="text" class="textfield" name="bankTransactionId" required value="" placeholder="Transaction Id"
+                    ng-model="s.bankTransactionId"/>
+                </div>
+                <div class="error" ng-show="saved.bankTransactionId.$error.required && saved.bankTransactionId.$touched">
+                  This field is required.
+                </div>
+              </li>
+              <li>
+                <div>
+                  <input type="text" class="textfield datepicker" datepicker name="transferDate" value="" required placeholder="DD-MM-YYYY"
+                    ng-model="s.transferDate" ng-change="calFundFinYear(s.transferDate,$index)"/>
+                </div>
+                <div class="error" ng-show="saved.transferDate.$error.required && saved.transferDate.$touched">
+                  This field is required.
+                </div>
+              </li>
+              <li>
+                <div>
+                  <input type="text" class="textfield" name="allocationFinYear" value="" placeholder="Fin Year" required
+                    ng-model="s.allocationFinYear" disabled/>
+                </div>
+                <div class="error" ng-show="saved.allocationFinYear.$error.required && saved.allocationFinYear.$touched">
+                  This field is required.
+                </div>
+              </li>
+              <li>
+                <div>
+                  <input type="text" class="textfield" name="approvalRefNo" value="" placeholder="Approval Ref. No"
+                    ng-model="s.approvalRefNo" ng-pattern="/^[a-zA-Z0-9/ ]*$/" required>
+                </div>
+                <div class="error" ng-show="saved.approvalRefNo.$error.required && saved.approvalRefNo.$touched">
+                  This field is required.
+                </div><div class="error" ng-show="saved.approvalRefNo.$error.pattern">
+                  Only Alphanumeric and / Allowed.
+                </div>
+              </li>
+              <li>
+                <div>
+                  <input type="text" class="textfield datepicker" datepicker name="approvalDate" value="" placeholder="Approval Date"
+                    ng-model="s.approvalDate"  >
+                </div>
+              </li>
+              <li>
+                <div>
+                  <input type="text" class="textfield" name="approvingAuthority" value="" placeholder="Approving Authority"
+                    ng-model="s.approvingAuthority" required ng-pattern="/^[a-zA-Z ]*$/">
+                </div>
+                <div class="error" ng-show="saved.approvingAuthority.$error.required && saved.approvingAuthority.$touched">
+                  This field is required.
+                </div>
+                  <div class="error" ng-show="saved.approvingAuthority.$error.pattern">
+                    Only Alphabeticlly Allowed.
+                  </div>
+              </li>
+              <li>
+                <div>
+                  <input type="text" class="textfield" name="capital_fund" value="" placeholder="Capital Fund"
+                    ng-model="s.capitalTransfer" style="text-align: right;"/>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <input type="text" class="textfield" name="revenue_fund" value="" placeholder="Revenue Fund"
+                    ng-model="s.revenueTransfer" ng-change="calculatefund(s.capitalTransfer,s.revenueTransfer,$index)" style="text-align: right;"/>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <input type="text" class="textfield" name="totalFundTransfer" value=""  required  placeholder="Total"
+                    ng-model="s.totalFundTransfer" style="text-align: right;"/>
+                </div>
+                <div class="error" ng-show="saved.totalFundTransfer.$error.required && saved.totalFundTransfer.$touched">
+                  This field is required.
+                </div>
+              </li>             
+               <li><button class="btn  deletebtn" data-placement="top" ng-click="setDeleteData1(s,$index)"
+                    title="Delete" style="width: 43px;height:30px;margin:3px;background-color: #222e4b;color: white;">Delete</button></li> 
+            </ul>   
+            <div ng-show="showSuccess2" class="success-message">Data Posted Successfully!</div>        
+            <div class="btnlist">
+              <ul>
+                <li>
+                  <div><button type="button" class="bluebtn" ng-click="addNewRow()">ADD</button></div>
+                </li>
+                <li>
+                  <div><button type="submit" class="bluebtn" ng-click="postFund(); cleanFund(s)">Save</button></div>
+                </li>
+                <li>
+                  <div><button type="submit" class="bluebtn" ng-click="handleLink('project-plan-custodians-details')">Submit</button></div>
+                </li>
+              </ul>             
+            </div>
+
+          </div>
+        </form>
+      </div> 
+ 
+
+    <!-- Delete Modal -->
+    <div class="modal" id="deleteConfirmationModal"  role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="formsec nobg">
+              <h4 class="modal-title text-center"> Are you sure, you want to delete this data?
+              </h4>
+            </div>
+            <div class="text-center">
+              <button type="button" class="btn bluebtn " style="padding: 5px;width:70px;color: beige;"
+                data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn bluebtn" style="padding: 5px;width:70px;color: beige;"
+                ng-click="deleteCostIdOfBudget(deleteDataModel.planNo,deleteDataModel.planFinYear,deleteDataModel.planTypeCode,deleteDataModel.costCentreId,deleteDataModel.allocationId)">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="deleteConfirmationModal1"  role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="formsec nobg">
+              <h4 class="modal-title text-center"> Are you sure, you want to delete this data?
+              </h4>
+            </div>
+            <div class="text-center">
+              <button type="button" class="btn bluebtn " style="padding: 5px;width:70px;color: beige;"
+                data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn bluebtn" style="padding: 5px;width:70px;color: beige;"
+                ng-click="deleteCostIdOfFund(deleteDataModel.planNo,deleteDataModel.planFinYear,deleteDataModel.planTypeCode,deleteDataModel.costCentreId,deleteDataModel.transferSlNo,index)">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="deleteConfirmationModal2"  role="dialog" data-backdrop="static">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="formsec nobg">
+              <h4 class="modal-title text-center"> Are you sure, you want to delete this data?
+              </h4>
+            </div>
+            <div class="text-center">
+              <button type="button" class="btn bluebtn " style="padding: 5px;width:70px;color: beige;"
+                data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn bluebtn" style="padding: 5px;width:70px;color: beige;"
+                ng-click="deleteCostId(deleteDataModel.costCentreId)">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </section>

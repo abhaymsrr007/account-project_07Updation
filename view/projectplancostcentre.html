@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Plan Cost Centre</title>
+  
+    <link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap"
+      rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <!-- <script src="js/bootstrap.min.js"></script>-->
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/linked.js"></script>
+
+    <title>form</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+    <style>
+        .s1 {
+            width: 40%;
+        }
+
+        .forms label {
+            line-height: 2.2;
+        }
+        .s2{
+            margin-left: 10px; width: 13%;
+        }
+    </style>
+</head>
+
+<body  ng-controller="contr">
+    <header class="topheading">
+      <div class="logo">
+        <img src="images/nrt-logo.svg" alt="" />
+      </div>
+      <a class="btn bluebtn" ng-click="goBack()">Back</a>
+      <a class="userlogin" ng-click="logout()">{{details.name}} <span><img src="https://exam.skmu.ac.in/ftpwebapps/skmu/resources/studentdata/users/profileimage/{{details.profile_image}}" alt="student" /></span></a>
+        
+    </header>
+    <section class="formsec">
+        <div class="container">
+            <div class="titles">{{subbreadcrumb}}</div>Project Plan Cost Centre</div>
+            <form  ng-submit="save()">
+                <div class="white-box forms  notop">
+                    <ul>
+                        <li>
+              <div>
+
+                <label for="costCentreId">Cost Centre Id</label>
+                            <input type="text" class="textfield uppercase" ng-model="form.costCentreId"
+                                id="costCentreId" placeholder="Cost Centre Id" ng-disabled="flag" maxlength="5"
+                                required/>
+              </div>
+            </li>
+            <li>
+              <div>
+
+                <label for="planNo">Plan No</label>
+                            <select ng-model="form.planNo" class="dropdd" required>
+                                <option value="" disabled selected> Select </option>
+                                <option ng-repeat="x in ProjectPlan" value="{{x.planNo}}">{{x.planNo}}
+                                   
+                                </option>
+                            </select>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label for="planFinYear">Plan Fin Year</label>
+                        <select ng-model="form.planFinYear" class="dropdd" required>
+                            <option value="" disabled selected> Select Plan Fin Year</option>
+                            <option ng-repeat="x in ProjectPlan" value="{{x.planFinYear}}">{{x.planFinYear}}
+                            </option>
+                        </select>
+                
+          </div>
+        </li>
+            <li>
+              <div>
+
+                 <label for="planTypeCode">Plan Type Code</label>
+                        <select ng-model="form.planTypeCode" class="dropdd" required>
+                            <option value="" disabled selected> Select </option>
+                            <option ng-repeat="x in ProjectPlan" value="{{x.planTypeCode}}">{{x.planTypeCode}} 
+                                
+                            </option>
+                        </select>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label for="costCentreCode">Cost Centre Code</label>
+                          <select ng-model="form.costCentreCode" class="dropdd" required>
+                            <option value="" disabled selected>Cost Centre Code</option>
+                            <option ng-repeat="x in CostCentre" value="{{x.costCentreCode}}">
+                              {{x.costCentreCode}} - {{x.dscr}} 
+                            </option>
+                          </select>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label for="departmentCode">Department Code</label>
+                          <select ng-model="form.departmentCode" class="dropdd" only-numbers required>
+                            <option value="" disabled selected>Department Code</option>
+                            <option ng-repeat="x in Department" value="{{x.departmentCode}}">
+                              {{x.departmentCode}} - {{x.dscr}}
+                            </option>
+                          </select>
+              </div>
+            </li>
+            <li>
+              <div>
+                 <label for="operative">university Code</label>
+                                    <select ng-model="form.universityCode" class="dropdd" only-numbers required>
+                                        <option value="" disabled selected> Select </option>
+                                        <option ng-repeat="x in UniData" value="{{x.universityCode}}">{{x.universityCode}} -
+                                            {{x.dscr}} </option>
+                                     </select>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label for="bankAccountNo">Bank account No</label>
+                                    <select ng-model="form.bankAccountNo" class="dropdd" only-numbers required>
+                                        <option value="" disabled selected> Bank account No </option>
+                                        <option ng-repeat="x in BankAccount" value="{{x.bankAccountNo}}">{{x.bankAccountNo}} -
+                                            {{x.dscr}}
+                                        </option>
+                                     </select>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label for="bankCode">Bank Code</label>
+                          <select ng-model="form.bankCode" class="dropdd" only-numbers required>
+                              <option value="" disabled selected> Select </option>
+                              <option ng-repeat="x in Bank" value="{{x.bankCode}}">{{x.bankCode}} - {{x.dscr}}
+                              </option>
+                          </select>
+              </div>
+            </li>
+			<li>
+              <div>
+               <label>Schedule Start Date<sup>*</sup></label>
+                          <input type="text" class="textfield datepicker" autocomplete="off" name="scheduledStartDate" value="" placeholder="Schedule Start Date"
+                            ng-model="form.scheduledStartDate" required />
+              </div>
+            </li>
+            <li>
+              <div>
+                 <label>Schedule Completion Date<sup>*</sup></label>
+                          <input type="text" class="textfield datepicker " autocomplete="off" name="scheduledCompletionDate" value=""
+                            placeholder="Schedule Completion Date" ng-model="form.scheduledCompletionDate" required />
+              </div>
+            </li>
+
+            <li>
+              <div>
+                <label>Actual Start Date</label>
+                          <input type="text" class="textfield datepicker " name="actualStartDate" autocomplete="off" value="" placeholder="Actual Start Date"
+                            ng-model="form.actualStartDate" />
+              </div>
+            </li>
+            <li>
+              <div>
+               <label>Actual Completion Date<sup>*</sup></label>
+                          <input type="text" class="textfield datepicker " autocomplete="off" name="actualCompletionDate" value=""
+                            placeholder="Actual Completion Date" ng-model="form.actualCompletionDate" required />
+              </div>
+            </li>
+            <li>
+              <div>
+                <label for="executingAuthority">Executing Authority<sup>*</sup></label>
+                          <select ng-model="form.executingAuthority" class="dropdd" only-numbers required>
+                            <option value="" disabled selected>Executing Authority</option>
+                            <option ng-repeat="x in Employee" value="{{x.staffNo}}">
+                              {{x.staffNo}}
+                            </option>
+                          </select>
+              </div>
+            </li>
+            <li>
+              <div>
+                 <label>Approval Reference No<sup>*</sup></label>
+                      <input type="text" class="textfield " name="approvalRefNo" only-numbers value="" placeholder="Approval Reference No"
+                        ng-model="form.approvalRefNo" required />
+              </div>
+            </li>
+           <li>
+              <div>
+                <label>Approving Authority<sup>*</sup></label>
+                    <input type="text" class="textfield " name="approvingAuthority" value="" placeholder="Approving Authority" ng-model="form.approvingAuthority" required />
+             </div>
+          </li>
+          <li>
+              <div>
+                <label>Approval Date<sup>*</sup></label>
+                      <input type="text" class="textfield datepicker " autocomplete="off" name="approvalDate" value=""
+                        placeholder="Approval Date" ng-model="form.approvalDate" required />
+             </div>
+          </li>
+         
+            
+            <li>
+              <div>
+                <button type="submit" class="bluebtn" style="margin-top: 28px;"  ng-click="save()">Submit</button>
+              </div>
+            </li>
+                    </ul>
+                </div>
+            </form>
+            <div class="white-box " style="overflow-x: auto;">
+
+                <table class="table table-bordered text-center regtable table-condensed">
+          <thead>
+            <tr>
+			  <th style="text-align: center;" width="80">Cost Centre Id</th>
+              <th style="text-align: center;" width="80">Plan No</th>
+              <th style="text-align: center;" width="80">Plan Fin Year</th>
+              <th style="text-align: center;" width="80">Plan Type Code</th>
+			  <th style="text-align: center;" width="80">Cost Centre Code</th>
+              <th style="text-align: center;" width="200">Cost Centre Description</th>
+			  <th style="text-align: center;" width="80">Department Code</th>
+              <th style="text-align: center" width="400">Department Description</th>
+              <th style="text-align: center;" width="80">College Code</th>
+              <th style="text-align: center" width="400">College Description</th>
+              <th style="text-align: center;" width="80">University code</th>
+              <th style="text-align: center" width="400">University Description</th> 
+              <th style="text-align: center;" width="80">Bank account No</th>
+              <th style="text-align: center;" width="80">Bank account Description</th>
+              <th style="text-align: center;" width="80">Bank Code</th>
+              <th style="text-align: center;" width="80">Bank Description</th>
+			  <th style="text-align: center;" width="80">Scheduled Start Date</th>
+              <th style="text-align: center;" width="80">Scheduled Completion Date</th>
+              <th style="text-align: center;" width="80">Actual Start Date</th>
+              <th style="text-align: center;" width="200">Actual Completion Date</th>
+              <th style="text-align: center;" width="80">Executing Authority</th>
+              <th style="text-align: center;" width="100">Approval Reference No</th>
+              <th style="text-align: center;" width="100">Approving Authority</th>
+              <th style="text-align: center;" width="200">Approval Date</th>
+              
+              <th style="text-align: center;" width="200">Action</th>
+            </tr>
+          </thead>
+                  <tbody>
+                    <tr ng-repeat="n in data" class="tdcolor">
+                        <td ng-bind="n.costCentreId | uppercase" ng-disabled="flag"> </td>
+                        <td ng-bind="n.planNo"></td>
+                        <td ng-bind="n.planFinYear"></td>
+                        <td ng-bind="n.planTypeCode"></td>
+                        <td ng-bind="n.costCentreCode"></td>
+                        <td ng-bind="getcostCentreDscr(CostCentre,n.costCentreCode) | uppercase"> </td>
+                        <td ng-bind="n.departmentCode" > </td>
+                        <td ng-bind="getdptDscr(Department,n.departmentCode) | uppercase"> </td>
+                        <td ng-bind="n.collegeCode" > </td>
+                        <td ng-bind="getcllgDscr(ClgData,n.collegeCode) | uppercase"> </td>
+                        <td ng-bind="n.universityCode" > </td>
+                        <td ng-bind="getUniDscr(UniData,n.universityCode) | uppercase"> </td>
+                        <td ng-bind="n.bankAccountNo"> </td>
+                        <td ng-bind="getBankAccountDscr(BankAccount,n.bankAccountNo) | uppercase"> </td>
+                        <td ng-bind="n.bankCode"> </td>
+                        <td ng-bind="getBankDscr(Bank,n.bankCode) | uppercase"> </td>
+                        <td ng-bind="n.scheduledStartDate"></td>
+                        <td ng-bind="n.scheduledCompletionDate"></td>
+                        <td ng-bind="n.actualStartDate"></td>
+                        <td ng-bind="n.actualCompletionDate"></td>
+                        <td ng-bind="n.executingAuthority"></td>
+                        <td ng-bind="n.approvalRefNo"> </td>
+                        <td ng-bind="n.approvingAuthority"> </td>
+                        <td ng-bind="n.approvalDate"> </td>
+              
+              <td><button class="btn btn-primary" ng-click="edit(n)">Edit</button> </td>
+            </tr>
+          
+          
+                  </tbody>
+                </table>
+        </div>
+    </section>
+     <footer class="footerbg footerdown">
+    © 2023 All Rights Reserved.
+  </footer>
+
+  <link rel='stylesheet' type='text/css' href='css/bootstrap-datepicker.min.css'>
+  <script type='text/javascript' src='js/bootstrap-datepicker.min.js'></script>
+  <script type="text/javascript">
+    $('.datepicker').datepicker({
+      format: "yyyy-MM-dd",
+      startDate: new Date('1900-7-15'),
+      endDate: new Date('3022-8-15')
+    }); 
+  </script>
+
+   <script>
+        
+
+        app.controller('contr', function ($scope, $http, $timeout, $window, $rootScope, $filter) {
+            $scope.form = {};
+            $scope.flag = false;
+
+            $scope.details=[];
+            var token;
+            const userDetailsJSON = $window.sessionStorage.getItem('userDetails');
+            if (userDetailsJSON) {
+            const userDetails = JSON.parse(userDetailsJSON);
+            if (userDetails.token!=null || userDetails.token!=''){
+                $scope.details=angular.copy(userDetails);
+                token=$scope.details.token;
+            }
+            } else {
+            $window.location.href = "index.html";
+            console.log('User details not found in sessionStorage');
+            }
+            $scope.logout = function() {
+            $window.sessionStorage.removeItem('userDetails');
+            $window.location.href = 'index.html';
+            };
+
+            var config = {
+            headers: {
+           'Authorization': 'Bearer ' + token
+               },   
+            };
+
+            // saving data to Project Plan Cost Centre Cost Centre table 
+            $scope.save = function () {
+                console.log($scope.form);
+                $http.post(path+"/api/v1/account/costCentre/data", $scope.form,config)
+                    .then(function successCallback(response) {
+                        $scope.form = {};
+                        $scope.getdata()
+                    },
+                        function errorCallback(response) {
+                            console.log("saving of data failed");
+                        });
+            }
+
+            //Fetching of data from table 
+            $scope.getdata = function () {
+                $http.get(path+"/api/v1/account/costCentre/alldata",config)
+                    .then(function successCallback(response) {
+                        $scope.data = response.data;
+                        console.log($scope.data)
+                    },
+                        function errorCallback(response) {
+                            console.log("saving of data failed");
+                        });
+
+            }
+            $scope.getdata();
+
+
+            // Fetching data from  table 
+            $scope.ProjectPlan = [];
+            $scope.getProjectPlan = function () {
+                $http.get(path+"/api/v1/account/projectPlan/alldata",config)
+                    .then(function successCallback(response) {
+                        $scope.ProjectPlan = response.data;
+                        console.log("Data 2", $scope.ProjectPlan)
+                    },
+                        function errorCallback(response) {
+                            console.log("Fetching of data failed from Project Plan Cost Centre table ");
+                        });
+
+
+            }
+            $scope.getProjectPlan();
+
+
+$scope.Department = [];
+$scope.getDepartment = function () {
+$http.get(path+"/api/v1/account/department",config)
+.then(function (response) {
+ $scope.Department = response.data;
+   console.log("Department", response.data);
+    
+ });
+ 
+};
+$scope.getDepartment();
+
+$scope.ClgData = [];
+$scope.getCollege = function () {
+$http.get(path+"/api/v1/account/college",config)
+.then(function (response) {
+ $scope.ClgData = response.data;
+   console.log("ClgData", response.data);
+    
+ });
+ 
+};
+$scope.getCollege();
+
+$scope.UniData = [];
+$scope.getUniversity = function () {
+$http.get(path+"/api/v1/account/university",config)
+.then(function (response) {
+ $scope.UniData = response.data;
+   console.log("UniData", response.data);
+    
+ });
+ 
+};
+$scope.getUniversity();
+
+
+
+$scope.CostCentre = [];
+$scope.getCostCentre = function () {
+  $http.get(path+"/api/v1/account/cost",config)
+    .then(function (response) {
+      $scope.CostCentre = response.data;
+      console.log("CostCentre", response.data);
+
+    });
+
+};
+$scope.getCostCentre();
+
+
+ $scope.Employee = [];
+$scope.getEmployee = function () {
+  $http.get(path+"/api/v1/account/employee/alldata",config)
+    .then(function (response) {
+      $scope.Employee = response.data;
+      console.log("Employee", response.data);
+
+    });
+
+};
+$scope.getEmployee();
+
+$scope.BankAccount = [];
+$scope.getBankAccount = function () {
+  $http.get(path+"/api/v1/account/bankacc",config)
+    .then(function (response) {
+      $scope.BankAccount = response.data;
+      console.log("BankAccount", response.data);
+
+    });
+
+};
+$scope.getBankAccount();
+
+
+$scope.Bank = [];
+$scope.getBank = function () {
+  $http.get(path+"/api/v1/account/bank",config)
+    .then(function (response) {
+      $scope.Bank = response.data;
+      console.log("Bank", response.data);
+
+    });
+
+};
+$scope.getBank();
+
+ //to fetch the University description from Table
+
+ $scope.getUniDscr = function (n, universityCode) {
+               // console.log("University", n, universityCode);
+                var dscr = null;
+                for (var i = 0; i < n.length; i++) {
+                    var row = n[i];
+                    console.log(row, i);
+                    if (row.universityCode === universityCode) {
+                       // console.log(row.dscr);
+                        dscr = row.dscr;
+                        break; // Exit the loop if a match is found
+                    }
+                }
+            
+                return dscr;
+            };
+
+           
+
+            $scope.getcllgDscr = function (n, collegeCode) {
+                //console.log("data2", n, collegeCode);
+                var dscr = null;
+                for (var i = 0; i < n.length; i++) {
+                    var row = n[i];
+                   // console.log(row, i);
+                    if (row.collegeCode === collegeCode) {
+                       // console.log(row.dscr);
+                        dscr = row.dscr;
+                        break; // Exit the loop if a match is found
+                    }
+                }
+                return dscr;
+            };
+
+            $scope.getdptDscr = function (n, departmentCode) {
+                //console.log("department Data", n, departmentCode);
+                var dscr = null;
+                for (var i = 0; i < n.length; i++) {
+                    var row = n[i];
+                   // console.log(row, i);
+                    if (row.departmentCode === departmentCode) {
+                       // console.log(row.dscr);
+                        dscr = row.dscr;
+                        break; // Exit the loop if a match is found
+                    }
+                }
+                return dscr;
+            };
+            $scope.getcostCentreDscr = function (n, costCentreCode) {
+                //console.log("Caste Data", n, costCentreCode);
+                var dscr = null;
+                for (var i = 0; i < n.length; i++) {
+                    var row = n[i];
+                    //console.log(row, i);
+                    if (row.costCentreCode === costCentreCode) {
+                        //console.log(row.dscr);
+                        dscr = row.dscr;
+                        break; // Exit the loop if a match is found
+                    }
+                }
+                return dscr;
+            };
+
+            $scope.getBankAccountDscr = function (n, bankAccountNo) {
+               
+               var dscr = null;
+               for (var i = 0; i < n.length; i++) {
+                   var row = n[i];
+                   //console.log(row, i);
+                   if (row.bankAccountNo === bankAccountNo) {
+                      // console.log(row.dscr);
+                       dscr = row.dscr;
+                       break; // Exit the loop if a match is found
+                   }
+               }
+               return dscr;
+           };
+
+           $scope.getBankDscr = function (n, bankCode) {
+               
+               var dscr = null;
+               for (var i = 0; i < n.length; i++) {
+                   var row = n[i];
+                   //console.log(row, i);
+                   if (row.bankCode === bankCode) {
+                      // console.log(row.dscr);
+                       dscr = row.dscr;
+                       break; // Exit the loop if a match is found
+                   }
+               }
+               return dscr;
+           };
+
+
+            
+            // To edit the data 
+            $scope.edit = function edit(n) {
+                $scope.flag = true;
+
+                console.log($scope.form)
+                $scope.form = {
+                    costCentreId: n.costCentreId,
+                    planNo: n.planNo.toString(),
+                    planFinYear: n.planFinYear.toString(),
+                    planTypeCode: n.planTypeCode.toString(),       
+                    costCentreCode: n.costCentreCode.toString(),
+                    departmentCode: n.departmentCode.toString(),
+                    collegeCode: n.collegeCode.toString(),
+                    universityCode: n.universityCode.toString(),
+                    bankAccountNo: n.bankAccountNo.toString(),
+                    bankCode: n.bankCode.toString(),
+                    scheduledStartDate: n.scheduledStartDate,
+                    scheduledCompletionDate: n.scheduledCompletionDate,
+                    actualStartDate: n.actualStartDate,
+                    actualCompletionDate: n.actualCompletionDate, 
+                    executingAuthority: n.executingAuthority,
+                    approvalRefNo: n.approvalRefNo,
+                    approvingAuthority: n.approvingAuthority,
+                    approvalDate: n.approvalDate,
+                   
+                    
+                }
+                 console.log($scope.form)
+
+            };
+
+
+            //To update the data and save the data back to the table 
+            $scope.update = function () {
+
+                var data = $scope.form;
+                var sl = data.costCentreId;
+                var url = path+'/api/v1/account/costCentre/data/{id}' + sl;
+                $http.put(url, data,config)
+                    .then(function successCallback(response) {
+
+                        $scope.getdata()
+                        $scope.form = {};
+
+                    },
+                        function errorCallback(response) {
+                            console.log("updating of data failed  ");
+                        });
+            }
+                      $scope.goBack = function () {
+                      window.history.back();
+                    }
+        })
+
+    </script>
+</body>
+
+</html>

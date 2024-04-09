@@ -1,0 +1,767 @@
+<style>
+  .custom-select {
+    width: 125px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #dae7fb;
+    color: #333;
+    font-size: 14px;
+  }
+
+  .custom-select option {
+    font-size: 14px;
+    background-color: #ffffff;
+    color: #333;
+  }
+
+  .forms ul.column11 li:nth-child(7),
+  .forms ul.column11 li:nth-child(8),
+  .forms ul.column11 li:nth-child(9),
+  .forms ul.column11 li:nth-child(10) {
+    min-width: 10%;
+    max-width: 10%;
+  }
+
+  .forms ul.column11 li {
+    max-width: 9%;
+  }
+
+  .flexwidthsec {
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .forms ul.column11.totalsec li:first-child {
+    min-width: 60%;
+  }
+
+  .forms ul.column11.totalsec li:nth-child(2),
+  .forms ul.column11.totalsec li:nth-child(3),
+  .forms ul.column11 li:last-child {
+    min-width: 10%;
+    max-width: 10%;
+  }
+
+  .forms ul.column11 li:last-child .bluebtn {
+    padding: 4px 8px;
+  }
+
+  .popup-container {
+    position: relative;
+  }
+
+  .textfield {
+    width: 100%;
+  }
+
+  .popup {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    z-index: 1;
+  }
+
+  .popup-container:hover .popup {
+    display: block;
+  }
+  .error{
+    color: red;
+    font-size: 13px;
+  }
+</style>
+<section class="formsec" ng-controller="jourVouCtrl">
+  <div class="container">
+    <div class="titles text-center"> Journel Voucher </div>
+    <form name="form">
+      <div class="white-box forms notop">
+        <div>
+          <h4 style="text-align: end;">
+            <a class="bluebtn btn"  ng-click="goToDataLstRollWise()">Journal Voucher List</a>
+          </h4>
+        </div>
+        <ul>
+          <li>
+            <div>
+              <label>Voucher Id<sup>*</sup></label>
+              <input type="text" class="textfield" name="JvId" value="" ng-model="form.jvId" placeholder="Voucher Id" ng-disabled="jvd"  />
+            </div>
+          </li>
+          <li>
+            <div>
+              <label>Id Date<sup>*</sup></label>
+              <input type="text" class="textfield datepicker" datepicker name="Jvdate" value="" ng-model="form.jvIdDate"
+                placeholder="Id Date" ng-change="calculateFinYear(form.jvIdDate)" ng-disabled="field" required />
+            </div>
+            <div class="error" ng-show="form.Jvdate.$error.required && form.Jvdate.$touched">
+              This field is required.
+            </div>
+          </li>
+          <li>
+            <div>
+              <label>Fin Year<sup>*</sup></label>
+              <input type="text" class="textfield " name="fin_year" value="" placeholder="Fin Year" ng-model="form.jvFinYear"
+              ng-disabled="jvd"  maxlength="9" />
+            </div>
+          </li>
+          <li>
+            <div>
+              <label>Voucher No.</label>
+              <input type="text" class="textfield" name="voucherno" value="" placeholder="Voucher No." ng-model="form.jvNo"
+               ng-disabled="jvd" ng-pattern="/^[a-zA-Z0-9]*$/" maxlength="20"/>
+            </div>
+            <div class="error" ng-show="form.voucherno.$error.pattern">
+              Please enter Alphnumeric Only.
+            </div>
+          </li>
+          <li>
+            <div>
+              <label>Voucher Date</label>
+              <input type="text" class="textfield datepicker" name="voucher_date" value="" placeholder="Voucher date"
+                ng-model="form.jvDate" ng-disabled="true" />
+            </div>
+          </li>
+          <li>
+            <div>
+              <label>Status<sup>*</sup></label>
+              <select class="dropdd" ng-model="form.voucherStatusCode" ng-init="form.voucherStatusCode = 'U'">
+                <option value="">Select</option>
+                <option ng-repeat="x in statusdata" ng-show="isOptionVisible(x.voucherStatusCode)" value={{x.voucherStatusCode}} selected> {{x.dscr}}</option>
+              </select> 
+              <!-- <div class="error" ng-show="form.voucherStatusCode.$error.required && form.voucherStatusCode.$touched">
+                This field is required.
+              </div> -->
+              <!-- <select ng-model="form.voucherStatusCode" class="dropdd" ng-init="form.voucherStatusCode = 'U'">
+                              <option value="U">U - Under Processing</option>
+                              <option value="F">F - Final</option>
+                              <option value="R">R - Return</option>
+                              <option value="C">C - Cancelled</option>
+                              <option value="P">P - Processed</option> 
+                              <option value="A">A - Approved</option>
+                            </select>  -->
+            </div>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <div class="flexbox">
+              <label>Narration<sup>*</sup></label>
+              <input type="text" class="textfield" name="naration" value="" placeholder="Narration" ng-model="form.narration"
+                ng-disabled="field"  ng-pattern="/^[a-zA-Z0-9 ]*$/" required maxlength="250"/>
+            </div>
+            <div class="error" ng-show="form.naration.$error.required && form.naration.$touched">
+              This field is required.
+            </div>
+            <div class="error" ng-show="form.naration.$error.pattern">
+              Please enter Alphnumeric Only.
+            </div>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <div>
+              <label>Assistant<sup>*</sup></label>
+              <div class="flexbox">
+                <input type="text" class="textfield" name="id" value="" ng-model="details.asssistantStaffNo"
+                  ng-disabled="jvd" placeholder="Code" />
+                <input type="text" class="textfield" name="name" value="" ng-model="details.assname"
+                  ng-disabled="jvd" placeholder="Name"/>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label>Manager </label>
+              <div class="flexbox">
+                <input type="text" class="textfield" name="id" value=""  ng-model="details.managerStaffNo"
+                  ng-disabled="jvd" placeholder="code"/>
+                <input type="text" class="textfield" name="name" value=""  ng-model="details.managerName"
+                  ng-disabled="jvd" placeholder="Name" />
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label>Accountant</label>
+              <div class="flexbox">
+                <input type="text" class="textfield" name="id" value=""  ng-model="details.mgrcaStaffNo"
+                 ng-disabled="jvd" placeholder="Code"/>
+                <input type="text" class="textfield" name="name" value=""  ng-model="details.mgrcaName"
+                 ng-disabled="jvd" placeholder="Name"/>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label>Voucher Passed Date</label>
+              <input type="text" class="textfield datepicker" datepicker value="" placeholder="DD-MM-YYYY" ng-model="form.datePassed"
+                ng-disabled="field" />
+            </div>
+          </li>
+        </ul>
+        <div class="btnlist">
+          <ul>
+            <li>
+              <div><button type="button" class="bluebtn" ng-click="savetry(form)">Save</button></div>
+            </li>
+            <!-- <li><div class="btncenter"><button type="submit" class="bluebtn">SUBMIT</button></div></li>  -->
+          </ul>
+        </div>
+
+
+      </div>
+
+      <div class="white-box forms notop">
+        <div class="titles text-center">JOURNAL VOUCHER DETAILS</div>
+        <div class="recordlist">
+          <div class="white-box forms ">
+            <ul class="column11">
+              <li class="width5">
+                <div>
+                  <label for="slno">Slno<sup>*</sup></label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="type">Type</label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="venderCode">Vendor Code</label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="employeeNo">Employee No</label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="studentRegNo">student Reg No</label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="accountNo">account Code<sup>*</sup></label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="accountDescription=">Account Descr</label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="debitAmount">Debit Amount</label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="creditAmount">Credit Amount</label>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label for="remarks">Remarks</label>
+                </div>
+              </li>
+              <li></li>
+              <!-- <li><label>&nbsp;</label><div class="flexbox"><a class="bluebtn detailsbtn" data-toggle="modal" data-target="#details">Details</a> <label><input type="checkbox" name="delete" class="checksec" /></label></div></li> -->
+            </ul>
+          </div>
+          <ul class="column11" ng-repeat="x in journalData">
+            <li class="width5">
+              <div>
+                <input type="text" class="textfield" name="jvDetSlno" placeholder="" value="{{$index+1}}"
+                  ng-model="x.jvDetSlno" ng-init="x.jvDetSlno = $index + 1" disabled ng-disabled="field" />
+                <!-- <input type="text" class="textfield" name="jvDetSlno"   placeholder=""  ng-model="x.jvDetSlno"  disabled/> -->
+
+              </div>
+              <div ng-hide="true">
+                <input type="text" class="textfield" name="jvDetSlno" value="" placeholder="" ng-model="x.jvDetSlno"
+                  disabled ng-disabled="field" />
+              </div>
+            </li>        
+            <li>
+              <div>
+                <select class="dropdd" name="type" ng-model="x.txIndivTypeCode" titles="Select"
+                  ng-change="fieldDisable(x,$index)" ng-disabled="field">
+                  <option value=""  selected>Select</option>
+                  <option ng-repeat="i in paydata" value={{i.payToTypeCode}} ng-show="x.txIndivTypeCode != i.payToTypeCode">{{i.dscr}} {{x.txIndivTypeCode != i.payToTypeCode ? ' - '+i.payToTypeCode:''}}</option>
+                  <!-- <option value={{i.payToTypeCode}} ng-repeat="i in paydata">{{i.dscr}}</option> -->
+                </select>
+              </div>
+            </li>
+            <li>
+              <div class="popup-container">
+                <select class="dropdd" name="vender_code" ng-model="x.vendorCode" ng-disabled="flag1 || hideFlag"
+                  ng-mouseover="togglePopup(true)" ng-mouseleave="togglePopup(false)" ng-disabled="field">
+                  <option value="" selected >Select</option>
+                  <option ng-repeat="i in supplierdata" value={{i.vendorCode}} ng-show="x.vendorCode != i.vendorCode">{{i.fullName}} {{x.vendorCode != i.vendorCode ? ' - '+i.vendorCode:''}}</option>
+                  <!-- <option ng-value="i.vendorCode" ng-repeat="i in supplierdata">{{i.vendorCode}}-{{i.fullName}}</option> -->
+                </select>
+                <div class="popup" ng-show="isPopupVisible">
+                  {{ x.vendorCode }}
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="popup-container">
+                <select class="dropdd" name="employee_no" ng-model="x.staffNo" ng-disabled="flag2 || hideFlag"
+                  ng-mouseover="togglePopup(true)" ng-mouseleave="togglePopup(false)" ng-disabled="field">
+                  <option value="">Select</option>
+                  <option ng-repeat="i in empdata" value={{i.staffNo}} ng-show="x.staffNo != i.staffNo">{{i.firstName}} {{x.staffNo != i.staffNo ? ' - '+i.staffNo:''}}</option>
+                  <!-- <option ng-value="i.staffNo" ng-repeat="i in empdata">{{i.staffNo}}-{{i.firstName}}</option> -->
+                </select>
+                <div class="popup" ng-show="isPopupVisible">
+                  {{ x.staffNo }}
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="popup-container">
+                <select class="dropdd" name="student_reg_no" ng-model="x.univRegistrationNo"
+                  ng-disabled="flag3 || hideFlag" ng-mouseover="togglePopup(true)" ng-mouseleave="togglePopup(false)"
+                  ng-disabled="field">
+                  <option value="">Select</option>
+                  <option ng-repeat="i in studentdata" value={{i.univRegistrationNo}} ng-show="x.univRegistrationNo != i.univRegistrationNo">{{i.firstName}} {{x.univRegistrationNo != i.univRegistrationNo ? ' - '+i.univRegistrationNo:''}}</option>
+                  <!-- <option ng-value="i.univRegistrationNo" ng-repeat="i in studentdata"> {{i.univRegistrationNo}}-{{i.firstName}}</option> -->
+                </select>
+                <div class="popup" ng-show="isPopupVisible">
+                  {{ x.univRegistrationNo }}
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div>
+                <select class="dropdd" name="account_no" ng-model="x.accountCode"
+                  ng-change="getAccIdData(x.accountCode,$index)" ng-disabled="field">
+                  <option value="">Select</option>
+                  <option ng-repeat="i in accountdata" value={{i.accountCode}} ng-show="x.accountCode != i.accountCode">{{i.accountCode}} {{x.accountCode != i.accountCode ? ' - '+i.dscr:''}}</option>
+                  <!-- <option value={{i.accountCode}} ng-repeat="i in accountdata">{{i.accountCode}}-{{i.dscr}}</option> -->
+                </select>
+              </div>
+            </li>
+
+            <li>
+              <div class="popup-container">
+                <input type="text" class="textfield" name="account_disc" value="" placeholder="Description" maxlength="150"
+                  ng-model="x.accountDisc" ng-disabled="field" ng-mouseover="togglePopup(true)" ng-mouseleave="togglePopup(false)" />
+                <div class="popup" ng-show="isPopupVisible">  {{ x.accountDisc }} </div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <input type="text" class="textfield" name="debitamount" ng-model="x.dbAmount" ng-change="updatedeb();"
+                  style="text-align: right;" placeholder="Debit Amount" ng-pattern="/^[0-9]*$/" maxlength="15"
+                  ng-disabled="isDisable || x.crAmount !== null && x.crAmount !== '' && x.crAmount !== undefined || field" />
+              </div>
+              <div class="error" ng-show="form.debitamount.$error.pattern">
+                Please enter Numeric Only.
+              </div>
+            </li>
+            <li>
+              <div>
+                <input type="text" class="textfield" name="creditamount" ng-model="x.crAmount" ng-change="updatecrd();"
+                  style="text-align: right;" placeholder="Credit Amount" ng-pattern="/^[0-9]*$/" maxlength="15"
+                  ng-disabled="isDisable || x.dbAmount !== null && x.dbAmount !== '' && x.dbAmount !== undefined || field" />
+              </div>
+              <div class="error" ng-show="form.creditamount.$error.pattern">
+                Please enter Numeric Only.
+              </div>
+            </li>
+            <li>
+              <div>
+                <input type="text" class="textfield" name="remarks" value="" placeholder="Remarks" ng-model="x.remarks"
+                  ng-disabled="field" ng-pattern="/^[a-zA-Z]*$/" maxlength="100"/>
+              </div>
+              <div class="error" ng-show="form.remarks.$error.pattern">
+                Please enter Alphnumeric Only.
+              </div>
+            </li>
+            <li class="flexwidthsec">
+              <div ng-hide="btnhide" style="padding: 2px;"><button type="button" class="bluebtn"
+                  ng-click="postJournelDetailOne($index)">Save</button></div>
+              <div class="flexbox"><a class="bluebtn detailsbtn" data-toggle="modal" data-target="#details"
+                  ng-click=" open(); showdetail(x.jvDetSlno,x.jvId,$index)">Details</a>
+                <label ng-hide="btnhide"><input type="checkbox" name="deleteCust" ng-model="x.selected"
+                    ng-click="getSvtSno(x.jvDetSlno)" class="checksec"></label>
+              </div>
+            </li>
+          </ul>
+          <ul class="column11 totalsec">
+            <li>
+              <div>
+                <label>Total</label>
+              </div>
+            </li>
+            <li>
+              <div>
+                <!-- <input type="text" class="textfield" name="debit_amount" ng-model="totaldeb | number:2" style="text-align: right;"/>  -->
+                <input type="text" class="textfield" name="debit_amount" ng-model="totaldeb" style="text-align: right;"
+                  ng-disabled="field" />
+
+              </div>
+            </li>
+            <li>
+              <div>
+                <input type="text" class="textfield" name="credit_amount" ng-model="totalcrd" style="text-align: right;"
+                  ng-disabled="field" />
+              </div>
+            </li>
+          </ul>
+          <div class="btnlist" ng-hide="btnhide">
+            <ul>
+              <li>
+                <div><button type="button" class="bluebtn" ng-click="addFields()">ADD</button></div>
+              </li>
+              <!-- <li><div><button type="button" class="bluebtn">EDIT</button></div></li> -->
+              <li><button type="button" class="bluebtn"
+                  ng-click="deleteCust(); deletevoucherDetail(jvDetSlno);">Delete</button></li>
+              <!-- <li><div><button type="button" class="bluebtn"  ng-click="deleteCust()" ng-model="x.selected">Delete</button></div></li>  -->
+              <!-- <li><div class="btncenter"><button type="submit" class="bluebtn" ng-click="postJournelDetail()" ng-disabled="sub" >SUBMIT</button></div></li>  -->
+              <li>
+                <div class="btncenter"><button type="submit" class="bluebtn"
+                    ng-click="postJournelDetail()">SUBMIT</button></div>
+              </li>
+
+            </ul>
+          </div>
+    </form>
+  </div>
+
+
+
+  </div>
+  <div id="details" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">JV Misc Details</h4>
+        </div>
+        <div class="modal-body">
+          <div class="white-box forms notop">
+            <ul>
+              <li>
+                <div>
+                  <label>Voucher Id</label>
+                  <input type="text" class="textfield" name="voucher" value="" placeholder="Voucher ID"
+                    ng-model="jvdetail.jvId" ng-disabled="true" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Id Date</label>
+                  <input type="text" class="textfield datepicker" name="id_date" value="" placeholder="Id date"
+                    ng-model="jvdetail.jvIdDate" ng-disabled="true"/>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Fin Year</label>
+                  <input type="text" class="textfield" name="fin_year" value="" placeholder="Fin year"
+                    ng-model="jvdetail.jvFinYear" ng-disabled="true"/>
+                </div>
+              </li>
+
+              <li>
+                <div>
+                  <label>JV Det SL No.</label>
+                  <input type="text" class="textfield" name="voucher_no" value="" placeholder="Serial No."
+                    ng-model="jvdetail.jvDetSlno" ng-disabled="true"/>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Voucher No.</label>
+                  <input type="text" class="textfield datepicker" name="voucher_no" value="" placeholder="Voucher No."
+                    ng-model="jvdetail.jvNo" ng-disabled="true" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Voucher Date</label>
+                  <input type="text" class="textfield datepicker" name="voucher_no" value="" placeholder="Vocuher date"
+                    ng-model="jvdetail.jvDate" ng-disabled="true"/>
+                </div>
+              </li>
+            </ul>
+
+            <ul>
+              <li class="width35">
+                <div>
+                  <label>Remarks</label>
+                  <input type="text" class="textfield" name="voucher" value="" placeholder="Remarks"
+                    ng-model="jvdetail.remarks" />
+                </div>
+              </li>
+              <li class="width35">
+                <div>
+                  <label>Ref. No.</label>
+                  <input type="text" class="textfield " name="id_date" value="" placeholder="Ref. no."
+                    ng-model="jvdetail.refNo" />
+                </div>
+              </li>
+              <li class="smallsec">
+                <div>
+                  <label>Date</label>
+                  <input type="text" class="textfield datepicker" datepicker name="fin_year" value="" placeholder="DD-MM-YYYY"
+                    ng-model="jvdetail.refDate" />
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="white-box forms notop">
+            <h3>Vendor / Employee / Student Details</h3>
+            <ul>
+              <li>
+                <label>Type</label>
+                <div>
+                  <select class="dropdd" name="type" ng-model="jvdetail.txIndivTypeCode" titles="Select" ng-disabled="true" >
+                    <option value="">Select</option>
+                    <option value={{jvdetail.payToTypeCode}} ng-repeat="jvdetail in paydata">{{jvdetail.dscr}}</option>     
+                  </select>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Vendor Code</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="employee_no" value="" placeholder="Code"
+                      ng-model="jvdetail.vendorCode" ng-disabled="true"/>
+                    <input type="text" class="textfield" name="vender_code" value="" placeholder="Name"
+                      ng-model="jvdetail.vendorName" ng-disabled="true"/>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Employee No.</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="employee_no" value="" placeholder="Code"
+                      ng-model="jvdetail.staffNo" ng-disabled="true"/>
+                    <input type="text" class="textfield" name="employee_no" value="" placeholder="Name"
+                      ng-model="jvdetail.employeeName" ng-disabled="true"/>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Student Reg. No.</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="employee_no" value="" placeholder="Code"
+                      ng-model="jvdetail.univRegistrationNo" ng-disabled="true"/>
+                    <input type="text" class="textfield" name="student_reg_no" value="" placeholder="Name"
+                      ng-model="jvdetail.studentName" ng-disabled="true"/>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="white-box forms notop">
+            <h3>Advance / Indent / Student Details</h3>
+            <ul>
+              <li>
+                <div>
+                  <label>Advance Id</label>
+                  <input type="text" class="textfield" name="voucher" value="" placeholder="Advance Id"
+                    ng-model="jvdetail.advanceId" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Fin Year</label>
+                  <input type="text" class="textfield datepicker" name="id_date" value="" placeholder="Fin Year"
+                    ng-model="jvdetail.advanceFinYear" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Indent No.</label>
+                  <input type="text" class="textfield" name="fin_year" value="" placeholder="Indent no."
+                    ng-model="jvdetail.indentNo" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Date</label>
+                  <input type="text" class="textfield datepicker" datepicker  name="fin_year" value="" placeholder="Date"
+                    ng-model="jvdetail.indentDate" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>PO Id</label>
+                  <select ng-options="cc.poId as (cc.poId +' - ' + cc.poTitle) for cc in purchaseOrderData"
+                    class="dropdd" name="po_Id" ng-model="jvdetail.poId" ng-disabled="jwc">
+                    <option value="">Select</option>
+                  </select>
+                </div>
+              </li>
+              <!-- <li>
+                    <div>
+                      <label>PO Id</label>
+                      <select class="dropdd" name="po_id" ng-model="jvdetail.poId" ng-disabled="jwc">
+                        <option value="">Select</option>
+                        <option value={{i.poId}} ng-repeat="i in purchaseOrderData ">{{i.poId}}-{{i.poTitle}}</option>
+                      </select>
+                    </div>
+                  </li> -->
+              <li>
+                <div>
+                  <label>Fin Year</label>
+                  <select class="dropdd" name="po_id" ng-model="jvdetail.poFinYear"
+                    ng-change="getpurchaseOrder(jvdetail.poId,jvdetail.poFinYear)" ng-disabled="jwc">
+                    <option value="">Select</option>
+                    <option value={{i.poFinYear}} ng-repeat="i in purchaseOrderData | filter:{poId:jvdetail.poId}">
+                      {{i.poFinYear}}</option>
+                  </select>
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li style="min-width: 83.5%;">
+                <div>
+                  <label>PO No.</label>
+                  <input type="text" class="textfield" name="fin_year" value="" placeholder="PO No."
+                    ng-model="jvdetail.poNumber"  ng-disabled="true"/>
+                </div>
+              </li>
+              <li style="min-width: 16.5%;">
+                <div>
+                  <label>Date</label>
+                  <input type="text" class="textfield" name="fin_year" value="" placeholder="Date"
+                    ng-model="jvdetail.poDate"  ng-disabled="true"/>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="white-box forms">
+            <h3>Plan/project Details:</h3>
+            <ul>
+              <li>
+                <div>
+                  <label>Plan No.</label>
+                  <!-- <select class="dropdd" name="po_id" ng-model="jvdetail.planNo"
+                    ng-change="getProjectplanIdData(jvdetail.planNo)" ng-disabled="jwc">                 
+                    <option value={{i.planNo}} ng-repeat="i in projectPlanData ">
+                      {{i.planNo}}-{{i.planFinYear}}-{{i.planTypeCode}}</option>
+                      <option value="">Select</option>
+                  </select> -->
+                  <select
+                  ng-options="cc.planNo as (cc.planNo +' - ' + cc.planFinYear + '-'+cc.planTypeCode) for cc in projectPlanData"
+                  class="dropdd" name="planno" ng-model="jvdetail.planNo"
+                  ng-change="getProjectplanIdData(jvdetail.planNo)" >
+                  <option value="" selected >Select</option>
+                </select> 
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Fine Year</label>
+                  <input type="text" class="textfield" name="fine_year" value="" placeholder="Fin Year"
+                    ng-model="jvdetail.planFinYear" ng-disabled="true" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Plan Type</label>
+                  <input type="text" class="textfield" name="plan_type" value="" placeholder="plan type"
+                    ng-model="jvdetail.planTypeCode" ng-disabled="true" />
+                </div>
+              </li>
+              <li style="min-width: 30%;">
+                <div>
+                  <label>CostCenter Id</label>
+                  <input type="text" class="textfield" name="plan_title" value="" placeholder="Costcenter Id"
+                    ng-model="jvdetail.costCentreId" ng-disabled="true" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Budget Fine Year</label>
+                  <select class="dropdd" name="po_id" ng-model="jvdetail.allocationFinYear" ng-disabled="jwc">
+                    <option value="">Select</option>
+                    <option ng-repeat="i in budgetData ">{{i.allocationFinYear}}</option>
+                  </select>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="white-box forms notop">
+            <h3>Department Details</h3>
+            <ul>
+              <li>
+                <div>
+                  <label>Department</label>
+                  <div class="flexbox">
+                     <!-- <select
+                      ng-options="cc.departmentCode as (cc.departmentCode +' - ' + cc.dscr) for cc in departmentData"
+                      class="dropdd" name="college_code" ng-model="jvdetail.departmentCode"
+                      ng-change="getdepartmentIddata(jvdetail.departmentCode,$index)" >
+                      <option value="" selected >Select</option>
+                    </select>  -->
+                    <select class="dropdd" name="college_code" 
+                    ng-model="jvdetail.departmentCode"
+                    ng-change="getdepartmentIddata(jvdetail.departmentCode, $index)"
+                    ng-options="cc.departmentCode as (cc.departmentCode + ' - ' + cc.dscr) for cc in departmentData">
+                <option value="" selected>Select</option>
+            </select>
+
+                      <input type="text" class="textfield" name="deptdscr" value="" placeholder="Name"
+                        ng-model="jvdetail.deptdscr" ng-disabled="true">
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>College</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="manager" value="" placeholder="Code"
+                      ng-model="jvdetail.collegeCode" ng-disabled="true"/>
+                    <input type="text" class="textfield" name="manager" value="" placeholder="Name"
+                      ng-model="jvdetail.clgdscr" ng-disabled="true"/>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>University</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="cashier" value="" placeholder="Code"
+                      ng-model="jvdetail.universityCode" ng-disabled="true"/>
+                    <input type="text" class="textfield" name="cashier" value="" placeholder="Name"
+                      ng-model="jvdetail.univerdscr" ng-disabled="true"/>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <div class="btnlist">
+              <ul>
+                <li>
+                  <div><button type="button" class="bluebtn" ng-click="postJournelDetail1($index)"
+                      ng-hide="btnhide">Save</button></div>
+                </li>
+                <li>
+                  <div><button type="button" class="bluebtn" data-dismiss="modal">Back</button></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,86 @@
+<div ng-controller="glaccountmasterCtrl">
+    <section class="formsec1">
+        <div class="titles">{{subbreadcrumb}}</div>
+        <!-- <div class="titles">{{subbreadcrumb}}</div>Gl Group Master</div> -->
+        <form name="myform" ng-submit="save()" novalidate>
+            <div class="white-box forms notop">
+                <ul> 
+                    <li>
+                        <label for="glGroupCode">GL Group Code</label>
+                        <input type="text" class="textfield" ng-model="form.glGroupCode" id="glGroupCode"
+                        ng-disabled="idDisable" no-special-characters placeholder="GL Group Code" maxlength="7" required
+                        name="glGroupCode" alphanumeric-validation ng-blur="checkForDuplicate()">                 
+                        <div class="error"
+                             ng-show="myform.glGroupCode.$error.required && myform.glGroupCode.$touched && !formSubmitted">
+                            This field is required.
+                        </div>
+                        <div class="error"
+                                ng-show="myform.glGroupCode.$error.alphanumeric && myform.glGroupCode.$touched && !formSubmitted">
+                            Please enter an alphanumeric value.
+                        </div>
+                        <div class="error"
+                             ng-show="duplicateGlCode && myform.glGroupCode.$touched">
+                            This GL Group Code already exists.
+                        </div>
+                    </li>
+                    <li class="width30">
+                        <div>
+                            <label for="dscr">Description</label>
+                            <input type="text" m-name class="textfield" ng-model="form.dscr" id="dscr"
+                                placeholder="Description" maxlength="75" required name="dscr"></input>
+                            <div class="error"
+                                ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">
+                                This field is required.
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <label for="dscr">Operative</label>
+                            <select ng-init="form.operative = form.operative || 'Y'" ng-model="form.operative"
+                                class="dropdd" required>
+                                <option value="Y">Yes</option>
+                                <option value="N">No</option>
+                            </select>
+                        </div>
+                    <li>
+                        <div>
+                            <button type="submit" class="bluebtn " style="margin-top: 15px;" ng-disabled="myform.$invalid || duplicateGlCode">Save</button>
+
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </form>
+        <div class="white-box "> 
+            <ul class="searchbox">
+                <li><input type="text" class="textfield" ng-model="keyword1" ng-change="search(keyword1,keyword2)" placeholder="GL Group Code" /></li>
+                <li><input class="textfield" type="text" ng-model="keyword2" ng-change="search(keyword1,keyword2)" placeholder="Description" /></li>
+                <li><button class="bluebtn" ng-click="search(keyword1,keyword2)">Search</button></li>
+            </ul>
+            <table class="table table-bordered text-center regtable table-condensed">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;" width="200">GL Group Code</th>
+                        <th width="600">Description</th>
+                        <th width="200">operative</th>
+                        <th width="200">Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="n in glgroupData" class="tdcolor">
+                        <td ng-bind="n.glGroupCode" ng-disabled="idDisable"> </td>
+                        <td ng-bind="n.dscr|uppercase"></td>
+                        <td>{{ n.operative === 'Y' ? 'Yes' : 'No' }}</td>
+                        <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </section>
+</div>

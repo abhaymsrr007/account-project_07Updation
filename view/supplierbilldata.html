@@ -1,0 +1,100 @@
+<style>
+.searchbox { justify-content: start; }  
+</style> 
+    <section class="formsec1" ng-controller="suppBillDataCtrl"> 
+        <div class="titles">{{subbreadcrumb}}</div>
+        <div class="white-box ">
+            <ul class="searchbox">
+                <li> 
+                        <div ng-cloak >
+                        <select ng-model="vendorCode" class="dropdd" ng-change="selectvendorcode(vendorCode)"
+                            data-live-search="true"  ng-options="x.vendorCode as (x.vendorCode + '-' + x.vendorName) for x in updatedSuppdata | uniqueVendorCode" >
+                            <option value="" disabled>Vendor Code</option>
+                        </select>
+                    </div>
+                </li>
+                <li><input class="textfield" type="text" ng-model="vendorName" disabled placeholder="Vendor Number" /></li>
+                <li><div>
+                        <select ng-model="poId" class="dropdd">
+                            <option value="" disabled>PO ID</option>
+                            <option ng-repeat="x in updatedSuppdata | filter: { vendorCode: vendorCode }"
+                                value="{{x.poId}}">
+                                {{x.poId}}
+                            </option>
+                        </select>
+                    </div>
+                </li>
+                 <li><input type="text" class="textfield" ng-model="poFinYear" placeholder="FinYear" /></li>
+                 <li><div>
+                        <select ng-model="poNumber" class="dropdd">
+                            <option value="" disabled>Select Po No</option>
+                            <option ng-repeat="x in updatedSuppdata | filter: { vendorCode: vendorCode }" value="{{x.poNumber}}">{{x.poNumber}}</option>
+                        </select>
+                    </div>
+                </li>
+                <li><input type="text" class="textfield datepicker" ng-model="poDate" placeholder="Po Date" /></li>
+                <li><button class="bluebtn" ng-click="search(vendorCode,poId,poFinYear,poNumber,poDate);">Search</button></li>
+            </ul>
+            <table class="table table-bordered text-center regtable table-condensed">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">PO ID</th>
+                        <th>PO Number</th>
+                        <th>PO Date</th>
+                        <th>Fin Year</th>
+                        <th>Bill SL No</th>
+                        <th>Vendor Code</th>
+                        <th>Vendor Name</th>
+                        <th>Invoice Amount</th>
+                        <th>Invoice Date</th>
+                        <th>Recieve Date</th>
+                        <th>Tentative Payment Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="n in suppdata" class="tdcolor">
+                        <td ng-bind="n.poId"> </td>
+                        <td ng-bind="n.poNumber"> </td>
+                        <td ng-bind="n.poDate"></td>
+                        <td ng-bind="n.poFinYear"></td>
+                        <td ng-bind="n.billSlNo"></td>
+                        <td ng-bind="v = getvendor(n.poId)"></td>
+                        <!-- <td ng-bind="k=n.vendorCode"></td> -->
+                        <td ng-bind="getvendordscr(v)"></td>
+                        <td ng-bind="n.invoiceAmount"></td>
+                        <td ng-bind="n.invoiceDate"></td>
+                        <td ng-bind="n.recvDt"></td>
+                        <td ng-bind="n.tentativePaymentDt"></td>
+
+
+                        <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+                            <button class="bluebtn" type="button"
+                                ng-click="showmodal(n.poId,n.poFinYear,n.billSlNo)">Details</button>
+
+                        </td>
+
+
+
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+
+        <div id="detailmodal">
+            <div id="detailmodal-content">
+                <button id="closeBtn" class="close-button" ng-click="closeDetail()">
+                    &times;
+                </button>
+                <h2>Supplier Bill Detail</h2>
+                <ul class="dtlist">
+                    <li ng-repeat="(key, value) in suuplierdetail">
+                        <span>{{ key }}</span>: {{ value }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+

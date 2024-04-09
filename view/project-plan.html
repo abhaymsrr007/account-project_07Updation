@@ -1,0 +1,856 @@
+<style>
+  .success-message {
+    position: absolute;
+    top: 20px;
+    /* Adjust the top position as needed */
+    right: 20px;
+    /* Adjust the right position as needed */
+    background-color: #4CAF50;
+    /* Green color */
+    color: #fff;
+    /* White text color */
+    padding: 10px;
+    border-radius: 5px;
+
+  }
+</style>
+
+<section class="formsec" ng-controller="projectPlanCtrl">
+  <div class="tabsec">
+    <ul>
+      <li><a class="tablink active" data-title="tab1" id="t1" ng-click="tabToggle('1')">Project Plan</a></li>
+      <li><a class="tablink" data-title="tab2" id="t2" ng-click="tabToggle('2')">Senctioned Budget</a></li>
+      <li><a class="tablink" data-title="tab3" id="t3" ng-click="tabToggle('3')">Fund Transfer</a></li>
+    </ul>
+  </div>
+  <div id="tab1" class="maintabsec active">
+    <div class="flextitles">
+      <div class="titles" style="text-align: center;">Project Plan</div>
+      <div> <a class="bluebtn btn" ng-click="handleLink('project-plan-details')">Project Plan List</a></div>
+    </div>
+    <form name="myform" ng-submit="savePC()" novalidate>
+      <div class="white-box forms form2">
+        <ul>
+          <li>
+            <div>
+              <label>Plan No.<sup>*</sup></label>
+              <input type="text" class="textfield" name="paln_no" value="" placeholder="" maxlength="20" required
+                ng-model="form.planNo">
+            </div>
+            <div class="error" ng-show="myform.paln_no.$error.required && myform.paln_no.$touched && !formSubmitted">
+              This field is required.
+            </div>
+          </li>
+          <li class="smallsec">
+            <div>
+              <label>Fin Year <sup>*</sup></label>
+              <div>
+                <input type="text" class="textfield" id="fine_year" ng-model="form.planFinYear" name="fine_year"
+                  placeholder="like:- 2023-2024" required ng-pattern="/^\d{4}-\d{4}$/"
+                  ng-change="validyear(form.planFinYear)">
+              </div>
+              <div class="error"
+                ng-show="myform.fine_year.$error.required && myform.fine_year.$touched && !formSubmitted">
+                This field is required.
+              </div>
+              <div class="error"
+                ng-show="myform.fine_year.$error.pattern && myform.fine_year.$touched && !formSubmitted">
+                Please enter the Fin Year in the format YYYY-YYYY.
+              </div>
+              <div class="error" ng-show="yearflag">
+                Please enter valid Fin Year.
+              </div>
+
+            </div>
+          </li>
+
+          <li>
+            <div>
+              <label>Account Type <sup>*</sup></label>
+              <div class="flexbox">
+                <select ng-model="form.planTypeCode" class="dropdd" required name="accountTypeCode"
+                  ng-change="selectAccTypeDscr(form.planTypeCode); update(form.planNo,form.planFinYear,form.planTypeCode);">
+                  <option value="" disabled selected>Select</option>
+                  <option ng-repeat="i in accountTypeData" value="{{i.accountTypeCode}}"
+                    ng-show="form.planTypeCode != i.accountTypeCode">{{i.accountTypeCode}}
+                    {{form.planTypeCode != i.accountTypeCode ? ' - '+i.dscr:''}}
+                  </option>
+                </select>
+                <input type="text" class="textfield" name="type" value="" ng-model="form.dscr" disabled placeholder="">
+              </div>
+              <div class="error"
+                ng-show="myform.accountTypeCode.$error.required && myform.accountTypeCode.$touched && !formSubmitted">
+                This field is required.
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label>Ref <sup>*</sup></label>
+              <div>
+                <input type="text" class="textfield" name="ref" value="" ng-model="form.planRef" maxlength="50"
+                  placeholder="" required>
+                <div class="error" ng-show="myform.ref.$error.required && myform.ref.$touched && !formSubmitted">
+                  This field is required.
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="smallsec">
+            <div>
+              <label>Ref Date <sup>*</sup></label>
+              <div>
+                <input type="text" class="textfield " datepicker name="ref_date" value="" ng-model="form.planRefDate"
+                  placeholder="" required>
+                <div class="error"
+                  ng-show="myform.ref_date.$error.required && myform.ref_date.$touched && !formSubmitted">
+                  This field is required.
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <div>
+              <label>Plan Title<sup>*</sup></label>
+              <input type="text" class="textfield" name="paln_title" ng-model="form.planTitle" value="" placeholder=""
+                required>
+              <div class="error"
+                ng-show="myform.paln_title.$error.required && myform.paln_title.$touched && !formSubmitted">
+                This field is required.
+              </div>
+            </div>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <div>
+              <label>Plan Details <sup>*</sup></label>
+              <textarea class="textfield" rows="2" name="paln_details" ng-model="form.planDetails" required>
+                </textarea>
+              <div class="error"
+                ng-show="myform.paln_details.$error.required && myform.paln_details.$touched && !formSubmitted">
+                This field is required.
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="flexbox">
+        <div class="white-box forms notop width40">
+          <h3>Approval Details:</h3>
+          <ul class="flexbox">
+            <li class="width60">
+              <div>
+                <label>Approved By <sup>*</sup></label>
+                <input type="text" class="textfield" name="approved_by" value="" placeholder=""
+                  ng-model="form.planApprovedBy" maxlength="30" required>
+              </div>
+              <div class="error"
+                ng-show="myform.approved_by.$error.required && myform.approved_by.$touched && !formSubmitted">
+                This field is required.
+              </div>
+            </li>
+            <li class="width40">
+              <div>
+                <label>Date <sup>*</sup></label>
+                <input type="text" class="textfield " datepicker name="date" value="" placeholder="" required
+                  ng-model="form.planApprovalDate">
+                <div class="error" ng-show="myform.date.$error.required && myform.date.$touched && !formSubmitted">
+                  This field is required.
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="white-box forms notop width60">
+          <h3>Approved Costs:</h3>
+          <ul>
+            <li>
+              <div>
+                <label>Capital</label>
+                <input type="text" class="textfield" name="capital" value="" ng-model="form.approvedCapitalCost"
+                  placeholder="" ng-pattern="/^\d+(\.\d+)?$/" ng-change="getTotalApprovedCosts()">
+                <div class="error" ng-show="myform.capital.$error.pattern && myform.capital.$touched">
+                  Please enter a non-negative numeric value for Capital.
+                </div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Revenue</label>
+                <input type="text" class="textfield" name="revenue" ng-model="form.approvedRevenueCost"
+                  ng-change="getTotalApprovedCosts()" placeholder="" ng-pattern="/^\d+(\.\d+)?$/">
+                <div class="error" ng-show="myform.revenue.$error.pattern && myform.revenue.$touched">
+                  Please enter a non-negative numeric value for Capital.
+                </div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Total <sup>*</sup></label>
+                <input type="text" class="textfield" name="total" ng-model="form.approvedTotalCost" ng-disabled="f"
+                  placeholder="" required>
+                <div class="error" ng-show="myform.total.$error.required && myform.total.$touched && !formSubmitted">
+                  This field is required.
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="white-box forms form2">
+        <h3>Plan Owner:</h3>
+        <ul>
+          <li>
+            <div>
+              <label>Owner Type:</label>
+              <div class="flexbox">
+                <select ng-model="form.costCentreCode" class="dropdd" required name="costCentreCode"
+                  ng-change="selectPlanCostCenterDscr(form.costCentreCode)">
+                  <option value="" disabled selected>Select</option>
+                  <option ng-repeat="x in costData " value="{{x.costCentreCode}}"
+                    ng-show="form.costCentreCode != x.costCentreCode">{{x.costCentreCode}}
+                    {{form.costCentreCode != x.costCentreCode ? ' - '+ x.dscr : ''}}</option>
+                </select>
+                <input type="text" class="textfield" name="type" value="" ng-model="form.pccDscr" disabled
+                  placeholder="">
+              </div>
+            </div>
+          </li>
+        
+          
+          <li class="smallsec">
+            <div>
+              <label>College<sup>*</sup></label>
+              <div class="flexbox">
+                <select ng-model="form.collegeCode" class="dropdd" required name="collegeCode"
+                  ng-change="getCllgDscr(collegeData, form.collegeCode,universityData,bankAccountData,bankData)">
+                  <option value="" disabled selected>Select</option>
+                  <option ng-repeat="x in collegeData " value="{{x.collegeCode}}"
+                    ng-show="form.collegeCode != x.collegeCode">{{x.collegeCode}} {{form.collegeCode !=
+                    x.collegeCode ? ' - '+ x.dscr : ''}}</option>
+                </select>
+                <input type="text" class="textfield" name="type"  disabled ng-model="form.Dscr" placeholder="">
+              </div>
+            </div>
+          </li>
+
+            <li>
+              <div>
+                <label>University <sup>*</sup></label>
+                <div class="flexbox">
+                  <input type="text" class="textfield" name="universityCode" disabled value="" ng-model="form.universityCode" placeholder="">
+                  <input type="text" class="textfield" name="universityDscr" disabled value="" placeholder="" ng-model="form.universityDscr">
+                </div>
+              </div>
+            </li>
+        </ul>
+        <ul>
+          <li>
+            <div>
+              <label>Department</label>
+              <div class="flexbox">
+                <select ng-model="form.departmentCode" class="dropdd" required name="departmentCode"
+                  ng-change="getDepDscr(form.departmentCode)">
+                  <option value="" >Select</option>
+                  <option ng-repeat="x in departmentData" value="{{x.departmentCode}}" ng-show="form.departmentCode != x.departmentCode">
+                    {{x.departmentCode}} {{form.departmentCode !=x.departmentCode ? ' - '+ x.dscr : ''}}
+                  </option>
+                </select>
+                <!-- <input type="text" class="textfield" name="departmentCode"  placeholder="" ng-disabled="true"> -->
+                <input type="text" class="textfield" name="department" ng-model="departmentDscr"  placeholder="" ng-disabled="true" pattern="[0-9]*"
+                  title="Please enter numbers only.">
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label>Bank Account No <sup>*</sup></label>
+              <input type="text" class="textfield" name="bankAccountNo"  placeholder=""
+                ng-model="form.bankAccountNo" required ng-change="formSubmitted = false">
+              <div class="error"
+                ng-show="myform.bankAccountNo.$error.required && myform.bankAccountNo.$touched && !formSubmitted ">
+                <span style="color: red;">Bank Account No is required.</span>
+              </div>
+            </div>
+          </li>
+          <li class="smallsec">
+            <div>
+              <label>Bank Code</label>
+              <div>
+                <input type="text" class="textfield" name="bank_code" value="" placeholder="" ng-model="form.bankCode">
+              </div>
+            </div>
+          </li>
+          <li class="width33">
+            <div>
+              <label>Bank Name</label>
+              <div>
+                <input type="text" class="textfield" name="bank_name" value="" placeholder="" ng-model="form.bankName">
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="white-box forms">
+        <h3>Plan Schedule:</h3>
+        <ul>
+          <li>
+            <div>
+              <label>Scheduled Start Date <sup>*</sup></label>
+              <input type="text" class="textfield " datepicker name="schedule_start" value=""
+                ng-model="form.schStartDate" placeholder="" required ng-change="formSubmitted = false">
+            </div>
+            <div class="error"
+              ng-show="myform.schedule_start.$error.required && myform.schedule_start.$touched && !formSubmitted">
+              This field is required.
+            </div>
+          </li>
+          <li>
+            <div>
+              <label>Scheduled Completion Date <sup>*</sup></label>
+              <input type="text" class="textfield " datepicker name="schedule_completion" value=""
+                ng-model="form.schCompletionDate" placeholder="" required ng-change="formSubmitted = false">
+            </div>
+            <div class="error" ng-if="isCompletionDateBeforeStartDate(form.schCompletionDate, form.schStartDate)">
+              Error: Scheduled completion date is before the scheduled start date.
+            </div>
+            <div class="error"
+              ng-show="myform.schedule_completion.$error.required && myform.schedule_completion.$touched && !formSubmitted">
+              This field is required.
+            </div>
+          </li>
+          <li>
+            <div>
+              <label>Actual Start Date <sup>*</sup></label>
+              <input type="text" class="textfield " datepicker name="actual_start" value=""
+                ng-model="form.actualStartDate" placeholder=""
+                ng-change="checkDates(form.schCompletionDate, form.schStartDate, form.actualStartDate)">
+            </div>
+            <div class="error" ng-show="yearflag2">
+              Error: Actual start date should be equal to or after the scheduled start date and before the scheduled
+              completion date.
+            </div>
+          </li>
+          <li>
+
+            <label>Actual End Date</label>
+            <input type="text" class="textfield " datepicker name="actual_end" value=""
+              ng-model="form.actualCompletionDate" placeholder="">
+          </li>
+        </ul>
+
+        <div class="btnlist text-center">
+          <!-- <button type="submit" class="bluebtn" ng-disabled="myform.$invalid">Save</button> -->
+          <button type="submit" class="bluebtn">Save</button>
+          <button type="button" class="bluebtn">Next</button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+
+  <div id="tab2" class="maintabsec ">
+
+    <div class="titles">{{subbreadcrumb}}</div>
+    <form name="sancBudform" novalidate>
+      <div class="white-box forms notop">
+        <h3>Plan Details</h3>
+        <ul>
+          <li>
+            <div>
+              <label>Plan No.<sup>*</sup></label>
+              <input type="text" class="textfield" name="paln_no" value="" placeholder="" maxlength="20" required
+                ng-model="form.planNo">
+            </div>
+            <div class="error" ng-show="myform.paln_no.$error.required && myform.paln_no.$touched && !formSubmitted">
+              This field is required.
+            </div>
+          </li>
+          <li class="smallsec">
+            <div>
+              <label>Fin Year <sup>*</sup></label>
+              <div>
+                <input type="text" class="textfield" id="fine_year" ng-model="form.planFinYear" name="fine_year"
+                  placeholder="like:- 2023-2024" required ng-pattern="/^\d{4}-\d{4}$/"
+                  ng-change="validyear(form.planFinYear)">
+              </div>
+              <div class="error"
+                ng-show="myform.fine_year.$error.required && myform.fine_year.$touched && !formSubmitted">
+                This field is required.
+              </div>
+              <div class="error"
+                ng-show="myform.fine_year.$error.pattern && myform.fine_year.$touched && !formSubmitted">
+                Please enter the Fin Year in the format YYYY-YYYY.
+              </div>
+              <div class="error" ng-show="yearflag">
+                Please enter valid Fin Year.
+              </div>
+
+            </div>
+          </li>
+
+          <li>
+            <div>
+              <label>Account Type <sup>*</sup></label>
+              <div class="flexbox">
+                <select ng-model="form.planTypeCode" class="dropdd" required name="accountTypeCode"
+                  ng-change="selectAccTypeDscr(form.planTypeCode); update(form.planNo,form.planFinYear,form.planTypeCode);">
+                  <option value="" disabled selected>Select</option>
+                  <option ng-repeat="i in accountTypeData" value="{{i.accountTypeCode}}"
+                    ng-show="form.planTypeCode != i.accountTypeCode">{{i.accountTypeCode}}
+                    {{form.planTypeCode != i.accountTypeCode ? ' - '+i.dscr:''}}
+                  </option>
+                </select>
+                <input type="text" class="textfield" name="type" value="" ng-model="form.dscr" disabled placeholder="">
+              </div>
+              <div class="error"
+                ng-show="myform.accountTypeCode.$error.required && myform.accountTypeCode.$touched && !formSubmitted">
+                This field is required.
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div>
+              <label for="title">Title </label>
+              <input type="text" class="textfield" id="title" name="voucher" ng-model="bgform.projectPlanTitle"
+                ng-init="bgform.projectPlanTitle = form.planTitle" value="" placeholder="">
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="white-box forms ">
+        <div>
+          <h3>Sanction Details</h3>
+          <ul class="addcol6">
+            <li class="width5">
+              <div>
+                <label>Id<sup>*</sup></label>
+              </div>
+            </li>
+            <li class="smallsec">
+              <div>
+                <label>Sanction Date<sup>*</sup></label>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Sanction Fin Year<sup>*</sup></label>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Reference</label>
+              </div>
+            </li>
+            <li class="smallsec">
+              <div>
+                <label>Ref Date</label>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Sanctioned Capital</label>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Sanctioned Revenue</label>
+              </div>
+            </li>
+            <li class="smallsec">
+              <div>
+                <label>Total<sup>*</sup></label>
+              </div>
+            </li>
+            <li class="width3 checkbtn"> </li>
+          </ul>
+          <ul class="addcol6" ng-repeat="s in sanction" ng-model="sanction">
+            <li class="width5">
+              <div>
+                <input type="text" class="textfield" name="sanctionId{{$index}}" ng-model="s.sanctionId"
+                  ng-init="s.sanctionId = ($index+1)" value="" placeholder="" />
+              </div>
+              <div class="error"
+                ng-show="sancBudform.sanctionId{{$index}}.$error.required && sancBudform.sanctionId{{$index}}.$touched && !formSubmitted">
+                This field is required.
+              </div>
+            </li>
+            <li class="smallsec">
+              <div>
+                <input type="text" class="textfield " datepicker name="section_date{{$index}}" ng-model="s.sanctionDate"
+                  value="" placeholder="" />
+              </div>
+              <div class="error"
+                ng-show="sancBudform.sanctionId{{$index}}.$error.required && sancBudform.sanctionId{{$index}}.$touched && !formSubmitted">
+                This field is required.
+              </div>
+            </li>
+            <li>
+              <div>
+                <input type="text" class="textfield" name="section_fin_year" ng-model="s.sanctionFinYear" value=""
+                  placeholder="" />
+              </div>
+            </li>
+            <li>
+              <div>
+                <input type="text" class="textfield" name="reference" ng-model="s.sanctionRef" value=""
+                  placeholder="" />
+              </div>
+            </li>
+            <li class="smallsec">
+              <div>
+                <input type="text" class="textfield " datepicker name="reference_date" ng-model="s.sanctionRefDate"
+                  value="" placeholder="" />
+              </div>
+            </li>
+            <li>
+              <div>
+                <input type="text" class="textfield" name="sanctioned_capital" value=""
+                  ng-change="getSanctionBudgetTotal($index)" ng-model="s.sanctionCapitalBudget" ng-change=""
+                  placeholder="" />
+              </div>
+            </li>
+            <li>
+              <div>
+                <input type="text" class="textfield" name="sanctioned_revenue" ng-model="s.sanctionRevenueBudget"
+                  ng-change="getSanctionBudgetTotal($index)" value="" placeholder="" />
+              </div>
+            </li>
+            <li class="smallsec">
+              <div>
+                <input type="text" class="textfield" name="total" value="" ng-model="s.sanctionTotalBudget"
+                  placeholder="" />
+              </div>
+            </li>
+            <li class="width3 checkbtn"><label><input type="checkbox" name="delete" class="checksec"
+                  ng-model="s.selected" />
+              </label> </li>
+
+          </ul>
+        </div>
+
+        <ul class="addcol6">
+
+          <div class="recordlist2">
+
+          </div>
+
+          <div class="btnlist">
+            <ul>
+              <li>
+                <div><button type="button" class="bluebtn addfield" ng-click="addNewObj()">ADD</button></div>
+
+              </li>
+              <!-- <li><div><button type="button" class="bluebtn">EDIT</button></div></li> -->
+              <li>
+
+                <div>
+                  <button type="button" class="bluebtn deletebtn" disabled="">Delete</button>
+                </div>
+              </li>
+              <li>
+                <div class="btncenter"><button type="submit" class="bluebtn"
+                    ng-click="submitBudgetForm(bgform)">Save</button>
+                </div>
+              </li>
+              <li><button type="button" class="bluebtn" disabled>Next</button></li>
+            </ul>
+          </div>
+      </div>
+    </form>
+  </div>
+
+
+  <div id="tab3" class="maintabsec ">
+    <div class="titles">{{subbreadcrumb}}</div>
+    <form>
+      <div class="white-box forms notop">
+        <h3>Plan Details</h3>
+        <ul>
+          <li>
+            <div>
+              <label>Plan No.<sup>*</sup></label>
+              <input type="text" class="textfield" name="paln_no" value="" placeholder="" maxlength="20" required
+                ng-model="form.planNo">
+            </div>
+            <div class="error" ng-show="myform.paln_no.$error.required && myform.paln_no.$touched && !formSubmitted">
+              This field is required.
+            </div>
+          </li>
+          <li class="smallsec">
+            <div>
+              <label>Fin Year <sup>*</sup></label>
+              <div>
+                <input type="text" class="textfield" id="fine_year" ng-model="form.planFinYear" name="fine_year"
+                  placeholder="like:- 2023-2024" required ng-pattern="/^\d{4}-\d{4}$/"
+                  ng-change="validyear(form.planFinYear)">
+              </div>
+              <div class="error"
+                ng-show="myform.fine_year.$error.required && myform.fine_year.$touched && !formSubmitted">
+                This field is required.
+              </div>
+              <div class="error"
+                ng-show="myform.fine_year.$error.pattern && myform.fine_year.$touched && !formSubmitted">
+                Please enter the Fin Year in the format YYYY-YYYY.
+              </div>
+              <div class="error" ng-show="yearflag">
+                Please enter valid Fin Year.
+              </div>
+
+            </div>
+          </li>
+
+          <li>
+            <div>
+              <label>Account Type <sup>*</sup></label>
+              <div class="flexbox">
+                <select ng-model="form.planTypeCode" class="dropdd" required name="accountTypeCode"
+                  ng-change="selectAccTypeDscr(form.planTypeCode); update(form.planNo,form.planFinYear,form.planTypeCode);">
+                  <option value="" disabled selected>Select</option>
+                  <option ng-repeat="i in accountTypeData" value="{{i.accountTypeCode}}"
+                    ng-show="form.planTypeCode != i.accountTypeCode">{{i.accountTypeCode}}
+                    {{form.planTypeCode != i.accountTypeCode ? ' - '+i.dscr:''}}
+                  </option>
+                </select>
+                <input type="text" class="textfield" name="type" value="" ng-model="form.dscr" disabled placeholder="">
+              </div>
+              <div class="error"
+                ng-show="myform.accountTypeCode.$error.required && myform.accountTypeCode.$touched && !formSubmitted">
+                This field is required.
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="title">Title </label>
+              <input type="text" class="textfield" id="title" name="voucher" ng-model="fundform.projectPlanTitle"
+                ng-init="fundform.projectPlanTitle = form.planTitle" value="" placeholder="">
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="white-box forms notop">
+        <h3>Plan Details</h3>
+        <ul class="addcol10 ">
+          <li class="width5">
+            <div>
+              <label for="Slno">Sl No</label>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="transactionId">Transaction Id<sup>*</sup></label>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="transactionDate">Transaction Date<sup>*</sup></label>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="sanctionFinYear">Sanction Fin Year<sup>*</sup></label>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="ApprovalNo,">Approval Number<sup>*</sup></label>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="ApprovalDate">Approval Date<sup>*</sup></label>
+
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="approvingAuthority=">Approving Authority<sup>*</sup></label>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="capitalFund">Capital Fund</label>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="type">Revenue Fund</label>
+
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="type">Total<sup>*</sup></label>
+
+            </div>
+          </li>
+          <li class="width3 checkbtn"> </li>
+        </ul>
+        <ul class="addcol10" ng-repeat="f in fundTransfer">
+          <li class="width5">
+            <div>
+              <input type="text" class="textfield" id="transferSlNo" name="transferSlNo" value=""
+                ng-model="f.transferSlNo" ng-init="f.transferSlNo = ($index+1)" placeholder="">
+            </div>
+          </li>
+          <li class="width6">
+            <div>
+              <input type="text" class="textfield" name="transaction_id" value="" ng-model="f.bankTransactionId"
+                placeholder="" required ng-change="formSubmitted = false">
+              <div class="error"
+                ng-show="myform.transaction_id.$error.required && myform.transaction_id.$touched && !formSubmitted ">
+                <span style="color: red;">This filed is required.</span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <input type="text" class="textfield " datepicker name="transaction_date" ng-model="f.transferDate"
+                value="" placeholder="" required ng-change="formSubmitted = false">
+              <div class="error"
+                ng-show="myform.transaction_date.$error.required && myform.transaction_date.$touched && !formSubmitted ">
+                <span style="color: red;">This filed is required.</span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <input type="text" class="textfield" name="sanction_fin_year" value="" ng-model="f.sanctionFinYear"
+                placeholder="" required ng-change="formSubmitted = false">
+              <div class="error"
+                ng-show="myform.sanction_fin_year.$error.required && myform.sanction_fin_year.$touched && !formSubmitted ">
+                <span style="color: red;">This field is required.</span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <input type="text" class="textfield" name="approval_number" value="" ng-model="f.approvalRefNo"
+                placeholder="" required ng-change="formSubmitted = false">
+              <div class="error" ng-show="myform.planNo.$error.required && myform.planNo.$touched && !formSubmitted ">
+                <span style="color: red;">This filed is required.</span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <input type="text" class="textfield " datepicker name="approval_date" value="" ng-model="f.approvalDate"
+                placeholder="" required ng-change="formSubmitted = false">
+              <div class="error"
+                ng-show="myform.approval_date.$error.required && myform.approval_date.$touched && !formSubmitted ">
+                <span style="color: red;">This Filed is required.</span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <input type="text" class="textfield" name="approving_authority" value="" ng-model="f.approvingAuthority"
+                placeholder="" required ng-change="formSubmitted = false">
+              <div class="error"
+                ng-show="myform.approving_authority.$error.required && myform.approving_authority.$touched && !formSubmitted ">
+                <span style="color: red;">This field is required.</span>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <input type="text" class="textfield" name="capital_fund" value="" ng-model="f.capitalTransfer"
+                placeholder="" ng-change="getfundXTotal($index)">
+            </div>
+          </li>
+          <li>
+            <div>
+              <input type="text" class="textfield" name="revenue_fund" value="" ng-model="f.revenueTransfer"
+                ng-change="getfundXTotal($index)" placeholder="">
+            </div>
+          </li>
+          <li>
+            <div>
+              <input type="text" class="textfield" name="totalFundTransfer" value="" ng-model="f.totalFundTransfer"
+                ng-disabled="t" placeholder="" required ng-change="formSubmitted = false">
+              <div class="error"
+                ng-show="myform.totalFundTransfer.$error.required && myform.totalFundTransfer.$touched && !formSubmitted ">
+                <span style="color: red;">this field is required.</span>
+              </div>
+            </div>
+          </li>
+          <li class="width3 checkbtn"><label><input type="checkbox" name="delete" class="checksec"> </label></li>
+        </ul>
+
+
+        <div class="recordlist2">
+
+        </div>
+
+        <div class="btnlist">
+          <ul>
+            <li>
+              <div><button type="button" class="bluebtn addfield" ng-click="addObj()">ADD</button></div>
+            </li>
+            <!-- <li><div><button type="button" class="bluebtn">EDIT</button></div></li> -->
+            <li>
+
+              <div>
+                <div><button type="button" class="bluebtn deletebtn2" disabled="">Delete</button></div>
+              </div>
+
+            </li>
+            <li>
+              <div><button type="submit" class="bluebtn" ng-click="submitFundXForm(fundform)">Save</button></div>
+            </li>
+            <li> <button type="button" class="bluebtn">Submit</button></li>
+          </ul>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+
+</section>
+<script type="text/javascript">
+  
+  $(".tablink").click(function () {
+    $('.tablink').removeClass('active');
+    $(this).addClass('active');
+    //event.preventDefault();
+    var id = $(this).attr("data-title");
+    $(".maintabsec").hide();
+    $("#" + id).fadeIn();
+    $(".maintabsec").removeClass('active');
+    $("#" + id).addClass('active');
+  });
+
+  $(document).on("click", ".deletebtn", function () {
+    $('input:checked').closest('.addcol6').remove();
+    $(".deletebtn").prop("disabled", true);
+  });
+  $(document).on("change", '.addcol6 input[type="checkbox"]', function () {
+    var checked = $('.addcol6 input[type="checkbox"]:checked').length > 0;
+    if (checked) {
+      $(".deletebtn").prop("disabled", false);
+    } else {
+      $(".deletebtn").prop("disabled", true);
+    }
+  });
+
+  $(document).on("click", ".deletebtn2", function () {
+    $('input:checked').closest('.addcol10').remove();
+    $(".deletebtn2").prop("disabled", true);
+  });
+  $(document).on("change", '.addcol10 input[type="checkbox"]', function () {
+    var checked = $('.addcol10 input[type="checkbox"]:checked').length > 0;
+    if (checked) {
+      $(".deletebtn2").prop("disabled", false);
+    } else {
+      $(".deletebtn2").prop("disabled", true);
+    }
+  });
+</script>

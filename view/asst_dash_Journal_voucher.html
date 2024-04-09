@@ -1,0 +1,119 @@
+<style>
+ ul li a .tablink.active {
+    color: rgb(255, 0, 21); /* Set the color for active tab */
+}
+</style>
+
+<section class="boxsection" ng-controller="jounalVouchDataCtrl"> 
+    <div class="flextitles" >
+      <div class="titles">Journal Voucher List</div>
+      <button type="button" class="bluebtn" ng-click="goAdminSection()" ng-if="tempRole">Admin Dashboard</button>
+    </div>
+    <div class="tabsec">
+      <!-- <ul>
+        <li><a class="tablink active" data-title="tab1" ng-click="handleClick('U')" ng-init="handleInitialClick('U')">Under Process Vouchers</a></li>
+        <li><a class="tablink "       data-title="tab1" ng-click="handleClick('F')">Finalize Vouchers</a></li>
+        <li><a class="tablink "       data-title="tab1" ng-click="handleClick('R')">Returned Vouchers</a></li>
+        <li><a class="tablink "       data-title="tab1" ng-click="handleClick('C')">Canceled Vouchers</a></li>
+      </ul> -->
+      <ul>
+        <li><a class="tablink" ng-class="{active: activeTab === 'U'}" data-title="tab1" ng-click="handleIntialClick('U')" ng-init="handleClick('U')">Under Process Vouchers</a></li>
+        <li><a class="tablink" ng-class="{active: activeTab === 'F'}" data-title="tab1" ng-click="handleIntialClick('F')">Finalize Vouchers</a></li>
+        <li><a class="tablink" ng-class="{active: activeTab === 'R'}" data-title="tab1" ng-click="handleIntialClick('R')">Returned Vouchers</a></li>
+        <li><a class="tablink" ng-class="{active: activeTab === 'C'}" data-title="tab1" ng-click="handleIntialClick('C')">Canceled Vouchers</a></li>
+    </ul>
+    </div>
+
+
+    <div id="tab1" class="sectionlist white-box maintabsec active">
+      <div class="white-box">
+        <ul class="searchbox">
+          <li>
+            <div ng-cloak>
+              <select class="dropdd selectdata" name="jvId" ng-model="jvId"
+                ng-options="x.jvId as x.jvId for x in journaldetailData | filter: { voucherStatusCode:status , sectionCode:details.sectionCode }">
+                <option value="" selected>Voucher Id </option>
+              </select>
+            </div>
+          </li>
+          <li><div ng-cloak >
+              <select class="dropdd selectdata" name="jIdDate" ng-model="jIdDate"
+                ng-options="x.jvIdDate as x.jvIdDate for x in journaldetailData | filter: { voucherStatusCode:status , sectionCode:details.sectionCode }">
+                <option value="" selected>Voucher Id Date</option>
+              </select>
+            </div>
+          </li>
+          <li><div ng-cloak >
+              <select class="dropdd selectdata" name="jvFinYear" ng-model="jvFinYear"
+                ng-options="x.jvFinYear as x.jvFinYear for x in journaldetailData | filter: { voucherStatusCode:status , sectionCode:details.sectionCode }">
+                <option value="" selected>Voucher FinYear</option>
+              </select>
+            </div>
+            </li>
+          <li><div ng-cloak >
+              <select class="dropdd selectdata" name="jvNo" ng-model="jvNo"
+                ng-options="x.jvNo as x.jvNo for x in journaldetailData | filter: { voucherStatusCode:status , sectionCode:details.sectionCode }">
+                <option value="">Voucher Number</option>
+              </select>
+            </div>
+            </li>
+          <li><div ng-cloak >
+              <select class="dropdd selectdata" name="jDate" ng-model="jDate"
+                ng-options="x.jvDate as x.jvDate for x in journaldetailData | filter: { voucherStatusCode:status , sectionCode:details.sectionCode }">
+                <option value="">Voucher date</option>
+              </select>
+            </div>
+            </li>
+          <li><button class="bluebtn" ng-click="searchInDtails(jvId,jIdDate,jvFinYear,narration,asssistantStaffNo,voucherStatusCode,jvNo,jDate);">Search</button>
+            <button type="button" ng-click="handleLink('journal-voucher')"  class="bluebtn"> Add </button>
+          </li>
+        </ul>
+      </div>
+      <div class="tablebox">
+        <table class="table table-bordered text-center regtable table-condensed">
+          <thead>
+            <tr>
+              <th>Voucher Id</th>
+              <th>Voucher Date</th>
+              <th>Voucher Fin Year</th>
+              <th>Voucher Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- <tr ng-repeat="n in journalVData" class="tdcolor"
+              ng-show="n.voucherStatusCode === status && n.sectionCode===details.sectionCode">
+              <td ng-bind="n.jvId"></td>
+              <td ng-bind="n.jvIdDate"></td>
+              <td ng-bind="n.jvFinYear"></td>
+              <td
+                ng-bind="n.voucherStatusCode === 'U' ? 'Under Processing' :  n.voucherStatusCode === 'F' ? 'Finalize' :  n.voucherStatusCode === 'R' ? 'Return' : n.voucherStatusCode === 'C' ? 'Cancelled' :  'Other';">
+              </td>
+              <td ng-if="status === 'U' || status === 'R'">
+                <button type="button" class="bluebtn" ng-click="edit(n,$index)">Edit</button>
+                <button type="button" class="bluebtn" ng-click="delete(n,$index)">Delete</button>
+              </td>
+              <td ng-if="status !== 'U' && status !== 'R'">
+                <button type="button" class="bluebtn" ng-click="edit(n,$index)">Detail</button>
+              </td>
+            </tr> -->
+            <tr ng-repeat="n in journalVData" class="tdcolor" ng-show="n.voucherStatusCode === status">
+              <td ng-bind="n.jvId"></td>
+              <td ng-bind="n.jvIdDate"></td>
+              <td ng-bind="n.jvFinYear"></td>
+              <td
+              ng-bind="n.voucherStatusCode === 'U' ? 'Under Processing' :  n.voucherStatusCode === 'F' ? 'Final' :  n.voucherStatusCode === 'R' ? 'Return' : n.voucherStatusCode === 'C' ? 'Cancelled' :  'Other';">
+            </td>
+              <td ng-if="status === 'U'">
+                <button type="button" class="bluebtn" ng-click="edit(n,$index)">  Edit</button>
+              </td>
+              <td ng-if="status != 'U'">
+                <button type="button" class="bluebtn" ng-click="edit(n,$index)">  Detail</button>
+              </td>
+            </tr>
+          </tbody>
+  
+        </table>
+      </div>
+    </div> 
+</section>

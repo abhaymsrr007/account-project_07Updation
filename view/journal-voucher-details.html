@@ -1,0 +1,364 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css"/>
+
+    <script src="js/bootstrap-select.min.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- Include Toastr CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+    />
+    <!-- Include Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="js/linked.js"></script>
+    <title>form</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+
+    <style>
+    .add-btn{padding:4px 10px;margin:5px;background:var(--blue);color:var(--white);border-radius:3px;border:none;text-align:center}
+    .add-btn:hover{color:white;background-color:var(--blue)}
+    .searchbox{display:flex;justify-content:end;align-self:flex-end;width:100%}
+    .searchbox>input{padding:5px;margin:5px;width:15%;border-radius:5px;border:none;outline:#dae7fb;background-color:#dae7fb}
+    .searchbox>button{padding:4px 10px;margin:5px;background:var(--blue);color:var(--white);border-radius:3px;border:none;text-align:center}
+    .dtlist{list-style:none;padding:0;margin:0;max-height:450px;overflow:auto;display:flex;align-items:center;flex-wrap:wrap}.dtlist>li{width:50%;padding:10px;font-size:14px}
+    .dtlist>li span{font-family:"Roboto",Helvetica,Arial,sans-serif;display:inline-block;min-width:150px;text-transform:capitalize;font-weight:600}
+    .close-button{position:absolute;top:10px;right:10px;background:none;border:none;font-size:24px;cursor:pointer;color:#555}
+    .close-button:hover{color:#000} .titles{text-transform:none;font-weight:400}
+    #detailmodal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,0.5);z-index:9999;min-width:100px}
+    #detailmodal-content{top:50px;background-color:#fff;padding:20px;border-radius:5px;position:relative;box-shadow:0px 0px 10px rgba(0,0,0,0.5);max-width:800px;margin:auto;overflow:hidden}
+    #detailmodal h2{font-size:24px;margin-bottom:10px;margin-top:0;font-weight:600;font-family:roboto}
+    #detailmodal-content .row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #ccc}
+    #detailmodal-content .row:last-child{border-bottom:none}#detailmodal-content .row span{font-weight:bold;text-transform:capitalize}    
+    .custom-select {
+      width: 200px; 
+      padding: 8px; 
+      border: 1px solid #ccc; 
+      border-radius: 4px; 
+      background-color: #dae7fb; 
+      color: #333; 
+      font-size: 14px; 
+    }
+     
+    .custom-select option {
+      font-size: 14px; 
+      background-color: #ffffff; 
+      color: #333; 
+    }
+
+  </style>
+   <link rel="stylesheet" href="css/toastr.min.css" />
+    <script src="js/toastr.min.js"></script>
+</head>
+
+<body  ng-controller="contr" novalidate>
+    <header class="topheading">
+    <div class="logo">
+        <img src="images/nrt-logo.svg" alt=""/>
+      </div>
+      <a class="btn bluebtn" ng-click="goBack()">Back</a>
+    </header>
+    <section class="formsec">
+      <p class="titles">Journal Voucher Details</p>
+
+      <div class="white-box">
+        <ul>
+          <li class="searchbox">
+            <div ng-cloak style="width: 200px; margin-top: 5px;margin: 2px;" class="">
+              <select
+                class="selectsearch"
+                name="jvId"
+                ng-model="jvId"
+                data-live-search="true" >
+                <option value="">voucher Id</option>
+                <option value="{{x.jvId}}" ng-repeat="x in journaldetailData">{{x.jvId}} </option>
+              </select>
+            </div>
+              <div ng-cloak style="width: 200px; margin-top: 5px;margin: 2px;" class="">
+                <select class="selectsearch" name="jvIdDate" ng-model="jvIdDate"
+                ng-options="x.jvIdDate as x.jvIdDate for x in journaldetailData | unique:'jvIdDate' | filter:{ jvId: '!!' }">
+                <option value="" selected>Voucher Id Date</option>
+            </select>
+              </div>
+
+              <div ng-cloak style="width: 200px; margin-top: 5px;margin: 2px;" class="">
+                <select class="selectsearch" name="jvFinYear" ng-model="jvFinYear"
+                ng-options="x.jvFinYear as x.jvFinYear for x in journaldetailData | filter: { jvId: jvId} | unique:'jvFinYear' | filter:{ jvFinYear: '!!' }">
+                <option value="" selected>Voucher FinYear</option>
+            </select>
+              </div>
+
+
+              <div ng-cloak style="width: 200px; margin-top: 5px;margin: 2px;" class="">
+                <select class="selectsearch" name="narration" ng-model="narration"
+                ng-options="x.narration as x.narration for x in journaldetailData | unique:'narration' | filter:{ narration: '!!' }">
+                <option value="">Narration</option>
+            </select>
+              </div>
+
+              <div ng-cloak style="width: 200px; margin-top: 5px;margin: 2px;" class="">
+                <select class="selectsearch" name="voucherStatusCode" ng-model="voucherStatusCode"
+                  ng-options="x.voucherStatusCode as x.voucherStatusCode for x in journaldetailData | filter: { jvId: jvId} | unique:'voucherStatusCode' | filter:{ voucherStatusCode: '!!' }">
+                  <option value="" selected>Voucher Status</option>
+              </select>
+              </div>
+
+              <div ng-cloak style="width: 200px; margin-top: 5px;margin: 2px;" class="">
+                <select class="selectsearch" name="asssistantStaffNo" ng-model="asssistantStaffNo"
+                  ng-options="x.asssistantStaffNo as x.asssistantStaffNo for x in journaldetailData | filter: { jvId: jvId} | unique:'asssistantStaffNo' | filter:{ asssistantStaffNo: '!!' }">
+                  <option value="" selected>Assistant</option>
+              </select>
+              </div>
+
+          <button class="bluebtn btn text-end"
+            ng-click="searchInDtails(jvId,jvIdDate,jvFinYear,narration,asssistantStaffNo,voucherStatusCode);">Search</button>
+            <a href="journal-voucher.html" class="add-btn"> Add </a>
+          </li>
+        </ul>
+        <div class="table-responsive">
+          <table
+            class="table table-bordered text-center regtable table-condensed">
+            <thead>
+              <tr>
+                <th>Voucher Id</th>
+                <th>Voucher Id date</th>
+                <th>Voucher FinYear</th>
+                <th>Narration</th>
+                <th>Voucher Status</th>
+                <th>Assistant</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="n in journaldetailData" class="tdcolor">
+                <td ng-bind="n.jvId"></td>
+                <td ng-bind="n.jvIdDate"></td>
+                <td ng-bind="n.jvFinYear"></td>
+                <td ng-bind="n.narration"></td>
+                <td ng-bind="n.voucherStatusCode"></td>
+                <td ng-bind="n.asssistantStaffNo"></td>
+                <td>
+                  <button type="button" class="bluebtn" ng-click="edit(n,$index)">Edit </button>
+                  <button type="button" class="bluebtn" ng-click="showDetails(n,$index)"> Detail </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" id="detailmodal">
+      <div id="detailmodal-content">
+        <button id="closeBtn" class="close-button" ng-click="closeDetail()">
+          &times;
+        </button>
+        <h2>Journal Voucher Detail</h2>
+        <ul class="dtlist">
+          <!-- <li ng-repeat="(key, value) in journalShow">
+            <span>{{ key }}</span>: {{ value }}
+          </li> -->
+
+          <li ng-repeat="item in journalShow">
+            <div>              
+                  <span ng-repeat="(key, value) in item" >
+                  {{ key }}: {{ value }}
+                </span>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+    </section>
+    <!-- <footer class="footerbg footerdown">© 2023 All Rights Reserved.</footer> -->
+    <link
+      rel="stylesheet"  type="text/css" href="css/bootstrap-datepicker.min.css" />
+    <script  type="text/javascript" src="js/bootstrap-datepicker.min.js" ></script>
+    <script type="text/javascript">
+      $(".datepicker").datepicker({
+        format: "dd-mm-yyyy",
+      });
+      setTimeout(function () {
+        $(".selectsearch").selectpicker();
+      }, 1000);
+    </script>
+    <script>
+
+      var app = angular.module("app", []);
+      app.filter('unique', function() {
+        return function(collection, keyname) {
+        var output = [], 
+            keys = [];
+          angular.forEach(collection, function(item) {
+              var key = item[keyname];
+              if (keys.indexOf(key) === -1) {
+                  keys.push(key);
+                  output.push(item);
+              }
+          });
+
+          return output;
+      };
+  });
+
+      app.controller("contr", function ($scope, $http, $timeout, $window, $rootScope, $filter) {
+        var token;
+          const userDetailsJSON = $window.sessionStorage.getItem('userDetails');
+          if (userDetailsJSON) {
+            const userDetails = JSON.parse(userDetailsJSON);
+            if (userDetails.token!=null || userDetails.token!=''){
+              $scope.details=angular.copy(userDetails);
+              token=$scope.details.token;
+            }
+          } else {
+            $window.location.href = "login.html";
+            console.log('User details not found in sessionStorage');
+          }
+          $scope.logout = function() {
+            $window.sessionStorage.removeItem('userDetails');
+            $window.location.href = 'login.html';
+          }; 
+
+            var config = {
+                headers: {
+                'Authorization': 'Bearer ' + token
+                  },   
+                };
+
+
+          $scope.journaldetailData=[];
+          var uniqueAccountCodes = [];
+          (function getProjectPlan() {
+            $http.get(path+"/api/v1/account/journelvoucher",config)
+              .then(function (response) {
+                $scope.journaldetailData = response.data;                    
+      
+                // $scope.journaldetailData.forEach(function (item) {
+                //   if (uniqueAccountCodes.indexOf(item.accountCode) === -1) {
+                //     uniqueAccountCodes.push(item.accountCode);
+                //   }
+                // });
+                //   console.log("uniqueAccountCodes",uniqueAccountCodes); 
+                  console.log("$scope.journaldetailData",$scope.journaldetailData); 
+                },
+                function errorCallback(response) {
+                  console.log("error");
+                }
+              );
+          })();
+
+   
+          $scope.jvData=[];
+          $scope.searchInDtails = function (jvId,jvDate,jvFinYear,narration,asssistantStaffNo,voucherStatusCode) {
+          
+                let dd = jvDate?.substring(0, 2);
+                let mm = jvDate?.substring(2, 6);
+                let yyyy = jvDate?.substring(6, 10);
+
+                let  jvIdDate  = jvDate ? yyyy + mm + dd : null;
+
+            console.log(jvId,jvIdDate,jvFinYear,narration,voucherStatusCode,asssistantStaffNo)
+            var JvDetail = {
+              jvId: jvId || null,
+              jvIdDate: jvIdDate ? jvIdDate : null,   
+              jvFinYear: jvFinYear || null,
+              narration: narration || null,
+              voucherStatusCode: voucherStatusCode || null,
+              asssistantStaffNo: asssistantStaffNo || null,
+            };
+            console.log("k>>>>>", JvDetail);
+            var path1 = path+"/api/v1/account/journelvoucher/search";
+            $http.post(path1,JvDetail,config).then((res) => {
+                $scope.journaldetailData = res.data;
+                console.log("JvDetail ",$scope.journaldetailData);
+              },
+              (err) => {
+                console.log("Data Not fetch",err);
+              }
+            );
+          };
+
+          $scope.closeDetail = () => {
+            document.getElementById("detailmodal").style.display = "none";
+          };
+
+          var modal = document.getElementById("detailmodal");
+          var closeBtn = document.getElementById("closeBtn");
+
+          // Add an event listener for the "Escape" key press
+          document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+              modal.style.display = "none"; // Hide the modal when "Escape" key is pressed
+            }
+          });
+
+          // Add an event listener for the close button
+          closeBtn.addEventListener("click", function () {
+            modal.style.display = "none"; // Hide the modal when the close button is clicked
+          });
+
+          // $scope.journalShow = {};
+          // $scope.showDetails = (jvId,index) => {
+          //   document.getElementById("detailmodal").style.display = "block";   
+          //   $http.get(path+`/api/v1/account/journelvoucherdetailData/${jvId}`,config)              
+          //   .then( (res) => {
+          //         $scope.journalShow = res.data;
+          //         console.log("$scope.journalShow",$scope.journalShow);
+          //       }, (err) => {
+          //         console.error(err);
+          //       }
+          //     );
+          // };
+
+  
+
+          $scope.edit = function (n,index) {
+            console.log("edit",index)
+            var nObject = {
+              planNo: n.planNo,
+              planFinYear: n.planFinYear,
+              planTypeCode:n.planTypeCode,
+              jvDetSlno:n.jvDetSlno,
+              jvId:n.jvId,
+              accountCode:n.accountCode,
+            };
+            // var url ="journal-voucher.html?n=" + JSON.stringify(nObject,index);
+            var url = "journal-voucher.html?n=" + encodeURIComponent(JSON.stringify(nObject)) + "&index=" + index;
+            window.open(url, "_blank");
+          }; 
+
+
+          $scope.showDetails = function (n,index) {
+            console.log("edit",index)
+            var nObject = {
+              planNo: n.planNo,
+              planFinYear: n.planFinYear,
+              planTypeCode:n.planTypeCode,
+              jvDetSlno:n.jvDetSlno,
+              jvId:n.jvId,
+              accountCode:n.accountCode,
+            };
+            // var url ="journal-voucher.html?n=" + JSON.stringify(nObject,index);
+            var url = "journal-voucher-view.html?n=" + encodeURIComponent(JSON.stringify(nObject)) + "&index=" + index;
+            window.open(url, "_blank");
+          }; 
+          $scope.goBack = function () {
+        window.history.back();
+      }
+
+        });
+    </script>
+  </body>
+</html>

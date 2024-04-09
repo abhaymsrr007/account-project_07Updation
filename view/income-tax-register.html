@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Income Tax Register</title> 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon" />  
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/bootstrap.min.css" /> 
+<script src="js/jquery-3.6.0.min.js"></script>
+<!-- <script src="js/bootstrap.min.js"></script>    -->
+ <link rel="stylesheet" href="css/style.css">
+ 
+</head>
+<body>
+  <header class="topheading">
+    <div class="logo">
+      <img src="images/nrt-logo.svg" alt="" />  
+    </div> 
+    <a class="btn bluebtn" href="dashboard.html">Back</a>
+    <a class="userlogin" href="index.html">Amit Kumar <span><img src="images/userimg.jpg" alt="student" /></span></a>
+    
+  </header>
+    <section class="formsec">
+  <div class="container">
+    <div class="titles text-center">Income Tax Register</div>
+    <div  class="flexbox">
+      <div class="white-box forms notop">
+        <h3>Register Identification:</h3>
+        <ul class="flexbox">
+          <li> 
+            <div>
+              <label>Register Id <sup>*</sup></label>
+              <input type="text" class="textfield" name="approved_by" value="" placeholder="" />
+            </div>
+          </li>
+          <li>
+            <div>
+              <label>Fin Year<sup>*</sup></label>
+              <input type="text" class="textfield" name="date" value="" placeholder="" />
+            </div>
+           
+          </li>
+           
+        </ul>
+      </div>
+      <div class="white-box forms notop width70" >
+        <h3>Invoice / Bill Voucher Identification:</h3>
+        <ul>
+
+          <li> 
+            <div>
+                <label>Voucher Type<sup>*</sup></label> 
+                <div class="flexbox2">
+                <select class="dropdd fullwidth" name="type">
+                  <option>Select</option>
+                  <option>1</option>
+                </select>
+                <span>-</span>
+                <input type="text" class="textfield" name="university" value="" placeholder="" />
+                </div>
+              </div> 
+          </li>
+          <li> 
+            <div>
+              <label>Voucher Id & Fin Year <sup>*</sup></label>
+              <div class="flexbox2">
+                <input type="text" class="textfield " name="university" value="" placeholder="" /><span>-</span>
+                <input type="text" class="textfield" name="university" value="" placeholder="" />
+              </div>
+            </div>
+          </li>
+          <li> 
+            <div>
+              <label>Voucher No. & Date <sup>*</sup></label>
+              <div class="flexbox2">
+                <input type="text" class="textfield" name="university" value="" placeholder="" /><span>-</span>
+                <input type="text" class="textfield" name="university" value="" placeholder="" />
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+   </div>
+
+    <div class="white-box forms form2">
+      <h3>Purchase Order and Invoice / Bill Details</h3>
+      <ul>
+        <li>
+          <div>
+            <label>PO Id, Fin Year & Bill Sl No</label>
+            <div class="flexbox">
+              <input type="text" class="textfield" name="department" value="" placeholder="" /><span>-</span>
+              <input type="text" class="textfield" name="department2" value="" placeholder="" /><span>-</span>
+              <input type="text" class="textfield" name="department2" value="" placeholder="" />
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>PO No & Date</label>
+            <div class="flexbox">
+              <input type="text" class="textfield width70" name="department" value="" placeholder="" /><span>-</span>
+              <input type="text" class="textfield" name="department2" value="" placeholder="" />
+            </div>
+          </div>
+        </li>
+
+        </li>
+      </ul>
+
+      <ul >
+        <li class="width60">
+          <div>
+            <label>Vendor Name</label>
+            <div class="flexbox">
+              <input type="text" class="textfield" name="department" value="" placeholder="" /><span>-</span>
+              <input type="text" class="textfield" name="department2" value="" placeholder="" />
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Invoice No & Date</label>
+            <div class="flexsec">
+              <input type="text" class="textfield width60" name="college" value="" placeholder=""/><span>-</span>
+              <input type="text" class="textfield" name="college2" value="" placeholder="" />
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Passed Amount<sup>*</sup></label>
+            <div class="flexbox">
+              <input type="text" class="textfield" name="university" value="" placeholder="" />
+           
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="white-box forms form2">
+      <h3>TDS Details:</h3>
+      <ul>
+        <li class="width40">
+          <div>
+            <label>IT Section<sup>*</sup></label>
+            <div class="flexbox">
+              <input type="text" class="textfield" name="department" value="" placeholder="" /><span>-</span>
+              <input type="text" class="textfield" name="department2" value="" placeholder="" />
+            </div>
+          </div>
+        </li>
+        <li class="smallsec2">
+          <div>
+            <label>Taxable Amount<sup>*</sup></label>
+            <input type="text" class="textfield" name="department" value="" placeholder=""/>
+          </div>
+        </li>
+        <li class="smallsec2">
+          <div>
+            <label>Income Tax<sup>*</sup></label>
+            <input type="text" class="textfield" name="department" value="" placeholder="" />
+          </div>
+        </li>
+        <li class="smallsec2">
+          <div>
+            <label>Surcharge </label>
+            <input type="text" class="textfield" name="surcharge" value="" placeholder="" />
+          </div>
+        </li>
+
+        </li>
+      </ul>
+
+      <ul>
+        <li>
+          <div>
+            <label>Education Cess </label>
+            <input type="text" class="textfield" name="education" value="" placeholder="" />
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Heath & Edu Cess</label>
+            <input type="text" class="textfield" name="heath" value="" placeholder="" />
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Rounding Value </label>
+            <input type="text" class="textfield" name="aounding" value="" placeholder="" />
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Net Tax Deducted<sup>*</sup></label>
+            <input type="text" class="textfield" name="deducted" value="" placeholder="" />
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="white-box forms form2">
+      <h3>TDS Remit Details:</h3>
+
+
+      <ul>
+        <li>
+          <div>
+            <label>Entered By<sup>*</sup></label>
+            <div class="flexbox">
+              <input type="text" class="textfield" name="department" value="" placeholder="" /><span>-</span>
+              <input type="text" class="textfield" name="department2" value="" placeholder="" />
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Voucher Id & Fin Year</label>
+            <div class="flexbox2">
+              <input type="text" class="textfield" name="college" value="" placeholder=""/><span>-</span>
+              <input type="text" class="textfield" name="college2" value="" placeholder=""/>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Voucher No. & Date<sup>*</sup></label>
+            <div class="flexbox2">
+              <input type="text" class="textfield" name="voucher_no" value="" placeholder="" /><span>-</span>
+              <input type="text" class="textfield" name="voucher_date" value="" placeholder="" />
+            </div>
+          </div>
+        </li>
+        <li>
+          <div>
+            <label>Status</label>
+            <input type="text" class="textfield" name="college2" value="" placeholder="" />
+          </div>
+        </li>
+      </ul>
+      <div class="btnlist">
+          <ul> 
+              <li><div><button type="submit" class="bluebtn">Save</button></div></li> 
+              <li><div><button type="submit" class="bluebtn">Submit</button></div></li> 
+          </ul>
+      </div>
+    </div>
+
+
+
+  </div>
+  </section>
+  <footer class="footerbg">
+    © 2023 All Rights Reserved. 
+  </footer>
+  </body>
+</html>

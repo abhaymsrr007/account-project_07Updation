@@ -1,0 +1,137 @@
+    <style>
+        .flexbox .dropdd {
+            width: 100%;
+        }
+    </style>
+    <section class="formsec" ng-controller="purOrdAmmendCtrl">
+        <div class="titles">{{subbreadcrumb}}</div>
+        <form name="myform" ng-submit="save()">
+            <div class="notop forms white-box">
+                <ul >
+                    <li class="s2">
+                        <div class="">
+                            <label for="poId">PO Id</label>
+                           
+                                <select ng-model="form.poId" class="dropdd" required name="bcode">
+                                    <option value=""  > Select PO Id</option>
+                                    <option ng-repeat="x in bankData" value="{{x.poId}}">{{x.poId}} - {{x.dscr}}
+                                    </option>
+                                </select>
+                                <div class="error" ng-show="myform.poId.$error.required && myform.poId.$touched">
+                                    This field is required.
+                                  </div>
+                        </div>
+                    </li>
+
+                    <li>
+
+                        <label for="bcode">Bank Code</label>
+                        <select ng-model="form.poFinYear" class="dropdd" required name="bcode">
+                            <option value="" disabled selected> Select Bank Code</option>
+                            <option ng-repeat="x in bankData" value="{{x.poFinYear}}">{{x.poFinYear}} - {{x.dscr}}
+                            </option>
+                        </select>
+                        <div class="error" ng-show="myform.bcode.$error.required && myform.bcode.$touched">
+                            This field is required.
+                          </div>
+
+                    </li>
+
+                    <li>
+                        <div>
+                            <label for="ifsc">IFSC</label>
+                            <input type="text" class="textfield uppercase" ng-model="form.ifscCode" id="ifsc"
+                                placeholder="IFSC" maxlength="20" required name="ifsc">
+                                <div class="error" ng-show="myform.ifsc.$error.required && myform.ifsc.$touched">
+                                    This field is required.
+                                  </div>
+                        </div>
+                    </li>
+                    <li >
+                        <label for="poAmmendmentNo">PO Ammendment No</label>
+                        <select ng-model="form.poAmmendmentNo" class="dropdd" required name="poAmmendmentNo"
+                            ng-change="selectUniversity(collgData,form.poAmmendmentNo,UniData)">
+                            <option value="" disabled selected> Select </option>
+                            <option ng-repeat="x in collgData" value="{{x.poAmmendmentNo}}">{{x.poAmmendmentNo}} - {{x.dscr}}
+                            </option>
+                        </select>
+                        <div class="error" ng-show="myform.poAmmendmentNo.$error.required && myform.poAmmendmentNo.$touched">
+                            This field is required.
+                          </div>
+                    </li>
+                    <li >
+                        <label for="operative">University Code</label>
+                        <input type="text" class="textfield" ng-model="form.universityCode" id="universityCode" placeholder="University Code"  required disabled>
+                    </li>
+                    <li class="width30">
+                        <div>
+                            <label for="dscr">Description</label>
+                            <input type="text" class="textfield" ng-model="form.dscr" id="dscr"
+                                placeholder="Description" maxlength="50" required name="dscr">
+                                <div class="error" ng-show="myform.dscr.$error.required && myform.dscr.$touched">
+                                    This field is required.
+                                  </div>
+                        </div>
+                    </li>
+                    <li class="">
+                        <div class="">
+                            <label for="unicode">Account Type Code</label>
+                            <select ng-model="form.accountTypeCode" class="dropdd" required name="unicode">
+                                <option value="" disabled selected>Select </option>
+                                <option ng-repeat="x in accounttypeData" value="{{x.accountTypeCode}}">
+                                    {{x.accountTypeCode}} -
+                                    {{x.dscr}}</option>
+                            </select>
+                            <div class="error" ng-show="myform.unicode.$error.required && myform.unicode.$touched">
+                                This field is required.
+                              </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <button type="submit" class="bluebtn "
+                                ng-mouseover="flag1=false">Save</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </form>
+        <div class="white-box">
+            <table class="table table-bordered text-center regtable table-condensed">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;" width="80">Bank Account code</th>
+                        <th width="120">Description</th>
+                        <th width="80">Bank Code</th>
+                        <th width="80">Bank Code Description</th>
+                        <th width="80">IFSC Code</th>
+                        <th width="80">College Code</th>
+                        <th width="80">College Description</th>
+                        <th width="80">University Code</th>
+                        <th width="80">University Description</th>
+                        <th width="80">Account Type Code </th>
+                        <th width="80">Account Description </th>
+                        <th width="100">Action </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="n in bankaccountData" class="tdcolor">
+                        <td ng-bind="n.poId | uppercase" ng-disabled="flag"> </td>
+                        <td ng-bind="n.dscr|uppercase"></td>
+                        <td ng-bind="n.poFinYear"> </td>
+                        <td ng-bind="getBankDscr(bankData,n.poFinYear)| uppercase"> </td>
+                        <td ng-bind="n.ifscCode | uppercase"> </td>
+                        <td ng-bind="n.poAmmendmentNo"> </td>
+                        <td ng-bind="getcllgDscr(collgData,n.poAmmendmentNo) | uppercase"> </td>
+                        <td ng-bind="n.universityCode"> </td>
+                        <td ng-bind="getUniDscr(UniData,n.universityCode) | uppercase"> </td>
+                        <td ng-bind="n.accountTypeCode"> </td>
+                        <td ng-bind="getAccTypeDscr(accounttypeData,n.accountTypeCode) | uppercase"> </td>
+                        <td><button type="button" class="bluebtn" ng-click="edit(n,UniData)">Edit</button>
+                        </td>
+                    </tr>
+                    <tr></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>

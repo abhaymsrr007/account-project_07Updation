@@ -1,0 +1,98 @@
+<section class="formsec1" ng-controller="staffdesignationCtrl">
+    <div class="titles">{{subbreadcrumb}}</div>
+    <form name="myform" ng-submit="save()" novalidate>
+        <div class="forms white-box notop">
+            <ul>
+                <li>
+                    <label for="gradeCode">Grade Code</label>
+                    <select ng-model="form.gradeCode" class="dropdd" required name="gradeCode">
+                        <option value="" disabled selected>Select gradeCode</option>
+                        <option ng-repeat="x in staffGradeData" value="{{x.gradeCode}}">{{x.gradeCode}} - {{x.dscr}}
+                        </option>
+                    </select>
+                    <div class="error"
+                        ng-show="myform.gradeCode.$error.required && myform.gradeCode.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li>
+                    <label for="designationCode">Designation Code</label>
+                    <input type="text" class="textfield" m-num-only  ng-model="form.designationCode" id="designationCode"
+                        placeholder="Designation Code" ng-disabled="idDisable" ng-blur="checkForDuplicate(form.designationCode)" name="designationCode">
+                        <div class="error"
+                            ng-show="myform.designationCode.$error.required && myform.designationCode.$touched && !formSubmitted">
+                        This field is required.
+                        </div>
+                  <div class="error"
+                    ng-show="duplicateCode && myform.designationCode.$touched">
+                    This Designation Code already exists.
+                  </div>
+                </li>
+                <li>
+                    <label for="shortName">Short Name</label>
+                    <input type="text" class="textfield" m-name ng-model="form.shortName" id="shortName"
+                        placeholder="Short Name" maxlength="10" required name="shortName">
+                    <div class="error"
+                        ng-show="myform.shortName.$error.required && myform.shortName.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+
+                </li>
+
+
+                <li>
+                    <div>
+
+                        <label for="dscr">Description</label>
+                        <input type="text" class="textfield" m-name ng-model="form.dscr" id="dscr" placeholder="Description"
+                            maxlength="50" required name="dscr">
+                        <div class="error"
+                            ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">
+                            This field is required.
+                        </div>
+                    </div>
+
+                </li>
+                <li>
+                    <div>
+                        <button type="submit" class="bluebtn " style="margin-top: 15px; " ng-disabled="myform.$invalid || duplicateCode">Save</button>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+    </form>
+    <div class="white-box ">
+
+        <table class="table table-bordered text-center regtable table-condensed">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">Grade Code</th>
+                    <th style="text-align: center;">Designation Code</th>
+                    <th style="text-align: center;">Short Name</th>
+
+                    <th width="600">Description</th>
+                    <th width="200">Action</th>
+
+
+                    <!-- <th>Gl group code</th> -->
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="n in staffDesigData" class="tdcolor">
+                    <td ng-bind="n.gradeCode"></td>
+                    <td ng-bind="n.designationCode"> </td>
+                    <td ng-bind="n.shortName"></td>
+                    <td ng-bind="n.dscr|uppercase"></td>
+                    <!-- <td ng-bind="n.designationCode"> </td> -->
+                    <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</section>

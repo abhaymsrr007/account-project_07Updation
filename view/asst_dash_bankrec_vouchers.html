@@ -1,0 +1,385 @@
+  <style type="text/css">
+    .searchbox {justify-content: flex-start;}
+    .searchbox li {min-width: 16.66%;}
+  </style>
+  <section class="boxsection" ng-controller="asstDashBankRecVouCtrl"> 
+    <div class="titles">{{subbreadcrumb}}</div>
+    <div class="tabsec">
+      <ul>
+        <li><a class="tablink active" data-title="tab1" id="t1" ng-click="tabToggle('1')">Under Process Vouchers</a>
+        </li>
+        <li><a class="tablink " data-title="tab2" id="t2" ng-click="tabToggle('2')">Finalised Vouchers</a></li>
+        <li><a class="tablink " data-title="tab3" id="t3" ng-click="tabToggle('3')">Returned Vouchers</a></li>
+        <li><a class="tablink " data-title="tab4" id="t4" ng-click="tabToggle('4')">Canceled/Accounting/Passed
+            Vouchers</a></li>
+      </ul>
+    </div>
+    <div id="tab1" class="sectionlist white-box maintabsec active">
+      <div class="white-box">
+        <ul class="searchbox">
+          <li>
+            <div ng-cloak >
+              <select class="dropdd" name="bankRvId" ng-model="bankRvId" data-live-search="true">
+                <option value="">Select Voucher ID</option>
+                <option value="{{x.bankRvId}}" ng-repeat="x in bRvData | filter:{voucherStatusCode:'U'}">
+                  {{x.bankRvId}} - {{x.recvdFrom | uppercase}}
+                </option>
+              </select>
+            </div>
+          </li>
+          <li><input type="text" class="textfield datepicker" ng-model="bankRvIdDate" placeholder="ID Date" /></li>
+          <li><input type="text" class="textfield" ng-model="finYear" placeholder="Fin Year" /></li>
+          <li><input type="text" class="textfield" ng-model="bankRvNo" placeholder="Voucher No" /></li>
+          <li><input type="text" class="textfield datepicker" ng-model="bankRvDate" placeholder="Voucher Date" /></li>
+          <li><div ng-cloak >
+              <select class="dropdd" name="payee_type" ng-model="payeeTypeCode"
+                ng-change="setpayFromTypeCode(payeeTypeCode);">
+                <option value="">Select Payee Type</option>
+                <option ng-repeat="n in uniquePayToTypes(bRvData)" value="{{n.payFromTypeCode}}">
+                  {{ n.payFromTypeCode === 'V' ? 'Vendor' : n.payFromTypeCode === 'S' ? 'Student'
+                  :
+                  n.payFromTypeCode === 'E' ? 'Employee' : n.payFromTypeCode === 'O' ? "Other" :
+                  '' }}
+                </option>
+              </select> 
+            </div></li>
+          <li><div ng-cloak >
+              <select class="dropdd" name="bankRvId" ng-model="payFromTypeCode"
+                ng-change="getPayFrom(payeeTypeCode, payFromTypeCode)"
+                ng-options="(x.payFromTypeCode === 'E' ? x.staffNo : (x.payFromTypeCode === 'S' ? x.univRegistrationNo :
+                                                            (x.payFromTypeCode === 'V' ? x.vendorCode : 'Other'))) + ' - ' + x.recvdFrom for x in payFromTypeCodes">
+                <option value="">Select Payee Code</option>
+              </select> 
+            </div></li>
+          <li><input type="text" class="textfield" ng-model="recvdFrom" ng-disabled="true" placeholder="Name" /></li>
+          <li><button class="bluebtn" ng-click="searchFields(bankRvId,bankRvIdDate,finYear,bankRvNo,bankRvDate,payeeTypeCode,payFromTypeCode,recvdFrom);">Search</button>  <button ng-click="handleLink('bank-reciept-voucher')" class="bluebtn "> Add </button> </li>
+        </ul>
+      </div>
+      <div class="tablebox">
+        <table class="table table-bordered text-center regtable table-condensed">
+          <thead>
+            <tr>
+              <th>Voucher Id</th>
+              <th>ID Date</th>
+              <th>Fin Year</th>
+              <!-- <th>Receipt Voucher No</th> -->
+              <!-- <th>Receipt Voucher Date</th> -->
+              <th>Payee Type</th>
+              <th>Payee From</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="n in bRvData | filter:{voucherStatusCode:'U'} | orderBy:'-bankRvId'" class="tdcolor">
+              <td ng-bind="n.bankRvId"></td>
+              <td ng-bind="n.bankRvIdDate"></td>
+              <td ng-bind="n.finYear"></td>
+              <!-- <td ng-bind="n.receiptNo"></td> -->
+              <!-- <td ng-bind="n.receiptDate"></td> -->
+              <td
+                ng-bind="n.payFromTypeCode === 'V' ? 'Vendor' :  n.payFromTypeCode === 'S' ? 'Student' :  n.payFromTypeCode === 'E' ? 'Employee' :  'Other';">
+              </td>
+              <td ng-bind="n.recvdFrom | uppercase"></td>
+              <td ng-bind="n.voucherStatusCode=='U'?'UNDERPROCESSING' :''"></td>
+              <td>
+                <button type="button" class="bluebtn" ng-click="delete(n.bankRvId,n.finYear)">
+                  Delete
+                </button>
+                <button type="button" class="bluebtn" ng-click="edit(n)">
+                  Edit
+                </button>
+                <!-- <button type="button" class="bluebtn" ng-click="showDetails(n.bankRvId,n.finYear)">
+
+                    Detail
+                  </button> -->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="container" id="detailmodal">
+      <div id="detailmodal-content" class="table-responsive">
+        <button id="closeBtn" class="close-button" ng-click="closeDetail()">
+          &times;
+        </button>
+        <h2>Bank Payment Detail</h2>
+        <ul class="dtlist">
+          <li ng-repeat="(key, value) in bankpay">
+            <span>{{ key }}</span> {{ value }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="tab2" class="sectionlist white-box maintabsec ">
+      <div class="white-box">
+        <ul class="searchbox">
+          <li>
+            <div ng-cloak >
+              <select class="dropdd" name="bankRvId" ng-model="bankRvId" data-live-search="true">
+                <option value="">Select Voucher ID</option>
+                <option value="{{x.bankRvId}}" ng-repeat="x in bRvData | filter:{voucherStatusCode:'P'}">
+                  {{x.bankRvId}} - {{x.recvdFrom | uppercase}}
+                </option>
+              </select>
+            </div></li>
+          <li><input type="text" class="textfield datepicker" ng-model="bankRvIdDate" placeholder="ID Date" /></li>
+          <li><input type="text" class="textfield" ng-model="finYear" placeholder="Fin Year" /></li>
+          <li><input type="text" class="textfield" ng-model="bankRvNo" placeholder="Voucher No" /></li>
+          <li><input type="text" class="textfield datepicker" ng-model="bankRvDate" placeholder="Voucher Date" /></li>
+          <li><div ng-cloak > 
+              <select class="dropdd" name="payee_type" ng-model="payeeTypeCode"
+                ng-change="setpayFromTypeCode(payeeTypeCode);">
+                <option value="">Select Payee Type</option>
+                <option ng-repeat="n in uniquePayToTypes(bRvData)" value="{{n.payFromTypeCode}}">
+                  {{ n.payFromTypeCode === 'V' ? 'Vendor' : n.payFromTypeCode === 'S' ? 'Student'
+                  :
+                  n.payFromTypeCode === 'E' ? 'Employee' : n.payFromTypeCode === 'O' ? "Other" :
+                  '' }}
+                </option>
+              </select> 
+            </div></li>
+          <li>
+            <div ng-cloak >
+              <select class="dropdd" name="bankRvId" ng-model="payFromTypeCode"
+                ng-change="getPayFrom(payeeTypeCode, payFromTypeCode)"
+                ng-options="(x.payFromTypeCode === 'E' ? x.staffNo : (x.payFromTypeCode === 'S' ? x.univRegistrationNo :
+                                                                    (x.payFromTypeCode === 'V' ? x.vendorCode : 'Other'))) + ' - ' + x.recvdFrom for x in payFromTypeCodes">
+                <option value="">Select Payee Code</option>
+              </select> 
+            </div></li>
+          <li><input type="text" class="textfield" ng-model="recvdFrom" ng-disabled="true" placeholder="Name" /></li>
+          <li><button class="bluebtn " ng-click="searchFields(bankRvId,bankRvIdDate,finYear,bankRvNo,bankRvDate,payeeTypeCode,payFromTypeCode,recvdFrom);">Search</button> </li>
+        </ul>
+      </div>
+      <div class="tablebox">
+        <table class="table table-bordered text-center regtable table-condensed">
+          <thead>
+            <tr>
+              <th>Voucher Id</th>
+              <th>ID Date</th>
+              <th>Fin Year</th>
+              <!-- <th>Receipt Voucher No</th>
+                <th>Receipt Voucher Date</th> -->
+              <th>Payee Type</th>
+              <th>Payee From</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="n in bRvData|filter:{voucherStatusCode:'F'}" class="tdcolor">
+              <td ng-bind="n.bankRvId"></td>
+              <td ng-bind="n.bankRvIdDate"></td>
+              <td ng-bind="n.finYear"></td>
+              <!-- <td ng-bind="n.bankRvNo"></td>
+                <td ng-bind="n.bankRvDate"></td> -->
+              <td
+                ng-bind="n.payFromTypeCode === 'V' ? 'Vendor' :  n.payFromTypeCode === 'S' ? 'Student' :  n.payFromTypeCode === 'E' ? 'Employee' :  'Other';">
+              </td>
+              <td ng-bind="n.recvdFrom | uppercase"></td>
+              <td ng-bind="n.voucherStatusCode | uppercase"></td>
+              <td>
+                <!-- <button type="button" class="bluebtn" ng-click="edit(n)">
+                    Edit
+                  </button> -->
+                <button type="button" class="bluebtn" ng-click="showDetails(n)">
+                  Detail
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <section class="container" id="detailmodal">
+        <div id="detailmodal-content" class="table-responsive">
+          <button id="closeBtn" class="close-button" ng-click="closeDetail()">
+            &times;
+          </button>
+          <h2>Bank Payment Detail</h2>
+          <ul class="dtlist">
+            <li ng-repeat="(key, value) in bankpay">
+              <span>{{ key }}</span> {{ value }}
+            </li>
+          </ul>
+        </div>
+      </section>
+    </div>
+    <div id="tab3" class="sectionlist white-box maintabsec ">
+      <div class="white-box">
+        <ul class="searchbox">
+          <li>
+            <div ng-cloak >
+              <select class="dropdd" name="bankRvId" ng-model="bankRvId" data-live-search="true">
+                <option value="">Select Voucher ID</option>
+                <option value="{{x.bankRvId}}" ng-repeat="x in bRvData | filter:{voucherStatusCode:'R'}">
+                  {{x.bankRvId}} - {{x.recvdFrom | uppercase}}
+                </option>
+              </select>
+            </div>
+          </li>
+          <li><input type="text" class="textfield datepicker" ng-model="bankRvIdDate" placeholder="ID Date" /></li>
+          <li><input type="text" class="textfield" ng-model="finYear" placeholder="Fin Year" /></li>
+          <li><input type="text" class="textfield" ng-model="bankRvNo" placeholder="Voucher No" /></li>
+          <li><input type="text" class="textfield datepicker" ng-model="bankRvDate" placeholder="Voucher Date" /></li>
+          <li><div ng-cloak > 
+              <select class="dropdd" name="payee_type" ng-model="payeeTypeCode"
+                ng-change="setpayFromTypeCode(payeeTypeCode);">
+                <option value="">Select Payee Type</option>
+                <option ng-repeat="n in uniquePayToTypes(bRvData)" value="{{n.payFromTypeCode}}">
+                  {{ n.payFromTypeCode === 'V' ? 'Vendor' : n.payFromTypeCode === 'S' ? 'Student'
+                  :
+                  n.payFromTypeCode === 'E' ? 'Employee' : n.payFromTypeCode === 'O' ? "Other" :
+                  '' }}
+                </option>
+              </select> 
+            </div></li>
+          <li><div ng-cloak >
+              <select class="dropdd" name="bankRvId" ng-model="payFromTypeCode"
+                ng-change="getPayFrom(payeeTypeCode, payFromTypeCode)" ng-options="(x.payFromTypeCode === 'E' ? x.staffNo : (x.payFromTypeCode === 'S' ? x.univRegistrationNo :
+                                                                    (x.payFromTypeCode === 'V' ? x.vendorCode : 'Other'))) + ' - ' + x.recvdFrom for x in payFromTypeCodes">
+                <option value="">Select Payee Code</option>
+              </select> 
+            </div></li>
+          <li><input type="text" class="textfield" ng-model="recvdFrom" ng-disabled="true" placeholder="Name" /></li>
+          <li><button class="bluebtn " ng-click="searchFields(bankRvId,bankRvIdDate,finYear,bankRvNo,bankRvDate,payeeTypeCode,payFromTypeCode,recvdFrom);">Search</button></li>
+        </ul>
+      </div>
+      <div class="tablebox">
+        <table class="table table-bordered text-center regtable table-condensed">
+          <thead>
+            <tr>
+              <th>Voucher Id</th>
+              <th>ID Date</th>
+              <th>Fin Year</th>
+              <!-- <th>Receipt Voucher No</th>
+                <th>Receipt Voucher Date</th> -->
+              <th>Payee Type</th>
+              <th>Payee From</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="n in bRvData |filter:{voucherStatusCode:'R'}" class="tdcolor">
+              <td ng-bind="n.bankRvId"></td>
+              <td ng-bind="n.bankRvIdDate"></td>
+              <td ng-bind="n.finYear"></td>
+              <!-- <td ng-bind="n.receiptNo"></td>
+                <td ng-bind="n.receiptDate"></td> -->
+              <td
+                ng-bind="n.payFromTypeCode === 'V' ? 'Vendor' :  n.payFromTypeCode === 'S' ? 'Student' :  n.payFromTypeCode === 'E' ? 'Employee' :  'Other';">
+              </td>
+              <td ng-bind="n.recvdFrom | uppercase"></td>
+              <td ng-bind="n.voucherStatusCode | uppercase"></td>
+              <td>
+                <button type="button" class="bluebtn" ng-click="edit(n)">
+                  Edit
+                </button>
+                <!-- <button type="button" class="bluebtn" ng-click="edit(n)">
+                    Detail
+                  </button> -->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <section id="detailmodal">
+        <div id="detailmodal-content" class="table-responsive">
+          <button id="closeBtn" class="close-button" ng-click="closeDetail()">
+            &times;
+          </button>
+          <h2>Bank Payment Detail</h2>
+          <ul class="dtlist">
+            <li ng-repeat="(key, value) in bankpay">
+              <span>{{ key }}</span> {{ value }}
+            </li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+    <div id="tab4" class="sectionlist white-box maintabsec ">
+      <div class="white-box">
+        <ul class="searchbox">
+          <li>
+            <div ng-cloak>
+              <select class="dropdd" name="bankRvId" ng-model="bankRvId" data-live-search="true">
+                <option value="">Select Voucher ID</option>
+                <option value="{{x.bankRvId}}" ng-repeat="x in bRvData |filter:filterForStatusAandC">
+                  {{x.bankRvId}} - {{x.recvdFrom | uppercase}}
+                </option>
+              </select>
+            </div>
+          </li>
+          <li> <input type="text" class="textfield datepicker" ng-model="bankRvIdDate" placeholder="ID Date" /></li>
+          <li><input type="text" class="textfield" ng-model="finYear" placeholder="Fin Year" /></li>
+          <li><input type="text" class="textfield" ng-model="bankRvNo" placeholder="Voucher No" /></li>
+          <li><input type="text" class="textfield datepicker" ng-model="bankRvDate" placeholder="Voucher Date" /></li>
+          <li><div ng-cloak > 
+              <select class="dropdd" name="payee_type" ng-model="payeeTypeCode"
+                ng-change="setpayFromTypeCode(payeeTypeCode);">
+                <option value="">Select Payee Type</option>
+                <option ng-repeat="n in uniquePayToTypes(bRvData)" value="{{n.payFromTypeCode}}">
+                  {{ n.payFromTypeCode === 'V' ? 'Vendor' : n.payFromTypeCode === 'S' ? 'Student'
+                  :
+                  n.payFromTypeCode === 'E' ? 'Employee' : n.payFromTypeCode === 'O' ? "Other" :
+                  '' }}
+                </option>
+              </select> 
+            </div></li>
+          <li><div ng-cloak >
+              <select class="dropdd" name="bankRvId" ng-model="payFromTypeCode" ng-change="getPayFrom(payeeTypeCode, payFromTypeCode)"
+                ng-options="(x.payFromTypeCode === 'E' ? x.staffNo : (x.payFromTypeCode === 'S' ? x.univRegistrationNo : (x.payFromTypeCode === 'V' ? x.vendorCode : 'Other'))) + ' - ' + x.recvdFrom for x in payFromTypeCodes">
+                <option value="">Select Payee Code</option>
+              </select> 
+            </div></li>
+          <li><input type="text" class="textfield" ng-model="recvdFrom" ng-disabled="true" placeholder="Name" /></li>
+          <li><button class="bluebtn" ng-click="searchFields(bankRvId,bankRvIdDate,finYear,bankRvNo,bankRvDate,payeeTypeCode,payFromTypeCode,recvdFrom);">Search</button> </li>
+        </ul>
+      </div>
+      <div class="tablebox">
+        <table class="table table-bordered text-center regtable table-condensed">
+          <thead>
+            <tr>
+              <th>Voucher Id</th>
+              <th>ID Date</th>
+              <th>Fin Year</th>
+              <th>Receipt Voucher No</th>
+              <th>Receipt Voucher Date</th>
+              <th>Payee Type</th>
+              <th>Payee From</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="n in bRvData |filter:filterForStatusAandC" class="tdcolor">
+              <td ng-bind="n.bankRvId"></td>
+              <td ng-bind="n.bankRvIdDate"></td>
+              <td ng-bind="n.finYear"></td>
+              <td ng-bind="n.bankRvNo"></td>
+              <td ng-bind="n.bankRvDate"></td>
+              <td
+                ng-bind="n.payFromTypeCode === 'V' ? 'Vendor' :  n.payFromTypeCode === 'S' ? 'Student' :  n.payFromTypeCode === 'E' ? 'Employee' :  'Other';">
+              </td>
+              <td ng-bind="n.recvdFrom | uppercase"></td>
+              <td ng-bind="n.voucherStatusCode==='A'?'ACCOOUNTING':n.voucherStatusCode==='P'?'PASSED':n.voucherStatusCode==='C'?'CANCELLED':''"></td>
+              <td>
+                <!-- <button type="button" class="bluebtn" ng-click="edit(n)">
+                          Edit
+                        </button> -->
+                <button type="button" class="bluebtn" ng-click="showDetails(n)">
+                  Detail
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div> 
+</section>

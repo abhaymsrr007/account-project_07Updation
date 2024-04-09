@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabbed Interface</title>
+    <style>
+        /* Add your styles for tabs and content here */
+        .tabsec {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f1f1f1;
+            padding: 10px;
+        }
+
+        .tablink {
+            cursor: pointer;
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .tablink.active {
+            background-color: #ddd;
+        }
+
+        .tabcontent {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="tabsec">
+        <ul>
+            <li><a class="tablink active" onclick="openTab('tab1')">Payment Voucher</a></li>
+            <li><a class="tablink" onclick="openTab('tab2')">Payment Voucher Details</a></li>
+        </ul>
+    </div>
+
+    <div id="tab1" class="tabcontent" style="display: block;">
+        <!-- Content for tab 1 -->
+        <p>Payment Voucher Content</p>
+    </div>
+
+    <div id="tab2" class="tabcontent">
+        <!-- Content for tab 2 -->
+        <p>Payment Voucher Details Content</p>
+    </div>
+
+    <script>
+        function openTab(tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            document.getElementById(tabName).style.display = "block";
+            event.currentTarget.className += " active";
+        }
+    </script>
+
+</body>
+
+</html>

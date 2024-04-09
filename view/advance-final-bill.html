@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advance Final Bill</title> 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon" />  
+<!-- <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet"> -->
+<link rel="stylesheet" href="css/bootstrap.min.css" /> 
+<script src="js/jquery-3.6.0.min.js"></script>
+<!-- <script src="js/bootstrap.min.js"></script>    -->
+ <link rel="stylesheet" href="css/style.css">
+ <script src="js/linked.js"></script>
+
+</head>
+<body>
+
+<header class="topheading">
+  <div class="logo">
+    <img src="images/nrt-logo.svg" alt="" />  
+  </div> 
+  <a class="btn bluebtn" ng-click="goBack()">Back</a>
+  <a class="userlogin" ng-click="logout()">{{details.name}} <span><img src="https://exam.skmu.ac.in/ftpwebapps/skmu/resources/studentdata/users/profileimage/{{details.profile_image}}" alt="student" /></span></a>
+  
+</header>
+<section class="formsec">
+  <div class="container">
+    <div class="tabsec">
+      <ul>
+        <li><a class="tablink active" data-title="tab1">Final Bill</a></li>
+        <li><a class="tablink " data-title="tab2">Bill Details</a></li> 
+      </ul>
+    </div>
+  <div id="tab1" class="maintabsec active">
+  <form>
+  <div class="titles text-center">Advance Final Bill</div>  
+ 
+                <div class="white-box forms notop">
+                    <h3>Tour Details :</h3>
+                    <ul>
+                        <li class="smallsec2">
+                            <div>
+                                <label>Payee type<sup>*</sup></label>
+                                <select class="dropdd" name="payy-type">
+                                    <option>Select</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label>Vendor Code & Name</label>
+                                <div class="flexbox">
+                                <input type="text" class="textfield" name="vendor-code" value="" placeholder="" />
+                                <input type="text" class="textfield" name="vendor-code" value="" placeholder="" />
+                                </div>   
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label>Staff No. & Name</label>
+                                <div class="flexbox">
+                                <input type="text" class="textfield" name="staff-no" value="" placeholder="" />
+                                <input type="text" class="textfield" name="staff-no" value="" placeholder="" />
+                                </div>   
+                            </div>
+                        </li>
+
+                        <li>
+                            <div>
+                                <label>Student No. & Name</label>
+                                <div class="flexbox">
+                                <input type="text" class="textfield" name="student-no" value="" placeholder="" />
+                                <input type="text" class="textfield" name="student-no" value="" placeholder="" />
+                                </div>    
+                            </div>
+                        </li>
+                     </ul>
+                     <ul>
+                        <li class="smallsec2">
+                            <div>
+                                <label>Advance Id<sup>*</sup></label>
+                                <select class="dropdd" name="advance-id">
+                                    <option>Select</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="smallsec2">
+                            <div>
+                                <label>Date<sup>*</sup></label>
+                                <input type="text" class="textfield datepicker" name="date" value="" placeholder="" />
+                            </div>
+                        </li>
+                        <li class="smallsec2">
+                            <div>
+                                <label>Fin Year<sup>*</sup></label>
+                                <input type="text" class="textfield" name="fin-year" value="" placeholder="" />
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label>Advance Type<sup>*</sup></label>
+                                <div class="flexbox">
+                                <input type="text" class="textfield" name="advance-type" value="" placeholder="" />
+                                <input type="text" class="textfield" name="advance-type" value="" placeholder="" />
+                                </div>    
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label>Paid to<sup>*</sup></label>
+                                <input type="text" class="textfield" name="paid-to" value="" placeholder="" />
+                             </div>
+                        </li>
+
+                    </ul>
+                    <ul>
+                        <li class="smallsec2">
+                            <div>
+                                <label>Final Bill Sl No.<sup>*</sup></label>
+                                <input type="text" class="textfield" name="final-bill-sl-no" value="" placeholder="" />
+                            </div>
+                        </li> 
+                        <li>
+                            <div>
+                                <label>Department Code & Name<sup>*</sup></label>
+                                <div class="flexbox">
+                                <input type="text" class="textfield" name="department" value="" placeholder="" />
+                                <input type="text" class="textfield" name="department" value="" placeholder="" />
+                                </div>    
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                               <label>College Code & Name</label>
+                                <div class="flexbox">
+                               <input type="text" class="textfield" name="college" value="" placeholder="" />
+                                <input type="text" class="textfield" name="college" value="" placeholder="" />
+                                </div>    
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label>University Code & Name<sup>*</sup></label>
+                                <div class="flexbox">
+                                <input type="text" class="textfield" name="university" value="" placeholder="" />
+                                <input type="text" class="textfield" name="university" value="" placeholder="" />
+                                </div>    
+                            </div>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li class="payy">
+                            <div>
+                                <label>Form Date<sup>*</sup></label>
+                                <input type="text" class="textfield datepicker" name="form-date" value="" placeholder="" />
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label>To Date<sup>*</sup></label>
+                                <input type="text" class="textfield datepicker" name="to-date" value="" placeholder="" />
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label>Place<sup>*</sup></label>
+                                <input type="text" class="textfield" name="place" value="" placeholder="" />
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label>City</label>
+                                <input type="text" class="textfield" name="city" value="" placeholder="" />
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label>State<sup>*</sup></label>
+                                <input type="text" class="textfield" name="state" value="" placeholder="" />
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label>Country<sup>*</sup></label>
+                                <input type="text" class="textfield" name="country" value="" placeholder="" />
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label>Foreign<sup>*</sup></label>
+                                <input type="text" class="textfield" name="foreign" value="" placeholder="" />
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                    <div class="white-box forms notop">
+                        <h3>Plan/Project Details :</h3>
+                        <ul>
+                            <li class="plan">
+                                <div>
+                                    <label>Plan No.</label>
+                                    <input type="text" class="textfield" name="plan-no" value="" placeholder="" />
+                                </div>
+                            </li>
+                            <li  class="plan">
+                                <div>
+                                    <label>Fin Year</label>
+                                    <input type="text" class="textfield" name="fin-year" value="" placeholder="" />
+                                </div>
+                            </li>
+                            <li  class="plan">
+                                <div>
+                                    <label>Plan Year</label>
+                                    <input type="text" class="textfield" name="plan-year" value="" placeholder="" />
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <label>Plan Title</label>
+                                    <input type="text" class="textfield" name="plan-title" value="" placeholder="" />
+                                </div>
+                            </li>
+                            <li class="plan">
+                                <div>
+                                    <label>Budget Fin Year</label>
+                                    <input type="text" class="textfield" name="budget-fin-year" value="" placeholder="" />
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="white-box forms notop">
+    
+                       <h3>Processing Details :</h3>
+
+                        <ul>
+                            <li class="smallsec2">
+                                <div>
+                                    <label>Processing Date<sup>*</sup></label>
+                                    <input type="text" class="textfield datepicker" name="processing-date" value="" placeholder="" />
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <label>Enterted By<sup>*</sup></label>
+                                    <div class="flexbox">
+                                    <input type="text" class="textfield" name="entered-by" value="" placeholder="" />
+                                    <input type="text" class="textfield" name="entered-by" value="" placeholder="" />
+                                    </div>   
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <label>Approved By<sup>*</sup></label>
+                                    <div class="flexbox">
+                                    <input type="text" class="textfield" name="approved-by" value="" placeholder="" />
+                                    <input type="text" class="textfield" name="approved-by" value="" placeholder="" />
+                                    </div>   
+                                </div>
+                            </li>
+    
+                            <li class="smallsec2">
+                                <div>
+                                    <label>Advance Amount<sup>*</sup></label>
+                                    <input type="text" class="textfield" name="advance-amount" value="" placeholder="" />
+                                </div>
+                            </li>
+                         </ul>
+                         <ul>
+                            <li class="smallsec2">
+                                <div>
+                                    <label>Tour officially Cancelled<sup>*</sup></label>
+                                    <select class="dropdd" name="tour-officially-canceled">
+                                        <option>Select</option>
+                                        <option>Yes</option>
+                                        <option>No</option>
+                                    </select>
+                                </div>
+                            </li>
+                           <li class="smallsec2">
+                                <div>
+                                    <label>Passed Amount<sup>*</sup></label>
+                                    <input type="text" class="textfield" name="passed-amount" value="" placeholder="" />
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <label>Amount in words</label>
+                                    <input type="text" class="textfield" name="amount-in-words" value="" placeholder="" />
+                                </div>
+                            </li>
+                            
+                        </ul>
+                        <ul>
+                            <li class="smallsec2">
+                                <div>
+                                    <label>Adjustment Year</label>
+                                    <input type="text" class="textfield" name="adjustment-year" value="" placeholder="" />
+                                </div>
+                            </li> 
+                            <li class="smallsec2">
+                                <div>
+                                    <label>Month</label>
+                                    <input type="text" class="textfield" name="month" value="" placeholder="" />
+                                </div>
+                            </li>
+                            <li class="smallsec2">
+                                <div>
+                                    <label>Sl.No.</label>
+                                    <input type="text" class="textfield" name="slno" value="" placeholder="" />
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <label>Narration<sup>*</sup></label>
+                                    <input type="text" class="textfield" name="narration" value="" placeholder="" />
+                                </div>
+                            </li>
+                            
+                        </ul>
+                        <ul class="flexend">
+                            <li class="smallsec2">
+                                <div class="flexbox">
+                                    <label>Bill Status<sup>*</sup></label>
+                                    <input type="text" class="textfield" name="bill-status" value="" placeholder="" />
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="btnlist text-center">
+                            <ul>        
+                                <li><div><button type="submit" class="bluebtn">Save</button></div></li>
+                                <li><div><button type="submit" class="bluebtn">Next</button></div></li>                                
+                            </ul>
+                        </div>
+                    </div>   
+            </form> 
+    
+</div>
+
+
+<div id="tab2" class="maintabsec "> 
+
+<div class="titles text-center">Advance Final Bill Details</div> 
+
+  <form>
+    <div class="white-box forms notop"> 
+      <h3>Final Bill Header</h3>
+    <ul>
+      <li>
+        <div>
+          <label>Advance Id<sup>*</sup></label>
+          <input type="text" class="textfield" name="advance-id" value="" placeholder="" />
+        </div>
+      </li>
+      
+      <li>
+        <div>
+          <label>Fin Year<sup>*</sup></label>
+          <input type="text" class="textfield" name="fin_year" value="" placeholder="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Sl No.</label>
+          <input type="text" class="textfield" name="sl_no" value="" placeholder="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Name<sup>*</sup></label>
+          <input type="text" class="textfield" name="name" value="" placeholder="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>From Date</label>
+          <input type="text" class="textfield datepicker" name="from_date" value="" placeholder="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>To Date</label>
+          <input type="text" class="textfield datepicker" name="to_date" value="" placeholder="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Place<sup>*</sup></label>
+          <input type="text" class="textfield datepicker" name="place" value="" placeholder="" />
+        </div>
+      </li>
+    </ul> 
+  </div>
+  <div class="white-box forms ">
+     <div class="recordlist">
+      <h3>Transaction Details</h3>
+    <ul class="addcol6"> 
+      <li class="width5">
+        <div>
+          <label>Sl No.</label>
+          <input type="text" class="textfield" name="slno" value="" placeholder="" />
+        </div>
+      </li> 
+      <li>
+        <div> 
+          <label>Expenditure Code<sup>*</sup></label>
+          <select class="dropdd"  name="dxpenditure_code">
+            <option>Select</option>
+            <option>1234567891234567</option>
+            <option>5678912345671234</option>
+            <option>1234567891234567</option>
+          </select>
+        </div>
+      </li>
+      <li class="width19">
+        <div>
+          <label>Expenditure Description</label>
+          <input type="text" class="textfield" name="expenditure_description" value="" placeholder="" />
+        </div>
+      </li>
+      <li >
+        <div>
+          <label>Account Code</label>
+          <input type="text" class="textfield" name="account_code" value="" placeholder="" />
+        </div>
+      </li>
+      <li class="width19">
+        <div>
+          <label>Account Description</label>
+          <input type="text" class="textfield" name="account_description" value="" placeholder="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Amount Claimed</label> 
+          <input type="text" class="textfield" name="amount_claimed" value="" placeholder="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Amount Passed</label> 
+          <input type="text" class="textfield" name="amount_passed" value="" placeholder="" />
+        </div>
+      </li> 
+      <li class="width3 checkbtn"> </li>
+    </ul>
+
+    <ul class="addcol6">
+      <li class="width5">
+        <div> 
+         <input type="text" class="textfield" name="slno" value="" placeholder="" />
+        </div>
+      </li> 
+      <li>
+        <div> 
+          <select class="dropdd"  name="dxpenditure_code">
+            <option>Select</option>
+            <option>1234567891234567</option>
+            <option>5678912345671234</option>
+            <option>1234567891234567</option>
+          </select>
+        </div>
+      </li>
+      <li class="width19">
+        <div> 
+          <div>
+           <input type="text" class="textfield" name="expenditure_description" value="" placeholder="" />
+          </div>
+        </div>
+      </li> 
+      <li>
+        <div> 
+            <input type="text" class="textfield" name="account_code" value="" placeholder="" />
+        </div>
+      </li> 
+      <li class="width19">
+          <div>
+            <input type="text" class="textfield" name="account_description" value="" placeholder="" />
+          </div> 
+      </li>
+      <li> 
+          <div>
+            <input type="text" class="textfield" name="amount_claimed" value="" placeholder="" />
+          </div> 
+      </li> 
+      <li>
+        <div> 
+            <input type="text" class="textfield" name="amount_passed" value="" placeholder="" />
+        </div>
+      </li>
+      <li class="width3 checkbtn"><label><input type="checkbox" name="delete" class="checksec" /></label> </li> 
+    </ul>  
+    <ul class="addcol6">
+      <li class="width5">
+        <div> 
+         <input type="text" class="textfield" name="slno" value="" placeholder="" />
+        </div>
+      </li> 
+      <li>
+        <div> 
+          <select class="dropdd"  name="dxpenditure_code">
+            <option>Select</option>
+            <option>1234567891234567</option>
+            <option>5678912345671234</option>
+            <option>1234567891234567</option>
+          </select>
+        </div>
+      </li>
+      <li class="width19">
+        <div> 
+          <div>
+           <input type="text" class="textfield" name="expenditure_description" value="" placeholder="" />
+          </div>
+        </div>
+      </li> 
+      <li>
+        <div> 
+            <input type="text" class="textfield" name="account_code" value="" placeholder="" />
+        </div>
+      </li> 
+      <li class="width19">
+          <div>
+            <input type="text" class="textfield" name="account_description" value="" placeholder="" />
+          </div> 
+      </li>
+      <li> 
+          <div>
+            <input type="text" class="textfield" name="amount_claimed" value="" placeholder="" />
+          </div> 
+      </li> 
+      <li>
+        <div> 
+            <input type="text" class="textfield" name="amount_passed" value="" placeholder="" />
+        </div>
+      </li>
+      <li class="width3 checkbtn"><label><input type="checkbox" name="delete" class="checksec" /></label> </li> 
+    </ul>
+    <ul class="addcol6">
+      <li class="width5">
+        <div> 
+         <input type="text" class="textfield" name="slno" value="" placeholder="" />
+        </div>
+      </li> 
+      <li>
+        <div> 
+          <select class="dropdd"  name="dxpenditure_code">
+            <option>Select</option>
+            <option>1234567891234567</option>
+            <option>5678912345671234</option>
+            <option>1234567891234567</option>
+          </select>
+        </div>
+      </li>
+      <li class="width19">
+        <div> 
+          <div>
+           <input type="text" class="textfield" name="expenditure_description" value="" placeholder="" />
+          </div>
+        </div>
+      </li> 
+      <li>
+        <div> 
+            <input type="text" class="textfield" name="account_code" value="" placeholder="" />
+        </div>
+      </li> 
+      <li class="width19">
+          <div>
+            <input type="text" class="textfield" name="account_description" value="" placeholder="" />
+          </div> 
+      </li>
+      <li> 
+          <div>
+            <input type="text" class="textfield" name="amount_claimed" value="" placeholder="" />
+          </div> 
+      </li> 
+      <li>
+        <div> 
+            <input type="text" class="textfield" name="amount_passed" value="" placeholder="" />
+        </div>
+      </li>
+      <li class="width3 checkbtn"><label><input type="checkbox" name="delete" class="checksec" /></label> </li> 
+    </ul>
+    <ul class="addcol6">
+      <li class="width5">
+        <div> 
+         <input type="text" class="textfield" name="slno" value="" placeholder="" />
+        </div>
+      </li> 
+      <li>
+        <div> 
+          <select class="dropdd"  name="dxpenditure_code">
+            <option>Select</option>
+            <option>1234567891234567</option>
+            <option>5678912345671234</option>
+            <option>1234567891234567</option>
+          </select>
+        </div>
+      </li>
+      <li class="width19">
+        <div> 
+          <div>
+           <input type="text" class="textfield" name="expenditure_description" value="" placeholder="" />
+          </div>
+        </div>
+      </li> 
+      <li>
+        <div> 
+            <input type="text" class="textfield" name="account_code" value="" placeholder="" />
+        </div>
+      </li> 
+      <li class="width19">
+          <div>
+            <input type="text" class="textfield" name="account_description" value="" placeholder="" />
+          </div> 
+      </li>
+      <li> 
+          <div>
+            <input type="text" class="textfield" name="amount_claimed" value="" placeholder="" />
+          </div> 
+      </li> 
+      <li>
+        <div> 
+            <input type="text" class="textfield" name="amount_passed" value="" placeholder="" />
+        </div>
+      </li>
+      <li class="width3 checkbtn"><label><input type="checkbox" name="delete" class="checksec" /></label> </li> 
+    </ul>
+    <ul class="addcol6">
+      <li class="width5">
+        <div> 
+         <input type="text" class="textfield" name="slno" value="" placeholder="" />
+        </div>
+      </li> 
+      <li>
+        <div> 
+          <select class="dropdd"  name="dxpenditure_code">
+            <option>Select</option>
+            <option>1234567891234567</option>
+            <option>5678912345671234</option>
+            <option>1234567891234567</option>
+          </select>
+        </div>
+      </li>
+      <li class="width19">
+        <div> 
+          <div>
+           <input type="text" class="textfield" name="expenditure_description" value="" placeholder="" />
+          </div>
+        </div>
+      </li> 
+      <li>
+        <div> 
+            <input type="text" class="textfield" name="account_code" value="" placeholder="" />
+        </div>
+      </li> 
+      <li class="width19">
+          <div>
+            <input type="text" class="textfield" name="account_description" value="" placeholder="" />
+          </div> 
+      </li>
+      <li> 
+          <div>
+            <input type="text" class="textfield" name="amount_claimed" value="" placeholder="" />
+          </div> 
+      </li> 
+      <li>
+        <div> 
+            <input type="text" class="textfield" name="amount_passed" value="" placeholder="" />
+        </div>
+      </li>
+      <li class="width3 checkbtn"><label><input type="checkbox" name="delete" class="checksec" /></label> </li> 
+    </ul>
+
+    </div>
+ 
+ 
+  <div class="btnlist">
+    <ul>
+      <li><div><button type="button" class="bluebtn addfield">ADD</button></div></li>
+      <!-- <li><div><button type="button" class="bluebtn">EDIT</button></div></li> -->
+      <li><div><button type="button" class="bluebtn deletebtn" disabled>Delete</button></div></li> 
+      <li><div class="btncenter"><button type="submit" class="bluebtn">SUBMIT</button></div></li> 
+    </ul>
+  </div>  
+</div>
+</form>
+  </div>
+
+
+ </div> 
+</section>
+<footer class="footerbg">
+  © 2023 All Rights Reserved. 
+</footer>
+ 
+
+
+
+
+ 
+
+<link rel='stylesheet' type='text/css' href='css/bootstrap-datepicker.min.css' >
+<script  type='text/javascript' src='js/bootstrap-datepicker.min.js'></script>
+<script type="text/javascript">
+$('.datepicker').datepicker({
+format: "dd-mm-yyyy",
+autoclose: true
+//startDate: new Date('2022-7-15'),
+// endDate:  new Date('2022-8-15')
+});  
+$(".tablink").click(function(){
+$('.tablink').removeClass('active');
+$(this).addClass('active'); 
+var id=$(this).attr("data-title"); 
+$(".maintabsec").hide(); 
+$("#"+id).fadeIn(); 
+$(".maintabsec").removeClass('active');
+$("#"+id).addClass('active');
+}); 
+
+
+$(".addfield").click(function () {
+var html = '';
+html += '<ul class="addcol6">';
+html += '<li class="width5"> <div> <input type="text" class="textfield" name="slno" value="" placeholder="" /> </div> </li> <li> <div> <select class="dropdd" name="dxpenditure_code"> <option>Select</option> <option>1234567891234567</option> <option>5678912345671234</option> <option>1234567891234567</option> </select> </div> </li> <li class="width19"> <div> <div> <input type="text" class="textfield" name="expenditure_description" value="" placeholder="" /> </div> </div> </li> <li> <div> <input type="text" class="textfield" name="account_code" value="" placeholder="" /> </div> </li> <li class="width19"> <div> <input type="text" class="textfield" name="account_description" value="" placeholder="" /> </div> </li> <li> <div> <input type="text" class="textfield" name="amount_claimed" value="" placeholder="" /> </div> </li> <li> <div> <input type="text" class="textfield" name="amount_passed" value="" placeholder="" /> </div> </li> <li class="width3 checkbtn"><label><input type="checkbox" name="delete" class="checksec" /></label> </li> ';  
+html += '</ul>';
+
+$('.recordlist').append(html);
+});
+
+$(document).on("click", ".deletebtn", function() {
+    $('input:checked').closest('.addcol6').remove();
+    $(".deletebtn").prop("disabled", true);
+});
+$(document).on("change", '.addcol6 input[type="checkbox"]', function() {
+    var checked = $('.addcol6 input[type="checkbox"]:checked').length > 0;
+    if (checked) {
+        $(".deletebtn").prop("disabled", false);
+    } else {
+        $(".deletebtn").prop("disabled", true);
+    }
+});
+</script>
+<script>
+  
+
+  app.controller('contr', function ($scope, $http, $timeout, $window, $rootScope, $filter) {
+    $scope.terte = 10;
+    $scope.flag = false;
+    $scope.timeoutPromise = null;
+    $scope.glgroupData = [];
+
+  $scope.details=[];
+  var token;
+  const userDetailsJSON = $window.sessionStorage.getItem('userDetails');
+  if (userDetailsJSON) {
+    const userDetails = JSON.parse(userDetailsJSON);
+    if (userDetails.token!=null || userDetails.token!=''){
+      $scope.details=angular.copy(userDetails);
+      token=$scope.details.token;
+    }
+  } else {
+    $window.location.href = "index.html";
+    console.log('User details not found in sessionStorage');
+  }
+  $scope.logout = function() {
+    $window.sessionStorage.removeItem('userDetails');
+    $window.location.href = 'index.html';
+  }; 
+
+      var config = {
+         headers: {
+        'Authorization': 'Bearer ' + token
+          },   
+        };
+        $scope.goBack = function () {
+        window.history.back();
+      }
+
+      });
+  </script>
+
+
+</body>
+</html>

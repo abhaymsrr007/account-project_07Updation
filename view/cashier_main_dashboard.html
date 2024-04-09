@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Dashboard</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon" />
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet"> -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <script src="js/jquery-3.6.0.min.js"></script>
+  <!-- <script src="js/bootstrap.min.js"></script>    -->
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.17/angular-filter.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui/0.4.0/angular-ui.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/linked.js"></script>
+  <style type="text/css">
+    .container {
+      max-width: 1200px;
+    }
+
+    .formsec .container {
+      max-width: 800px;
+    }
+
+    .mainlist {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .mainlist>div {
+      width: 48%
+    }
+
+    .mainlist ul li {
+      margin-bottom: 4px;
+    }
+
+    .mainlist ul li a {
+      padding: 10px 20px;
+      display: block;
+      background: var(--light-gray);
+      border-radius: 4px;
+      color: #444;
+      font-weight: 600
+    }
+
+    .sectionlist {
+      margin-bottom: 15px;
+    }
+
+    .sectionlist>ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 -10px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .sectionlist>ul>li {
+      width: 25%;
+      padding: 10px;
+    }
+
+    .boxs {
+      background: #c5e8ff;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 15px;
+      border-radius: 8px;
+      color: var(--black);
+      min-height: 200px;
+    }
+
+    .icons {
+      position: relative;
+      width: 64px;
+      height: 68px;
+      margin: 0 auto;
+    }
+
+    .cls-1 {
+      fill: #165793;
+      /*stroke:#bd7610;stroke-miterlimit:10;stroke-width:3px;*/
+    }
+
+    .icons img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      filter: brightness(100);
+      max-width: 40px;
+    }
+
+    .stitle {
+      font-size: 16px;
+      font-weight: 500;
+      margin-top: 15px;
+      color: var(--dark-gray);
+      line-height: 1.2;
+    }
+
+    .bighead {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--dark-gray);
+    }
+
+    .heading3 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: var(--dark-gray);
+      line-height: 1.2;
+    }
+
+    .boxsection {
+      padding: 20px 0;
+    }
+
+    .sectionlist {
+      padding: 20px
+    }
+
+    .sectionlist>ul>li:nth-child(1) .boxs,
+    .sectionlist>ul>li:nth-child(9) .boxs {
+      background: #fbe8d4;
+    }
+
+    .sectionlist>ul>li:nth-child(2) .boxs {
+      background: #c5e8ff;
+    }
+
+    .sectionlist>ul>li:nth-child(3) .boxs,
+    .sectionlist>ul>li:nth-child(10) .boxs {
+      background: #d6f1f5;
+    }
+
+    .sectionlist>ul>li:nth-child(4) .boxs,
+    .sectionlist>ul>li:nth-child(12) .boxs {
+      background: #e7e9fc;
+    }
+
+    .sectionlist>ul>li:nth-child(5) .boxs {
+      background: #ffe6aa;
+    }
+
+    .sectionlist>ul>li:nth-child(6) .boxs {
+      background: #c5f6f4;
+    }
+
+    .sectionlist>ul>li:nth-child(7) .boxs {
+      background: #ffcacd;
+    }
+
+    .sectionlist>ul>li:nth-child(8) .boxs {
+      background: #ffe6aa;
+    }
+
+    .sectionlist>ul>li:nth-child(1) .boxs .cls-1,
+    .sectionlist>ul>li:nth-child(9) .boxs .cls-1 {
+      fill: #bd7610;
+    }
+
+    .sectionlist>ul>li:nth-child(2) .boxs .cls-1 {
+      fill: #165793;
+    }
+
+    .sectionlist>ul>li:nth-child(3) .boxs .cls-1,
+    .sectionlist>ul>li:nth-child(10) .boxs .cls-1 {
+      fill: #35727b;
+    }
+
+    .sectionlist>ul>li:nth-child(4) .boxs .cls-1,
+    .sectionlist>ul>li:nth-child(12) .boxs .cls-1 {
+      fill: #6b73bd;
+    }
+
+    .sectionlist>ul>li:nth-child(5) .boxs .cls-1 {
+      fill: #a17816;
+    }
+
+    .sectionlist>ul>li:nth-child(6) .boxs .cls-1 {
+      fill: #1c9590;
+    }
+
+    .sectionlist>ul>li:nth-child(7) .boxs .cls-1 {
+      fill: #9f555a;
+    }
+
+    .sectionlist>ul>li:nth-child(8) .boxs .cls-1 {
+      fill: #a17816;
+    }
+  </style>
+</head>
+
+<body  ng-controller="contr">
+
+  <header class="topheading">
+    <div class="logo">
+      <img src="images/nrt-logo.svg" alt="AMS" />
+    </div>
+    <a class="btn bluebtn" ng-click="goBack()">Back</a>
+    <a class="userlogin" ng-click="logout()">{{details.username}} <span><img src="{{img}}{{details.profile_image}}"
+          alt="no profile" /></span></a>
+  </header>
+  <section class="boxsection">
+    <div class="container">
+      <h2>Dashboard</h2>
+      <div class="sectionlist white-box">
+
+        <ul>
+          <li>
+            <a href="project-plan.html" class="boxs aos-init aos-animate" data-aos="fade-in" data-aos-duration="1000"
+              data-aos-delay="1000" data-aos-easing="ease-in-back" data-aos-offset="0">
+              <div class="icons">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 194.89 215.34">
+                  <path class="cls-1"
+                    d="M179,171.06l-66.79,38.86a28.87,28.87,0,0,1-28.89.09L16.29,171.6a28.88,28.88,0,0,1-14.53-25L1.5,69.35A28.91,28.91,0,0,1,15.86,44.28L82.66,5.42a28.89,28.89,0,0,1,28.89-.1L178.6,43.74a28.87,28.87,0,0,1,14.53,25l.26,77.28A28.89,28.89,0,0,1,179,171.06Z">
+                  </path>
+                </svg>
+                <img src="images/exam.png">
+              </div>
+              <div class="stitle">Project Plan</div>
+            </a>
+          </li>
+          <li>
+            <a href="purchase-order.html" class="boxs aos-init aos-animate" data-aos="fade-in" data-aos-duration="1000"
+              data-aos-delay="900" data-aos-easing="ease-in-back" data-aos-offset="0">
+              <div class="icons">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 194.89 215.34">
+                  <path class="cls-1"
+                    d="M179,171.06l-66.79,38.86a28.87,28.87,0,0,1-28.89.09L16.29,171.6a28.88,28.88,0,0,1-14.53-25L1.5,69.35A28.91,28.91,0,0,1,15.86,44.28L82.66,5.42a28.89,28.89,0,0,1,28.89-.1L178.6,43.74a28.87,28.87,0,0,1,14.53,25l.26,77.28A28.89,28.89,0,0,1,179,171.06Z">
+                  </path>
+                </svg>
+                <img src="images/exam.png">
+              </div>
+              <div class="stitle">Purchase Order</div>
+            </a>
+          </li>
+
+          <li>
+            <a href="cashier_dashboard-payment-voucher.html" class="boxs aos-init aos-animate" data-aos="fade-in"
+              data-aos-duration="1000" data-aos-delay="900" data-aos-easing="ease-in-back" data-aos-offset="0">
+              <div class="icons">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 194.89 215.34">
+                  <path class="cls-1"
+                    d="M179,171.06l-66.79,38.86a28.87,28.87,0,0,1-28.89.09L16.29,171.6a28.88,28.88,0,0,1-14.53-25L1.5,69.35A28.91,28.91,0,0,1,15.86,44.28L82.66,5.42a28.89,28.89,0,0,1,28.89-.1L178.6,43.74a28.87,28.87,0,0,1,14.53,25l.26,77.28A28.89,28.89,0,0,1,179,171.06Z">
+                  </path>
+                </svg>
+                <img src="images/exam.png">
+              </div>
+              <div class="stitle">Bank Payment Voucher</div>
+            </a>
+          </li>
+          <li>
+            <a href="assistant_dashboard.html" class="boxs aos-init aos-animate" data-aos="fade-in"
+              data-aos-duration="1000" data-aos-delay="900" data-aos-easing="ease-in-back" data-aos-offset="0">
+              <div class="icons">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 194.89 215.34">
+                  <path class="cls-1"
+                    d="M179,171.06l-66.79,38.86a28.87,28.87,0,0,1-28.89.09L16.29,171.6a28.88,28.88,0,0,1-14.53-25L1.5,69.35A28.91,28.91,0,0,1,15.86,44.28L82.66,5.42a28.89,28.89,0,0,1,28.89-.1L178.6,43.74a28.87,28.87,0,0,1,14.53,25l.26,77.28A28.89,28.89,0,0,1,179,171.06Z">
+                  </path>
+                </svg>
+                <img src="images/exam.png">
+              </div>
+              <div class="stitle">Bank Recipt Voucher</div>
+            </a>
+          </li>
+          <li>
+            <a href="project-plan-custodians.html" class="boxs aos-init aos-animate" data-aos="fade-in"
+              data-aos-duration="1000" data-aos-delay="800" data-aos-easing="ease-in-back" data-aos-offset="0">
+              <div class="icons">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 194.89 215.34">
+                  <path class="cls-1"
+                    d="M179,171.06l-66.79,38.86a28.87,28.87,0,0,1-28.89.09L16.29,171.6a28.88,28.88,0,0,1-14.53-25L1.5,69.35A28.91,28.91,0,0,1,15.86,44.28L82.66,5.42a28.89,28.89,0,0,1,28.89-.1L178.6,43.74a28.87,28.87,0,0,1,14.53,25l.26,77.28A28.89,28.89,0,0,1,179,171.06Z">
+                  </path>
+                </svg>
+                <img src="images/exam.png">
+              </div>
+              <div class="stitle">Project Plan Custodians</div>
+            </a>
+          </li>
+          <li>
+            <a href="supplier-bill-details.html" class="boxs aos-init aos-animate" data-aos="fade-in"
+              data-aos-duration="1000" data-aos-delay="1000" data-aos-easing="ease-in-back" data-aos-offset="0">
+              <div class="icons">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 194.89 215.34">
+                  <path class="cls-1"
+                    d="M179,171.06l-66.79,38.86a28.87,28.87,0,0,1-28.89.09L16.29,171.6a28.88,28.88,0,0,1-14.53-25L1.5,69.35A28.91,28.91,0,0,1,15.86,44.28L82.66,5.42a28.89,28.89,0,0,1,28.89-.1L178.6,43.74a28.87,28.87,0,0,1,14.53,25l.26,77.28A28.89,28.89,0,0,1,179,171.06Z">
+                  </path>
+                </svg>
+                <img src="images/exam.png">
+              </div>
+              <div class="stitle">Supplier Bill Details</div>
+            </a>
+          </li>
+          <li>
+            <a href="cash_dash_Journal_voucher.html" class="boxs aos-init aos-animate" data-aos="fade-in"
+              data-aos-duration="1000" data-aos-delay="900" data-aos-easing="ease-in-back" data-aos-offset="0">
+              <div class="icons">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 194.89 215.34">
+                  <path class="cls-1"
+                    d="M179,171.06l-66.79,38.86a28.87,28.87,0,0,1-28.89.09L16.29,171.6a28.88,28.88,0,0,1-14.53-25L1.5,69.35A28.91,28.91,0,0,1,15.86,44.28L82.66,5.42a28.89,28.89,0,0,1,28.89-.1L178.6,43.74a28.87,28.87,0,0,1,14.53,25l.26,77.28A28.89,28.89,0,0,1,179,171.06Z">
+                  </path>
+                </svg>
+                <img src="images/exam.png">
+              </div>
+              <div class="stitle">Journal Voucher</div>
+            </a>
+          </li>
+          <li>
+            <a href="income-tax-register.html" class="boxs aos-init aos-animate" data-aos="fade-in"
+              data-aos-duration="1000" data-aos-delay="800" data-aos-easing="ease-in-back" data-aos-offset="0">
+              <div class="icons">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 194.89 215.34">
+                  <path class="cls-1"
+                    d="M179,171.06l-66.79,38.86a28.87,28.87,0,0,1-28.89.09L16.29,171.6a28.88,28.88,0,0,1-14.53-25L1.5,69.35A28.91,28.91,0,0,1,15.86,44.28L82.66,5.42a28.89,28.89,0,0,1,28.89-.1L178.6,43.74a28.87,28.87,0,0,1,14.53,25l.26,77.28A28.89,28.89,0,0,1,179,171.06Z">
+                  </path>
+                </svg>
+                <img src="images/exam.png">
+              </div>
+              <div class="stitle">Income Tax Register</div>
+            </a>
+          </li>
+          <li>
+            <a href="income-tax-remit.html" class="boxs aos-init aos-animate" data-aos="fade-in"
+              data-aos-duration="1000" data-aos-delay="900" data-aos-easing="ease-in-back" data-aos-offset="0">
+              <div class="icons">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 194.89 215.34">
+                  <path class="cls-1"
+                    d="M179,171.06l-66.79,38.86a28.87,28.87,0,0,1-28.89.09L16.29,171.6a28.88,28.88,0,0,1-14.53-25L1.5,69.35A28.91,28.91,0,0,1,15.86,44.28L82.66,5.42a28.89,28.89,0,0,1,28.89-.1L178.6,43.74a28.87,28.87,0,0,1,14.53,25l.26,77.28A28.89,28.89,0,0,1,179,171.06Z">
+                  </path>
+                </svg>
+                <img src="images/exam.png">
+              </div>
+              <div class="stitle">Income Tax Remit</div>
+            </a>
+          </li>
+          <!-- <li>
+            <a href="tour-advance-payment.html" class="boxs aos-init aos-animate" data-aos="fade-in" data-aos-duration="1000" data-aos-delay="1000" data-aos-easing="ease-in-back" data-aos-offset="0">
+              <div class="icons">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 194.89 215.34"><path class="cls-1" d="M179,171.06l-66.79,38.86a28.87,28.87,0,0,1-28.89.09L16.29,171.6a28.88,28.88,0,0,1-14.53-25L1.5,69.35A28.91,28.91,0,0,1,15.86,44.28L82.66,5.42a28.89,28.89,0,0,1,28.89-.1L178.6,43.74a28.87,28.87,0,0,1,14.53,25l.26,77.28A28.89,28.89,0,0,1,179,171.06Z"></path></svg>
+                <img src="images/exam.png">
+              </div>
+              <div class="stitle">Tour Advance Payment</div>
+            </a>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+
+  <footer class="footerbg">
+    © 2023 All Rights Reserved.
+  </footer>
+  <script>
+    
+    app.controller('contr', function ($scope, $http, $timeout, $window, $rootScope, $filter, $location) {
+      $scope.img = profile;
+      $scope.details = [];
+      var userDetailsJSON = $window.sessionStorage.getItem('userDetails');
+      if (userDetailsJSON) {
+        var userDetails = JSON.parse(userDetailsJSON);
+        if (userDetails.token != null || userDetails.token != '') {
+          $scope.details = angular.copy(userDetails);
+          console.log($scope.details);
+        }
+      } else {
+        $window.location.href = "index.html";
+        console.log('User details not found in sessionStorage');
+      }
+      $scope.logout = function () {
+        $window.sessionStorage.removeItem('userDetails');
+        $window.location.href = 'index.html';
+      };
+      $scope.goBack = function () {
+        window.history.back();
+      }
+    });
+  </script>
+
+
+</body>
+
+</html>

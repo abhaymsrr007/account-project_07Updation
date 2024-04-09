@@ -1,0 +1,55 @@
+<section class="formsec1" ng-controller="phyHandiCapCtrl">
+  <div class="titles">{{subbreadcrumb}}</div>
+  <form name="myform" ng-submit="save()" novalidate>
+    <div class="forms white-box notop">
+      <ul>
+        <li>
+          <label for="phyHandicappedCode">Physically Handicapped Code</label>
+          <input type="text" ng-disabled="idDisable" maxlength="2" num-only class="textfield" ng-model="form.phyHandicappedCode" id="phyHandicappedCode"
+            placeholder="Phy Handicapped Code" name="phyHandicappedCode" ng-blur="checkForDuplicate(form.phyHandicappedCode)" required>
+            <div class="error"
+            ng-show="myform.phyHandicappedCode.$error.required && myform.phyHandicappedCode.$touched && !formSubmitted">
+           This field is required.
+           </div>
+            <div class="error"
+          ng-show="duplicateCode && myform.phyHandicappedCode.$touched">
+          This physicallyhandicapped Code already exists.
+       </div>
+        </li>
+        <li>
+          <label for="dscr">Description</label>
+          <input type="text" class="textfield" ng-model="form.dscr " m-name m-capitalize id="dscr" placeholder="Description" maxlength="30"
+            name="dscr" required>
+          <div class="error" ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">
+            This field is required.
+          </div>
+        </li>
+        <li>
+          <div>
+            <button type="submit" class="bluebtn" style="margin-top: 15px;" ng-disabled="myform.$invalid || duplicateCode">Save</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </form>
+  <div class="white-box ">
+    <table class="table table-bordered text-center regtable ">
+      <thead>
+        <tr>
+          <th>Physically Handicapped Code</th>
+          <th>Description</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="n in handicappedData" class="tdcolor">
+          <td ng-bind="n.phyHandicappedCode" ng-disabled="flag"> </td>
+          <td ng-bind="n.dscr|uppercase"></td>
+          <!-- <td ng-bind="n.gl_group_code"> </td> -->
+          <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

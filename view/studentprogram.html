@@ -1,0 +1,168 @@
+<style type="text/css">
+    .searchbox li { min-width: auto;}
+</style>
+  <section class="formsec1" ng-controller="studentProgramCtrl">
+    <div class="titles">{{subbreadcrumb}}</div>
+    <form name="myform" ng-submit="save()" novalidate>
+      <div class="forms white-box notop">
+        <ul>
+          <li>
+            <div>
+              <label for="studentProgramCode">Student Program code<sup>*</sup></label>
+              <input type="text"  class="textfield" ng-model="form.studentProgramCode" id=departmentCode ng-disabled="flag"
+                placeholder="Student Program code"  maxlength="9" name="studentProgramCode" required ng-blur="checkForDuplicate(form.studentProgramCode)"/>
+            </div>
+            <div class="error" ng-show="myform.studentProgramCode.$error.required && myform.studentProgramCode.$touched && !formSubmitted">
+              This field is required.
+            </div>
+             <div class="error"
+                    ng-show="duplicateCode && myform.studentProgramCode.$touched">
+                    This Student Program Code already exists.
+             </div>
+          </li>
+          <li>
+            <label for="dscr">Description<sup>*</sup></label>
+            <input type="text" class="textfield" no-special-charecters required ng-model="form.dscr" id="dscr" placeholder="Description"
+              name="dscr" maxlength="50"/>
+            <div class="error" ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">
+              This field is required.
+
+            </div>
+          </li>
+          <li>
+
+            <label for="departmentCode">Department Code<sup>*</sup></label>
+            <select ng-model="form.departmentCode" class="dropdd" required name="departmentCode">
+              <option value="" >Department Code</option>
+              <option ng-repeat="x in dptData" value="{{x.departmentCode}}">
+                {{x.departmentCode}}- {{x.dscr}}
+              </option>
+            </select>
+            <div class="error"
+              ng-show="myform.departmentCode.$error.required && myform.departmentCode.$touched && !formSubmitted">
+              This field is required.
+
+            </div>
+
+          </li>
+          <li>
+            <label for="collegCode">College Code<sup>*</sup></label>
+            <select ng-model="form.collegeCode" class="dropdd" required name="collegCode">
+              <option value=""  selected> Select </option>
+              <option ng-repeat="x in collgData"  value="{{x.collegeCode}}">{{x.collegeCode}} - {{x.dscr}}
+              </option>
+            </select>
+            <div class="error"
+              ng-show="myform.collegCode.$error.required && myform.collegCode.$touched && !formSubmitted">
+              This field is required.
+            </div>
+          </li>
+          <li>
+
+            <label for="ucode">University Code<sup>*</sup></label>
+            <select ng-model="form.universityCode" class="dropdd" required name="ucode">
+              <option value=""  selected> Select </option>
+              <option ng-repeat="x in UniData" value="{{x.universityCode}}">{{x.universityCode}} -
+                {{x.dscr}}
+              </option>
+            </select>
+            <div class="error" ng-show="myform.ucode.$error.required && myform.ucode.$touched && !formSubmitted">
+              This field is required.
+
+            </div>
+
+          </li> -->
+
+
+          <li>
+            <div>
+              <label for="departmentCode">Department Code<sup>*</sup></label>
+              <div class="flexbox">
+                <select ng-model="form.departmentCode" class="dropdd" required name="dc"
+                  ng-change="setDepDscr(form.departmentCode)">
+                  <option value="" disabled selected>Department Code</option>
+                  <option ng-repeat="i in dptData" value="{{i.departmentCode}}"
+                    ng-show="form.departmentCode != i.departmentCode">
+                    {{i.departmentCode}} {{ form.departmentCode != i.departmentCode ? '- '+ i.dscr :''}}
+                  </option>
+                </select>
+                <input type="text" class="textfield" name="department" ng-model="depDscr" />
+              </div>
+              <span class="error" ng-show="myform.dc.$error.required && myform.dc.$touched && !formSubmitted">This
+                field is required.</span>
+            </div>
+          </li>
+          
+          <li>
+            <div>
+              <label for="collegCode">College Code<sup>*</sup></label>
+              <select ng-model="form.collegeCode" class="dropdd" required name="cc">
+                <option value="" disabled selected> Select </option>
+                <option ng-repeat="x in dptData | filter:{'departmentCode':form.departmentCode} " value="{{x.collegeCode}}">
+                  {{x.collegeCode}} - {{x.dscr}}
+                </option>
+              </select>
+              <span class="error" ng-show="myform.cc.$error.required && myform.cc.$touched && !formSubmitted">This
+                field is required.</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="operative">University Code<sup>*</sup></label>
+              <select ng-model="form.universityCode" class="dropdd" required name="uc">
+                <option value="" disabled selected> Select </option>
+                <option ng-repeat="x in dptData | filter:{'collegeCode':form.collegeCode}" value="{{x.universityCode}}">
+                  {{x.universityCode}} - {{x.dscr}}
+                </option>
+              </select>
+              <span class="error" ng-show="myform.uc.$error.required && myform.uc.$touched && !formSubmitted">This
+                field is required.</span>
+            </div>
+          </li>
+          <li>
+            <div>
+              <button type="submit" class="bluebtn" style="margin-top: 15px" ng-disabled="myform.$invalid || duplicateCode"> 
+                Save
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </form>
+    <div class="white-box"> 
+        <ul class="searchbox">
+          <li ><input type="text" class="textfield" ng-model="keyword" /></li>
+          <li><button class="bluebtn" ng-click="search(keyword)">Search</button></li>
+        </ul>
+      <table class="table table-bordered text-center regtable table-condensed">
+        <thead>
+          <tr>
+            <th style="text-align: center" width="400">Student Program code</th>
+            <th>Description</th>
+            <th style="text-align: center" width="400">Department Code</th>
+            <th style="text-align: center" width="400">Department Description</th>
+            <th style="text-align: center" width="400">College Code</th>
+            <th style="text-align: center" width="400">College Description</th>
+            <th style="text-align: center" width="400">University Code</th>
+            <th style="text-align: center" width="400">University Description</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="n in data" class="tdcolor">
+            <td ng-bind="n.studentProgramCode"></td>
+            <td ng-bind="n.dscr|uppercase "></td>
+            <td ng-bind="n.departmentCode"></td>
+            <td ng-bind="getdptDscr(dptData,n.departmentCode) | uppercase"> </td>
+            <td ng-bind="n.collegeCode"></td>
+            <td ng-bind="getcllgDscr(collgData,n.collegeCode) | uppercase"> </td>
+            <td ng-bind="n.universityCode"></td>
+            <td ng-bind="getUniDscr(UniData,n.universityCode) | uppercase"> </td>
+
+            <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+ 

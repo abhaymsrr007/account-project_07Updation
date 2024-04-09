@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TOUR ADVANCE REFUND</title> 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon" />  
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/bootstrap.min.css" /> 
+<script src="js/jquery-3.6.0.min.js"></script>
+<!-- <script src="js/bootstrap.min.js"></script>    -->
+ <link rel="stylesheet" href="css/style.css">
+ <script src="js/linked.js"></script>
+
+</head>
+<body>
+
+<header class="topheading">
+  <div class="logo">
+    <img src="images/nrt-logo.svg" alt="" />  
+  </div> 
+  <a class="btn bluebtn" ng-click="goBack()">Back</a>
+  <a class="userlogin" ng-click="logout()">{{details.name}} <span><img src="https://exam.skmu.ac.in/ftpwebapps/skmu/resources/studentdata/users/profileimage/{{details.profile_image}}" alt="student" /></span></a>
+
+</header>
+<section class="formsec">
+  <div class="container">
+  <div class="titles text-center">TOUR ADVANCE REFUND</div> 
+  <form>
+  <div class="white-box forms form2 notop">
+    <h3>Tour Details:</h3>
+    <ul>
+      <li>
+        <div smallsec1>
+          <label>Payee Type<sup>*</sup></label>
+          <select class="dropdd" name="payee_type">
+            <option>Select</option>
+            <option>1</option>
+          </select>
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Vendor Code</label>
+          <div class="flexbox">
+            <select class="dropdd" name="vender_code2">
+              <option>Select</option>
+              <option>1</option>
+            </select>
+            <input type="text" class="textfield" name="vender_code" value="" placeholder="" />
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Staff No.</label>
+          <div class="flexbox">
+            <select class="dropdd" name="Staff_No">
+              <option>Select</option>
+              <option>1</option>
+            </select>
+            <input type="text" class="textfield" name="Staff_No" value="" placeholder="" />
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Student No.</label>
+          <div class="flexbox">
+            <select class="dropdd" name="student_reg_no2">
+              <option>Select</option>
+              <option>1</option>
+            </select>
+            <input type="text" class="textfield" name="student_reg_no" value="" placeholder="" />
+          </div>
+        </div>
+      </li>
+      <li class="width20">
+        <div>
+          <label>Advance Id</label>
+          <select class="dropdd" name="advance_id">
+            <option>Select</option>
+            <option>1</option>
+          </select>
+        </div>
+      </li>
+      <li class="width20">
+        <div>
+          <label>Date</label>
+          <input type="text" class="textfield datepicker" name="date2" value="" placeholder="" />
+        </div>
+      </li>
+      <li class="width20">
+        <div>
+          <label>Fin Year</label>
+          <input type="text" class="textfield" name="fin_year2" value="" placeholder="" />
+        </div>
+      </li>
+      <li class="width20">
+        <div>
+          <label>Advance Type<sup>*</sup></label>
+          <div class="flexbox">
+            <input type="text" class="textfield" name="advance_type" value="" placeholder="" />
+           <input type="text" class="textfield" name="advance_type" value="" placeholder="" />
+          </div>
+        </div>
+      </li> 
+      <li class="width20">
+        <div>
+          <label>Paid to<sup>*</sup></label>
+          <input type="text" class="textfield" name="paid_to" value="" placeholder="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Refund Sl. No.<sup>*</sup></label>
+          <input type="text" class="textfield" name="refund_sl_no" value="" placeholder="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Department<sup>*</sup></label>
+          <div class="flexbox">
+            <input type="text" class="textfield" name="department" value="" placeholder="" />
+            <input type="text" class="textfield" name="department2" value="" placeholder="" />
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>College</label>
+          <div class="flexbox">
+            <input type="text" class="textfield" name="college" value="" placeholder="" />
+            <input type="text" class="textfield" name="college2" value="" placeholder="" />
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>University<sup>*</sup></label>
+          <div class="flexbox">
+            <input type="text" class="textfield" name="university" value="" placeholder="" />
+            <input type="text" class="textfield" name="university" value="" placeholder="" />
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>From Date</label>
+          <input type="text" class="textfield datepicker" name="date2" value="" placeholder="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label> To Date</label>
+          <input type="text" class="textfield datepicker" name="date2" value="" placeholder="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Place</label>
+          <input type="text" class="textfield" name="date2" value="" placeholder="" />
+        </div>
+      </li>
+      <li class="smallsec">
+        <div>
+          <label>City<sup>*</sup></label>
+          <input type="text" class="textfield" name="city" value="" placeholder="" />
+        </div>
+      </li>
+      <li class="smallsec">
+        <div>
+          <label>State<sup>*</sup></label>
+          <input type="text" class="textfield" name="state" value="" placeholder="" />
+        </div>
+      </li>
+      <li class="smallsec">
+        <div>
+          <label>Country<sup>*</sup></label>
+          <input type="text" class="textfield" name="country" value="" placeholder="" />
+        </div>
+      </li>
+      <li class="smallsec">
+        <div>
+          <label>Foreign<sup>*</sup></label>
+          <input type="text" class="textfield" name="foreign" value="" placeholder="" />
+        </div>
+      </li>
+    </ul> 
+  </div>
+  <div class="white-box forms form2">
+    <h3>Processing Details:</h3>
+    <ul>
+      <li>
+        <div>
+          <label>Entered By<sup>*</sup></label>
+          <div class="flexbox" >
+          <select class="dropdd"  name="entered_by">
+            <option>Select</option>
+            <option>1</option>
+          </select>
+           <input type="text" class="textfield" name="entered_by" value="" placeholder="" />
+          </div>
+        </div>
+      </li> 
+      <li>
+        <div>
+          <label>Approved By<sup>*</sup></label>
+          <div class="flexbox" >
+          <select class="dropdd"  name="approved_by">
+            <option>Select</option>
+            <option>1</option>
+          </select>
+           <input type="text" class="textfield" name="approved_by" value="" placeholder="" />
+          </div>
+        </div>
+      </li> 
+      <li>
+        <div>
+          <label>Refund Amount</label>
+          <input type="text" class="textfield" name="refund_amount" value="" placeholder="" />
+        </div>
+      </li> 
+      <li>
+        <div>
+          <label>Voucher Type</label>
+          <div class="flexbox">
+            <input type="text" class="textfield" name="voucher_type" value="" placeholder="" />
+            <input type="text" class="textfield" name="voucher_type" value="" placeholder="" />
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Voucher No.</label>
+          <input type="text" class="textfield" name="voucher_no" value="" placeholder="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Voucher Date</label>
+          <input type="text" class="textfield datepicker" name="voucher_date" value="" placeholder="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Adjustment Year.</label>
+          <input type="text" class="textfield" name="adjustment_year" value="" placeholder="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Month</label>
+          <input type="text" class="textfield" name="month" value="" placeholder="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Sl. No</label>
+          <input type="text" class="textfield" name="sl_no" value="" placeholder="" />
+        </div>
+        </li>
+        
+      <li>
+        <div>
+          <label>Amount in words</label>
+          <input type="text" class="textfield " name="amount_in_word" value="" placeholder="" />
+        </div>
+      </li>
+      <li>
+        <div>
+          <label>Voucher Status</label>
+          <input type="text" class="textfield" name="voucher_status" value="" placeholder="" />
+        </div>
+      </li>
+      
+    </ul> 
+    <div class="btnlist">
+    <ul>
+      <li>
+    
+      <button type="submit" class="bluebtn" >SAVE</button>
+      </li>
+      <li>
+      <button type="submit" class="bluebtn">UPDATE</button>
+    </li>
+    <li>
+      <button type="submit" class="bluebtn">DELETE</button>
+    </li>
+     <li>
+      <button type="submit" class="bluebtn">Generate Voucher</button>
+    
+  </li>
+  </ul>
+  </div> 
+  </div> 
+  </div> 
+ 
+  </form>
+ </div> 
+</section>
+<footer class="footerbg">
+  © 2023 All Rights Reserved. 
+</footer>
+ 
+<link rel='stylesheet' type='text/css' href='css/bootstrap-datepicker.min.css'>
+<script  type='text/javascript' src='js/bootstrap-datepicker.min.js'></script>
+<script type="text/javascript">
+$('.datepicker').datepicker({
+  format: "dd-mm-yyyy",
+  startDate: new Date('2022-7-15'),
+  // endDate:  new Date('2022-8-15')
+});  
+</script>
+<script>
+  
+
+  app.controller('contr', function ($scope, $http, $timeout, $window, $rootScope, $filter) {
+    $scope.terte = 10;
+    $scope.flag = false;
+    $scope.timeoutPromise = null;
+    $scope.glgroupData = [];
+
+  $scope.details=[];
+  var token;
+  const userDetailsJSON = $window.sessionStorage.getItem('userDetails');
+  if (userDetailsJSON) {
+    const userDetails = JSON.parse(userDetailsJSON);
+    if (userDetails.token!=null || userDetails.token!=''){
+      $scope.details=angular.copy(userDetails);
+      token=$scope.details.token;
+    }
+  } else {
+    $window.location.href = "index.html";
+    console.log('User details not found in sessionStorage');
+  }
+  $scope.logout = function() {
+    $window.sessionStorage.removeItem('userDetails');
+    $window.location.href = 'index.html';
+  }; 
+  $scope.goBack = function () {
+        window.history.back();
+      }
+      var config = {
+         headers: {
+        'Authorization': 'Bearer ' + token
+          },   
+        };
+
+      });
+  </script>
+
+</body>
+</html>

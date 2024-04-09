@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="images/logo.png" type="image/x-icon" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/aos.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- <script src="js/aos.js"></script> -->
+    <script src="js/linked.js"></script>
+    <link rel="stylesheet" href="css/animate.css">
+    <!-- <link rel="stylesheet" href="css/owl.carousel.min.css">  -->
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+
+    <!-- <script src="js/owl.carousel.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.17/angular-filter.min.js"></script>
+
+    <!-- <script src="js/link.js"></script> -->
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .loginsec {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 700px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13px;
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: lightsteelblue;
+        }
+
+        .loginsec h1 {
+            font-size: 30px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .half {
+            height: 500px;
+            padding: 50px;
+            width: 50%;
+            background: var(--gray);
+            color: var(--white);
+        }
+
+        .half2 {
+            height: 500px;
+            padding: 30px;
+            width: 50%;
+            background: var(--gray);
+            color: var(--white);
+        }
+
+        .bgsec {
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .trtext {
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        /* .formsec{} */
+        .formsec input:focus {
+            outline: none;
+        }
+
+        .formsec input,
+        .formsec button,
+        .btnlogin {
+            width: 100%;
+            border: none;
+            line-height: 24px;
+            background-color: #ffffff;
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            border-radius: 4px;
+            color: #524646;
+        }
+
+        .btnlogin {
+            background: var(--white);
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .btnsignin {
+            width: 100%;
+            border: none;
+            line-height: 24px;
+            background-color: #ffffff;
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            border-radius: 4px;
+            color: #524646;
+        }
+
+        .btnsignin {
+
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .btn {
+            color: var(--black);
+            text-decoration: underline;
+        }
+
+        .forgot {
+            margin-top: 10px;
+            color: black;
+            display: inline-block;
+            text-decoration: underline;
+        }
+
+        .create {
+            margin-top: 10px;
+            color: black;
+            display: inline-block;
+            text-decoration: underline;
+            margin-left: 57px;
+        }
+
+
+        @media (max-width:767px) {
+            .loginsec {
+                width: 320px;
+            }
+
+            .half {
+                height: auto;
+                padding: 30px;
+                width: 100%;
+            }
+
+            .trtext {
+                font-size: 24px;
+            }
+        }
+
+        .popup {
+            width: 100%;
+            height: 100%;
+            display: none;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            background: rgba(0, 0, 0, 0.75);
+        }
+
+        .popup-inner {
+            max-width: 700px;
+            width: 90%;
+            padding: 40px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 1);
+            border-radius: 3px;
+            background: #fff;
+        }
+
+        .popup-close {
+            width: 30px;
+            height: 30px;
+            padding-top: 4px;
+            display: inline-block;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            transition: ease 0.25s all;
+            -webkit-transform: translate(50%, -50%);
+            transform: translate(50%, -50%);
+            border-radius: 1000px;
+            background: rgba(0, 0, 0, 0.8);
+            font-family: Arial, Sans-Serif;
+            font-size: 20px;
+            text-align: center;
+            line-height: 100%;
+            color: #fff;
+        }
+
+        .popup-close:hover {
+            -webkit-transform: translate(50%, -50%) rotate(180deg);
+            transform: translate(50%, -50%) rotate(180deg);
+            background: rgba(0, 0, 0, 1);
+            text-decoration: none;
+        }
+
+        .control-label {
+            color: white;
+            margin-bottom: 0px;
+            margin-top: 5px;
+            font-weight: 100;
+        }
+
+        .half2>.formsec2>div {
+            margin-top: 3px;
+            margin-bottom: 0px;
+        }
+    </style>
+</head>
+
+<body  ng-controller="contr">
+
+    <div class="loginsec">
+        <div class="half bgsec">
+            <div class="adminlogo" data-aos="fade-right" data-aos-duration="1000"><img src="images/nrt-logo.svg"
+                    alt="AMS" /></div>
+        </div>
+        <div class="half log">
+            <div class="formsec">
+                <form ng-submit="login()">
+                    <h1>Login</h1>
+                    <input type="text" name="username" value="" placeholder="User ID" class="user"
+                        ng-model="check.username">
+                    <input type="password" name="password" value="" placeholder="Password" class="password"
+                        ng-model="check.password">
+                    <!-- <a href="admin/dashboard.php" class="btnlogin" id="admindash">Login</a> <button name="submit" type="submit" ng-click="login()">Login</button>-->
+                    <!-- <a href="dashboard.html" class="btnlogin" id="universitydash">Login</a> -->
+                    <input class="btnlogin" type="submit" value="login">
+                    <a class="forgot" href="#">Forgot Password</a>
+                    <a class="btn create" data-popup-open="popup-1">Create User</a>
+                </form>
+            </div>
+        </div>
+
+        <div class="half2" style="display: none;">
+            <div class="formsec2">
+                <form ng-submit="signup()">
+                    <div>Signup </div>
+                    <label class="control-label" for="firstNameFirstTime">Full name</label>
+                    <input type="text" class="form-control" id="firstNameFirstTime" ng-model="form.name">
+
+                    <label class="control-label" for="username">User name</label>
+                    <input type="text" class="form-control" id="username" value="" ng-model="form.username">
+
+                    <label class="control-label" for="password">Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Password"
+                        ng-model="form.password">
+
+                    <label class="control-label" for="Email">Email</label>
+                    <input type="email" class="form-control" id="email" ng-model="form.email">
+
+                    <label class="control-label" for="Email">Phone</label>
+                    <input type="tel" class="form-control" id="phone" ng-model="form.contactNo">
+
+                    <label class="control-label" for="image">Profile Image</label>
+                    <div class="form-group">
+                        <label for="image">Select an image or PDF:</label>
+                        <input type="file" name="image" class="form-control-file" id="image"
+                            accept="image/jpeg, image/png, image/gif, application/pdf" file-model="form.file" required>
+                    </div>
+                    <input class="btnsignin" type="submit" value="signup">
+                    <a class="btn signin" data-popup-open="popup-1">Already have account?</a>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".signin").click(function () {
+                $(".half2").hide();
+                $(".log").show();
+            });
+            $(".create").click(function () {
+                $(".log").hide();
+                $(".half2").show();
+            });
+        });
+    </script>
+    <script>
+        app.directive('fileModel', ['$parse', function ($parse) {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attrs) {
+                    var model = $parse(attrs.fileModel);
+                    var modelSetter = model.assign;
+                    element.bind('change', function () {
+                        scope.$apply(function () {
+                            modelSetter(scope, element[0].files[0]);
+                        });
+                    });
+                }
+            };
+        }]);
+        // app.controller('loginContrl', function ($scope, $http, $timeout, $window, $rootScope, $filter) {
+        //     $scope.login = function () {
+        //         $http.post(path + '/api/v1/user/login', $scope.check)
+        //             .then( async function (res) {
+        //                 console.log("All data",res)
+        //                 if (await res.data.token) {
+        //                     const userDetails = {
+        //                         profile_image: res.data.userDetails.user.profile_image,
+        //                         name: res.data.userDetails.name,
+        //                         username: res.data.userDetails.user.username,
+        //                         userid: res.data.userDetails.user.id,
+        //                         roles: res.data.userDetails.user.roles,
+        //                         token: res.data.token,
+        //                         staffNo: res.data.userDetails.staffNo,
+        //                         sectionCode: res.data.userDetails.sectionCode
+        //                     };
+        //                     console.log(res.data.token);
+        //                     storeUserDetails(await userDetails);
+        //                     var isAdmin = await res.data.userDetails.user.roles.find(row => row.id === "adm");
+        //                     console.log("isAdmin", isAdmin);
+        //                     if(isAdmin){
+        //                         window.location.href = 'admin_dashboard.html';
+        //                     }else{
+        //                         console.log("in else", res.data.userDetails.user.roles)
+        //                         navigateToDashboard(res.data.userDetails.user.roles[0].role);
+        //                     }
+        //                 } else {
+        //                     console.log("Something went wrong");
+        //                 }
+        //             })
+        //             .catch(function (err) {
+        //                 console.log(err);
+        //             });
+        //     };
+        //     function storeUserDetails(userDetails) {
+        //         window.sessionStorage.setItem('userDetails', JSON.stringify(userDetails));
+        //     }
+        //     function navigateToDashboard(role) {
+        //         // window.location.href = 'main_dashboard.html';
+        //         // if (role === "manager") {
+        //         //     window.location.href = 'manager_dashboard.html';
+        //         // } else if (role === "assistant") {
+        //         //     window.location.href = 'assistant_dashboard.html';
+        //         // } else if (role === "cashier") {
+        //         //     window.location.href = 'cashier_dashboard.html';
+        //         // } else {
+        //         //     alert("Unknown role: " + role);
+        //         // }
+        //         if (role === "manager") {
+        //             window.location.href = 'mgr_main_dashboard.html';
+        //         } else if (role === "assistant") {
+        //             window.location.href = 'asst_main_dashboard.html';
+        //         } else if (role === "cashier") {
+        //             window.location.href = 'cashier_main_dashboard.html';
+        //         }else if (role === "central account") {
+        //             window.location.href = 'centralAccount_main_dashboard.html';
+        //         } else {
+        //             alert("Unknown role: " + role);
+        //         }
+        //     }
+
+        //     // signup 
+        //     $scope.signup = function () {
+        //         if ($scope.form && $scope.form.file) {
+        //             var formData = new FormData();
+        //             for (var key in $scope.form) {
+        //                 formData.append(key, $scope.form[key]);
+        //             }
+        //             $http.post(path + '/api/v1/user/signup', formData, {
+        //                 transformRequest: angular.identity,
+        //                 headers: {
+        //                     'Content-Type': undefined,
+        //                 },
+        //             })
+        //                 .then(function (res) {
+        //                     if (res.data) {
+        //                         alert("Uploaded");
+        //                     } else {
+        //                         console.log("Something went wrong. No token received.");
+        //                     }
+        //                 })
+        //                 .catch(function (err) {
+        //                     console.log("Error while signing up:", err);
+        //                 });
+        //         } else {
+        //             console.log("Invalid data in $scope.form or $scope.form.file.");
+        //         }
+        //     };
+
+
+
+        // });
+
+    </script>
+</body>
+
+</html>

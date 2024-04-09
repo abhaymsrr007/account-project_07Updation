@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tour Advance Payment</title> 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<link rel="shortcut icon" href="images/nrt-logo.svg" type="image/x-icon" />  
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/bootstrap.min.css" /> 
+<script src="js/jquery-3.6.0.min.js"></script>
+<!-- <script src="js/bootstrap.min.js"></script>    -->
+ <link rel="stylesheet" href="css/style.css">
+ 
+</head>
+<body>
+  <header class="topheading">
+    <div class="logo">
+      <img src="images/nrt-logo.svg" alt="" />  
+    </div> 
+    <a class="btn bluebtn" ng-click="goBack()">Back</a>
+    <a class="userlogin" href="index.html">Amit Kumar <span><img src="images/userimg.jpg" alt="student" /></span></a>
+    
+  </header>
+    <section class="formsec">
+  <div class="container">
+    <div class="titles text-center">Tour Advance Payment</div>
+    <form>       
+          <div class="white-box forms form2">
+            <h3>Tour Details:</h3>
+            <ul>
+              <li style="min-width: 15%;">
+                <div>
+                  <label>Advance Id<sup>*</sup></label>
+                    <div >
+                      <input type="text" class="textfield" name="advance_id" value="" placeholder="" />
+                    </div>
+                </div>
+              </li>
+              <li style="min-width: 20%;">
+                <div>
+                  <label>Date<sup>*</sup></label>
+                  <div >
+                    <input type="text" class="textfield datepicker" name="date" value="" placeholder="" />
+                  </div>
+                </div>
+              </li>
+              <li style="min-width: 15%;">
+                <div>
+                  <label>Fin Year<sup>*</sup></label>
+                  <div >
+                    <input type="text" class="textfield" name="fin_year" value="" placeholder="" />
+                  </div>
+                </div>
+              </li>
+              <li style="min-width: 30%;">
+                <div>
+                  <label>Advance Type<sup>*</sup></label>
+                  <div class="flexbox">
+                    <select class="dropdd" name="po_id">
+                      <option>Select</option>
+                      <option>1</option>
+                    </select>
+                    <input type="text" class="textfield" name="advance_type" value="" placeholder="" />
+                  </div>
+                </div>
+              </li>
+              <li style="min-width: 20%;">
+                <div>
+                  <label>Payee Type<sup>*</sup></label>
+                  <div >
+                    <select class="dropdd" name="payee_type">
+                      <option>Select</option>
+                      <option>1</option>
+                    </select>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li style="min-width: 30%;">
+                <div>
+                  <label>Vendor Code & Name</label>
+                  <div class="flexbox">
+                    <select class="dropdd" name="po_id">
+                      <option>Select</option>
+                      <option>1</option>
+                    </select>
+                    <input type="text" class="textfield" name="vender_code" value="" placeholder="" />
+                  </div>
+                </div>
+              </li>
+              <li style="min-width: 30%;">
+                <div>
+                  <label>Employee No. & Name</label>
+                  <div class="flexbox">
+                    <select class="dropdd" name="po_id">
+                      <option>Select</option>
+                      <option>1</option>
+                    </select>
+                    <input type="text" class="textfield" name="employee_no" value="" placeholder="" />
+                  </div>
+                </div>
+              </li>
+              <li style="min-width: 30%;">
+                <div>
+                  <label>Student Reg. No.</label>
+                  <div class="flexbox">
+                    <select class="dropdd" name="po_id">
+                      <option>Select</option>
+                      <option>1</option>
+                    </select>
+                    <input type="text" class="textfield" name="student_reg_no" value="" placeholder="" />
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <ul>
+              <li style="min-width: 25%;">
+                <div>
+                  <label>Pay to<sup>*</sup></label>
+                  <div>
+                    <input type="text" class="textfield" name="pay_to" value="" placeholder="" />
+                  </div>
+                </div>
+              </li>
+              <li style="min-width: 25%;">
+                <div>
+                  <label>Department Code & Name<sup>*</sup></label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="department" value="" placeholder="" />
+                    <input type="text" class="textfield" name="department2" value="" placeholder="" />
+                  </div>
+                </div>
+              </li>
+              <li style="min-width: 25%;">
+                <div>
+                  <label>College Code & Name</label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="college" value="" placeholder="" />
+                    <input type="text" class="textfield" name="college2" value="" placeholder="" />
+                  </div>
+                </div>
+              </li>
+              <li style="min-width: 25%;">
+                <div>
+                  <label>University Code & Name<sup>*</sup></label>
+                  <div class="flexbox">
+                    <input type="text" class="textfield" name="university" value="" placeholder="" />
+                    <input type="text" class="textfield" name="university2" value="" placeholder="" />
+                  </div>
+                </div>
+              </li>
+            </ul>
+
+            <ul>
+              <li style="min-width: 13%;">
+                <div>
+                  <label>From Date<sup>*</sup></label>
+                    <div >
+                      <input type="text" class="textfield datepicker" name="from_date" value="" placeholder="" />
+                    </div>
+                </div>
+              </li>
+              <li style="min-width: 13%;">
+                <div>
+                  <label>To Date<sup>*</sup></label>
+                  <div >
+                    <input type="text" class="textfield datepicker" name="to_date" value="" placeholder="" />
+                  </div>
+                </div>
+              </li>
+              <li style="min-width: 13%;">
+                <div>
+                  <label>Place<sup>*</sup></label>
+                  <div >
+                    <input type="text" class="textfield" name="place" value="" placeholder="" />
+                  </div>
+                </div>
+              </li>
+              <li style="min-width: 13%;">
+                <div>
+                  <label>City </label>
+                  <div>
+                    <input type="text" class="textfield" name="city" value="" placeholder="" />
+                  </div>
+                </div>
+              </li>
+              <li style="min-width: 13%;">
+                <div>
+                  <label>State<sup>*</sup></label>
+                  <div >
+                    <input type="text" class="textfield" name="state" value="" placeholder="" />
+                  </div>
+                </div>
+              </li>
+              <li style="min-width: 13%;">
+                <div>
+                  <label>Country<sup>*</sup></label>
+                  <div >
+                    <input type="text" class="textfield" name="country" value="" placeholder="" />
+                  </div>
+                </div>
+              </li>
+              <li style="min-width: 13%;">
+                <div>
+                  <label>Foreign<sup>*</sup></label>
+                  <div >
+                    <input type="text" class="textfield" name="foreign" value="" placeholder="" />
+                  </div>
+                </div>
+              </li>
+            </ul>            
+          </div> 
+          <div class="white-box forms">
+            <h3>Plan/project Details:</h3>
+            <ul>
+              <li style="min-width: 20%;">
+                <div>
+                  <label>Plan No.</label>
+                  <select class="dropdd" name="plan_project_detail">
+                    <option>Select</option>
+                    <option>1</option>
+                  </select>
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Fine Year</label>
+                  <input type="text" class="textfield" name="fine_year" value="" placeholder="" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Plan Type</label>
+                  <input type="text" class="textfield" name="plan_type" value="" placeholder="" />
+                </div>
+              </li>
+              <li style="min-width: 30%;">
+                <div>
+                  <label>Plan Title</label>
+                  <input type="text" class="textfield" name="plan_title" value="" placeholder="" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <label>Budget Fine Year</label>
+                  <select class="dropdd" name="budget_fin_year">
+                    <option>Select</option>
+                    <option>1</option>
+                  </select>
+                </div>
+              </li>
+            </ul> 
+          </div>
+
+          <div class="white-box forms">
+            <h3>Processing Details:</h3>
+          <ul>
+            <li >
+              <div>
+                <label>Entered By<sup>*</sup></label>
+                <div class="flexbox">
+                  <input type="text" class="textfield" name="entered_by" value="" placeholder="" />
+                  <input type="text" class="textfield" name="entered_by2" value="" placeholder="" />
+                </div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Approved By</label>
+                <div class="flexbox">
+                  <input type="text" class="textfield" name="approved" value="" placeholder="" />
+                  <input type="text" class="textfield" name="approved2" value="" placeholder="" />
+                </div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Advance Amount<sup>*</sup></label>
+                <div >
+                  <input type="text" class="textfield" name="advance_amount" value="" placeholder="" />
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ul>
+            <li >
+              <div>
+                <label>Account Code<sup>*</sup></label>
+                <div class="flexbox">
+                  <select class="dropdd" name="po_id">
+                    <option>Select</option>
+                    <option>1</option>
+                  </select>
+                  <input type="text" class="textfield" name="account_code" value="" placeholder="" />
+                </div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label>Amount in words</label>
+                <div >
+                  <input type="text" class="textfield" name="amount_in_words" value="" placeholder="" />
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ul>
+            <li style="min-width: 23%;">
+              <div>
+                <label>Voucher Type</label>
+                <div class="flexbox">
+                  <select class="dropdd" name="po_id">
+                    <option>Select</option>
+                    <option>1</option>
+                  </select> <span>-</span>
+                  <input type="text" class="textfield" name="voucher_type" value="" placeholder="" />
+                </div>
+              </div>
+            </li>
+            <li style="min-width: 20%;"> 
+              <div>
+                <label>Voucher No.</label>
+                <div >
+                  <input type="text" class="textfield" name="voucher_no" value="" placeholder="" />
+                </div>
+              </div>
+            </li>
+            <li style="min-width: 20%;">
+              <div>
+                <label>Voucher Date</label>
+                <div >
+                  <input type="text" class="textfield datepicker" name="voucher_date" value="" placeholder="" />
+                </div>
+              </div>
+            </li>
+            <li style="min-width: 37%;">
+              <div>
+                <label>Advance Status<sup>*</sup></label>
+                <div >
+                  <select class="dropdd" name="advance_status">
+                    <option>Select</option>
+                    <option>1</option>
+                  </select>
+                </div>
+              </div>
+            </li>
+          </ul>
+          
+          <div class="btnlist">
+            <ul>
+              <li><div><button type="button" class="bluebtn">Save</button></div></li> 
+              <li><div><button type="button" class="bluebtn">Generate Voucher</button></div></li>  
+            </ul>
+          </div> 
+          </div>
+    </form>
+  </div>
+  </section>
+  <footer class="footerbg">
+    © 2023 All Rights Reserved. 
+  </footer>
+  <link rel='stylesheet' type='text/css' href='css/bootstrap-datepicker.min.css' >
+  <script  type='text/javascript' src='js/bootstrap-datepicker.min.js'></script>
+  <script type="text/javascript">
+  $('.datepicker').datepicker({
+    format: "dd-mm-yyyy",
+    startDate: new Date('2022-7-15'),
+    // endDate:  new Date('2022-8-15')
+  });  
+  </script>
+  </body>
+</html>

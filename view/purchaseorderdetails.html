@@ -1,0 +1,137 @@
+  <style type="text/css">
+    .searchbox {justify-content: flex-start;}
+    .searchbox li {min-width: 16.66%;}
+  </style>
+    <section class="formsec1" ng-controller="purchOrDetsCtrl">
+      <div class="titles">{{subbreadcrumb}}</div>Purchase Order Details</div>
+      <div class="white-box">
+        <ul class="searchbox">
+          <li>
+            <div ng-cloak >
+              <select class="dropdd" data-show-subtext="true" name="vendorCode" ng-model="vendorCode" data-live-search="true" ng-change="vendornamedscr(vendorCode);" >
+                <option value="">Select Vendor Code</option>
+                <option value="{{x.vendorCode}}" ng-repeat="x in uniquePOdata | orderBy :vendorCode">
+                  {{x.vendorCode}} - {{x.fullName}}
+                </option>
+              </select>
+            </div>
+          </li>
+          <li> <input type="text" class="textfield" ng-model="vendorName" ng-disabled="true" placeholder="Vendor Name" /> </li>
+          <li>
+            <div >
+              <select ng-model="poId" class="dropdd">
+                <option value="">Select PO Id</option>
+                <option
+                  ng-repeat="x in podata | filter:{vendorCode:vendorCode}  "
+                  value="{{x.poId}}"
+                >
+                  {{x.poId}} - {{x.poTitle}}
+                </option>
+              </select>
+            </div>
+          </li>
+          <li> <input class="textfield" type="text" ng-model="poFinYear" placeholder="PO Fin Year" /> </li>
+          <li>
+            <select ng-model="poNumber" class="dropdd" >
+              <option value="">Select PO Number</option>
+              <option
+                ng-repeat="x in podata | filter:{poId:poId,vendorCode:vendorCode,poFinYear:poFinYear} "
+                value="{{x.poNumber}}"
+              >
+                {{x.poNumber}} - {{x.poTitle}}
+              </option>
+            </select>
+          </li>
+          <li><input class="textfield datepicker" type="text" ng-model="poDate" placeholder="PO Date" /></li>
+          <li><input class="textfield" type="text" ng-model="poTitle" placeholder="Puchase Order Title"/></li>
+          <li><div class="flexbox"><button class="bluebtn" ng-click="searchFields(vendorCode,poId,poFinYear,poTitle,poDate,poNumber)"> Search</button>
+            <button ng-click="handleLink('purchase-order')" class="bluebtn add-btn"> Add </button></div> </li>
+        </ul>
+        <div class="tablebox">
+          <table
+            class="table table-bordered text-center regtable table-condensed"
+          >
+            <thead>
+              <tr>
+                <th>Vendor Code</th>
+                <th>Vendor Name</th>
+                <th>Purchase Order Id</th>
+                <th>Purchase Order Fin Year</th>
+                <th>Purchase Order Number</th>
+                <th>Purchase Order Date</th>
+                <!-- <th>PO Total Amount</th>
+                <th>PO Revenue Amount</th>
+                <th>PO Capital Amount</th>
+                <th>PO Sch Completion Date</th>-->
+                <th>Indent No</th>
+                <!-- <th>Department Code</th> -->
+                <!-- <th>College Code</th> -->
+                <!-- <th>University Code</th>
+                  <th>Plan Fin Year</th>
+                  <th>Plan Type Code</th> -->
+                  <!-- <th>Plan Title</th> -->
+                  <th>Plan No</th>
+                <th>Purchase Order Title</th>
+                <!-- <th>Cost Centre Id</th> -->
+                <th>Purchase Order Status Code</th>
+                <th width="120">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="n in podata | orderBy :'vendorCode'" class="tdcolor">
+                <td ng-bind="n.vendorCode"></td>
+                <td ng-bind="setVenNameFromSupp(n.vendorCode)"></td>
+                <td ng-bind="n.poId"></td>
+                <td ng-bind="n.poFinYear"></td>
+                <td ng-bind="n.poNumber|uppercase"></td>
+                <td ng-bind="n.poDate|uppercase"></td>
+                <!--<td ng-bind="n.poRevenueAmount"></td>
+                  <td ng-bind="n.poTotalAmount"></td>
+                <td ng-bind="n.poCapitalAmount"></td>
+                <td ng-bind="n.poSchCompletionDate"></td> -->
+                <td ng-bind="n.indentNo|uppercase"></td>
+                <!-- <td ng-bind="n.departmentCode|uppercase"></td> -->
+                <!-- <td ng-bind="n.collegeCode|uppercase"></td> -->
+                <!-- <td ng-bind="n.universityCode|uppercase"></td>
+                  <td ng-bind="n.planFinYear"></td>
+                <td ng-bind="n.planTypeCode|uppercase"></td>
+                <td ng-bind="n.planTitle|uppercase"></td> -->
+                <td ng-bind="n.planNo|uppercase"></td>
+                <td ng-bind="n.poTitle|uppercase"></td>
+                <!-- <td ng-bind="n.costCentreId|uppercase"></td> -->
+                <td>
+                  <span ng-if="n.poStatusCode !== 1">Active</span>
+                  <span ng-if="n.poStatusCode === 1">Inactive</span>
+                </td>
+                <td>
+                  <button type="button" class="bluebtn" ng-click="edit(n)">
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    class="bluebtn"
+                    ng-click="showDetails(n.poId,n.poFinYear)"
+                  >
+                    Detail
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="detailmodal">
+      <div id="detailmodal-content">
+        <button id="closeBtn" class="close-button" ng-click="closeDetail()">
+          &times;
+        </button>
+        <h2>Purchase Order Detail</h2>
+        <ul class="dtlist">
+          <li ng-repeat="(key, value) in podetails">
+            <span>{{ key }}</span> {{ value }}
+          </li>
+        </ul>
+      </div>
+    </section>

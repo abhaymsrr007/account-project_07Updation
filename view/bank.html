@@ -1,0 +1,81 @@
+<section class="formsec1" ng-controller="bankContr" novalidate>
+    <div class="titles">{{subbreadcrumb}}</div>
+    <form name="myform" ng-submit="save()" novalidate>
+      <div class="notop forms white-box">
+        <ul>
+          <li class="width10">
+            <div>
+              <label for="bankcode">Bank code</label>
+              <input type="text" num-only maxlength="2" class="textfield" ng-model="form.bankCode" id="bankcode" ng-disabled="idDisable"
+                placeholder="Bank code" name="bankCode" required ng-blur="checkForDuplicate(form.bankCode)">
+                <div class="error" ng-show="myform.bankCode.$error.required && myform.bankCode.$touched && !formSubmitted">
+                            This field is required.
+                  </div>
+                <div class="error" ng-show="duplicateCode && myform.bankCode.$touched">
+                This Bank Code already exists.
+                </div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label for="sname">Short Name</label>
+              <input type="text" class="textfield" m-name ng-model="form.shortName" id="sname" placeholder="Short Name"
+                maxlength="10" required name="sname">
+              <span class="error" ng-show="myform.sname.$error.required && myform.sname.$touched && !formSubmitted">
+                This field is required.
+              </span>
+            </div>
+          </li>
+          <li class="width30">
+            <label for="dscr">Description</label>
+            <input type="text" class="textfield" no-special-characters ng-model="form.dscr" id="dscr" placeholder="Description" maxlength="50"
+              required name="dscr">
+            <span class="error" ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">
+              This field is required.
+            </span>
+          </li>
+          <li>
+            <div>
+              <button type="submit" class="bluebtn " style="margin-top: 15px; " ng-disabled="myform.$invalid || duplicateCode">Save</button>
+            </div>
+          </li>
+      </div>
+      </ul>
+    </form>
+    <div class="white-box ">
+      <ul class="searchbox">
+          <li><input type="text" class="textfield" ng-change="search(keyword1,keyword2)" ng-model="keyword1" placeholder="Bank Code" /></li>
+          <li><input class="textfield" type="text" ng-change="search(keyword1,keyword2)" ng-model="keyword2" placeholder="Short Name" /></li>
+          <li><button class="bluebtn" ng-click="search(keyword1,keyword2)">Search</button></li>
+      </ul>
+      
+      <table class="table table-bordered text-center regtable table-condensed">
+        <thead>
+          <tr>
+            <th style="text-align: center;" width="400">Bank Code</th>
+            <th>Short Name</th>
+            <th>Description</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="n in bankData" class="tdcolor">
+            <td ng-bind="n.bankCode" ng-disabled="flag"> </td>
+            <td ng-bind="n.shortName|uppercase" ng-disabled="flag"> </td>
+
+            <td ng-bind="n.dscr|uppercase"></td>
+
+
+            <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+
+            </td>
+
+          </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+  </section> 
+  <script>
+    

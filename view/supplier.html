@@ -1,0 +1,370 @@
+<style>
+    .s1 {
+        width: 40%;
+    }
+
+    .forms label {
+        line-height: 1.8;
+    }
+
+    .s2 {
+        margin-left: 8px;
+        width: 13%;
+    }
+
+    .forms>ul>li {
+        min-width: 25%;
+    }
+</style>
+
+<section class="formsec1" ng-controller="suppCtrl">
+    <div class="flexbox" style="justify-content: space-between;">
+
+        <div class="titles">{{subbreadcrumb}}</div>
+        <div class="bluebtn btn" ng-click="handleLink('suppliersdata')">Supplier Data List</div>
+    </div>
+    <form name="myform" ng-submit="save()" novalidate>
+        <div class="white-box forms  notop">
+            <ul>
+                <li>
+                    <div>
+                        <label for="vendorCode">Vendor Code<sup>*</sup></label>
+                        <input type="text" class="textfield " minlength="1" maxlength="6" m-num-only ng-disabled=""
+                            ng-model="form.vendorCode" required name="vendorCode" placeholder="Vendor Code" />
+                    </div>
+                    <div class="error"
+                        ng-show="myform.vendorCode.$error.required && myform.vendorCode.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Full Name<sup>*</sup></label>
+                        <input type="text" class="textfield" m-name minlength="1" ng-model="form.fullName"
+                            name="fullName" maxlength="150" placeholder="Full Name" required />
+                    </div>
+                    <div class="error"
+                        ng-show="myform.fullName.$error.required && myform.fullName.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li class="width30">
+                    <div class="">
+                        <label>Address 1<sup>*</sup></label>
+                        <input type="text" class="textfield " minlength="1" ng-model="form.addr1" name="addr1"
+                            maxlength="100" placeholder="Address 1" required />
+                    </div>
+                    <div class="error"
+                        ng-show="myform.addr1.$error.required && myform.addr1.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Address 2</label>
+                        <input type="text" class="textfield " ng-model="form.addr2" name="addr2" maxlength="100"
+                            placeholder="Address 2" />
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Address 3</label>
+                        <input type="text" class="textfield" ng-model="form.addr3" name="addr3" maxlength="100"
+                            placeholder="Address 3" />
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>City<sup>*</sup></label>
+                        <input type="text" class="textfield" ng-model="form.city" name="city" m-name maxlength="20"
+                            placeholder="City" required />
+                    </div>
+                    <div class="error" ng-show="myform.city.$error.required && myform.city.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>PIN</label>
+                        <input type="text" class="textfield" ng-model="form.pin" name="pin" maxlength="6"
+                               placeholder="Pin" ng-pattern="/^\d{6}$/" m-num-only />
+                    </div>
+                    <span class="error" ng-show="(myform.pin.$error.pattern || form.pin.length !== 6) && myform.pin.$touched && !formSubmitted">Please enter a valid 6-digit PIN code.</span>
+                </li>
+                
+                
+                
+                
+                <li>
+                    <div>
+                        <label>State<sup>*</sup></label>
+                        <input type="text" m-name class="textfield " ng-model="form.state" name="state" maxlength="20"
+                            placeholder="State" required />
+                    </div>
+                    <div class="error"
+                        ng-show="myform.state.$error.required && myform.state.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Country <sup>*</sup></label>
+                        <input type="text" class="textfield " ng-model="form.country" m-name name="country"
+                            maxlength="20" placeholder="Country" required />
+                    </div>
+                    <div class="error"
+                        ng-show="myform.country.$error.required && myform.country.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>IFSC Code<sup>*</sup></label>
+                        <input type="text" class="textfield" placeholder="like:- SBIN0001234"
+                            ng-pattern="/^[A-Za-z]{4}0[A-Za-z0-9]{6}$/" minlength="11" maxlength="11" required
+                            name="bankIfscCode" ng-model="form.bankIfscCode" m-capitalize no-special-characters />
+                    </div>
+                    <div class="error"
+                        ng-show="myform.bankIfscCode.$error.required && myform.bankIfscCode.$touched && !formSubmitted"
+                        style="color: red;">
+                        Enter IFSC Code
+                    </div>
+                    <div class="error" ng-show="myform.bankIfscCode.$error.pattern && !formSubmitted"
+                        style="color: red;">
+                        Enter Correct IFSC Code
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Bank Account No<sup>*</sup></label>
+                        <input type="text" class="textfield " ng-model="form.bankAccountNo" name="bankAccountNo"
+                            m-num-only maxlength="20" placeholder="Bank Account No" required />
+                    </div>
+                    <div class="error"
+                        ng-show="myform.bankAccountNo.$error.required && myform.bankAccountNo.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Bank Name<sup>*</sup></label>
+                        <input type="text" class="textfield " ng-model="form.bankName" m-name name="bankName"
+                            maxlength="50" placeholder="Bank Name" required />
+                    </div>
+                    <div class="error"
+                        ng-show="myform.bankName.$error.required && myform.bankName.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Bank Branch<sup>*</sup></label>
+                        <input type="text" class="textfield " ng-model="form.bankBranch" m-name name="bankBranch"
+                            maxlength="20" placeholder="Bank Branch" required />
+                    </div>
+                    <div class="error"
+                        ng-show="myform.bankBranch.$error.required && myform.bankBranch.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Bank City<sup>*</sup></label>
+                        <input type="text" class="textfield " ng-model="form.bankCity" name="bankCity" maxlength="20"
+                            placeholder="Bank City" required />
+                    </div>
+                    <div class="error"
+                        ng-show="myform.bankCity.$error.required && myform.bankCity.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Bank Country<sup>*</sup></label>
+                        <input type="text" class="textfield " m-name ng-model="form.bankCountry" name="bankCountry"
+                            maxlength="20" placeholder="Bank Country" required />
+                    </div>
+                    <div class="error"
+                        ng-show="myform.bankCountry.$error.required && myform.bankCountry.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label for="pan">PAN No.<sup>*</sup></label>
+                        <input type="text" class="textfield" m-capitalize ng-model="form.pan" id="pan" required
+                            placeholder="like:- ABCTY1234D" maxlength="10" name="pan" pan-number>
+                        <div class="error"
+                            ng-show="myform.pan.$error.required && myform.pan.$touched && !formSubmitted">
+                            <span class="error-text">This field is required.</span>
+                        </div>
+                        <div class="error" ng-show="myform.pan.$error.panNumber && !formSubmitted">
+                            <span class="error-text">Please enter a valid PAN number (e.g., ABCTY1234D).</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>TIN<sup>*</sup></label>
+                        <input type="text" class="textfield" ng-model="form.tin" name="tin" maxlength="11"
+                               placeholder="TIN" required ng-pattern="/^\d{11}$/" m-capitalize />
+                    </div>
+                    <div class="error" ng-show="(myform.tin.$error.required || myform.tin.$error.pattern) && myform.tin.$touched && !formSubmitted">
+                        This field is required and should be 11 digits.
+                    </div>
+                </li>
+                
+                
+                <li>
+                    <div>
+                        <label>STAX Registration<sup>*</sup></label>
+                        <input type="text" class="textfield" ng-model="form.staxRegistration" name="staxRegistration"
+                            ng-maxlength="50" placeholder="STAX Registration"
+                             ng-pattern="/^[a-zA-Z0-9 ]*$/" ng-trim="false" required no-special-characters m-capitalize/>
+                    </div>
+                    <div class="error"
+                        ng-show="myform.staxRegistration.$error.required && myform.staxRegistration.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                    <div class="error" ng-show="myform.staxRegistration.$error.pattern && myform.staxRegistration.$touched && !formSubmitted">
+                        Only alphanumeric characters are allowed.
+                    </div>
+                    <div class="error" ng-show="myform.staxRegistration.$error.maxlength && myform.staxRegistration.$touched && !formSubmitted">
+                        Maximum length exceeded (maximum 50 characters allowed).
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>Email<sup>*</sup></label>
+                        <input type="email" class="textfield " ng-model="form.email" name="email" maxlength="50"
+                            placeholder="email" required
+                            ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/" />
+                    </div>
+                    <div class="error"
+                        ng-show="myform.email.$error.required && myform.email.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                    <span class="error" ng-show="myform.email.$error.pattern">Please enter a valid email
+                        address.</span>
+                </li>
+                <li>
+                    <div>
+                        <label>Mobile<sup>*</sup></label>
+                        <input type="text" class="textfield " num-only ng-model="form.mobile" name="mobile"
+                            ng-pattern="/^[6-9]\d{9}$/" maxlength="10" minlength="10" placeholder="Mobile" required />
+                    </div>
+                    <div class="error"
+                        ng-show="myform.mobile.$error.required && myform.mobile.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                    <span class="error" ng-show="myform.mobile.$error.minlength || myform.mobile.$error.pattern">Mobile
+                        number should start with 6 to 9 and contains 10 digits mobile no</span>
+
+                </li>
+                <li>
+                    <div>
+                        <label for="gstin">GSTIN</label>
+                        <input type="text" class="textfield" m-capitalize no-special-charecters ng-model="form.gstin"
+                            id="gstin" placeholder="e.g. 07AAGFF2194N1Z1" required maxlength="15" name="gstin"
+                            ng-pattern="/^\d{2}[A-Z]{5}\d{4}[A-Z]{1}\d[Z]{1}[A-Z\d]{1}$/">
+                        <!-- <div class="error"
+                            ng-show="myform.gstin.$error.required && myform.gstin.$touched && !formSubmitted">
+                            GSTIN is required.
+                        </div> -->
+                        <div class="error"
+                            ng-show="myform.gstin.$error.pattern && myform.gstin.$touched && !formSubmitted">
+                            Please enter a valid GSTIN in the format 12ABCDE1234F1Z2.
+                        </div>
+                    </div>
+                </li>
+
+                    <li>
+                        <div>
+                            <label for="vendor">Vendor Type Code</label>
+                            <select ng-model="form.vendorTypeCode" class="dropdd" required name="vtc">
+                                <option value="" maxlength="" selected>Vendor Type Code</option>
+                                <option ng-repeat="x in vendortypeData" value="{{x.vendorTypeCode}}">
+                                    {{x.vendorTypeCode}} - {{x.dscr}}</option>
+                            </select>
+                            <div class="error"
+                                ng-show="myform.vtc.$error.required && myform.vtc.$touched && !formSubmitted">
+                                This field is required.
+                            </div>
+                        </div>
+                    </li>
+                <li>
+                    <label for="active">Active</label>
+                    <select ng-init="form.active = form.active || 'Y'" ng-model="form.active" class="dropdd">
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
+                    </select>
+                </li>
+                <li>
+                    <div>
+                        <button type="submit" class="bluebtn " style="margin-top: 22px;" ng-disabled="myform.$invalid">Submit</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </form>
+    <!-- <div class="white-box " style="overflow-x: auto;">
+        <table class="table table-bordered text-center regtable table-condensed">
+            <thead>
+                <tr>
+                    <th style="text-align: center;" width="400">Vendor Code</th>
+                    <th>Full Name</th>
+                    <th>Address 1</th>
+                    <th>Address 2</th>
+                    <th>Address 3</th>
+                    <th>City</th>
+                    <th>Pin</th>
+                    <th>State</th>
+                    <th>Country</th>
+                    <th>Bank IFSC Code</th>
+                    <th>Bank Account No</th>
+                    <th>Bank Name</th>
+                    <th>Bank Branch</th>
+                    <th>Bank City</th>
+                    <th>Bank Country</th>
+                    <th>PAN</th>
+                    <th>TIN</th>
+                    <th>STAX Registration</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>GSTIN</th>
+                    <th>Vendor Type Code</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="n in supplierData" class="tdcolor">
+                    <td ng-bind="n.vendorCode" ng-disabled="flag"> </td>
+                    <td ng-bind="n.fullName"></td>
+                    <td ng-bind="n.addr1"></td>
+                    <td ng-bind="n.addr2"></td>
+                    <td ng-bind="n.addr3"></td>
+                    <td ng-bind="n.city"></td>
+                    <td ng-bind="n.pin"></td>
+                    <td ng-bind="n.state"></td>
+                    <td ng-bind="n.country"></td>
+                    <td ng-bind="n.bankIfscCode"></td>
+                    <td ng-bind="n.bankAccountNo"></td>
+                    <td ng-bind="n.bankName"></td>
+                    <td ng-bind="n.bankBranch"></td>
+                    <td ng-bind="n.bankCity"></td>
+                    <td ng-bind="n.bankCountry"></td>
+                    <td ng-bind="n.pan | uppercase"></td>
+                    <td ng-bind="n.tin"></td>
+                    <td ng-bind="n.staxRegistration"></td>
+                    <td ng-bind="n.email"></td>
+                    <td ng-bind="n.mobile"></td>
+                    <td ng-bind="n.gstin"></td>
+                    <td ng-bind="n.vendorTypeCode"></td>
+                    <td ng-bind="n.active==='Y'?'YES':'NO'"></td>
+                    <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div> -->
+</section>

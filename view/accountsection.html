@@ -1,0 +1,156 @@
+    <style>
+        .dropdown-container {
+            width: 100%;
+        }
+        .dropdd {
+            min-width: 100%;
+            max-width: 100%;
+        }
+        .wrap {
+            flex-wrap: wrap;
+        }
+        .forms>ul>li {
+            min-width: 20%;
+        }
+        .forms label {
+            line-height: 15px;
+        }
+    </style>
+    <section class="formsec1" ng-controller="accountsectionCtrl">
+        <div class="titles">{{subbreadcrumb}}</div>
+        <form name="myform" ng-submit="save()">
+            <div class="forms white-box ">
+                <ul class="flexbox wrap">
+                    <li>
+                        <div>
+                            <label for="sectionCode">Section Code<sup>*</sup></label>
+                            <input type="text"  class="textfield" ng-model="form.sectionCode" id="sectionCode"
+                                placeholder="Section Code" maxlength="9" ng-disabled="flag"
+                                 num-only name="sectionCode" required ng-blur="checkForDuplicate(form.sectionCode)" ng-disabled="flag">
+                            <div class="error"
+                                ng-show="myform.sectionCode.$error.required && myform.sectionCode.$touched && !formSubmitted">
+                                This field is required.
+                            </div>
+                            <div class="error"
+                            ng-show="duplicateCode && myform.sectionCode.$touched">
+                            This Section Code already exists.
+                             </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <label for="dscr">Description<sup>*</sup></label>
+                            <input type="text" class="textfield" m-name  ng-model="form.dscr" id="dscr" required
+                                placeholder="Description" name="dscr" maxlength="50">
+                            <div class="error"
+                                ng-show="myform.dscr.$error.required && myform.dscr.$touched && !formSubmitted">
+                                This field is required.
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <label for="shortName">Short Name<sup>*</sup></label>
+                            <input type="text" class="textfield" m-name  ng-model="form.shortName" id="shortName"
+                                placeholder="Short Name" name="shortName" maxlength="10" required>
+                        </div>
+                        <div class="error"
+                        ng-show="myform.shortName.$error.required && myform.shortName.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                    </li>
+                    <li >
+                        <div class="dropdown-container">
+
+                            <label for="locationCode">Location </label> 
+                            <select ng-model="form.locationCode" class="dropdd">
+                                <option value="" selected>Select Location</option>
+                                <option ng-repeat="x in locationData" value="{{x.locationCode}}">{{x.locationCode}}-{{x.dscr}}</option>
+                            </select>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div>
+                            <label for="dscr">City<sup>*</sup></label>
+                            <input type="text" m-name  class="textfield" ng-model="form.city" id="city" placeholder="City"
+                                required maxlength="20" name="city">
+                        </div>
+                        <div class="error"
+                        ng-show="myform.city.$error.required && myform.city.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                    </li>
+                    <li>
+                        <div>
+                            <label for="dscr">State<sup>*</sup></label>
+                            <input type="text" class="textfield" m-name ng-model="form.state" id="state" placeholder="State"
+                                required maxlength="20" name="state">
+                        </div>
+                        <div class="error"
+                        ng-show="myform.state.$error.required && myform.state.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                    </li>
+                    <li>
+                        <div>
+                            <label for="dscr">Country<sup>*</sup></label>
+                            <input type="text" class="textfield" m-name ng-model="form.country" id="country"
+                                placeholder="Country" required maxlength="20" name="country">
+                        </div>
+                        <div class="error"
+                        ng-show="myform.country.$error.required && myform.country.$touched && !formSubmitted">
+                        This field is required.
+                    </div>
+                    </li>
+                    <li>
+                        <div>
+                            <button type="submit" class="bluebtn " style="margin-top:15px;" ng-disabled="myform.$invalid || duplicateCode">Save</button>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </form>
+        <div class="white-box ">
+
+            <table class="table table-bordered text-center regtable table-condensed">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;" width="100">Caste Code</th>
+                        <th style="text-align: center;">Description</th>
+                        <th style="text-align: center;">Short Name</th>
+                        <th style="text-align: center;">Location Code</th>
+                        <th style="text-align: center;">Location </th>
+                        <th style="text-align: center;" width="80">City</th>
+                        <th style="text-align: center;" width="100">State</th>
+                        <th style="text-align: center;" width="100">Country</th>
+
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="n in data" class="tdcolor">
+                        <td ng-bind="n.sectionCode" ng-disabled="flag"> </td>
+                        <td ng-bind="n.dscr|uppercase"></td>
+                        <td ng-bind="n.shortName|uppercase"></td>
+                        <td ng-bind="n.locationCode|uppercase"></td>
+                        <td ng-bind="getlocationDescription(n,locationData)|uppercase"></td>
+
+                        <td ng-bind="n.city"> </td>
+                        <td ng-bind="n.state"> </td>
+                        <td ng-bind="n.country"> </td>
+
+
+                        <td><button type="button" class="bluebtn" ng-click="edit(n)">Edit</button>
+
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </section> 
+   
