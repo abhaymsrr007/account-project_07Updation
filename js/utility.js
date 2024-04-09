@@ -4,4 +4,3 @@ const port = "9098";
 const path="http://localhost:"+port; //Local
 const DISPLAY_URL = "http://127.0.0.1:5500/"; //local
 
-
